@@ -10,3 +10,15 @@ C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZillaParser\epZillaWPF\obj\Debug\epZillaWPF.csproj.GenerateResource.Cache
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZillaParser\epZillaWPF\obj\Debug\epZillaWPF.exe
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZillaParser\epZillaWPF\obj\Debug\epZillaWPF.pdb
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\bin\Debug\epZillaWPF.exe
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\bin\Debug\epZillaWPF.pdb
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\obj\Debug\Window1.baml
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\obj\Debug\Window1.g.cs
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\obj\Debug\App.g.cs
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\obj\Debug\epZillaWPF_MarkupCompile.cache
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\obj\Debug\epZillaWPF.g.resources
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\obj\Debug\epZillaWPF.Properties.Resources.resources
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\obj\Debug\epZillaWPF.csproj.GenerateResource.Cache
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\obj\Debug\epZillaWPF.exe
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\obj\Debug\epZillaWPF.pdb

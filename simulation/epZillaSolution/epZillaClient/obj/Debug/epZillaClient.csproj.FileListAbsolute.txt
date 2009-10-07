@@ -3,3 +3,8 @@ C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZillaParser\epZillaClient\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZillaParser\epZillaClient\obj\Debug\epZillaClient.dll
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZillaParser\epZillaClient\obj\Debug\epZillaClient.pdb
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaClient\bin\Debug\epZillaClient.dll
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaClient\bin\Debug\epZillaClient.pdb
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaClient\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaClient\obj\Debug\epZillaClient.dll
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaClient\obj\Debug\epZillaClient.pdb

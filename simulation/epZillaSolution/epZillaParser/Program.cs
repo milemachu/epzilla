@@ -9,7 +9,8 @@ namespace epZillaParser
     {
         static void Main ( string [ ] args )
         {
-            Console.Write ( "Hello world... This is epZilla" );
+            Console.WriteLine ( "Hello world... This is epZilla" );
+            Console.WriteLine ( "Created by Martin" );
             Console.Read ( );
         }
     }
