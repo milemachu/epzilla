@@ -22,3 +22,5 @@ C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\obj\Debug\epZillaWPF.csproj.GenerateResource.Cache
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\obj\Debug\epZillaWPF.exe
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\obj\Debug\epZillaWPF.pdb
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\bin\Debug\epZillaParser.exe
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\bin\Debug\epZillaParser.pdb
