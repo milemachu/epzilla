@@ -48,6 +48,16 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\epZillaClient\epZillaClient.csproj">
+      <Project>{85DD2318-DEF6-4254-BB37-88E800D05D72}</Project>
+      <Name>epZillaClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\epZillaEventProcessor\epZillaEventProcessor.csproj">
+      <Project>{D928B918-047B-43FF-955D-1E76619DE32F}</Project>
+      <Name>epZillaEventProcessor</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
