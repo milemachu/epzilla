@@ -1,0 +1,5 @@
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZillaParser\epZillaEventProcessor\bin\Debug\epZillaEventProcessor.dll
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZillaParser\epZillaEventProcessor\bin\Debug\epZillaEventProcessor.pdb
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZillaParser\epZillaEventProcessor\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZillaParser\epZillaEventProcessor\obj\Debug\epZillaEventProcessor.dll
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZillaParser\epZillaEventProcessor\obj\Debug\epZillaEventProcessor.pdb
