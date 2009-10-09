@@ -1,0 +1,5 @@
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaShared\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaShared\bin\Debug\epZillaShared.dll
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaShared\bin\Debug\epZillaShared.pdb
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaShared\obj\Debug\epZillaShared.dll
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaShared\obj\Debug\epZillaShared.pdb
