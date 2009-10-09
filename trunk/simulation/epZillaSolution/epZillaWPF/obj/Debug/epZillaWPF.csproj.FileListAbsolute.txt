@@ -26,3 +26,5 @@ C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\bin\Debug\epZillaParser.pdb
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\bin\Debug\epZillaEventProcessor.dll
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\bin\Debug\epZillaEventProcessor.pdb
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\bin\Debug\epZillaShared.dll
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaWPF\bin\Debug\epZillaShared.pdb

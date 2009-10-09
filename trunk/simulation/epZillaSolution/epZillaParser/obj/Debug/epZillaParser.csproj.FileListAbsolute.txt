@@ -12,3 +12,5 @@ C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaParser\bin\Debug\epZillaEventProcessor.dll
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaParser\bin\Debug\epZillaClient.pdb
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaParser\bin\Debug\epZillaEventProcessor.pdb
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaParser\bin\Debug\epZillaShared.dll
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaParser\bin\Debug\epZillaShared.pdb

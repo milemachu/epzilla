@@ -8,3 +8,5 @@ C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaEventProcessor\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaEventProcessor\obj\Debug\epZillaEventProcessor.dll
 C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaEventProcessor\obj\Debug\epZillaEventProcessor.pdb
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaEventProcessor\bin\Debug\epZillaShared.dll
+C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\epZilla\epZillaEventProcessor\bin\Debug\epZillaShared.pdb

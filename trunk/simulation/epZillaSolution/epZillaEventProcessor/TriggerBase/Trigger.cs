@@ -3,78 +3,67 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using epZillaShared;
+
 namespace epZillaEventProcessor.TriggerBase
 {
-  public  class Trigger
+  public  class Trigger:ITrigger
     {
-        private string triggerId;
-        private string triggerData;
-        private string triggerSource;
-        private DateTime recievedTime;
-        
 
-        public string TriggerData
-        {
-            get
-            {
-                return triggerData;
-            }
-            set
-            {
-                triggerData = value;
-            }
-        }
-        
-
-        public string TriggerSource
-        {
-            get
-            {
-                return triggerSource;
-            }
-            set
-            {
-                triggerSource = value;
-            }
-        }
-        
-
-        public DateTime RecievedTime1
-        {
-            get
-            {
-                return recievedTime;
-            }
-            set
-            {
-                recievedTime = value;
-            }
-        }
+        #region ITrigger Members
 
         public DateTime RecievedTime
         {
             get
             {
-                return recievedTime;
+                return this.RecievedTime;
             }
             set
             {
-                recievedTime = value;
+                this.RecievedTime = value;
             }
         }
 
+        public string TriggerData
+        {
+            get
+            {
+                return this.TriggerData;
+            }
+            set
+            {
+                this.TriggerData = value;
+            }
+        }
 
         public string TriggerId
         {
             get
             {
-                return triggerId;
+                return this.TriggerId;
             }
             set
             {
-                triggerId = value;
+                this.TriggerId = value;
             }
         }
 
+        public string TriggerSource
+        {
+            get
+            {
+                return this.TriggerSource;
+            }
+            set
+            {
+                this.TriggerSource = value;
+            }
+        }
+
+        #endregion
+
+
+
+       
     }
 }

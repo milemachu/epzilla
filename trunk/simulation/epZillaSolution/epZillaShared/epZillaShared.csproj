@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D928B918-047B-43FF-955D-1E76619DE32F}</ProjectGuid>
+    <ProjectGuid>{1BCC3965-1CE0-4ED2-B7D2-52A6BBE1ABF8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>epZillaEventProcessor</RootNamespace>
-    <AssemblyName>epZillaEventProcessor</AssemblyName>
+    <RootNamespace>epZillaShared</RootNamespace>
+    <AssemblyName>epZillaShared</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -45,16 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventProcessorEngine\Engine.cs" />
-    <Compile Include="EventProcessorInfrastructure\Event.cs" />
+    <Compile Include="IEvent.cs" />
+    <Compile Include="ITrigger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TriggerBase\Trigger.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\epZillaShared\epZillaShared.csproj">
-      <Project>{1BCC3965-1CE0-4ED2-B7D2-52A6BBE1ABF8}</Project>
-      <Name>epZillaShared</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

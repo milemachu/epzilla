@@ -3,63 +3,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using epZillaShared;
+
 namespace epZillaEventProcessor.EventProcessorInfrastructure
 {
-    public class Event
+    public class Event : IEvent
     {
-        private string eventId;
-        private string sourceId;        
-        private string sourceName;
-        private string dataItem;
-        private string clientId;
-        private string clientName;
-        private DateTime recievedTime;
 
-        public DateTime RecievedTime
-        {
-            get
-            {
-                return recievedTime;
-            }
-            set
-            {
-                recievedTime = value;
-            }
-        }
 
-        public string SourceId
-        {
-            get
-            {
-                return sourceId;
-            }
-            set
-            {
-                sourceId = value;
-            }
-        }
+
+
+
+        #region IEvent Members
+
         public string ClientId
         {
             get
             {
-                return clientId;
+                return this.ClientId;
             }
             set
             {
-                clientId = value;
+                this.ClientId=value;
             }
         }
-        
 
         public string ClientName
         {
             get
             {
-                return clientName;
+                return this.ClientName;
             }
             set
             {
-                clientName = value;
+                this.ClientName=value;
+            }
+        }
+
+        public string DataItem
+        {
+            get
+            {
+               return this.DataItem;
+            }
+            set
+            {
+               this.DataItem=value;
             }
         }
 
@@ -67,42 +56,50 @@ namespace epZillaEventProcessor.EventProcessorInfrastructure
         {
             get
             {
-                return eventId;
+                return this.EventId;
             }
             set
             {
-                eventId = value;
+                this.EventId=value;
             }
         }
-        
+
+        public DateTime RecievedTime
+        {
+            get
+            {
+                return this.RecievedTime;
+            }
+            set
+            {
+                this.RecievedTime=value;
+            }
+        }
+
+        public string SourceId
+        {
+            get
+            {
+                return this.SourceId;
+            }
+            set
+            {
+                this.SourceId=value;
+            }
+        }
 
         public string SourceName
         {
             get
             {
-                return sourceName;
+               return this.SourceName;
             }
             set
             {
-                sourceName = value;
-            }
-        }
-        
-
-        public string DataItem
-        {
-            get
-            {
-                return dataItem;
-            }
-            set
-            {
-                dataItem = value;
+                this.SourceName=value;
             }
         }
 
-
-
-
+        #endregion
     }
 }
