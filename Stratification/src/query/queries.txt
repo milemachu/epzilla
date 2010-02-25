@@ -1,0 +1,27 @@
+select avg(StockTrades.price), min(StockTrades.price) retain 10 events output StkTrades.avgprice, StkTrades.minprice;
+select sum(TDWLTrades.trades) retain 10 minutes noSliding output TDTrades.sumtrades;
+findOcurrences VehicleTrader.'car' output caroccurrence.vehicletraders;
+count StockTrades output 10 minutes as StkTrades.eventcount;
+select sum(StockTrades.numtrades) retain 10 minutes output StkTrades.sumtrades;
+findOcurrences VehicleTraders.'bus' output busoccurrence.vehicletraders;
+findOcurrences VehicleTraders.'van' output vanoccurrence.vehicletraders;
+select total(StockTraders.price) retain 10 events output stocktraders.totalprice;
+select avg(DialogStocks.stockPrice) retain 20 events output DialogStocks.avgprice;
+select avg(DialogStocks.numTrades), max(DialogStocks.numTrades) retain 10 events output DialogStocks.avgtrades, DialogStocks.maxtrades;
+select avg(MobitelStocks.stockPrice) retain 20 events output MobiStoks.avgprice;
+select total(MobitelStocks.numTrades) retain 10 events output MobiStocks.tottrades;
+select avg(SuntelStocks.stockPrice), min(SuntelStocks.stockPrice) retain 20 events output SunStocks.avgprice, SunStocks.minprice;
+select total(SuntelStocks.numTrades) retain 10 events output SunStocks.totprice;
+select min(SunVsMobi.avgpricediff) retain 10 events output SVMCount.minvalue;
+select SunStocks.avgprice - MobiStocks.avgprice retain 10 events output SunVsMobi.avgpricediff;
+select min(AirTelStocks.stockPrice) retain 20 events output AirTelStocks.minprice;
+select min(AirTelStocks.numTrades) retain 50 events output AirTelStocks.mintrades;
+select max(SeylanStocks.stockPrice) retain 20 events output SeylanStocks.maxprice;
+select total(SeylanStocks.numTrades) retain 10 events output SeylanStocks.totaltrades;
+count hsbc output 120 minutes as hsbcevents.count;
+count hsbc where hsbc.price > 10 output 120 minutes as hsbcevents.highpricecount;
+count slt output 240 minutes as sltevents.count;
+select MobiStocks.avgprice - StkTrades.avgprice retain 10 events output MobiStks.reldif;
+select SeylanStocks.maxprice - StkTrades.avgprice retain 10 events output SeylanStocks.maxperformance;
+select (SeylanStocks.total/StkTrades.sumtrades) retain 10 events output SeylanStocks.maxsellingpercentage;
+
