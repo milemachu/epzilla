@@ -10,6 +10,7 @@ import java.util.Set;
 import org.epzilla.dispatcher.NodeVariables;
 import org.epzilla.dispatcher.TriggerManager;
 import org.epzilla.dispatcher.ClusterLeaderIpListManager;
+import org.epzilla.dispatcher.DispatcherUIController;
 import generatedObjectModels.dispatcherObjectModel;
 import generatedObjectModels.triggerInfoObject;
 
@@ -26,17 +27,16 @@ public class DispatcherAsClient {
 
     public static boolean startClient() {
         boolean success = false;
-        System.out.println("Attemptting to Start Client on: " + NodeVariables.getNodeIP());
+        DispatcherUIController.appendTextToStatus("Starting STM Client on: " + NodeVariables.getNodeIP());
         Site.getLocal().registerObjectModel(new dispatcherObjectModel());
         try {
             client = new SocketClient(NodeVariables.getCurrentServerIP(), NodeVariables.getPort());
             ConnectionInfo connection = client.connect();
-            System.out.println("Client Started Successfully.... ");
-            System.out.println("Connected to server: " + connection.getServer().getObjectModelUID().toString());
-
+            DispatcherUIController.appendTextToStatus("Client Started Successfully.... ");
+            DispatcherUIController.appendTextToStatus("Connected to server: " + connection.getServer().getObjectModelUID().toString());
             share = new Share();
 
-            System.out.println("Number of Open Shares: "
+            DispatcherUIController.appendTextToStatus("Number of Open Shares: "
                     + String.valueOf(connection.getServerAndClients()
                     .getOpenShares().size()));
             // Once connected, retrieve the Group that represents the
@@ -86,20 +86,21 @@ public class DispatcherAsClient {
             }
             success = true;
         } catch (Exception e2) {
-            System.out.println("Attempt to Start Client Failed... ");
+            DispatcherUIController.appendTextToStatus("Attempt to Start Client Failed... ");
+            DispatcherUIController.appendTextToStatus(e2.getMessage());
         }
+
 
         return success;
     }
 
     private static void addList(final TransactedList<triggerInfoObject> info) {
 
-        System.out.println("TriggerList added.");
+        DispatcherUIController.appendTextToStatus("TriggerList added.");
         TriggerManager.triggers = info;
         info.addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-                System.out.println("Trigger added to List.");
-                System.out.println(String.valueOf(TriggerManager.triggers.get(TriggerManager.triggers.size() - 1).gettrigger()));
+                DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.triggers.get(TriggerManager.triggers.size() - 1).gettrigger()));
             }
         });
 
@@ -107,12 +108,11 @@ public class DispatcherAsClient {
 
     private static void addIpList(final TransactedArray<String> info) {
 
-        System.out.println("IPList added.");
+        DispatcherUIController.appendTextToStatus("IPList added.");
         ClusterLeaderIpListManager.ipList = info;
         info.addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-                System.out.println("IP added to List.");
-                System.out.println("IP added to List: "+ ClusterLeaderIpListManager.ipList.get(i));
+                DispatcherUIController.appendIP("IP added to List: " + ClusterLeaderIpListManager.ipList.get(i));
             }
         });
 

@@ -9,6 +9,7 @@ import java.io.IOException;
 import org.epzilla.dispatcher.NodeVariables;
 import org.epzilla.dispatcher.TriggerManager;
 import org.epzilla.dispatcher.ClusterLeaderIpListManager;
+import org.epzilla.dispatcher.DispatcherUIController;
 import generatedObjectModels.triggerInfoObject;
 
 /**
@@ -24,18 +25,17 @@ public class DispatcherAsServer {
 
     public static boolean startServer() {
         boolean success = false;
-    
-        System.out.println("Starting server on: " + NodeVariables.getNodeIP());
+        DispatcherUIController.appendTextToStatus("Starting STM server on: " + NodeVariables.getNodeIP());
         Site.getLocal().registerObjectModel(new generatedObjectModels.dispatcherObjectModel());
         try {
             int port = NodeVariables.getPort();
             Server server = new SocketServer(port);
             server.start();
-            System.out.println("Attaching a share to sites group: server and clients...");
+            DispatcherUIController.appendTextToStatus("Attaching a share to sites group: server and clients...");
 
             share = new Share();
 
-            System.out.println("Waiting For Clients...");
+            DispatcherUIController.appendTextToStatus("Waiting For Clients...");
             // Once connected, retrieve the Group that represents the
             // server and its
             // clients
@@ -105,23 +105,34 @@ public class DispatcherAsServer {
     }
 
 
-   public static void loadTriggers() {
-       System.out.println("Shared Transacted list Added for Triggers..");
+    public static void loadTriggers() {
+        DispatcherUIController.appendTextToStatus("Shared Transacted list Added for Triggers..");
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
             Site.getLocal().allowThread();
             Transaction transaction = Site.getLocal().startTransaction();
             share.add(TriggerManager.triggers);
             transaction.commit();
         }
+        TriggerManager.triggers.addListener(new FieldListener() {
+            public void onChange(Transaction transaction, int i) {
+                DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.triggers.get(TriggerManager.triggers.size() - 1).gettrigger()));
+            }
+        });
+
     }
 
-       public static void loadIPList() {
-       System.out.println("Shared Transacted list Added for IPs..");
+    public static void loadIPList() {
+        DispatcherUIController.appendTextToStatus("Shared Transacted list Added for IPs..");
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
             Site.getLocal().allowThread();
             Transaction transaction = Site.getLocal().startTransaction();
             share.add(ClusterLeaderIpListManager.ipList);
             transaction.commit();
         }
+        ClusterLeaderIpListManager.ipList.addListener(new FieldListener() {
+            public void onChange(Transaction transaction, int i) {
+                DispatcherUIController.appendIP("IP added to List: " + ClusterLeaderIpListManager.ipList.get(i));
+            }
+        });
     }
 }
