@@ -16,7 +16,7 @@ public class RandomStringGenerator {
     private static String[] objects;
     private static final char[] symbols = new char[36];
     private static final Random random = new Random();
-    private static char[] buf=new char[100];
+    private static char[] buf=new char[20];
     private static int currentPos = 0;
 
     static {

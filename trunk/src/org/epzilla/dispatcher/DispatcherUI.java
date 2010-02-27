@@ -301,7 +301,7 @@ public class DispatcherUI extends JFrame {
         return txtResult;
     }
 
-    private JTextArea getTxtTriggers() {
+   public JTextArea getTxtTriggers() {
         if (txtTriggers == null) {
             txtTriggers = new JTextArea();
             txtTriggers.setBounds(new Rectangle(13, 284, 484, 173));
@@ -348,7 +348,7 @@ public class DispatcherUI extends JFrame {
         }
     }
 
-    private JTextArea getTxtStatus() {
+    public JTextArea getTxtStatus() {
         if (txtStatus == null) {
             txtStatus = new JTextArea();
             txtStatus.setBounds(new Rectangle(15, 47, 481, 177));
@@ -356,7 +356,7 @@ public class DispatcherUI extends JFrame {
         return txtStatus;
     }
 
-    private JTextArea getTxtIPs() {
+    public JTextArea getTxtIPs() {
         if (txtIPs == null) {
             txtIPs = new JTextArea();
             txtIPs.setBounds(new Rectangle(570, 45, 226, 300));
@@ -377,7 +377,6 @@ public class DispatcherUI extends JFrame {
     public DispatcherUI() {
         super();
         initialize();
-
     }
 
     private void initialize() {
@@ -394,7 +393,5 @@ public class DispatcherUI extends JFrame {
 
     }
 
-    public void setStatus(String text) {
-        txtStatus.append(text);
-    }
+
 }  //  @jve:decl-index=0:visual-constraint="10,10"  
