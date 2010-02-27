@@ -5,6 +5,8 @@ import org.epzilla.sharedMemoryModule.DispatcherAsServer;
 import org.epzilla.sharedMemoryModule.DispatcherAsClient;
 
 import javax.swing.*;
+import java.net.UnknownHostException;
+import java.net.InetAddress;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,31 +19,38 @@ public class MainDispatcherController {
 
 
     public static void main(String[] args) {
+        try {
+            InetAddress addr = InetAddress.getLocalHost();
+
+            // Get IP Address
+            String ipAddr = addr.getHostAddress();
+            NodeVariables.setNodeIP(ipAddr);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
         run();
     }
 
     private static void run() {
-        DispatcherUI form = new DispatcherUI();
-        NodeVariables.setMainUI(form);
-        form.setVisible(true);
+        DispatcherUIController.InitializeUI();
         runAsServer();
+
     }
 
     public static void runAsServer() {
         RandomStringGenerator.generate(1000);
-
         DispatcherAsServer.startServer();
-        Console.readLine();
+
         DispatcherAsServer.loadTriggers();
         DispatcherAsServer.loadIPList();
         TriggerManager.acceptTriggerStream();
         ClusterLeaderIpListManager.loadSampleIPs();
-        Console.readLine();
+
     }
 
     private static void runAsClient() {
         DispatcherAsClient.startClient();
-        Console.readLine();
+
     }
 
 
