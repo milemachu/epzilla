@@ -17,8 +17,7 @@ public class DispatcherRegister implements Remote {
 
 	public DispatcherRegister(){
 	}
-	public void bindDispatcher(String serviceName) {
-		try {
+	public void bindDispatcher(String serviceName) throws RemoteException, UnknownHostException, MalformedURLException {
 		DispInterface dispInt=new DispImp();	
 		InetAddress inetAddress;
 		inetAddress = InetAddress.getLocalHost();
@@ -26,35 +25,19 @@ public class DispatcherRegister implements Remote {
     	String name ="rmi://"+ipAddress+"/"+serviceName;
 		Naming.rebind(name, dispInt);
 		System.out.println("Dispatcher Service successfully deployed.....");
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
-	public void register(String ip,String serviceName){
-    	try {
+	public void register(String ip,String serviceName,String dispatcherName) throws MalformedURLException, RemoteException, NotBoundException, UnknownHostException{
     		String url = "rmi://"+ip+"/"+serviceName;
 			NameService service = (NameService)Naming.lookup(url);
         	InetAddress inetAddress = InetAddress.getLocalHost();
         	String ipAddress = inetAddress.getHostAddress();
-        	String name = inetAddress.getHostName();
+        	String name = dispatcherName;
         	int i = service.insertNode(name, ipAddress, 5005);
         	       	if(i==0)
         	       		System.out.println("Insertion failure");
         	       	else if(i==1)
-        	       		System.out.println("Successfully inserted");
-        	       		
-            System.out.println("IP Address: "+ipAddress);
-          	System.out.println("Host Name: "+name);   
-        } catch (Exception e) {
-            System.err.println(e);
-        }
+        	       		System.out.println("Successfully inserted");        
     }
     public static void main(String args[]) {
     	DispatcherRegister reg =new DispatcherRegister();
