@@ -251,7 +251,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		}
 		return txtResult;
 	}
-	private JTextArea getTxtTriggers() {
+	public JTextArea getTxtTriggers() {
 		if (txtTriggers == null) {
 			txtTriggers = new JTextArea();
 			txtTriggers.setBounds(new Rectangle(13, 337, 588, 173));
@@ -266,14 +266,14 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		}
 		return txtDispSerName;
 	}
-	private JTextArea getTxtStatus() {
+	public JTextArea getTxtStatus() {
 		if (txtStatus == null) {
 			txtStatus = new JTextArea();
 			txtStatus.setBounds(new Rectangle(15, 47, 587, 177));
 		}
 		return txtStatus;
 	}
-	private JTextArea getTxtIPs() {
+	public JTextArea getTxtIPs() {
 		if (txtIPs == null) {
 			txtIPs = new JTextArea();
 			txtIPs.setBounds(new Rectangle(723, 44, 270, 293));
