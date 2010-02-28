@@ -21,7 +21,6 @@ public class ClusterLeaderIpListManager {
 
     // Code For Testing Only -Dishan
     public static void loadSampleIPs() {
-        System.out.println("Loading Sample IPs...");
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {
             int count = 0;
