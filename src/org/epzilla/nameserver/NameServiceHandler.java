@@ -53,11 +53,10 @@ public class NameServiceHandler extends UnicastRemoteObject implements NameServi
         	InetAddress inetAddress = InetAddress.getLocalHost();
         	String ipAddress = inetAddress.getHostAddress();
         	String url ="rmi://"+ipAddress+"/"+serviceName;
-        	//String url = "rmi://127.0.0.1/NameServer";
-            NameServiceHandler obj = new NameServiceHandler();
+        	NameServiceHandler obj = new NameServiceHandler();
             Naming.rebind(url, obj);
 
-            System.out.println("NameServer bound in registry");
+            System.out.println("NameServer successfully deployed");
         } catch (Exception e) {
             System.out.println("NameService err: " + e.getMessage());
         }
