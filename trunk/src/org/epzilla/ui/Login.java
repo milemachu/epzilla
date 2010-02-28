@@ -1,9 +1,16 @@
 package org.epzilla.ui;
 
 import java.awt.*;
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Login extends JFrame {
+import javax.swing.*;
+import java.awt.Rectangle;
+import java.awt.Point;
+import java.awt.Dimension;
+import java.awt.Font;
+
+public class Login extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private JLabel lblUName = null;
@@ -16,14 +23,6 @@ public class Login extends JFrame {
 	private JButton btnHelp = null;
 	private JButton btnClose = null;
 
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				Login thisClass = new Login();
-				thisClass.setVisible(true);
-			}
-		});
-	}
 	public Login() {
 		super();
 		initialize();
@@ -31,31 +30,28 @@ public class Login extends JFrame {
 	private JTextField getTbUName() {
 		if (tbUName == null) {
 			tbUName = new JTextField(25);
-			tbUName.setBounds(new Rectangle(120, 55, 226, 20));
 			tbUName.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			tbUName.setSize(new Dimension(175, 20));
+			tbUName.setLocation(new Point(120, 55));
 		}
 		return tbUName;
 	}
 	private JPasswordField getTbPassword() {
 		if (tbPassword == null) {
 			tbPassword = new JPasswordField(25);
-			tbPassword.setBounds(new Rectangle(122, 98, 224, 20));
 			tbPassword.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			tbPassword.setSize(new Dimension(175, 20));
+			tbPassword.setLocation(new Point(122, 98));
 		}
 		return tbPassword;
 	}
 	private JButton getBtnOK() {
 		if (btnOK == null) {
 			btnOK = new JButton();
-			btnOK.setLocation(new Point(151, 132));
+			btnOK.setLocation(new Point(129, 131));
 			btnOK.setText("Ok");
-			btnOK.setSize(new Dimension(80, 20));
-			btnOK.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					showMainUI();
-					hide();
-				}
-			});
+			btnOK.setSize(new Dimension(75, 20));
+			btnOK.addActionListener(this);
 		}
 		return btnOK;
 	}
@@ -66,61 +62,51 @@ public class Login extends JFrame {
 	private JButton getBtnCancel() {
 		if (btnCancel == null) {
 			btnCancel = new JButton();
-			btnCancel.setLocation(new Point(241, 132));
+			btnCancel.setLocation(new Point(216, 132));
 			btnCancel.setText("Cancel");
-			btnCancel.setSize(new Dimension(80, 20));
-			btnCancel.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					System.out.println("actionPerformed()"); // TODO Auto-generated Event stub actionPerformed()
-				}
-			});
-		}
+			btnCancel.setPreferredSize(new Dimension(75, 26));
+			btnCancel.setSize(new Dimension(75, 20));
+			btnCancel.addActionListener(this);
+			}
 		return btnCancel;
 	}
 	private JButton getBtnHelp() {
 		if (btnHelp == null) {
 			btnHelp = new JButton();
-			btnHelp.setBounds(new Rectangle(2, 162, 31, 31));
+			btnHelp.setBounds(new Rectangle(3, 145, 31, 31));
 			btnHelp.setBackground(new Color(238, 238, 238));
 			btnHelp.setIcon(new ImageIcon("images//iconHelp.JPG"));
 			btnHelp.setBorderPainted(false);
-			btnHelp.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					
-				}
-			});
-		}
+			btnHelp.addActionListener(this);
+			}
 		return btnHelp;
 	}
 	private JButton getBtnClose() {
 		if (btnClose == null) {
 			btnClose = new JButton();
-			btnClose.setBounds(new Rectangle(374, 3, 22, 18));
+			btnClose.setBounds(new Rectangle(322, 3, 25, 22));
 			btnClose.setIcon(new ImageIcon("images//iconClose.JPG"));
-			btnClose.setBorderPainted(false);
-			btnClose.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					System.exit(0);
-				}
-			});
+			btnClose.addActionListener(this);
 		}
 		return btnClose;
 	}
 	private void initialize() {
 		lblDetails = new JLabel();
-		lblDetails.setBounds(new Rectangle(171, 14, 55, 23));
-		lblDetails.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblDetails.setText("  Login");
+		lblDetails.setBounds(new Rectangle(142, 5, 55, 23));
+		lblDetails.setFont(new Font("Dialog", Font.BOLD, 18));
+		lblDetails.setText("Login");
 		lblPassword = new JLabel();
-		lblPassword.setBounds(new Rectangle(20, 98, 83, 16));
-		lblPassword.setText("  Password :");
+		lblPassword.setText("Password :");
+		lblPassword.setLocation(new Point(27, 98));
+		lblPassword.setSize(new Dimension(80, 20));
 		lblUName = new JLabel();
-		lblUName.setText("  User Name :");
-		lblUName.setBounds(new Rectangle(18, 57, 84, 19));
+		lblUName.setText("User Name :");
+		lblUName.setSize(new Dimension(80, 20));
+		lblUName.setLocation(new Point(27, 57));
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
-		panel.setSize(new Dimension(399, 193));
+		panel.setSize(new Dimension(350, 175));
 		panel.setEnabled(true);
 		panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		panel.add(lblUName, null);
@@ -132,8 +118,8 @@ public class Login extends JFrame {
 		panel.add(getBtnCancel(), null);
 		panel.add(getBtnHelp(), null);
 		panel.add(getBtnClose(), null);
-        int width = 400;
-        int height =200;
+        int width = 350;
+        int height =175;
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (screen.width-width)/2;
         int y = (screen.height-height)/2;
@@ -142,5 +128,20 @@ public class Login extends JFrame {
         this.getContentPane().add(panel);  
         setVisible(true); 
         this.setTitle("login");
+	}
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		Object source = event.getSource();
+		if(source==btnHelp){
+			
+		}else if(source==btnCancel){
+			tbUName.setText("");
+			tbPassword.setText("");
+		}else if(source == btnClose){
+			System.exit(0);
+		}else if(source ==btnOK){
+			showMainUI();
+			this.hide();
+		}
 	}
 }
