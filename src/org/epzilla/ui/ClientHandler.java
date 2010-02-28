@@ -7,8 +7,10 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Vector;
 import org.epzilla.nameserver.*;
 import org.epzilla.dispatcher.*;
@@ -17,28 +19,22 @@ public class ClientHandler {
 	
 	InetAddress dispatcher;
 	int dispatcherPort;
-	Vector<String> dispArray=new Vector<String>();
+	Vector<String> dispIP=new Vector<String>();
 	String ip ="";
+	String dispServiceName="";
+	String dispDetails = "";
 	
-	 public Vector<String> getService(String serverIp,String serviceName){
-	    	
-	       	try {
+	 public Vector<String> getServiceIp(String serverIp,String serviceName) throws MalformedURLException, RemoteException, NotBoundException{
 	       		String url = "rmi://"+serverIp+"/"+serviceName;
 	       		NameService r = (NameService)Naming.lookup(url);
 	    		int size = r.getDirectorySize();
 				for(int i=0; i<size;i++){
-				String ip = r.getHostName(i);
-				System.out.println(ip);
-				dispArray.add(ip);
-				
+				ip = r.getHostName(i);
+				dispServiceName = r.getNames(i);
+				dispDetails=ip+" "+dispServiceName;
+				dispIP.add(dispDetails);
 				}
-	       	}
-			catch (IOException e) {
-				e.printStackTrace();
-			} catch (NotBoundException e) {
-				e.printStackTrace();
-			}
-			return dispArray;
+				return dispIP;
 	    }
 	 public String getHost(String disIp,String serviceName){
 	    	
@@ -48,6 +44,7 @@ public class ClientHandler {
 	    		int size = r.getDirectorySize();
 				for(int i=0; i<size;i++){
 				ip = r.getHostName(i);
+				String dispServiceName = r.getNames(i);
 				System.out.println(ip);
 				}
 	       	}
@@ -111,7 +108,7 @@ public class ClientHandler {
 	ClientHandler myClient = new ClientHandler();
 //	String host = myClient.getHost("127.0.0.1","NameServer");
 //	myClient.uploadFile(host,"NameServer");
-	myClient.getService("10.8.108.151", "NameServer");
+	myClient.getServiceIp("10.8.108.151", "NameServer");
 	}
 
 }
