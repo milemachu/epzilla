@@ -18,21 +18,22 @@ import javax.swing.JTextPane;
 import javax.swing.JButton;
 import java.awt.Point;
 import javax.swing.ImageIcon;
+import java.awt.TextArea;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class About extends JFrame {
+public class About extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jContentPane = null;
 	private JPanel topPanel = null;
 	private JPanel bottomPanel = null;
 	private JLabel lblLogo = null;
-	private JTextPane detailsTextPane = null;
 	private JButton btnOK = null;
-
+	private JTextPane jTextPane = null;
 	private JPanel getTopPanel() {
 		if (topPanel == null) {
 			lblLogo = new JLabel();
-			lblLogo.setText("logo image");
 			lblLogo.setSize(new Dimension(170, 84));
 			lblLogo.setIcon(new ImageIcon("images//logo.JPG"));
 			lblLogo.setLocation(new Point(1, -1));
@@ -41,7 +42,7 @@ public class About extends JFrame {
 			topPanel.setBounds(new Rectangle(-3, -2, 497, 174));
 			topPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 			topPanel.add(lblLogo, null);
-			topPanel.add(getDetailsTextPane(), null);
+			topPanel.add(getJTextPane(), null);
 		}
 		return topPanel;
 	}
@@ -55,38 +56,34 @@ public class About extends JFrame {
 		}
 		return bottomPanel;
 	}
-	private JTextPane getDetailsTextPane() {
-		if (detailsTextPane == null) {
-			detailsTextPane = new JTextPane();
-			detailsTextPane.setBounds(new Rectangle(172, -4, 302, 177));
-			detailsTextPane.setEditable(false);
-			detailsTextPane.setText("");
-		}
-		return detailsTextPane;
-	}
 	private JButton getBtnOK() {
 		if (btnOK == null) {
 			btnOK = new JButton();
 			btnOK.setBounds(new Rectangle(400, 12, 54, 25));
 			btnOK.setText("OK");
-			btnOK.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					hide();
-				}
-			});
+			btnOK.addActionListener(this);
 		}
 		return btnOK;
 	}
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				About thisClass = new About();
-				thisClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				thisClass.setVisible(true);
-			}
-		});
+	private JTextPane getJTextPane() {
+		if (jTextPane == null) {
+			jTextPane = new JTextPane();
+			jTextPane.setBounds(new Rectangle(172, 2, 303, 168));
+			jTextPane.setEditable(false);
+			jTextPane.setText("epZilla, Scalable Fault Tolerant Architecture for Complex Event processing Systems                     ");
+		}
+		return jTextPane;
 	}
+//	public static void main(String[] args) {
+//		// TODO Auto-generated method stub
+//		SwingUtilities.invokeLater(new Runnable() {
+//			public void run() {
+//				About thisClass = new About();
+//				thisClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//				thisClass.setVisible(true);
+//			}
+//		});
+//	}
 	public About() {
 		super();
 		initialize();
@@ -113,6 +110,14 @@ public class About extends JFrame {
 			jContentPane.add(getBottomPanel(), null);
 		}
 		return jContentPane;
+	}
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		Object source = event.getSource();
+		if(source==btnOK){
+			this.hide();
+		}
+		
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
