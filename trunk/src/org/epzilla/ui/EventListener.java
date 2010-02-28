@@ -1,27 +1,27 @@
 package org.epzilla.ui;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Vector;
 
-public class EventListener {
+import javax.swing.JTextArea;
+
+public class EventListener{
 	ClientHandler client = new ClientHandler();
 	public EventListener(){
 		
 	}
-	public Vector<String> lookUP(String ip,String serviceName){
-		return client.getService(ip, serviceName);
+	public Vector<String> lookUP(String ip,String serviceName) throws MalformedURLException, RemoteException, NotBoundException{
+		
+		return client.getServiceIp(ip, serviceName);
 	}
-	public void uploadFiles(String disIP,String serviceName,String fileLoction){
-		try {
-			client.uploadFile(disIP, serviceName,fileLoction);
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void uploadFiles(String disIP,String serviceName,String fileLocation) throws NotBoundException, IOException{
+			client.uploadFile(disIP, serviceName,fileLocation);
 	}
-
+	 public void  getString(JTextArea jt) {
+	        jt.append("hfdsjksfk.\n");
+	        jt.append("sfsvsfs\n");
+	    }
 }
