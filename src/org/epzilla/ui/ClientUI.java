@@ -16,6 +16,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import java.awt.Point;
+import java.awt.Dimension;
 
 public class ClientUI extends JFrame implements ActionListener,ListSelectionListener{
 
@@ -51,7 +52,6 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JLabel lblDispIP1 = null;
 	private JTextField txtDispIP = null;
 	private JLabel lblSettings = null;
-	private JLabel lblResultsl = null;
 	private JButton btnOK = null;
 	private JButton btnView = null;
 	private JScrollPane resultsScrollPane = null;
@@ -69,8 +69,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = screen.width;
         int y = screen.height;
-       	this.setTitle("Dispatcher");
-       	this.setSize(new Dimension(628, 439));
+       	this.setSize(new Dimension(628, 535));
        	this.setResizable(false);
        	this.setSize(x,y);
         this.setContentPane(getMyTabbedPane());
@@ -80,11 +79,9 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JTabbedPane getMyTabbedPane() {
 		if (tabbedPane == null) {
 			lblDispatcherServiceName = new JLabel();
-			lblDispatcherServiceName.setBounds(new Rectangle(17, 178, 123, 16));
 			lblDispatcherServiceName.setText("Service Name :");
-			lblResultsl = new JLabel();
-			lblResultsl.setBounds(new Rectangle(28, 10, 88, 16));
-			lblResultsl.setText("Results");
+			lblDispatcherServiceName.setLocation(new Point(15, 178));
+			lblDispatcherServiceName.setSize(new Dimension(123, 16));
 			lblSettings = new JLabel();
 			lblSettings.setBounds(new Rectangle(17, 15, 196, 16));
 			lblSettings.setText("Server Settings");
@@ -134,7 +131,6 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		upload.add(getTxtDispName(), null);
 		JPanel results = new JPanel();
 		results.setLayout(null);
-		results.add(lblResultsl, null);
 		results.add(getBtnOK(), null);
 		results.add(getBtnView(), null);
 		results.add(getResultsScrollPane(), null);
@@ -143,7 +139,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		tabbedPane.addTab("Results",results);
 
 			tabbedPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-			tabbedPane.setVisible(false);
+			tabbedPane.setVisible(true);
 		}
 		return tabbedPane;
 	}
@@ -211,7 +207,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JTextField getTbPort() {
 		if (txtPort == null) {
 			txtPort = new JTextField();
-			txtPort.setLocation(new Point(112, 140));
+			txtPort.setLocation(new Point(110, 140));
 			txtPort.setSize(new Dimension(204, 20));
 		}
 		return txtPort;
@@ -219,7 +215,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JTextField getTbName() {
 		if (txtName == null) {
 			txtName = new JTextField();
-			txtName.setLocation(new Point(111, 96));
+			txtName.setLocation(new Point(110, 96));
 			txtName.setSize(new Dimension(200, 20));
 		}
 		return txtName;
@@ -255,7 +251,8 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JButton getBtnBrowse() {
 		if (btnBrowse == null) {
 			btnBrowse = new JButton();
-			btnBrowse.setText("Browse");			btnBrowse.setBounds(new Rectangle(11, 218, 85, 20));
+			btnBrowse.setText("Browse");			btnBrowse.setLocation(new Point(15, 218));
+			btnBrowse.setSize(new Dimension(85, 20));
 			btnBrowse.addActionListener(this);
 		}
 		return btnBrowse;
@@ -263,16 +260,17 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JTextField getTxtFile() {
 		if (txtFile == null) {
 			txtFile = new JTextField();
-			txtFile.setPreferredSize(new Dimension(4, 20));			txtFile.setSize(new Dimension(320, 20));
+			txtFile.setPreferredSize(new Dimension(4, 20));			txtFile.setSize(new Dimension(325, 20));
 			txtFile.setEditable(false);
-			txtFile.setLocation(new Point(169, 219));
+			txtFile.setLocation(new Point(165, 219));
 		}
 		return txtFile;
 	}
 	private JButton getBtnSend() {
 		if (btnSend == null) {
 			btnSend = new JButton();
-			btnSend.setText("Send");			btnSend.setBounds(new Rectangle(231, 256, 85, 20));
+			btnSend.setText("Send");			btnSend.setLocation(new Point(231, 255));
+			btnSend.setSize(new Dimension(85, 20));
 			btnSend.addActionListener(this);
 			}
 		return btnSend;
@@ -288,7 +286,8 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JList getListLookup() {
 		if (listLookup == null) {
 			listLookup = new JList(ips);
-			listLookup.setBounds(new Rectangle(163, 46, 325, 72));
+			listLookup.setSize(new Dimension(325, 72));
+			listLookup.setLocation(new Point(165, 46));
 			listLookup.addListSelectionListener(this);		}
 		return listLookup;
 	}
@@ -304,8 +303,9 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JButton getBtnLookup() {
 		if (btnLookup == null) {
 			btnLookup = new JButton();
-			btnLookup.setBounds(new Rectangle(13, 45, 85, 20));
 			btnLookup.setText("Lookup");
+			btnLookup.setSize(new Dimension(85, 20));
+			btnLookup.setLocation(new Point(15, 45));
 			btnLookup.setName("");
 			btnLookup.addActionListener(this);
 			}
@@ -314,8 +314,10 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JTextField getTxtDispIP1() {
 		if (txtDispIP == null) {
 			txtDispIP = new JTextField();
-			txtDispIP.setBounds(new Rectangle(164, 147, 325, 20));
 			txtDispIP.setPreferredSize(new Dimension(4, 20));
+			txtDispIP.setLocation(new Point(165, 147));
+			txtDispIP.setEditable(false);
+			txtDispIP.setSize(new Dimension(325, 20));
 		}
 		return txtDispIP;
 	}
@@ -324,14 +326,14 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			btnOK = new JButton();
 			btnOK.setText("OK");
 			btnOK.setSize(new Dimension(85, 20));
-			btnOK.setLocation(new Point(108, 369));
+			btnOK.setLocation(new Point(172, 419));
 		}
 		return btnOK;
 	}
 	private JButton getBtnView() {
 		if (btnView == null) {
 			btnView = new JButton();
-			btnView.setLocation(new Point(233, 371));
+			btnView.setLocation(new Point(272, 417));
 			btnView.setText("View");
 			btnView.setSize(new Dimension(85, 20));
 			btnView.addActionListener(this);
@@ -341,7 +343,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JScrollPane getResultsScrollPane() {
 		if (resultsScrollPane == null) {
 			resultsScrollPane = new JScrollPane();
-			resultsScrollPane.setBounds(new Rectangle(37, 59, 680, 217));
+			resultsScrollPane.setBounds(new Rectangle(24, 15, 734, 390));
 			resultsScrollPane.setViewportView(getTxtResults());
 		}
 		return resultsScrollPane;
@@ -349,13 +351,16 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JTextArea getTxtResults() {
 		if (txtResults == null) {
 			txtResults = new JTextArea();
+			txtResults.setSize(new Dimension(700, 214));
 		}
 		return txtResults;
 	}
 	private JTextField getTxtDispName() {
 		if (txtDispName == null) {
 			txtDispName = new JTextField();
-			txtDispName.setBounds(new Rectangle(164, 181, 323, 20));
+			txtDispName.setLocation(new Point(165, 181));
+			txtDispName.setEditable(false);
+			txtDispName.setSize(new Dimension(325, 20));
 		}
 		return txtDispName;
 	}
@@ -384,14 +389,17 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			JOptionPane.showMessageDialog(null,"Make sure setting details correct.","epZilla",JOptionPane.ERROR_MESSAGE);
 	}
 	private void clearList(){
-//		listLookup.clearSelection();
-//		ipx.addAll(Arrays.asList(new String[]{"one x","two y","three z"}));
-//		listLookup.setListData(ipx);
+		ips.removeAllElements();
+		listLookup.setListData(ips);
 	}
 	private void sendFiles(){
 		String dispIP = txtDispIP.getText().toString();
 		String dispName = txtDispName.getText().toString();
 		String fileLocation = txtFile.getText().toString();
+		if((dispIP.length()==0) && (dispName.length()==0)){
+			JOptionPane.showMessageDialog(null,"Perform Lookup operation and select service you want.","epZilla",JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		if((dispIP.length()!=0) && (dispName.length()!=0) && (fileLocation.length()!=0) ){
 			try {
 				listener.uploadFiles(dispIP, dispName, fileLocation);
@@ -401,7 +409,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
 			}
 		}else
-			JOptionPane.showMessageDialog(null,"Perform Lookup operation first.","epZilla",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Browse file to send.","epZilla",JOptionPane.ERROR_MESSAGE);
 		}
 	private void saveSettings(){
 		String ip = txtIP.getText().toString();
@@ -423,6 +431,8 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	}
 	public void cancelSend(){
 		JOptionPane.showMessageDialog(null,"Are you sure cancel the operation.","epZilla",JOptionPane.INFORMATION_MESSAGE);
+//		txtDispIP.setText("");
+//		txtDispName.setText("");
 	}
 	private void setDispValues(String str){
 		StringTokenizer st = new StringTokenizer(str);
@@ -513,4 +523,4 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
         return false;
     }
 	
-} 
+}  //  @jve:decl-index=0:visual-constraint="54,12" 
