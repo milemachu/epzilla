@@ -12,6 +12,7 @@ import javax.swing.JTextArea;
 
 public class EventListener {
 	DispatcherRegister disReg = new DispatcherRegister();
+	DispatcherService service = new DispatcherService();
 	Timer timer;
 	Toolkit toolkit;
 	public EventListener(){
@@ -20,10 +21,6 @@ public class EventListener {
 		disReg.register(ip,serviceName,dispatcherName);
 	}
 	public void bindDispatcher(String disServiceName) throws RemoteException, UnknownHostException, MalformedURLException{
-		disReg.bindDispatcher(disServiceName);
-	}
-	public void getTriggers(JTextArea jt){
-		jt.append("fxvgfd");
-	}
-	
+		service.bindDispatcher(disServiceName);
+	}	
 }
