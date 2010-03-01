@@ -8,7 +8,7 @@ import java.rmi.server.UnicastRemoteObject;
 import org.epzilla.nameserver.NameService;
 import org.epzilla.nameserver.NameServiceHandler;
 
-public class DispatcherRegister implements Remote {
+public class DispatcherRegister{
 	/**
 	 * 
 	 */
@@ -17,16 +17,7 @@ public class DispatcherRegister implements Remote {
 
 	public DispatcherRegister(){
 	}
-	public void bindDispatcher(String serviceName) throws RemoteException, UnknownHostException, MalformedURLException {
-		DispInterface dispInt=new DispImp();	
-		InetAddress inetAddress;
-		inetAddress = InetAddress.getLocalHost();
-    	String ipAddress = inetAddress.getHostAddress();
-    	String name ="rmi://"+ipAddress+"/"+serviceName;
-		Naming.rebind(name, dispInt);
-		System.out.println("Dispatcher Service successfully deployed.....");
-		
-	}
+	
 	public void register(String ip,String serviceName,String dispatcherName) throws MalformedURLException, RemoteException, NotBoundException, UnknownHostException{
     		String url = "rmi://"+ip+"/"+serviceName;
 			NameService service = (NameService)Naming.lookup(url);
@@ -41,7 +32,20 @@ public class DispatcherRegister implements Remote {
     }
     public static void main(String args[]) {
     	DispatcherRegister reg =new DispatcherRegister();
-//    	reg.bindDispatcher("Dispa");
-//    	reg.register("127.0.0.1","NameServer");
+    	try {
+			reg.register("127.0.0.1","NameServer","Dispatcher");
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }
