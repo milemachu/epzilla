@@ -92,18 +92,18 @@ public class DispatcherUI extends JFrame implements ActionListener{
 			tabbedPane = new JTabbedPane();	
 		tabbedPane.addTab("Settings",getMainSettings());
 		tabbedPane.addTab("Summary",getSummeryTab());
-		tabbedPane.setVisible(false);
+		tabbedPane.setVisible(true);
 		}
 		return tabbedPane;
 	}
 	private JPanel getMainSettings(){
 		if(mainSettings==null){
 			lblName = new JLabel();
-			lblName.setBounds(new Rectangle(15, 211, 113, 16));
+			lblName.setBounds(new Rectangle(15, 203, 113, 16));
 			lblName.setText("Service Name :");
 			lblDisp = new JLabel();
-			lblDisp.setBounds(new Rectangle(17, 180, 175, 16));
-			lblDisp.setText("Dispatcher Service Details :");
+			lblDisp.setBounds(new Rectangle(15, 171, 175, 16));
+			lblDisp.setText("Dispatcher Details :");
 			mainSettings=new JPanel();
 			mainSettings.setLayout(null);
 			mainSettings.add(getIpTextField(), null);
@@ -200,7 +200,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	private JTextField getIpTextField() {
 		if (txtIP == null) {
 			txtIP = new JTextField();
-			txtIP.setLocation(new Point(158, 51));
+			txtIP.setLocation(new Point(150, 51));
 			txtIP.setSize(new Dimension(200, 20));
 		}
 		return txtIP;
@@ -208,7 +208,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	private JTextField getTbPort() {
 		if (tbPort == null) {
 			tbPort = new JTextField();
-			tbPort.setLocation(new Point(161, 135));
+			tbPort.setLocation(new Point(150, 135));
 			tbPort.setSize(new Dimension(200, 20));
 		}
 		return tbPort;
@@ -216,7 +216,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	private JTextField getTbName() {
 		if (txtNameServer == null) {
 			txtNameServer = new JTextField();
-			txtNameServer.setLocation(new Point(160, 95));
+			txtNameServer.setLocation(new Point(150, 95));
 			txtNameServer.setSize(new Dimension(200, 20));
 		}
 		return txtNameServer;
@@ -262,7 +262,8 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	private JTextField getTbDispSerName() {
 		if (txtDispSerName == null) {
 			txtDispSerName = new JTextField();
-			txtDispSerName.setBounds(new Rectangle(164, 211, 195, 20));
+			txtDispSerName.setSize(new Dimension(200, 20));
+			txtDispSerName.setLocation(new Point(150, 202));
 		}
 		return txtDispSerName;
 	}
@@ -280,39 +281,21 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		}
 		return txtIPs;
 	}
-	private void register() {
+	private void register() throws MalformedURLException, RemoteException, UnknownHostException, NotBoundException {
 		String ip = txtIP.getText().toString();
 		String nameService = txtNameServer.getText().toString();
 		String dispatcherName = txtDispSerName.getText().toString();
 		if((isValidIp(ip)==true)&& nameService.length()!=0 && dispatcherName.length()!=0){
-			try {
 				listener.register(ip, nameService,dispatcherName);
-			} catch (MalformedURLException e) {
-				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);			
-				} catch (RemoteException e) {
-					JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
-			} catch (UnknownHostException e) {
-				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
-			} catch (NotBoundException e) {
-				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);	
-			}
 		}else{
 			JOptionPane.showMessageDialog(null,"Enter setting details correctly.","epZilla",JOptionPane.ERROR_MESSAGE);
 		}
 		}
-	private void bind(){
+	private void bind() throws RemoteException, UnknownHostException, MalformedURLException{
 		String dispatcherName = txtDispSerName.getText().toString();
 		if(dispatcherName.length()!=0){
-		try {
 			listener.bindDispatcher(txtDispSerName.getText().toString());
-		} catch (RemoteException e) {
-			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
-		} catch (UnknownHostException e) {
-			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);	
-		} catch (MalformedURLException e) {
-			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);	
-		}
-		}
+				}
 		else
 			JOptionPane.showMessageDialog(null,"Enter Dispatcher Service name","epZilla",JOptionPane.ERROR_MESSAGE);
 	}
@@ -357,8 +340,19 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		}else if(source==btnCancel){
 			
 		}else if(source==btnRegister){
-			register();
-			bind();
+			try {
+				register();
+				bind();
+			} catch (MalformedURLException e) {
+				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+			} catch (RemoteException e) {
+				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+			} catch (UnknownHostException e) {
+				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+			} catch (NotBoundException e) {
+				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+			}
+			
 		}
 	}
 	 public static boolean isValidIp(final String ip)
