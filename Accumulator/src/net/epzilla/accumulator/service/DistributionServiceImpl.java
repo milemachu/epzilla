@@ -27,6 +27,7 @@ public class DistributionServiceImpl extends UnicastRemoteObject implements Dist
     }
 
     public ArrayList<Event> getAvailableEvents(long clientId, String accessKey) throws RemoteException {
+        // todo logic
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

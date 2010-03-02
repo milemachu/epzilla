@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class DerivedEvent extends Event  {
     private ArrayList<Long> sourceEvents = new ArrayList<Long>();
-
+   
     public ArrayList<Long> getSourceEvents() {
         return sourceEvents;
     }
