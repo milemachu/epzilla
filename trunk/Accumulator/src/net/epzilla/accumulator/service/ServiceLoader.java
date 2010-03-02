@@ -1,6 +1,7 @@
 package net.epzilla.accumulator.service;
 
 import net.epzilla.accumulator.util.XMLElement;
+import net.epzilla.accumulator.Constants;
 
 import java.io.*;
 import java.util.Vector;
@@ -38,7 +39,7 @@ public class ServiceLoader {
             for (XMLElement child : e.getChildren()) {
                 table.put(child.getName().trim(), child.getContent().trim());
             }
-            this.serviceMap.put(table.get("name"), table);
+            this.serviceMap.put(table.get(Constants.Name), table);
         }
     }
 
@@ -48,9 +49,9 @@ public class ServiceLoader {
     public void autodeploy() throws ClassNotFoundException, IllegalAccessException, InstantiationException, MalformedURLException, RemoteException {
 
         for (Hashtable<String, String> ht : serviceMap.values()) {
-            String deploy = ht.get("autodeploy");
+            String deploy = ht.get(Constants.Autodeploy);
             if ("true".equals(deploy)) {
-                Remote r = (Remote) Class.forName(ht.get("class")).newInstance();
+                Remote r = (Remote) Class.forName(ht.get(Constants.Class)).newInstance();
                 Naming.rebind(ht.get("url"), r);
             }
         }
@@ -69,7 +70,7 @@ public class ServiceLoader {
      */
     public void loadService(String serviceName) throws MalformedURLException, RemoteException, ClassNotFoundException, IllegalAccessException, InstantiationException {
         Hashtable<String, String> ht = this.serviceMap.get(serviceName);
-        Remote r = (Remote) Class.forName(ht.get("class")).newInstance();
+        Remote r = (Remote) Class.forName(ht.get(Constants.Class)).newInstance();
         Naming.rebind(ht.get("url"), r);
 
     }
