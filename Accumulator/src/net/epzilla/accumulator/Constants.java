@@ -8,7 +8,9 @@ package net.epzilla.accumulator;
  * To change this template use File | Settings | File Templates.
  */
 public interface Constants {
-
-    String ACCUMULATOR_SERVICE = "AccumulatorService";
-    String DISTRIBUTION_SERVICE = "DistributionService";
+    String Name = "name";
+    String Autodeploy = "autodeploy";
+    String Interface = "inteface";
+    String Class = "class";
+    String Url = "url";
 }
