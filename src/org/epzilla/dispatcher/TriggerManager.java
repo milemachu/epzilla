@@ -44,4 +44,11 @@ public class TriggerManager {
     }
 
 
+    public static void addTriggerToList(byte[] trigger)
+    {
+
+
+        
+    }
+
 }
