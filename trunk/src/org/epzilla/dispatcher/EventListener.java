@@ -13,8 +13,6 @@ import javax.swing.JTextArea;
 public class EventListener {
 	DispatcherRegister disReg = new DispatcherRegister();
 	DispatcherService service = new DispatcherService();
-	Timer timer;
-	Toolkit toolkit;
 	public EventListener(){
 	}
 	public void register(String ip,String serviceName,String dispatcherName) throws MalformedURLException, RemoteException, UnknownHostException, NotBoundException{
