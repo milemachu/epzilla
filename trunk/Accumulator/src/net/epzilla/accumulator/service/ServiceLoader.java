@@ -69,11 +69,8 @@ public class ServiceLoader {
      */
     public void loadService(String serviceName) throws MalformedURLException, RemoteException, ClassNotFoundException, IllegalAccessException, InstantiationException {
         Hashtable<String, String> ht = this.serviceMap.get(serviceName);
-        String deploy = ht.get("autodeploy");
-        if ("true".equals(deploy)) {
-            Remote r = (Remote) Class.forName(ht.get("class")).newInstance();
-            Naming.rebind(ht.get("url"), r);
-        }
+        Remote r = (Remote) Class.forName(ht.get("class")).newInstance();
+        Naming.rebind(ht.get("url"), r);
 
     }
 }
