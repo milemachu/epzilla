@@ -13,17 +13,12 @@ public class DispImp extends UnicastRemoteObject implements DispInterface {
 	
 	protected DispImp() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 
 	public byte[] downloadFileFromServer(String fileName)
 			throws IOException {
 		FileReader fReader=new FileReader(fileName);
-//		BufferedReader reader=new BufferedReader(fReader);
-		
-//		File file=new File(fileName);
-//		byte []buffer=new byte[(int) file.length()];
 		BufferedReader reader=new BufferedReader(fReader);
 		String line=reader.readLine();
 		String str=null;
@@ -31,28 +26,17 @@ public class DispImp extends UnicastRemoteObject implements DispInterface {
 			str +=line;
 			line=reader.readLine();
 		}
-		
 		byte []buffer=str.getBytes();
-		
 		reader.close();
-		fReader.close();
-		
+		fReader.close();	
 		reader = null;
 		fReader=null;
-//		file=null;
 		return buffer;
 	}
 
 	
-	public String uploadFileToDispatcher(byte[] stream) throws RemoteException {
- try {
-	         
-//	         File file = new File("C:\\help\\TestFromClientToServer.txt");
-//	         BufferedOutputStream output = new
-//	           BufferedOutputStream(new FileOutputStream(file.getName()));
-//	         output.write(stream,0,stream.length);
-//	         
-	         
+	public String uploadEventsToDispatcher(byte[] stream) throws RemoteException {
+		try {	         
 	         BufferedWriter writer=new BufferedWriter(new FileWriter("ClientToServer.txt"));
 	         writer.write(new String(stream));
 	         writer.flush();
@@ -62,10 +46,14 @@ public class DispImp extends UnicastRemoteObject implements DispInterface {
 	      } catch(Exception e) {
 	         System.err.println("FileServer exception: "+ e.getMessage());
 	         e.printStackTrace();
-	      }
+	      }	
+		return null;
+	}
 
-		
-		
+
+	@Override
+	public String uploadTriggersToDispatcher(byte[] stream)	throws RemoteException {
+
 		return null;
 	}
 
