@@ -2,6 +2,7 @@ package net.epzilla.accumulator;
 
 import net.epzilla.accumulator.service.AccumulatorService;
 import net.epzilla.accumulator.service.AccumulatorServiceImpl;
+import net.epzilla.accumulator.service.ServiceLoader;
 import net.epzilla.accumulator.util.OpenSecurityManager;
 import net.epzilla.accumulator.util.ConfigFileScanner;
 import net.epzilla.accumulator.global.SourceEvent;
@@ -29,9 +30,11 @@ public class Main {
 
 
         try {
-            AccumulatorService accService = new AccumulatorServiceImpl();
-            ConfigFileScanner cfp = new ConfigFileScanner("./src/rmiconfig.config");
-            Naming.rebind(cfp.getParameter("AccumulatorService"), accService);
+//            AccumulatorService accService = new AccumulatorServiceImpl();
+//            ConfigFileScanner cfp = new ConfigFileScanner("./src/rmiconfig.config");
+//            Naming.rebind(cfp.getParameter("AccumulatorService"), accService);
+            ServiceLoader sl = new ServiceLoader();
+            sl.autodeploy();
             System.out.println("accumulator service deployed.");
 
 
@@ -40,6 +43,12 @@ public class Main {
         } catch (MalformedURLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (InstantiationException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
