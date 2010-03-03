@@ -27,7 +27,7 @@ public class DispatcherUIController {
     }
 
     public static void appendIP(String text) {
-        instance.getTxtIPs().append(text + "\n");
+        instance.getTxtIPSet().append(text + "\n");
     }
 
 }
