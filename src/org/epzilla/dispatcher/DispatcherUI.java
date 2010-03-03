@@ -32,6 +32,7 @@ import java.rmi.RemoteException;
 
 import javax.swing.plaf.metal.*;
 import javax.swing.JTextPane;
+import javax.swing.JScrollPane;
 
 
 
@@ -69,9 +70,10 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	private JLabel lblEvents = null;
 	private JLabel lblIPs = null;
 	private JTextArea txtIPs = null;
+	private JScrollPane statusScrollPane = null;
+	private JScrollPane triggerListScrollPane = null;
+	private JScrollPane ipScrollPane = null;
 	EventListener listener = new EventListener();  //  @jve:decl-index=0:
-	
-	
 	private JTabbedPane getMyTabbedPane() {
 		if (tabbedPane == null) {
 			lblDetails = new JLabel();
@@ -135,12 +137,12 @@ public class DispatcherUI extends JFrame implements ActionListener{
 			lblTriggers.setText("Trigger List :");
 			summary = new JPanel();
 			summary.setLayout(null);
-			summary.add(getTxtTriggers(), null);
-			summary.add(getTxtStatus(), null);
+			summary.add(getTriggerScrollPane(), null);
+			summary.add(getStatusScrollPane(), null);
+			summary.add(getIpScrollPane(), null);
 			summary.add(lblTriggers, null);
 			summary.add(lblEvents, null);
 			summary.add(lblIPs, null);
-			summary.add(getTxtIPs(), null);
 		}
 		return summary;
 	}
@@ -242,7 +244,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		}
 		return btnCancel;
 	}
-	private JTextArea getTxtResult() {
+	public JTextArea getTxtResult() {
 		if (txtResult == null) {
 			txtResult = new JTextArea();
 			txtResult.setLocation(new Point(19, 340));
@@ -251,11 +253,18 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		}
 		return txtResult;
 	}
+	private JScrollPane getTriggerScrollPane() {
+		if (triggerListScrollPane == null) {
+			triggerListScrollPane = new JScrollPane();
+			triggerListScrollPane.setBounds(new Rectangle(13, 337, 588, 173));
+			triggerListScrollPane.setViewportView(getTxtTriggers());
+		}
+		return triggerListScrollPane;
+	}
 	public JTextArea getTxtTriggers() {
 		if (txtTriggers == null) {
 			txtTriggers = new JTextArea();
 			txtTriggers.setBounds(new Rectangle(13, 337, 588, 173));
-			txtTriggers.setRows(10000);
 		}
 		return txtTriggers;
 	}
@@ -263,9 +272,18 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		if (txtDispSerName == null) {
 			txtDispSerName = new JTextField();
 			txtDispSerName.setSize(new Dimension(200, 20));
+			txtDispSerName.setText("Dispatcher");
 			txtDispSerName.setLocation(new Point(150, 202));
 		}
 		return txtDispSerName;
+	}
+	private JScrollPane getStatusScrollPane() {
+		if (statusScrollPane == null) {
+			statusScrollPane = new JScrollPane();
+			statusScrollPane.setBounds(new Rectangle(15, 47, 587, 177));
+			statusScrollPane.setViewportView(getTxtStatus());
+		}
+		return statusScrollPane;
 	}
 	public JTextArea getTxtStatus() {
 		if (txtStatus == null) {
@@ -274,7 +292,15 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		}
 		return txtStatus;
 	}
-	public JTextArea getTxtIPs() {
+	private JScrollPane getIpScrollPane() {
+		if (ipScrollPane == null) {
+			ipScrollPane = new JScrollPane();
+			ipScrollPane.setBounds(new Rectangle(723, 44, 270, 293));
+			ipScrollPane.setViewportView(getTxtIPSet());
+		}
+		return ipScrollPane;
+	}
+	public JTextArea getTxtIPSet(){
 		if (txtIPs == null) {
 			txtIPs = new JTextArea();
 			txtIPs.setBounds(new Rectangle(723, 44, 270, 293));
@@ -285,19 +311,25 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		String ip = txtIP.getText().toString();
 		String nameService = txtNameServer.getText().toString();
 		String dispatcherName = txtDispSerName.getText().toString();
-		if((isValidIp(ip)==true)&& nameService.length()!=0 && dispatcherName.length()!=0){
+		if(isValidIp(ip)==false){
+			JOptionPane.showMessageDialog(null,"Enter valid IP Address of NameServer.","epZilla",JOptionPane.ERROR_MESSAGE);
+			
+			return;
+		}
+		if(nameService.length()!=0 && dispatcherName.length()!=0){
 				listener.register(ip, nameService,dispatcherName);
+				bind();
 		}else{
-			JOptionPane.showMessageDialog(null,"Enter setting details correctly.","epZilla",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Dispatcher registration fails. Enter setting details correctly.","epZilla",JOptionPane.ERROR_MESSAGE);
 		}
 		}
 	private void bind() throws RemoteException, UnknownHostException, MalformedURLException{
 		String dispatcherName = txtDispSerName.getText().toString();
-		if(dispatcherName.length()!=0){
-			listener.bindDispatcher(txtDispSerName.getText().toString());
-				}
-		else
-			JOptionPane.showMessageDialog(null,"Enter Dispatcher Service name","epZilla",JOptionPane.ERROR_MESSAGE);
+//		if(dispatcherName.length()!=0){
+			listener.bindDispatcher(dispatcherName);
+//				}
+//		else
+//			JOptionPane.showMessageDialog(null,"Enter Dispatcher Service name","epZilla",JOptionPane.ERROR_MESSAGE);
 	}
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -318,7 +350,9 @@ public class DispatcherUI extends JFrame implements ActionListener{
         int x = screen.width;
         int y = screen.height;
        	this.setTitle("Dispatcher");
-       	this.setSize(new Dimension(628, 439));
+       	this.setResizable(false);
+       	this.setSize(new Dimension(748, 439));
+       	this.setSize(new Dimension(689, 439));
        	this.setResizable(false);
        	this.setSize(x,y);
         this.setContentPane(getMyTabbedPane());
@@ -342,7 +376,6 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		}else if(source==btnRegister){
 			try {
 				register();
-				bind();
 			} catch (MalformedURLException e) {
 				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
 			} catch (RemoteException e) {
@@ -357,8 +390,8 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	}
 	 public static boolean isValidIp(final String ip)
 	    {
-	        boolean correctFormat = ip.matches("^[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}$"); 
-	        if (correctFormat)
+	        boolean format = ip.matches("^[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}$"); 
+	        if (format)
 	        {
 	            boolean validIp = true;
 	            String [] values = ip.split("\\.");
@@ -371,10 +404,8 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	                    break;
 	                }
 	            }
-	 
 	            return validIp;
 	        }
-	 
 	        return false;
 	    }	
 }  //  @jve:decl-index=0:visual-constraint="14,9"
