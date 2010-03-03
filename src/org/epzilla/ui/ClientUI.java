@@ -24,8 +24,6 @@ import javax.swing.JCheckBox;
 
 public class ClientUI extends JFrame implements ActionListener,ListSelectionListener{
 
-	private static final long serialVersionUID = 1L;
-	private JPanel jContentPane = null;
 	private JTabbedPane tabbedPane = null;
 	private JTextField txtIP = null;
 	private JTextField txtPort = null;
@@ -356,7 +354,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		}
 		return resultsScrollPane;
 	}
-	private JTextArea getTxtResults() {
+	public JTextArea getTxtResults() {
 		if (txtResults == null) {
 			txtResults = new JTextArea();
 			txtResults.setSize(new Dimension(700, 214));
