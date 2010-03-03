@@ -125,7 +125,7 @@ public class ClientHandler {
 	ClientHandler myClient = new ClientHandler();
 //	myClient.uploadFile("127.0.0.1","Dispatcher","C:\\Test.txt");
 //	myClient.getServiceIp("127.0.0.1", "NameServer");
-	String l=myClient.clientIdGen("10.8.14.54");
+	String l=myClient.clientIdGen("10.8.108.54");
 	
 	System.out.println(l);
 	}
