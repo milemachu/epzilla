@@ -5,7 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -17,6 +19,8 @@ import javax.swing.event.ListSelectionListener;
 
 import java.awt.Point;
 import java.awt.Dimension;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 
 public class ClientUI extends JFrame implements ActionListener,ListSelectionListener{
 
@@ -56,11 +60,14 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JButton btnView = null;
 	private JScrollPane resultsScrollPane = null;
 	public JTextArea txtResults = null;
-	EventListener listener = new EventListener();  //  @jve:decl-index=0:
-
 	private JLabel lblDispatcherServiceName = null;
 	private JTextField txtDispName = null;
+	private JCheckBox chkEvents = null;
+	private JCheckBox chkTriggers = null;
 	
+	EventListener listener = new EventListener();
+	int eventSeqID;
+	int triggerSeqID;
 	public ClientUI() {
 		super();
 		initialize();
@@ -69,7 +76,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = screen.width;
         int y = screen.height;
-       	this.setSize(new Dimension(628, 535));
+       	this.setSize(new Dimension(674, 535));
        	this.setResizable(false);
        	this.setSize(x,y);
         this.setContentPane(getMyTabbedPane());
@@ -129,6 +136,8 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		upload.add(getTxtDispIP1(), null);
 		upload.add(lblDispatcherServiceName, null);
 		upload.add(getTxtDispName(), null);
+		upload.add(getChkEvents(), null);
+		upload.add(getChkTriggers(), null);
 		JPanel results = new JPanel();
 		results.setLayout(null);
 		results.add(getBtnOK(), null);
@@ -269,8 +278,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JButton getBtnSend() {
 		if (btnSend == null) {
 			btnSend = new JButton();
-			btnSend.setText("Send");			btnSend.setLocation(new Point(231, 255));
-			btnSend.setSize(new Dimension(85, 20));
+			btnSend.setText("Send");			btnSend.setBounds(new Rectangle(218, 250, 85, 20));
 			btnSend.addActionListener(this);
 			}
 		return btnSend;
@@ -278,7 +286,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JButton getBtnCancelSend() {
 		if (btnCancelSend == null) {
 			btnCancelSend = new JButton();
-			btnCancelSend.setText("Cancel");			btnCancelSend.setBounds(new Rectangle(338, 255, 85, 20));
+			btnCancelSend.setText("Cancel");			btnCancelSend.setBounds(new Rectangle(331, 250, 85, 20));
 			btnCancelSend.addActionListener(this);
 			}
 		return btnCancelSend;
@@ -364,6 +372,24 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		}
 		return txtDispName;
 	}
+	private JCheckBox getChkEvents() {
+		if (chkEvents == null) {
+			chkEvents = new JCheckBox();
+			chkEvents.setText("Events");
+			chkEvents.setLocation(new Point(520, 220));
+			chkEvents.setSize(new Dimension(80, 21));
+		}
+		return chkEvents;
+	}
+	private JCheckBox getChkTriggers() {
+		if (chkTriggers == null) {
+			chkTriggers = new JCheckBox();
+			chkTriggers.setText("Triggers");
+			chkTriggers.setLocation(new Point(520, 250));
+			chkTriggers.setSize(new Dimension(93, 21));
+		}
+		return chkTriggers;
+	}
 	private void loadFile(){
 		int state = getJFileChooser().showOpenDialog(this);
 		if (state == JFileChooser.APPROVE_OPTION) {
@@ -374,7 +400,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private void getDispatchers(){
 		String ip = txtIP.getText().toString();
 		String serverName = txtName.getText().toString();
-		if((isValidateIp(ip)==true) && (serverName.length()!=0)){
+		if((isValidIp(ip)==true) && (serverName.length()!=0)){
 		try {
 			ips=listener.lookUP(ip,serverName);
 		} catch (MalformedURLException e) {
@@ -396,25 +422,60 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		String dispIP = txtDispIP.getText().toString();
 		String dispName = txtDispName.getText().toString();
 		String fileLocation = txtFile.getText().toString();
+		String clientIp = ipAddress();
 		if((dispIP.length()==0) && (dispName.length()==0)){
 			JOptionPane.showMessageDialog(null,"Perform Lookup operation and select service you want.","epZilla",JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		if((dispIP.length()!=0) && (dispName.length()!=0) && (fileLocation.length()!=0) ){
+		if((chkEvents.isSelected()==false)&&(chkTriggers.isSelected()==false)){
+			JOptionPane.showMessageDialog(null,"Select either send as Event or send as Triggers.","epZilla",JOptionPane.ERROR_MESSAGE);
+			return;
+		}else if((chkEvents.isSelected()==true)&&(chkTriggers.isSelected()==true)){
+			JOptionPane.showMessageDialog(null,"Select either send as Event or send as Triggers.","epZilla",JOptionPane.ERROR_MESSAGE);
+			chkEvents.setSelected(false);
+			chkTriggers.setSelected(false);
+			return;	
+		}
+		if((dispIP.length()!=0) && (dispName.length()!=0) && (fileLocation.length()!=0) && (chkEvents.isSelected()==true)){
 			try {
-				listener.uploadFiles(dispIP, dispName, fileLocation);
+				listener.uploadEventsFiles(dispIP, dispName, fileLocation,clientIp,eventSeqID);
+				eventSeqID++;
+				JOptionPane.showMessageDialog(null,"Successfully sent the Event file.","epZilla",JOptionPane.INFORMATION_MESSAGE);
 			} catch (NotBoundException e) {
 				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
 			}
-		}else
+		}else if((dispIP.length()!=0) && (dispName.length()!=0) && (fileLocation.length()!=0) && (chkTriggers.isSelected()==true)){
+			try {
+				listener.uploadTriggersFiles(dispIP, dispName, fileLocation,clientIp,triggerSeqID);
+				triggerSeqID++;
+				JOptionPane.showMessageDialog(null,"Successfully sent the Triggers file.","epZilla",JOptionPane.INFORMATION_MESSAGE);
+			} catch (NotBoundException e) {
+				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+			}
+
+		}
+		else
 			JOptionPane.showMessageDialog(null,"Browse file to send.","epZilla",JOptionPane.ERROR_MESSAGE);
 		}
+	private String ipAddress(){
+		InetAddress inetAddress = null;
+		try {
+			inetAddress = InetAddress.getLocalHost();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	String ipAddress = inetAddress.getHostAddress();
+		return ipAddress;
+	}
 	private void saveSettings(){
 		String ip = txtIP.getText().toString();
 		String serverName = txtName.getText().toString();
-		if((isValidateIp(ip)==true)&& serverName.length()!=0){
+		if((isValidIp(ip)==true)&& serverName.length()!=0){
 		txtIP.setEditable(false);
 		txtName.setEditable(false);
 		txtPort.setEditable(false);
@@ -430,7 +491,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		txtResults.setText(str);
 	}
 	public void cancelSend(){
-		JOptionPane.showMessageDialog(null,"Are you sure cancel the operation.","epZilla",JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null,"Are you sure cancel the operation.","epZilla",JOptionPane.WARNING_MESSAGE);
 //		txtDispIP.setText("");
 //		txtDispName.setText("");
 	}
@@ -500,10 +561,10 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			showAbout();
 		}
 	}
-	public static boolean isValidateIp(String ip)
+	public static boolean isValidIp(String ip)
     {
-        boolean correctFormat = ip.matches("^[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}$"); 
-        if (correctFormat)
+        boolean format = ip.matches("^[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}$"); 
+        if (format)
         {
             boolean validIp = true;
             String [] values = ip.split("\\.");
@@ -516,10 +577,8 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
                     break;
                 }
             }
- 
             return validIp;
         }
- 
         return false;
     }
 	
