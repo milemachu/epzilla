@@ -21,7 +21,7 @@ public class LeaderRMIServer {
 
 		LeaderInterface impl = new LeaderImpl();
 
-		Naming.rebind("rmi://127.0.0.1/LeaderService", impl);
+		Naming.rebind("rmi://192.168.1.63/LeaderService", impl);
 
 		System.out
 				.println("Leader election service successfully deployed and running.");
