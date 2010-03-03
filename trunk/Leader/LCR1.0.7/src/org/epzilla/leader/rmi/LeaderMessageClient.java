@@ -18,16 +18,20 @@ public class LeaderMessageClient {
 	 * @throws RemoteException
 	 * @throws MalformedURLException
 	 * @throws UnknownHostException
+	 * @throws InterruptedException 
 	 */
 	public static void main(String[] args) throws MalformedURLException,
-			RemoteException, NotBoundException, UnknownHostException {
+			RemoteException, NotBoundException, UnknownHostException, InterruptedException {
 		LeaderInterface li = (LeaderInterface) Naming
-				.lookup("rmi://127.0.0.1/LeaderService");
+				.lookup("rmi://192.168.1.63/LeaderService");
 
 		System.out.println("Via RMI : is Leader: " + li.isLeader());
 		System.out.println("Via RMI : is Default Leader: "
 				+ li.isDefaultLeader());
+		li.receiveMessage(Message.getInstance().getUidMessage());
 
+		Thread.currentThread().sleep(5000);
+		
 		li.electedLeader(Message.getInstance().getLeaderPublishMessage());
 
 		System.out.println("Via RMI: is Leader: " + li.isLeader());
