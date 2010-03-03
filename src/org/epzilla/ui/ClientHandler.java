@@ -24,7 +24,7 @@ public class ClientHandler {
 	String dispServiceName="";
 	String dispDetails = "";
 	
-	 public Vector<String> getServiceIp(String serverIp,String serviceName) throws MalformedURLException, RemoteException, NotBoundException{
+	public Vector<String> getServiceIp(String serverIp,String serviceName) throws MalformedURLException, RemoteException, NotBoundException{
 	       		String url = "rmi://"+serverIp+"/"+serviceName;
 	       		NameService r = (NameService)Naming.lookup(url);
 	    		int size = r.getDirectorySize();
@@ -33,27 +33,9 @@ public class ClientHandler {
 				dispServiceName = r.getNames(i);
 				dispDetails=ip+" "+dispServiceName;
 				dispIP.add(dispDetails);
+				System.out.println(dispIP);
 				}
 				return dispIP;
-	    }
-	 public String getHost(String disIp,String serviceName){
-	    	
-	       	try {
-	       		String url = "rmi://"+disIp+"/"+serviceName;
-	       		NameService r = (NameService)Naming.lookup(url);
-	    		int size = r.getDirectorySize();
-				for(int i=0; i<size;i++){
-				ip = r.getHostName(i);
-				String dispServiceName = r.getNames(i);
-				System.out.println(ip);
-				}
-	       	}
-			catch (IOException e) {
-				e.printStackTrace();
-			} catch (NotBoundException e) {
-				e.printStackTrace();
-			}
-			return ip;
 	    }
 	 public void downloadFile() {
 		 try {
@@ -70,12 +52,12 @@ public class ClientHandler {
 	         System.err.println("FileServer exception: "+ e.getMessage());
 	         e.printStackTrace();
 	      }
-
-		
 	}	
-	public void uploadFile(String ip,String serviceName,String fileLocation) throws NotBoundException, IOException{
+	public void uploadEventsFile(String ip,String serviceName,String fileLocation,String clientIp,int eventSeqID) throws NotBoundException, IOException{
+		String response = null;
+		int cID = clientIdGen(clientIp);
+//		byte[] cId = cID.getBytes();
 		FileReader fReader=new FileReader(fileLocation);
-
 		BufferedReader reader=new BufferedReader(fReader);
 		String line=reader.readLine();
 		String str=null;
@@ -83,32 +65,66 @@ public class ClientHandler {
 			str +=line;
 			line=reader.readLine();
 		}
-		
-		byte []buffer=str.getBytes();
+		byte []buffer =  str.getBytes();
 		
 		reader.close();
 		fReader.close();
 		
 		reader = null;
-		fReader=null;
-		
-		
-		 String url = "rmi://"+ip+"/"+serviceName;
-		 DispInterface di = (DispInterface) Naming.lookup(url);
-         
-        String response= di.uploadFileToDispatcher(buffer);
-        
+		fReader=null;	
+		String url = "rmi://"+ip+"/"+serviceName;
+		DispInterface di = (DispInterface) Naming.lookup(url);
+		response= di.uploadEventsToDispatcher(buffer,cID,eventSeqID);      
         if(response!=null)
         	System.out.println("Dispatcher Recieved the file from the client and the response is "+response);
         else
         	System.out.println("File sending error reported.");
 	}
-	
+	public void uploadTriggersFile(String ip,String serviceName,String fileLocation,String clientIp,int triggerSeqID) throws NotBoundException, IOException{
+		String response = null;
+		int cID = clientIdGen(clientIp); 
+		FileReader fReader=new FileReader(fileLocation);
+		BufferedReader reader=new BufferedReader(fReader);
+		String line=reader.readLine();
+		String str=null;
+		while (line !=null) {
+			str +=line;
+			line=reader.readLine();
+		}
+		byte []buffer =  str.getBytes();
+		
+		reader.close();
+		fReader.close();
+		
+		reader = null;
+		fReader=null;	
+		String url = "rmi://"+ip+"/"+serviceName;
+		DispInterface di = (DispInterface) Naming.lookup(url);
+		response= di.uploadTriggersToDispatcher(buffer,cID,triggerSeqID);
+       
+        if(response!=null)
+        	System.out.println("Dispatcher Recieved the file from the client and the response is "+response);
+        else
+        	System.out.println("File sending error reported.");
+	}
+
+	public static int clientIdGen(String addr) {
+        String[] addrArray = addr.split("\\.");
+        int num = 0;
+        String value="";
+        for (int i=1;i<addrArray.length;i++) {
+//            num+=Integer.parseInt(addrArray[i]);
+        	value+=addrArray[i];
+        }
+        num=Integer.parseInt(value);
+        return num;
+    }
 	public static void main(String[] args) throws NotBoundException, IOException {
 	ClientHandler myClient = new ClientHandler();
-//	String host = myClient.getHost("127.0.0.1","NameServer");
-//	myClient.uploadFile(host,"NameServer");
-	myClient.getServiceIp("10.8.108.151", "NameServer");
+//	myClient.uploadFile("127.0.0.1","Dispatcher","C:\\Test.txt");
+//	myClient.getServiceIp("127.0.0.1", "NameServer");
+	long l=myClient.clientIdGen("190.108.34.154");
+	System.out.println(l);
 	}
 
 }
