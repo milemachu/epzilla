@@ -1,4 +1,4 @@
-package org.epzilla.sharedMemoryModule;
+package org.epzilla.dispatcher.sharedMemoryModule;
 
 import jstm.core.*;
 import jstm.transports.clientserver.socket.SocketClient;
@@ -11,8 +11,9 @@ import org.epzilla.dispatcher.NodeVariables;
 import org.epzilla.dispatcher.TriggerManager;
 import org.epzilla.dispatcher.ClusterLeaderIpListManager;
 import org.epzilla.dispatcher.DispatcherUIController;
-import generatedObjectModels.dispatcherObjectModel;
-import generatedObjectModels.triggerInfoObject;
+import org.epzilla.dispatcher.dispatcherObjectModel.DispatcherObjectModel;
+import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,7 +29,7 @@ public class DispatcherAsClient {
     public static boolean startClient() {
         boolean success = false;
         DispatcherUIController.appendTextToStatus("Starting STM Client on: " + NodeVariables.getNodeIP());
-        Site.getLocal().registerObjectModel(new dispatcherObjectModel());
+        Site.getLocal().registerObjectModel(new DispatcherObjectModel());
         try {
             client = new SocketClient(NodeVariables.getCurrentServerIP(), NodeVariables.getPort());
             ConnectionInfo connection = client.connect();
@@ -57,7 +58,7 @@ public class DispatcherAsClient {
                                             TransactedObject object) {
 
                             if (object instanceof TransactedList<?>)
-                                addList((TransactedList<triggerInfoObject>) object);
+                                addList((TransactedList<TriggerInfoObject>) object);
 
                             if (object instanceof TransactedArray<?>)
                                 addIpList((TransactedArray<String>) object);
@@ -68,7 +69,7 @@ public class DispatcherAsClient {
                         public void onRemoved(Transaction transaction,
                                               TransactedObject object) {
                             if (object instanceof TransactedList<?>)
-                                removeList((TransactedList<triggerInfoObject>) object);
+                                removeList((TransactedList<TriggerInfoObject>) object);
                         }
                     });
 
@@ -80,7 +81,7 @@ public class DispatcherAsClient {
                     addIpList((TransactedArray<String>) o);
 
                 if (o instanceof TransactedList<?>) {
-                    addList((TransactedList<triggerInfoObject>) o);
+                    addList((TransactedList<TriggerInfoObject>) o);
                 }
 
             }
@@ -94,7 +95,7 @@ public class DispatcherAsClient {
         return success;
     }
 
-    private static void addList(final TransactedList<triggerInfoObject> info) {
+    private static void addList(final TransactedList<TriggerInfoObject> info) {
 
         DispatcherUIController.appendTextToStatus("TriggerList added.");
         TriggerManager.triggers = info;
@@ -119,7 +120,7 @@ public class DispatcherAsClient {
     }
 
 
-    private static void removeList(final TransactedList<triggerInfoObject> info) {
+    private static void removeList(final TransactedList<TriggerInfoObject> info) {
 
 
     }

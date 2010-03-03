@@ -1,4 +1,4 @@
-package org.epzilla.sharedMemoryModule;
+package org.epzilla.dispatcher.sharedMemoryModule;
 
 import jstm.transports.clientserver.Server;
 import jstm.transports.clientserver.socket.SocketServer;
@@ -10,7 +10,9 @@ import org.epzilla.dispatcher.NodeVariables;
 import org.epzilla.dispatcher.TriggerManager;
 import org.epzilla.dispatcher.ClusterLeaderIpListManager;
 import org.epzilla.dispatcher.DispatcherUIController;
-import generatedObjectModels.triggerInfoObject;
+import org.epzilla.dispatcher.dispatcherObjectModel.DispatcherObjectModel;
+import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,7 +28,7 @@ public class DispatcherAsServer {
     public static boolean startServer() {
         boolean success = false;
         DispatcherUIController.appendTextToStatus("Starting STM server on: " + NodeVariables.getNodeIP());
-        Site.getLocal().registerObjectModel(new generatedObjectModels.dispatcherObjectModel());
+        Site.getLocal().registerObjectModel(new DispatcherObjectModel());
         try {
             int port = NodeVariables.getPort();
             Server server = new SocketServer(port);
@@ -94,7 +96,7 @@ public class DispatcherAsServer {
     }
 
 
-    private static void addList(final TransactedList<triggerInfoObject> info) {
+    private static void addList(final TransactedList<TriggerInfoObject> info) {
 
         info.addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {

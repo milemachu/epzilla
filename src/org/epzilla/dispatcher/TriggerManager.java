@@ -1,13 +1,14 @@
 package org.epzilla.dispatcher;
 
-import generatedObjectModels.triggerInfoObject;
 import jstm.core.TransactedList;
 import jstm.core.Site;
 import jstm.core.Transaction;
-import org.epzilla.dispatcher.RandomStringGenerator;
+
 
 import java.util.Random;
 import java.util.TimerTask;
+
+import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,8 +19,8 @@ import java.util.TimerTask;
  */
 public class TriggerManager {
 
-    public static TransactedList<triggerInfoObject> triggers = new TransactedList<triggerInfoObject>();
-    static int  count = 0;
+    public static TransactedList<TriggerInfoObject> triggers = new TransactedList<TriggerInfoObject>();
+    static int count = 0;
 
     // Code For Testing Only -Dishan
     public static void acceptTriggerStream() {
@@ -32,7 +33,7 @@ public class TriggerManager {
                     if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
                         Site.getLocal().allowThread();
                         Transaction transaction = Site.getLocal().startTransaction();
-                        triggerInfoObject obj = new triggerInfoObject();
+                        TriggerInfoObject obj = new TriggerInfoObject();
                         obj.settriggerID(String.valueOf(count));
                         obj.settrigger(RandomStringGenerator.nextString());
                         triggers.add(obj);
@@ -40,7 +41,7 @@ public class TriggerManager {
                     }
                     count++;
 
-                    if (count == 200)
+                    if (count == 20)
                         timer1.cancel();
                 }
             }
@@ -54,7 +55,7 @@ public class TriggerManager {
             if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
                 Site.getLocal().allowThread();
                 Transaction transaction = Site.getLocal().startTransaction();
-                triggerInfoObject obj = new triggerInfoObject();
+                TriggerInfoObject obj = new TriggerInfoObject();
                 // ID is the sequential number of the trigger
                 obj.settriggerID("TID:" + String.valueOf(count));
                 obj.settrigger(new String(trigger));
