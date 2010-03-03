@@ -9,9 +9,6 @@ import java.rmi.RemoteException;
 
 public class DispatcherService {
 
-	/**
-	 * 01-03-10
-	 */
 	public void bindDispatcher(String serviceName) throws RemoteException, UnknownHostException, MalformedURLException {
 		if(System.getSecurityManager()==null){
 			System.setSecurityManager(new RMISecurityManager());
@@ -20,11 +17,27 @@ public class DispatcherService {
 		InetAddress inetAddress;
 		inetAddress = InetAddress.getLocalHost();
     	String ipAddress = inetAddress.getHostAddress();
-    	String name ="rmi://"+ipAddress+"/"+serviceName;
+    	int id = dispIdGen(ipAddress);
+    	String disServiceName = serviceName+id;
+    	String name ="rmi://"+ipAddress+"/"+disServiceName;
 		Naming.rebind(name, dispInt);
 		System.out.println("Dispatcher Service successfully deployed.....");
 		
 	}
+	/*
+	 * generate dispatcher id
+	 */
+	public static int dispIdGen(String addr) {
+        String[] addrArray = addr.split("\\.");
+        int num = 0;
+        String value="";
+        for (int i=1;i<addrArray.length;i++) {
+//            num+=Integer.parseInt(addrArray[i]);
+        	value+=addrArray[i];
+        }
+        num=Integer.parseInt(value);
+        return num;
+    }
 	public static void main(String[] args) {
 		DispatcherService service =new DispatcherService();
     	try {
