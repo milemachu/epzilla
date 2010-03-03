@@ -54,7 +54,7 @@ public class DispImp extends UnicastRemoteObject implements DispInterface {
     @Override
     public String uploadTriggersToDispatcher(byte[] stream,String clientID,int triggerSeqID) throws RemoteException {
         try {
-            TriggerManager.addTriggerToList(stream);
+           TriggerManager.addTriggerToList(stream);
             return "Ok";
 
         } catch (Exception e) {
@@ -67,7 +67,7 @@ public class DispImp extends UnicastRemoteObject implements DispInterface {
 
 	@Override
 	public void acceptNotifications() throws RemoteException {
-
+		
 	}
 
 }
