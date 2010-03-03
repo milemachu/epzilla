@@ -74,16 +74,6 @@ public class About extends JFrame implements ActionListener{
 		}
 		return jTextPane;
 	}
-//	public static void main(String[] args) {
-//		// TODO Auto-generated method stub
-//		SwingUtilities.invokeLater(new Runnable() {
-//			public void run() {
-//				About thisClass = new About();
-//				thisClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//				thisClass.setVisible(true);
-//			}
-//		});
-//	}
 	public About() {
 		super();
 		initialize();
