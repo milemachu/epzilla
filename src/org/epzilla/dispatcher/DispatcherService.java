@@ -17,7 +17,7 @@ public class DispatcherService {
 		InetAddress inetAddress;
 		inetAddress = InetAddress.getLocalHost();
     	String ipAddress = inetAddress.getHostAddress();
-    	int id = dispIdGen(ipAddress);
+    	String id = dispIdGen(ipAddress);
     	String disServiceName = serviceName+id;
     	String name ="rmi://"+ipAddress+"/"+disServiceName;
 		Naming.rebind(name, dispInt);
@@ -27,16 +27,18 @@ public class DispatcherService {
 	/*
 	 * generate dispatcher id
 	 */
-	public static int dispIdGen(String addr) {
+	public static String dispIdGen(String addr) {
         String[] addrArray = addr.split("\\.");
-        int num = 0;
+        String temp="";
         String value="";
-        for (int i=1;i<addrArray.length;i++) {
-//            num+=Integer.parseInt(addrArray[i]);
-        	value+=addrArray[i];
+        for (int i=0;i<addrArray.length;i++) {
+        	temp=addrArray[i].toString();
+        	while(temp.length()!=3){
+        		temp = '0'+temp;
+        	}
+        	value+=temp;
         }
-        num=Integer.parseInt(value);
-        return num;
+        return value;
     }
 	public static void main(String[] args) {
 		DispatcherService service =new DispatcherService();
