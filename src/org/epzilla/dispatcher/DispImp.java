@@ -35,9 +35,9 @@ public class DispImp extends UnicastRemoteObject implements DispInterface {
     }
 
 
-    public String uploadEventsToDispatcher(byte[] stream,int clientID,int eventSeqID) throws RemoteException {
+    public String uploadEventsToDispatcher(byte[] stream,String clientID,int eventSeqID) throws RemoteException {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(clientID+":"+eventSeqID+"ClientToServer.txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("ClientToServer.txt"));
             writer.write(new String(stream));
             writer.flush();
             writer.close();
@@ -52,7 +52,7 @@ public class DispImp extends UnicastRemoteObject implements DispInterface {
 
 
     @Override
-    public String uploadTriggersToDispatcher(byte[] stream,int clientID,int triggerSeqID) throws RemoteException {
+    public String uploadTriggersToDispatcher(byte[] stream,String clientID,int triggerSeqID) throws RemoteException {
         try {
             TriggerManager.addTriggerToList(stream);
             return "Ok";
@@ -63,5 +63,11 @@ public class DispImp extends UnicastRemoteObject implements DispInterface {
         }
         return null;
     }
+
+
+	@Override
+	public void acceptNotifications() throws RemoteException {
+
+	}
 
 }
