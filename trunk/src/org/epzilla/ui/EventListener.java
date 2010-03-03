@@ -17,9 +17,12 @@ public class EventListener{
 		
 		return client.getServiceIp(ip, serviceName);
 	}
-	public void uploadFiles(String disIP,String serviceName,String fileLocation) throws NotBoundException, IOException{
-			client.uploadFile(disIP, serviceName,fileLocation);
+	public void uploadEventsFiles(String disIP,String serviceName,String fileLocation,String clientIp,int eventID) throws NotBoundException, IOException{
+			client.uploadEventsFile(disIP, serviceName,fileLocation,clientIp,eventID);
 	}
+	public void uploadTriggersFiles(String disIP,String serviceName,String fileLocation,String clientIp,int triggerID) throws NotBoundException, IOException{
+		client.uploadTriggersFile(disIP, serviceName,fileLocation,clientIp,triggerID);
+}
 	 public void  getString(JTextArea jt) {
 	        jt.append("hfdsjksfk.\n");
 	        jt.append("sfsvsfs\n");
