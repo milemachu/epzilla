@@ -9,11 +9,6 @@ import org.epzilla.nameserver.NameService;
 import org.epzilla.nameserver.NameServiceHandler;
 
 public class DispatcherRegister{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	String urlName = "NameServer";
 
 	public DispatcherRegister(){
 	}
@@ -23,12 +18,27 @@ public class DispatcherRegister{
 			NameService service = (NameService)Naming.lookup(url);
         	InetAddress inetAddress = InetAddress.getLocalHost();
         	String ipAddress = inetAddress.getHostAddress();
-        	String name = dispatcherName;
+        	int id = dispIdGen(ipAddress);
+        	String name = dispatcherName+id;
         	int i = service.insertNode(name, ipAddress, 5005);
         	       	if(i==0)
         	       		System.out.println("Insertion failure");
         	       	else if(i==1)
         	       		System.out.println("Successfully inserted");        
+    }
+	/*
+	 * generate dispatcher id
+	 */
+	public static int dispIdGen(String addr) {
+        String[] addrArray = addr.split("\\.");
+        int num = 0;
+        String value="";
+        for (int i=1;i<addrArray.length;i++) {
+//            num+=Integer.parseInt(addrArray[i]);
+        	value+=addrArray[i];
+        }
+        num=Integer.parseInt(value);
+        return num;
     }
     public static void main(String args[]) {
     	DispatcherRegister reg =new DispatcherRegister();
