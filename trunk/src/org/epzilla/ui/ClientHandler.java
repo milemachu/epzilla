@@ -55,8 +55,7 @@ public class ClientHandler {
 	}	
 	public void uploadEventsFile(String ip,String serviceName,String fileLocation,String clientIp,int eventSeqID) throws NotBoundException, IOException{
 		String response = null;
-		int cID = clientIdGen(clientIp);
-//		byte[] cId = cID.getBytes();
+		String cID = clientIdGen(clientIp);
 		FileReader fReader=new FileReader(fileLocation);
 		BufferedReader reader=new BufferedReader(fReader);
 		String line=reader.readLine();
@@ -77,12 +76,13 @@ public class ClientHandler {
 		response= di.uploadEventsToDispatcher(buffer,cID,eventSeqID);      
         if(response!=null)
         	System.out.println("Dispatcher Recieved the file from the client and the response is "+response);
-        else
-        	System.out.println("File sending error reported.");
+		else {
+			System.out.println("File sending error reported.");
+		}
 	}
 	public void uploadTriggersFile(String ip,String serviceName,String fileLocation,String clientIp,int triggerSeqID) throws NotBoundException, IOException{
 		String response = null;
-		int cID = clientIdGen(clientIp); 
+		String cID = clientIdGen(clientIp); 
 		FileReader fReader=new FileReader(fileLocation);
 		BufferedReader reader=new BufferedReader(fReader);
 		String line=reader.readLine();
@@ -108,22 +108,25 @@ public class ClientHandler {
         	System.out.println("File sending error reported.");
 	}
 
-	public static int clientIdGen(String addr) {
+	public static String clientIdGen(String addr) {
         String[] addrArray = addr.split("\\.");
-        int num = 0;
+        String temp="";
         String value="";
-        for (int i=1;i<addrArray.length;i++) {
-//            num+=Integer.parseInt(addrArray[i]);
-        	value+=addrArray[i];
+        for (int i=0;i<addrArray.length;i++) {
+        	temp=addrArray[i].toString();
+        	while(temp.length()!=3){
+        		temp = '0'+temp;
+        	}
+        	value+=temp;
         }
-        num=Integer.parseInt(value);
-        return num;
+        return value;
     }
 	public static void main(String[] args) throws NotBoundException, IOException {
 	ClientHandler myClient = new ClientHandler();
 //	myClient.uploadFile("127.0.0.1","Dispatcher","C:\\Test.txt");
 //	myClient.getServiceIp("127.0.0.1", "NameServer");
-	long l=myClient.clientIdGen("190.108.34.154");
+	String l=myClient.clientIdGen("10.8.14.54");
+	
 	System.out.println(l);
 	}
 
