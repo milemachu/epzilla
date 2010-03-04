@@ -95,19 +95,32 @@ public class ClientHandler {
 		
 		reader.close();
 		fReader.close();
-		
 		reader = null;
 		fReader=null;	
 		String url = "rmi://"+ip+"/"+serviceName;
 		DispInterface di = (DispInterface) Naming.lookup(url);
 		response= di.uploadTriggersToDispatcher(buffer,cID,triggerSeqID);
-       
+		
+		
         if(response!=null)
         	System.out.println("Dispatcher Recieved the file from the client and the response is "+response);
         else
         	System.out.println("File sending error reported.");
 	}
-
+	public void registerCallback(String ip,String serviceName) throws NotBoundException, RemoteException, MalformedURLException{
+		
+		String url = "rmi://"+ip+"/"+serviceName;
+		DispInterface di = (DispInterface) Naming.lookup(url);
+		ClientCallbackInterface obj = new ClientCallbackImpl();
+		di.registerCallback(obj);
+	
+	}
+	public void unregisterCallback(String ip,String serviceName) throws MalformedURLException, RemoteException, NotBoundException{
+		String url = "rmi://"+ip+"/"+serviceName;
+		DispInterface di = (DispInterface) Naming.lookup(url);
+		ClientCallbackInterface obj = new ClientCallbackImpl();
+		di.unregisterCallback(obj);
+	}
 	public static String clientIdGen(String addr) {
         String[] addrArray = addr.split("\\.");
         String temp="";
@@ -125,9 +138,16 @@ public class ClientHandler {
 	ClientHandler myClient = new ClientHandler();
 //	myClient.uploadFile("127.0.0.1","Dispatcher","C:\\Test.txt");
 //	myClient.getServiceIp("127.0.0.1", "NameServer");
-	String l=myClient.clientIdGen("10.8.108.54");
-	
-	System.out.println(l);
+//	String l=myClient.clientIdGen("10.8.108.54");
+	myClient.registerCallback("localhost", "Dispatcher");
+	try {
+		Thread.sleep(10000);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	myClient.unregisterCallback("localhost", "Dispatcher");
+//	System.out.println(l);
 	}
 
 }
