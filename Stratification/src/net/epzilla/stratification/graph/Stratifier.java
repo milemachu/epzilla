@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Stratifier {
 
     DependancyGraph dependancyGraph = new DependancyGraph();
+    ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
 
     /**
      * does the stratification.
@@ -19,7 +20,6 @@ public class Stratifier {
         dependancyGraph.buildGraph();
         boolean[][] graph = dependancyGraph.getGraph();
 
-        ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
         boolean[] added = new boolean[graph.length];
 
         boolean changed = true;
@@ -58,7 +58,20 @@ public class Stratifier {
     }
 
     public void addQuery(Query q) {
-       dependancyGraph.addQuery(q);
+        dependancyGraph.addQuery(q);
+    }
+
+    public int getStratumFor(Query q) {
+        int i = 0;
+        for (ArrayList<Integer> ls : list) {
+            for (Integer x : ls) {
+                if (q.getId() == x) {
+                    return i;
+                }
+            }
+            i++;
+        }
+        return 0;
     }
 
     public void removeQuery(Query q) {
