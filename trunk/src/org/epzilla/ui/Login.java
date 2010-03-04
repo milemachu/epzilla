@@ -56,8 +56,8 @@ public class Login extends JFrame implements ActionListener{
 		return btnOK;
 	}
 	private void showMainUI(){
-		ClientUI client = new ClientUI();
-		client.start();
+		ClientUIControler controler = new ClientUIControler();
+		ClientUIControler.initializeClientUI();
 	}
 	private JButton getBtnCancel() {
 		if (btnCancel == null) {
