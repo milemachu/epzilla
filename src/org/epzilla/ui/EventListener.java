@@ -23,8 +23,4 @@ public class EventListener{
 	public void uploadTriggersFiles(String disIP,String serviceName,String fileLocation,String clientIp,int triggerID) throws NotBoundException, IOException{
 		client.uploadTriggersFile(disIP, serviceName,fileLocation,clientIp,triggerID);
 }
-	 public void  getString(JTextArea jt) {
-	        jt.append("hfdsjksfk.\n");
-	        jt.append("sfsvsfs\n");
-	    }
 }
