@@ -41,4 +41,12 @@ public class MultiClientStratifier {
         return null;
     }
 
+    public int getStratumFor(Query q) {
+        Stratifier s = strataMap.get(q.getClientId());
+        if (s != null) {
+            return s.getStratumFor(q);
+        }
+        return -1;
+    }
+
 }

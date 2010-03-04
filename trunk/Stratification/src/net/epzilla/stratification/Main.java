@@ -40,9 +40,12 @@ public class Main {
             QueryParser qp = (QueryParser) di.createInstance("Parser");
             
             Query q = null;
+            int ii = 0;
             for (String item : list) {
                 q = qp.parseString(item);
+                q.setId(ii);
                 s.addQuery(q);
+                ii++;
             }
 
             // by default the client id in each query is '0'
@@ -55,7 +58,7 @@ public class Main {
             stratifiedQueries = s.stratify(0);
             System.out.println("After removing one query:");
             printStratas(stratifiedQueries);
-
+            System.out.println("stratum for " + q.getId() + s.getStratumFor(q));
 //                QueryParserOld parser = new QueryParserOld();
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -71,7 +74,7 @@ public class Main {
         System.out.println("Number of Stratas:" + stratifiedQueries.size());
         System.out.println("\nQuery distribution:\n");
 
-        int current = 1;
+        int current = 0;
         for (ArrayList<Integer> ll : stratifiedQueries) {
             System.out.println("stratum " + current + ":");
             for (int ints : ll) {
