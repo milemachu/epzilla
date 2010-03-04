@@ -13,7 +13,7 @@ public class DispatcherService {
 		if(System.getSecurityManager()==null){
 			System.setSecurityManager(new RMISecurityManager());
 		}
-		DispInterface dispInt=new DispImp();	
+		DispInterface dispInt=new DispImpl();	
 		InetAddress inetAddress;
 		inetAddress = InetAddress.getLocalHost();
     	String ipAddress = inetAddress.getHostAddress();
@@ -27,7 +27,7 @@ public class DispatcherService {
 	/*
 	 * generate dispatcher id
 	 */
-	public static String dispIdGen(String addr) {
+	public String dispIdGen(String addr) {
         String[] addrArray = addr.split("\\.");
         String temp="";
         String value="";
