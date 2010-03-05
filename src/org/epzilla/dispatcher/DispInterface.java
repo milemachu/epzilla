@@ -10,7 +10,6 @@ public interface DispInterface extends Remote {
 
 	public String  uploadEventsToDispatcher(byte[] stream,String cID,int eventSeqID) throws RemoteException;
 	public String uploadTriggersToDispatcher(byte[] stream,String cID,int triggerSeqID) throws RemoteException;
-	public byte[] downloadFileFromServer(String fileName) throws RemoteException, IOException;
 	public String acceptNotifications()throws RemoteException;
 	public void registerCallback(ClientCallbackInterface callbackClientObject) throws RemoteException;
 	public void unregisterCallback(ClientCallbackInterface callbackClientObject)throws RemoteException;
