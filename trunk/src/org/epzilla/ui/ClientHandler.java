@@ -37,22 +37,6 @@ public class ClientHandler {
 				}
 				return dispIP;
 	    }
-	 public void downloadFile() {
-		 try {
-	         String name = "rmi://127.0.0.1/DispatcherService";
-	         DispInterface di = (DispInterface) Naming.lookup(name);
-	         byte[] filedata = di.downloadFileFromServer("C:\\Test.txt");
-	         File file = new File("ServertoClient.txt");
-	         BufferedOutputStream output = new
-	           BufferedOutputStream(new FileOutputStream(file.getName()));
-	         output.write(filedata,0,filedata.length);
-	         output.flush();
-	         output.close();
-	      } catch(Exception e) {
-	         System.err.println("FileServer exception: "+ e.getMessage());
-	         e.printStackTrace();
-	      }
-	}	
 	public void uploadEventsFile(String ip,String serviceName,String fileLocation,String clientIp,int eventSeqID) throws NotBoundException, IOException{
 		String response = null;
 		String cID = clientIdGen(clientIp);
@@ -107,7 +91,7 @@ public class ClientHandler {
         else
         	System.out.println("File sending error reported.");
 	}
-	public void registerCallback(String ip,String serviceName) throws NotBoundException, RemoteException, MalformedURLException{
+	public void regForCallback(String ip,String serviceName) throws NotBoundException, RemoteException, MalformedURLException{
 		
 		String url = "rmi://"+ip+"/"+serviceName;
 		DispInterface di = (DispInterface) Naming.lookup(url);
@@ -119,7 +103,8 @@ public class ClientHandler {
 		String url = "rmi://"+ip+"/"+serviceName;
 		DispInterface di = (DispInterface) Naming.lookup(url);
 		ClientCallbackInterface obj = new ClientCallbackImpl();
-		di.unregisterCallback(obj);
+		ClientCallbackInterface obj2 = obj;
+		di.unregisterCallback(obj2);
 	}
 	public static String clientIdGen(String addr) {
         String[] addrArray = addr.split("\\.");
@@ -136,17 +121,15 @@ public class ClientHandler {
     }
 	public static void main(String[] args) throws NotBoundException, IOException {
 	ClientHandler myClient = new ClientHandler();
-//	myClient.uploadFile("127.0.0.1","Dispatcher","C:\\Test.txt");
-//	myClient.getServiceIp("127.0.0.1", "NameServer");
 //	String l=myClient.clientIdGen("10.8.108.54");
-	myClient.registerCallback("localhost", "Dispatcher");
-	try {
-		Thread.sleep(10000);
-	} catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	myClient.unregisterCallback("localhost", "Dispatcher");
+//	myClient.registerCallback("localhost", "Dispatcher");
+//	try {
+//		Thread.sleep(10000);
+//	} catch (InterruptedException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	}
+//	myClient.unregisterCallback("localhost", "Dispatcher");
 //	System.out.println(l);
 	}
 

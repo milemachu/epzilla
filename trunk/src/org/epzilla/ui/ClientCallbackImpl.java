@@ -5,16 +5,15 @@ import java.rmi.server.*;
 
 public class ClientCallbackImpl extends UnicastRemoteObject implements ClientCallbackInterface {
 	
-	ClientUIControler cui;
+	ClientUIControler clientCon;
 	
 	public ClientCallbackImpl() throws RemoteException {
       super( );
    }
 	
    public void notifyClient(String message){
-      cui = new ClientUIControler(message);
-      Thread t = new Thread(cui);
+      clientCon = new ClientUIControler(message);
+      Thread t = new Thread(clientCon);
       t.start();
    }      
-
 }
