@@ -2,27 +2,16 @@ package org.epzilla.ui;
 
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.*;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.UnknownHostException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
+import java.net.*;
+import java.rmi.*;
 import java.util.*;
 import javax.swing.*;
 import java.awt.Rectangle;
-import javax.swing.JTextField;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.event.*;
 
-import java.awt.Point;
-import java.awt.Dimension;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-
-public class ClientUI extends JFrame implements ActionListener,ListSelectionListener{
+public class ClientUI extends JFrame implements ActionListener,ListSelectionListener,WindowListener{
 
 	private JTabbedPane tabbedPane = null;
 	private JTextField txtIP = null;
@@ -62,7 +51,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JCheckBox chkEvents = null;
 	private JCheckBox chkTriggers = null;
 	ClientHandler client;
-	
+	boolean isRegister = false;
 	int eventSeqID;
 	int triggerSeqID;
 	public ClientUI() {
@@ -79,7 +68,8 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
        	this.setSize(x,y);
         this.setContentPane(getMyTabbedPane());
         this.setJMenuBar(getmyMenuBar());
-       	this.setTitle("Epzilla DS");		
+       	this.setTitle("Epzilla DS");	
+       	this.addWindowListener(this);
 	}
 	private JTabbedPane getMyTabbedPane() {
 		if (tabbedPane == null) {
@@ -347,6 +337,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		if (txtResults == null) {
 			txtResults = new JTextArea();
 			txtResults.setBounds(new Rectangle(0, 0, 800, 600));
+			txtResults.setEditable(false);
 		}
 		return txtResults;
 	}
@@ -387,6 +378,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private void getDispatchers(){
 		String ip = txtIP.getText().toString();
 		String serverName = txtName.getText().toString();
+		isRegister = false;
 		if((isValidIp(ip)==true) && (serverName.length()!=0)){
 		try {
 			ips=client.getServiceIp(ip,serverName);
@@ -405,7 +397,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		String dispIP = txtDispIP.getText().toString();
 		String dispName = txtDispName.getText().toString();
 		String fileLocation = txtFile.getText().toString();
-		String clientIp = ipAddress();
+		String clientIp = getIpAddress();
 		if((dispIP.length()==0) && (dispName.length()==0)){
 			JOptionPane.showMessageDialog(null,"Perform Lookup operation and select service you want.","epZilla",JOptionPane.ERROR_MESSAGE);
 			return;
@@ -447,11 +439,11 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		else
 			JOptionPane.showMessageDialog(null,"Error in file send process.","epZilla",JOptionPane.ERROR_MESSAGE);
 		}
-	private String ipAddress(){
+	private String getIpAddress(){
 		InetAddress inetAddress = null;
 		try {
 			inetAddress = InetAddress.getLocalHost();
-		} catch (UnknownHostException e) {
+		} catch (java.net.UnknownHostException e) {
 			e.printStackTrace();
 		}
     	String ipAddress = inetAddress.getHostAddress();
@@ -477,8 +469,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	}
 	public void cancelSend(){
 		JOptionPane.showMessageDialog(null,"Are you sure cancel the operation.","epZilla",JOptionPane.WARNING_MESSAGE);
-//		txtDispIP.setText("");
-//		txtDispName.setText("");
+		return;
 	}
 	private void setDispValues(String str){
 		StringTokenizer st = new StringTokenizer(str);
@@ -486,8 +477,10 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		String servicename = st.nextToken();
 		txtDispIP.setText(ip);
 		txtDispName.setText(servicename);
+		if(isRegister==false){
 		try {
-			client.registerCallback(ip, servicename);
+			client.regForCallback(ip, servicename);
+			isRegister=true;
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -498,8 +491,9 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		}
 	}
-	private void clearList(){
+	private void unregisterCallbackLocal(){
 		String ip = txtDispIP.getText().toString();
 		String servicename = txtDispName.getText().toString();
 		try {
@@ -514,62 +508,15 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		txtDispIP.setText("");
+		txtDispName.setText("");
 		ips.removeAllElements();
 		listLookup.setListData(ips);
+		
 	}
 	private void showAbout(){
 		About abut = new About();
 		abut.show();
-	}
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				ClientUI thisClass = new ClientUI();
-				thisClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				thisClass.setVisible(true);
-			}
-		});
-
-	}
-	@Override
-	public void valueChanged(ListSelectionEvent event) {
-		Object source = event.getSource();
-		if(source==listLookup){
-			int i = listLookup.getSelectedIndex();
-			String s = i>=0?ips.get(i):"";
-			setDispValues(s);
-		}
-	}	
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		Object source = event.getSource();
-		if(source==btnBrowse){
-			loadFile();
-		}else if(source==btnSend){
-			sendFiles();
-		}else if(source==btnCancel){
-			cancelSettings();
-		}else if(source==btnCancelSend){
-			cancelSend();
-		}else if(source==btnClear){
-			clearList();
-		}else if(source==btnSave){
-			saveSettings();
-		}else if(source==btnLookup){
-			getDispatchers();
-		}else if(source==btnOK){
-			
-		}else if(source == adminSettings){
-			tabbedPane.setVisible(true);
-		}else if(source== closetabs){
-			tabbedPane.setVisible(false);
-		}else if(source == exit){
-			System.exit(0);
-		}else if(source==help){
-			
-		}else if(source==about){
-			showAbout();
-		}
 	}
 	public static boolean isValidIp(String ip)
     {
@@ -592,4 +539,74 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
         return false;
     }
 	
-}  //  @jve:decl-index=0:visual-constraint="54,12" 
+//	public static void main(String[] args) {
+//		SwingUtilities.invokeLater(new Runnable() {
+//			public void run() {
+//				ClientUI thisClass = new ClientUI();
+//				thisClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//				thisClass.setVisible(true);
+//			}
+//		});
+//
+//	}
+	@Override
+	public void valueChanged(ListSelectionEvent event) {
+		Object source = event.getSource();
+		if(source==listLookup){
+			int i = listLookup.getSelectedIndex();
+			String s = i>=0?ips.get(i):"";
+			setDispValues(s);
+		}
+	}	
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		Object source = event.getSource();
+		if(source==btnBrowse){
+			loadFile();
+		}else if(source==btnSend){
+			sendFiles();
+		}else if(source==btnCancel){
+			cancelSettings();
+		}else if(source==btnCancelSend){
+			cancelSend();
+		}else if(source==btnClear){
+			unregisterCallbackLocal();
+		}else if(source==btnSave){
+			saveSettings();
+		}else if(source==btnLookup){
+			getDispatchers();
+		}else if(source==btnOK){
+			
+		}else if(source == adminSettings){
+			tabbedPane.setVisible(true);
+		}else if(source== closetabs){
+			tabbedPane.setVisible(false);
+		}else if(source == exit){
+			System.exit(0);
+		}else if(source==help){
+			
+		}else if(source==about){
+			showAbout();
+		}
+	}@Override
+	public void windowActivated(WindowEvent e) {}
+	@Override
+	public void windowClosed(WindowEvent e) {}
+	@Override
+	public void windowClosing(WindowEvent e) { 
+		ActionListener task = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+        	unregisterCallbackLocal();
+            System.exit(0);
+        }
+        };
+}
+	@Override
+	public void windowDeactivated(WindowEvent e) {}
+	@Override
+	public void windowDeiconified(WindowEvent e) {}
+	@Override
+	public void windowIconified(WindowEvent e) {}
+	@Override
+	public void windowOpened(WindowEvent e) {}
+}

@@ -60,7 +60,7 @@ public class SplashScreen extends JWindow {
     }
     private void showSplashAndExit() {        
         showSplash();
-        Login login = new Login();
+        new Login();
     }
 	private JProgressBar getProgressBar() {
 		if (progressBar == null) {

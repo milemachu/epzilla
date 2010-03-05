@@ -86,7 +86,7 @@ public class About extends JFrame implements ActionListener{
 	    int y = (screen.height-height)/2;
 	    setBounds(x,y,width,height);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("C:/eclipse/ProjectEpzilla/images/logo.JPG"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("images//logo.JPG"));
 		this.setSize(new Dimension(475, 258));
 		this.setResizable(false);
 		this.setContentPane(getJContentPane());
