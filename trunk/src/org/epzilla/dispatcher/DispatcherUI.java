@@ -12,6 +12,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.ComponentOrientation;
@@ -34,14 +35,15 @@ import javax.swing.plaf.metal.*;
 import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
 
+import org.epzilla.ui.About;
+import java.awt.Toolkit;
+
 
 
 public class DispatcherUI extends JFrame implements ActionListener{
-
-	private static final long serialVersionUID = 1L;
 	private JTabbedPane tabbedPane = null;
 	private JTextField txtIP = null;
-	private JTextField tbPort = null;
+	private JTextField txtPort = null;
 	private JTextField txtNameServer = null;
 	private JLabel labelIP = null;
 	private JLabel labelPort = null;
@@ -77,40 +79,45 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	private JTabbedPane getMyTabbedPane() {
 		if (tabbedPane == null) {
 			lblDetails = new JLabel();
-			lblDetails.setBounds(new Rectangle(12, 8, 151, 25));
-			lblDetails.setText("NameServer Details");
+			lblDetails.setText("NameServer Details ");
+			lblDetails.setLocation(new Point(15, 8));
+			lblDetails.setFont(new Font("Dialog", Font.BOLD, 12));
+			lblDetails.setSize(new Dimension(151, 25));
 			labelName = new JLabel();
 			labelName.setText("Service Name :");
-			labelName.setSize(new Dimension(121, 25));
-			labelName.setLocation(new Point(15, 91));
+			labelName.setSize(new Dimension(93, 25));
+			labelName.setLocation(new Point(49, 92));
 			labelPort = new JLabel();
 			labelPort.setText("Port :");
-			labelPort.setSize(new Dimension(119, 25));
-			labelPort.setLocation(new Point(17, 135));
+			labelPort.setSize(new Dimension(41, 22));
+			labelPort.setLocation(new Point(105, 132));
 			labelIP = new JLabel();
 			labelIP.setText("Server IP Address :");
 			labelIP.setSize(new Dimension(121, 25));
-			labelIP.setLocation(new Point(15, 49));
+			labelIP.setLocation(new Point(25, 49));
 			tabbedPane = new JTabbedPane();	
 		tabbedPane.addTab("Settings",getMainSettings());
 		tabbedPane.addTab("Summary",getSummeryTab());
-		tabbedPane.setVisible(true);
+		tabbedPane.setVisible(false);
 		}
 		return tabbedPane;
 	}
 	private JPanel getMainSettings(){
 		if(mainSettings==null){
 			lblName = new JLabel();
-			lblName.setBounds(new Rectangle(15, 203, 113, 16));
 			lblName.setText("Service Name :");
+			lblName.setLocation(new Point(53, 203));
+			lblName.setSize(new Dimension(94, 16));
 			lblDisp = new JLabel();
-			lblDisp.setBounds(new Rectangle(15, 171, 175, 16));
-			lblDisp.setText("Dispatcher Details :");
+			lblDisp.setText("Dispatcher Details ");
+			lblDisp.setLocation(new Point(15, 171));
+			lblDisp.setFont(new Font("Dialog", Font.BOLD, 12));
+			lblDisp.setSize(new Dimension(175, 22));
 			mainSettings=new JPanel();
 			mainSettings.setLayout(null);
-			mainSettings.add(getIpTextField(), null);
-			mainSettings.add(getTbPort(), null);
-			mainSettings.add(getTbName(), null);
+			mainSettings.add(getTxtNSIp(), null);
+			mainSettings.add(getTxtPort(), null);
+			mainSettings.add(getTxtNameServer(), null);
 			mainSettings.add(labelIP, null);
 			mainSettings.add(labelPort, null);
 			mainSettings.add(labelName, null);
@@ -194,12 +201,12 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	private JMenuItem getCloseMI(){
 		if(closetabs==null){
 			closetabs = new JMenuItem();
-			closetabs.setText("Close All");
+			closetabs.setText("Close Tabs");
 			closetabs.addActionListener(this);
 		}
 		return closetabs;
 	}
-	private JTextField getIpTextField() {
+	private JTextField getTxtNSIp() {
 		if (txtIP == null) {
 			txtIP = new JTextField();
 			txtIP.setLocation(new Point(150, 51));
@@ -207,15 +214,15 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		}
 		return txtIP;
 	}
-	private JTextField getTbPort() {
-		if (tbPort == null) {
-			tbPort = new JTextField();
-			tbPort.setLocation(new Point(150, 135));
-			tbPort.setSize(new Dimension(200, 20));
+	private JTextField getTxtPort() {
+		if (txtPort == null) {
+			txtPort = new JTextField();
+			txtPort.setLocation(new Point(150, 135));
+			txtPort.setSize(new Dimension(200, 20));
 		}
-		return tbPort;
+		return txtPort;
 	}
-	private JTextField getTbName() {
+	private JTextField getTxtNameServer() {
 		if (txtNameServer == null) {
 			txtNameServer = new JTextField();
 			txtNameServer.setLocation(new Point(150, 95));
@@ -295,7 +302,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	private JScrollPane getIpScrollPane() {
 		if (ipScrollPane == null) {
 			ipScrollPane = new JScrollPane();
-			ipScrollPane.setBounds(new Rectangle(723, 44, 270, 293));
+			ipScrollPane.setBounds(new Rectangle(723, 44, 270, 400));
 			ipScrollPane.setViewportView(getTxtIPSet());
 		}
 		return ipScrollPane;
@@ -303,7 +310,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	public JTextArea getTxtIPSet(){
 		if (txtIPs == null) {
 			txtIPs = new JTextArea();
-			txtIPs.setBounds(new Rectangle(723, 44, 270, 293));
+			txtIPs.setBounds(new Rectangle(723, 44, 270, 400));
 		}
 		return txtIPs;
 	}
@@ -311,13 +318,17 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		String ip = txtIP.getText().toString();
 		String nameService = txtNameServer.getText().toString();
 		String dispatcherName = txtDispSerName.getText().toString();
+		String port = txtPort.getText().toString();
 		if(isValidIp(ip)==false){
 			JOptionPane.showMessageDialog(null,"Enter valid IP Address of NameServer.","epZilla",JOptionPane.ERROR_MESSAGE);
-			
+			return;
+		}
+		if(isValidPort(port)==false){
+			JOptionPane.showMessageDialog(null,"Enter valid Port number","epZilla",JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if(nameService.length()!=0 && dispatcherName.length()!=0){
-				listener.register(ip, nameService,dispatcherName);
+				listener.register(ip, nameService,port,dispatcherName);
 				bind();
 		}else{
 			JOptionPane.showMessageDialog(null,"Dispatcher registration fails. Enter setting details correctly.","epZilla",JOptionPane.ERROR_MESSAGE);
@@ -325,70 +336,28 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		}
 	private void bind() throws RemoteException, UnknownHostException, MalformedURLException{
 		String dispatcherName = txtDispSerName.getText().toString();
-//		if(dispatcherName.length()!=0){
 			listener.bindDispatcher(dispatcherName);
-//				}
-//		else
-//			JOptionPane.showMessageDialog(null,"Enter Dispatcher Service name","epZilla",JOptionPane.ERROR_MESSAGE);
-	}
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				DispatcherUI thisClass = new DispatcherUI();
-				thisClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				thisClass.setVisible(true);
 			}
-		});
+	private boolean isValidPort(String port){
+		 boolean returnValue = true;
+	      if (port.length() != 0) {
+	        try {
+	          int num = Integer.parseInt(port);
+	          if(num<1){
+	        	  returnValue = false;  
+	          }else if(num>65000){
+	        	  returnValue = false;
+	          }
+	        } catch (NumberFormatException e) {
+	          returnValue = false;
+	        }
+	      }else
+	    	  returnValue = false;
+	      
+	      return returnValue;
+
 	}
-	public DispatcherUI() {
-		super();
-		initialize();
-	}
-	
-	private void initialize() {
-		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = screen.width;
-        int y = screen.height;
-       	this.setTitle("Dispatcher");
-       	this.setResizable(false);
-       	this.setSize(new Dimension(748, 439));
-       	this.setSize(new Dimension(689, 439));
-       	this.setResizable(false);
-       	this.setSize(x,y);
-        this.setContentPane(getMyTabbedPane());
-        this.setJMenuBar(getmyMenuBar());
-        	}
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		Object source = event.getSource();
-		if(source==adminSettings){
-			tabbedPane.setVisible(true);
-		}else if(source==help){
-			
-		}else if(source==exit){
-			System.exit(0);
-		}else if(source==about){
-			
-		}else if(source==closetabs){
-			tabbedPane.setVisible(false);
-		}else if(source==btnCancel){
-			
-		}else if(source==btnRegister){
-			try {
-				register();
-			} catch (MalformedURLException e) {
-				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
-			} catch (RemoteException e) {
-				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
-			} catch (UnknownHostException e) {
-				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
-			} catch (NotBoundException e) {
-				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
-			}
-			
-		}
-	}
-	 public static boolean isValidIp(final String ip)
+	 private static boolean isValidIp(final String ip)
 	    {
 	        boolean format = ip.matches("^[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}$"); 
 	        if (format)
@@ -408,4 +377,70 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	        }
 	        return false;
 	    }	
-}  //  @jve:decl-index=0:visual-constraint="14,9"
+	 public void showAbout(){
+		 About abut = new About();
+			abut.show();
+	 }
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				DispatcherUI thisClass = new DispatcherUI();
+				thisClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				thisClass.setVisible(true);
+			}
+		});
+	}
+	public DispatcherUI() {
+		super();
+		initialize();
+	}
+	
+	private void initialize() {
+//		 try {
+//				UIManager.setLookAndFeel("com.pagosoft.plaf.PgsLookAndFeel");
+//				SwingUtilities.updateComponentTreeUI(this);
+//			} catch(Exception e) {}
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = screen.width;
+        int y = screen.height;
+       	this.setTitle("Dispatcher");
+       	this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logo.JPG")));
+       	this.setResizable(false);
+       	this.setSize(new Dimension(899, 632));
+       	this.setSize(new Dimension(689, 439));
+       	this.setResizable(false);
+       	this.setSize(x,y);
+        this.setContentPane(getMyTabbedPane());
+        this.setJMenuBar(getmyMenuBar());
+        	}
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		Object source = event.getSource();
+		if(source==adminSettings){
+			tabbedPane.setVisible(true);
+		}else if(source==help){
+			
+		}else if(source==exit){
+			System.exit(0);
+		}else if(source==about){
+			showAbout();
+		}else if(source==closetabs){
+			tabbedPane.setVisible(false);
+		}else if(source==btnCancel){
+			
+		}else if(source==btnRegister){
+			try {
+				register();
+			} catch (MalformedURLException e) {
+				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+			} catch (RemoteException e) {
+				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+			} catch (UnknownHostException e) {
+				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+			} catch (NotBoundException e) {
+				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+			}
+			
+		}
+	}
+	}  //  @jve:decl-index=0:visual-constraint="14,9"
