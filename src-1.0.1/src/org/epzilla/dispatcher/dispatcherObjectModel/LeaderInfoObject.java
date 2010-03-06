@@ -4,53 +4,41 @@
 //                                                                              
 //==============================================================================
 
-package clusterInfoObjectModel;
+package org.epzilla.dispatcher.dispatcherObjectModel;
 
 import jstm.core.*;
 
-public class TriggerObject extends jstm.core.TransactedStructure {
+public class LeaderInfoObject extends jstm.core.TransactedStructure {
 
-    public TriggerObject() {
+    public LeaderInfoObject() {
         super(FIELD_COUNT);
     }
 
-    public String getclientID() {
+    public String getclusterID() {
         return (String) getField(0);
     }
 
-    public void setclientID(String value) {
+    public void setclusterID(String value) {
         setField(0, value);
     }
 
-    public String gettriggerID() {
+    public String getleaderIP() {
         return (String) getField(1);
     }
 
-    public void settriggerID(String value) {
+    public void setleaderIP(String value) {
         setField(1, value);
     }
 
-    public String gettrigger() {
-        return (String) getField(2);
-    }
+    public static final int CLUSTERID_INDEX = 0;
 
-    public void settrigger(String value) {
-        setField(2, value);
-    }
+    public static final String CLUSTERID_NAME = "clusterID";
 
-    public static final int CLIENTID_INDEX = 0;
+    public static final int LEADERIP_INDEX = 1;
 
-    public static final String CLIENTID_NAME = "clientID";
+    public static final String LEADERIP_NAME = "leaderIP";
 
-    public static final int TRIGGERID_INDEX = 1;
-
-    public static final String TRIGGERID_NAME = "triggerID";
-
-    public static final int TRIGGER_INDEX = 2;
-
-    public static final String TRIGGER_NAME = "trigger";
-
-    public static final int FIELD_COUNT = 3;
+    public static final int FIELD_COUNT = 2;
 
     @Override
     public String getFieldName(int index) {
@@ -60,11 +48,9 @@ public class TriggerObject extends jstm.core.TransactedStructure {
     public static String getFieldNameStatic(int index) {
         switch (index) {
             case 0:
-                return "clientID";
+                return "clusterID";
             case 1:
-                return "triggerID";
-            case 2:
-                return "trigger";
+                return "leaderIP";
             default:
                 throw new java.lang.IllegalArgumentException();
         }
@@ -74,12 +60,12 @@ public class TriggerObject extends jstm.core.TransactedStructure {
 
     @Override
     protected int getClassId() {
-        return 0;
+        return 2;
     }
 
     @Override
     public String getObjectModelUID() {
-        return "xBrwuzjF9k/6NeznYLAicA";
+        return "RTUcWtz2dNLjd7cECF/bOQ";
     }
 
     private static final int[] NON_TRANSIENT_FIELDS = new int[] {  };
@@ -97,7 +83,7 @@ public class TriggerObject extends jstm.core.TransactedStructure {
         if (reads != null) {
             writer.writeShort(Short.MAX_VALUE);
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
                 writer.writeBoolean(reads[i]);
         }
 
@@ -119,15 +105,6 @@ public class TriggerObject extends jstm.core.TransactedStructure {
                     writer.writeString((String) values[1]);
                 }
             }
-
-            if (values[2] != null) {
-                if (values[2] == Removal.Instance)
-                    writer.writeShort((short) -3);
-                else {
-                    writer.writeShort((short) 3);
-                    writer.writeString((String) values[2]);
-                }
-            }
         }
 
         writer.writeShort((short) 0);
@@ -142,9 +119,9 @@ public class TriggerObject extends jstm.core.TransactedStructure {
         short index = reader.readShort();
 
         if (index == Short.MAX_VALUE) {
-            reads = new boolean[3];
+            reads = new boolean[2];
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
                 reads[i] = reader.readBoolean();
 
             index = reader.readShort();
@@ -152,13 +129,13 @@ public class TriggerObject extends jstm.core.TransactedStructure {
 
         if (index == 1) {
             if (values == null)
-                values = new Object[3];
+                values = new Object[2];
 
             values[0] = reader.readString();
             index = reader.readShort();
         } else if (index == -1) {
             if (values == null)
-                values = new Object[3];
+                values = new Object[2];
 
             values[0] = Removal.Instance;
             index = reader.readShort();
@@ -166,29 +143,15 @@ public class TriggerObject extends jstm.core.TransactedStructure {
 
         if (index == 2) {
             if (values == null)
-                values = new Object[3];
+                values = new Object[2];
 
             values[1] = reader.readString();
             index = reader.readShort();
         } else if (index == -2) {
             if (values == null)
-                values = new Object[3];
+                values = new Object[2];
 
             values[1] = Removal.Instance;
-            index = reader.readShort();
-        }
-
-        if (index == 3) {
-            if (values == null)
-                values = new Object[3];
-
-            values[2] = reader.readString();
-            index = reader.readShort();
-        } else if (index == -3) {
-            if (values == null)
-                values = new Object[3];
-
-            values[2] = Removal.Instance;
             index = reader.readShort();
         }
 

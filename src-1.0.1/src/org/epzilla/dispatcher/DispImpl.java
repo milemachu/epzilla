@@ -5,9 +5,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Vector;
 
-import javax.security.auth.callback.Callback;
-
 import org.epzilla.ui.ClientCallbackInterface;
+import org.epzilla.dispatcher.dataManager.TriggerManager;
 
 public class DispImpl extends UnicastRemoteObject implements DispInterface {
 

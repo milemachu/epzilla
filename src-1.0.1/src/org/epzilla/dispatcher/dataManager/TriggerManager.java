@@ -1,14 +1,14 @@
-package org.epzilla.dispatcher;
+package org.epzilla.dispatcher.dataManager;
 
 import jstm.core.TransactedList;
 import jstm.core.Site;
 import jstm.core.Transaction;
 
 
-import java.util.Random;
 import java.util.TimerTask;
 
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
+import org.epzilla.dispatcher.RandomStringGenerator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,16 +19,16 @@ import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
  */
 public class TriggerManager {
 
-    public static TransactedList<TriggerInfoObject> triggers = new TransactedList<TriggerInfoObject>();
+    private static TransactedList<TriggerInfoObject> triggers = new TransactedList<TriggerInfoObject>();
     static int count = 0;
 
     // Code For Testing Only -Dishan
-    public static void acceptTriggerStream() {
+    public static void initTestTriggerStream() {
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (triggers != null) {
+                if (getTriggers() != null) {
 
                     if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
                         Site.getLocal().allowThread();
@@ -36,7 +36,7 @@ public class TriggerManager {
                         TriggerInfoObject obj = new TriggerInfoObject();
                         obj.settriggerID(String.valueOf(count));
                         obj.settrigger(RandomStringGenerator.nextString());
-                        triggers.add(obj);
+                        getTriggers().add(obj);
                         transaction.commit();
                     }
                     count++;
@@ -51,7 +51,7 @@ public class TriggerManager {
     //AddTriggers through RMI to the shared memory
     public static boolean addTriggerToList(byte[] trigger) {
         boolean success = false;
-        if (triggers != null) {
+        if (getTriggers() != null) {
             if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
                 Site.getLocal().allowThread();
                 Transaction transaction = Site.getLocal().startTransaction();
@@ -59,7 +59,7 @@ public class TriggerManager {
                 // ID is the sequential number of the trigger
                 obj.settriggerID("TID:" + String.valueOf(count));
                 obj.settrigger(new String(trigger));
-                triggers.add(obj);
+                getTriggers().add(obj);
                 transaction.commit();
                 success = true;
             }
@@ -68,4 +68,11 @@ public class TriggerManager {
         return success;
     }
 
+    public static TransactedList<TriggerInfoObject> getTriggers() {
+        return triggers;
+    }
+
+    public static void setTriggers(TransactedList<TriggerInfoObject> triggers) {
+        TriggerManager.triggers = triggers;
+    }
 }

@@ -1,4 +1,6 @@
-package org.epzilla.dispatcher;
+package org.epzilla.dispatcher.dataManager;
+
+import org.epzilla.dispatcher.DispatcherUI;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,7 +12,7 @@ package org.epzilla.dispatcher;
 public class NodeVariables {
     private static int port = 4444;
     private static String nodeIP = "localhost";
-    private static String currentServerIP = "localhost";
+    private static String currentServerIP = "192.168.1.3";
     private static DispatcherUI mainUI;
 
     public static String getNodeIP() {
