@@ -4,6 +4,7 @@ import jstm.misc.Console;
 import org.epzilla.dispatcher.sharedMemoryModule.DispatcherAsServer;
 import org.epzilla.dispatcher.sharedMemoryModule.DispatcherAsClient;
 
+
 import javax.swing.*;
 import java.net.UnknownHostException;
 import java.net.InetAddress;
@@ -41,9 +42,10 @@ public class MainDispatcherController {
         RandomStringGenerator.generate(1000);
         DispatcherAsServer.startServer();
         DispatcherAsServer.loadTriggers();
-        DispatcherAsServer.loadIPList();
+//        DispatcherAsServer.loadIPList();
+        DispatcherAsServer.loadClientList();
         TriggerManager.acceptTriggerStream();
-        ClusterLeaderIpListManager.loadSampleIPs();
+//        ClusterLeaderIpListManager.loadSampleIPs();
 
     }
 
