@@ -5,6 +5,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Vector;
 
+import javax.security.auth.callback.Callback;
+
 import org.epzilla.ui.ClientCallbackInterface;
 
 public class DispImpl extends UnicastRemoteObject implements DispInterface {
@@ -51,20 +53,20 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 		if (!(clientList.contains(callbackClientObject))) {
 	         clientList.addElement(callbackClientObject);
 	      System.out.println("Registered new client ");
-	    //  calllbacks();
+	      calllbacks();
 		}
 	}
 	@Override
 	public void unregisterCallback(ClientCallbackInterface callbackClientObject)throws RemoteException {
 		 if (clientList.removeElement(callbackClientObject)) {
 		      System.out.println("Unregistered client ");
+		      calllbacks();
 		    } else {
 		       System.out.println(
 		         "unregister: clientwasn't registered.");
 		    }
 	}
-	private synchronized void calllbacks( ) throws java.rmi.RemoteException{
-
+	public synchronized void calllbacks( ) throws RemoteException{
 		ClientCallbackInterface nextClient = (ClientCallbackInterface)clientList.elementAt(1);
         nextClient.notifyClient("Events hit="+  clientList.size());
 	  } 
