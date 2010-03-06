@@ -10,6 +10,8 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.Rectangle;
 import javax.swing.event.*;
+
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -67,7 +69,8 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
         int x = screen.width;
         int y = screen.height;
        	this.setSize(new Dimension(685, 697));
-       	this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logo.JPG")));
+       	Image img = Toolkit.getDefaultToolkit().getImage("images/logo.jpg");
+       	this.setIconImage(img);
        	this.setResizable(false);
        	this.setSize(x,y);
         this.setContentPane(getMyTabbedPane());
@@ -251,8 +254,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JButton getBtnBrowse() {
 		if (btnBrowse == null) {
 			btnBrowse = new JButton();
-			btnBrowse.setText("Browse");
-			btnBrowse.setLocation(new Point(15, 218));
+			btnBrowse.setText("Browse");			btnBrowse.setLocation(new Point(15, 218));
 			btnBrowse.setSize(new Dimension(85, 20));
 			btnBrowse.addActionListener(this);
 		}
@@ -261,8 +263,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JTextField getTxtFile() {
 		if (txtFile == null) {
 			txtFile = new JTextField();
-			txtFile.setPreferredSize(new Dimension(4, 20));
-			txtFile.setSize(new Dimension(325, 20));
+			txtFile.setPreferredSize(new Dimension(4, 20));			txtFile.setSize(new Dimension(325, 20));
 			txtFile.setEditable(false);
 			txtFile.setLocation(new Point(165, 219));
 		}
@@ -271,8 +272,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JButton getBtnSend() {
 		if (btnSend == null) {
 			btnSend = new JButton();
-			btnSend.setText("Send");
-			btnSend.setBounds(new Rectangle(218, 250, 85, 20));
+			btnSend.setText("Send");			btnSend.setBounds(new Rectangle(218, 250, 85, 20));
 			btnSend.addActionListener(this);
 			}
 		return btnSend;
@@ -280,8 +280,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JButton getBtnCancelSend() {
 		if (btnCancelSend == null) {
 			btnCancelSend = new JButton();
-			btnCancelSend.setText("Cancel");
-			btnCancelSend.setBounds(new Rectangle(331, 250, 85, 20));
+			btnCancelSend.setText("Cancel");			btnCancelSend.setBounds(new Rectangle(331, 250, 85, 20));
 			btnCancelSend.addActionListener(this);
 			}
 		return btnCancelSend;
@@ -525,8 +524,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	}
 	private void showAbout(){
 		About abut = new About();
-//		abut.show();
-        abut.setVisible(true);
+		abut.show();
 	}
 	public static boolean isValidIp(String ip)
     {
@@ -577,7 +575,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 //		});
 //
 //	}
-	
+	@Override
 	public void valueChanged(ListSelectionEvent event) {
 		Object source = event.getSource();
 		if(source==listLookup){
@@ -586,7 +584,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			setDispValues(s);
 		}
 	}	
-
+	@Override
 	public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
 		if(source==btnBrowse){
@@ -616,11 +614,11 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		}else if(source==about){
 			showAbout();
 		}
-	}
+	}@Override
 	public void windowActivated(WindowEvent e) {}
-
+	@Override
 	public void windowClosed(WindowEvent e) {}
-
+	@Override
 	public void windowClosing(WindowEvent e) { 
 		ActionListener task = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -629,12 +627,12 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
         }
         };
 }
-
+	@Override
 	public void windowDeactivated(WindowEvent e) {}
-
+	@Override
 	public void windowDeiconified(WindowEvent e) {}
-
+	@Override
 	public void windowIconified(WindowEvent e) {}
-
+	@Override
 	public void windowOpened(WindowEvent e) {}
 }
