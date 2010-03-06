@@ -10,5 +10,5 @@ import jstm.core.TransactedList;
  * To change this template use File | Settings | File Templates.
  */
 public class ClusterIPManager {
-    TransactedList<String> ipList = new 
+    TransactedList<String> ipList = new TransactedList<String>();
 }
