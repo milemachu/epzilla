@@ -8,35 +8,35 @@ package org.epzilla.dispatcher.dispatcherObjectModel;
 
 import jstm.core.*;
 
-public class TriggerInfoObject extends jstm.core.TransactedStructure {
+public class ClientInfoObject extends jstm.core.TransactedStructure {
 
-    public TriggerInfoObject() {
+    public ClientInfoObject() {
         super(FIELD_COUNT);
     }
 
-    public String gettriggerID() {
+    public String getclientID() {
         return (String) getField(0);
     }
 
-    public void settriggerID(String value) {
+    public void setclientID(String value) {
         setField(0, value);
     }
 
-    public String gettrigger() {
+    public String getclientIP() {
         return (String) getField(1);
     }
 
-    public void settrigger(String value) {
+    public void setclientIP(String value) {
         setField(1, value);
     }
 
-    public static final int TRIGGERID_INDEX = 0;
+    public static final int CLIENTID_INDEX = 0;
 
-    public static final String TRIGGERID_NAME = "triggerID";
+    public static final String CLIENTID_NAME = "clientID";
 
-    public static final int TRIGGER_INDEX = 1;
+    public static final int CLIENTIP_INDEX = 1;
 
-    public static final String TRIGGER_NAME = "trigger";
+    public static final String CLIENTIP_NAME = "clientIP";
 
     public static final int FIELD_COUNT = 2;
 
@@ -48,9 +48,9 @@ public class TriggerInfoObject extends jstm.core.TransactedStructure {
     public static String getFieldNameStatic(int index) {
         switch (index) {
             case 0:
-                return "triggerID";
+                return "clientID";
             case 1:
-                return "trigger";
+                return "clientIP";
             default:
                 throw new java.lang.IllegalArgumentException();
         }
@@ -60,7 +60,7 @@ public class TriggerInfoObject extends jstm.core.TransactedStructure {
 
     @Override
     protected int getClassId() {
-        return 0;
+        return 1;
     }
 
     @Override
