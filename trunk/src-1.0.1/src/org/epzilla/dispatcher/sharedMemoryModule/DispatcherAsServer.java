@@ -3,9 +3,14 @@ package org.epzilla.dispatcher.sharedMemoryModule;
 import java.io.IOException;
 
 import org.epzilla.dispatcher.*;
+import org.epzilla.dispatcher.dataManager.ClientManager;
+import org.epzilla.dispatcher.dataManager.ClusterLeaderIpListManager;
+import org.epzilla.dispatcher.dataManager.TriggerManager;
+import org.epzilla.dispatcher.dataManager.NodeVariables;
 import org.epzilla.dispatcher.dispatcherObjectModel.DispatcherObjectModel;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 import org.epzilla.dispatcher.dispatcherObjectModel.ClientInfoObject;
+import org.epzilla.dispatcher.dispatcherObjectModel.LeaderInfoObject;
 import jstm.core.*;
 import jstm.transports.clientserver.*;
 import jstm.transports.clientserver.socket.SocketServer;
@@ -48,36 +53,7 @@ public class DispatcherAsServer {
                 server.getServerAndClients().getOpenShares().add(share);
                 transaction.commit();
             }
-
             share = (Share) serverAndClientsSites.getOpenShares().toArray()[0];
-
-            share
-                    .addListener(new TransactedSet.Listener<TransactedObject>() {
-
-                        public void onAdded(Transaction transaction,
-                                            TransactedObject object) {
-//                            if (object instanceof ServerInfo)
-//                                addInfo((ServerInfo) object);
-//
-//                            if (object instanceof TransactedList<?>)
-//                                addList((TransactedList<triggerInfoObject>) object);
-
-                        }
-
-                        public void onRemoved(Transaction transaction,
-                                              TransactedObject object) {
-                        }
-                    });
-
-
-            for (TransactedObject o : share) {
-//                if (o instanceof ServerInfo)
-//                    addInfo((ServerInfo) o);
-//
-//                if (o instanceof TransactedList<?>)
-//                    addList((TransactedList<triggerInfoObject>) o);
-
-            }
             success = true;
 
         } catch (Transaction.AbortedException e2) {
@@ -87,20 +63,7 @@ public class DispatcherAsServer {
             // TODO Auto-generated catch block
             e3.printStackTrace();
         }
-
-
         return success;
-    }
-
-
-    private static void addList(final TransactedList<TriggerInfoObject> info) {
-
-        info.addListener(new FieldListener() {
-            public void onChange(Transaction transaction, int i) {
-
-            }
-        });
-
     }
 
 
@@ -112,13 +75,13 @@ public class DispatcherAsServer {
             TriggerInfoObject obj = new TriggerInfoObject();
             obj.settriggerID("OOOO");
             obj.settrigger("OOOO");
-            TriggerManager.triggers.add(obj);
-            share.add(TriggerManager.triggers);
+            TriggerManager.getTriggers().add(obj);
+            share.add(TriggerManager.getTriggers());
             transaction.commit();
         }
-        TriggerManager.triggers.addListener(new FieldListener() {
+        TriggerManager.getTriggers().addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-                DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.triggers.get(TriggerManager.triggers.size() - 1).gettrigger()));
+                DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
             }
         });
 
@@ -131,7 +94,7 @@ public class DispatcherAsServer {
             Transaction transaction = Site.getLocal().startTransaction();
             ClientInfoObject obj = new ClientInfoObject();
             obj.setclientID("CCCC");
-            ClientManager.getClientList().add(obj);            
+            ClientManager.getClientList().add(obj);
             share.add(ClientManager.getClientList());
             transaction.commit();
         }
@@ -149,12 +112,15 @@ public class DispatcherAsServer {
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
             Site.getLocal().allowThread();
             Transaction transaction = Site.getLocal().startTransaction();
-            share.add(ClusterLeaderIpListManager.ipList);
+            LeaderInfoObject obj = new LeaderInfoObject();
+            obj.setleaderIP("IP");
+            ClusterLeaderIpListManager.getIpList().add(obj);
+            share.add(ClusterLeaderIpListManager.getIpList());
             transaction.commit();
         }
-        ClusterLeaderIpListManager.ipList.addListener(new FieldListener() {
+        ClusterLeaderIpListManager.getIpList().addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-                DispatcherUIController.appendIP("IP added to List: " + ClusterLeaderIpListManager.ipList.get(i));
+                DispatcherUIController.appendIP("IP added to List: " + ClusterLeaderIpListManager.getIpList().get(i));
             }
         });
     }

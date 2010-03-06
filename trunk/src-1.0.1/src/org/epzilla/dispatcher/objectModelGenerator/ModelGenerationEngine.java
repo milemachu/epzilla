@@ -9,7 +9,7 @@ public class ModelGenerationEngine {
 
     private static ObjectModelDefinition create() {
         ObjectModelDefinition model = new ObjectModelDefinition("DispatcherObjectModel");
-        Package pack = new Package("dispatcherObjectModel");
+        Package pack = new Package("org.epzilla.dispatcher.dispatcherObjectModel");
         model.RootPackage = pack;
 
         Structure simple = new Structure("TriggerInfoObject");
@@ -20,8 +20,13 @@ public class ModelGenerationEngine {
         client.Fields.add(new Field(String.class, "clientID"));
         client.Fields.add(new Field(String.class, "clientIP"));
 
+        Structure leaderIP = new Structure("LeaderInfoObject");
+        leaderIP.Fields.add(new Field(String.class, "clusterID"));
+        leaderIP.Fields.add(new Field(String.class, "leaderIP"));
+
         pack.Structures.add(simple);
         pack.Structures.add(client);
+        pack.Structures.add(leaderIP);
         return model;
     }
 

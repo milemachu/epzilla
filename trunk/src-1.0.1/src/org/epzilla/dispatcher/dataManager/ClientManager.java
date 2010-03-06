@@ -1,4 +1,4 @@
-package org.epzilla.dispatcher;
+package org.epzilla.dispatcher.dataManager;
 
 import jstm.core.TransactedList;
 import org.epzilla.dispatcher.dispatcherObjectModel.ClientInfoObject;
@@ -11,7 +11,7 @@ import org.epzilla.dispatcher.dispatcherObjectModel.ClientInfoObject;
  * To change this template use File | Settings | File Templates.
  */
 public class ClientManager {
-         private static TransactedList<ClientInfoObject> clientList = new TransactedList<ClientInfoObject>();
+    private static TransactedList<ClientInfoObject> clientList = new TransactedList<ClientInfoObject>();
 
     public static TransactedList<ClientInfoObject> getClientList() {
         return clientList;

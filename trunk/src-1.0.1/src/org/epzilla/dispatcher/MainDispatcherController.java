@@ -1,11 +1,12 @@
 package org.epzilla.dispatcher;
 
-import jstm.misc.Console;
 import org.epzilla.dispatcher.sharedMemoryModule.DispatcherAsServer;
 import org.epzilla.dispatcher.sharedMemoryModule.DispatcherAsClient;
+import org.epzilla.dispatcher.dataManager.ClusterLeaderIpListManager;
+import org.epzilla.dispatcher.dataManager.TriggerManager;
+import org.epzilla.dispatcher.dataManager.NodeVariables;
 
 
-import javax.swing.*;
 import java.net.UnknownHostException;
 import java.net.InetAddress;
 
@@ -38,7 +39,7 @@ public class MainDispatcherController {
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        runAsServer();
+        runAsClient();
 
     }
 
@@ -46,16 +47,15 @@ public class MainDispatcherController {
         RandomStringGenerator.generate(1000);
         DispatcherAsServer.startServer();
         DispatcherAsServer.loadTriggers();
-//        DispatcherAsServer.loadIPList();
+        DispatcherAsServer.loadIPList();
         DispatcherAsServer.loadClientList();
-        TriggerManager.acceptTriggerStream();
-//        ClusterLeaderIpListManager.loadSampleIPs();
+        TriggerManager.initTestTriggerStream();
+        ClusterLeaderIpListManager.loadSampleIPs();
 
     }
 
     private static void runAsClient() {
         DispatcherAsClient.startClient();
-
     }
 
 

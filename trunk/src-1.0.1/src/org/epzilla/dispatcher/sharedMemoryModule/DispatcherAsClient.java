@@ -7,13 +7,15 @@ import jstm.transports.clientserver.ConnectionInfo;
 import java.util.Set;
 
 
-import org.epzilla.dispatcher.NodeVariables;
-import org.epzilla.dispatcher.TriggerManager;
-import org.epzilla.dispatcher.ClusterLeaderIpListManager;
+import org.epzilla.dispatcher.dataManager.ClientManager;
+import org.epzilla.dispatcher.dataManager.ClusterLeaderIpListManager;
+import org.epzilla.dispatcher.dataManager.NodeVariables;
+import org.epzilla.dispatcher.dataManager.TriggerManager;
 import org.epzilla.dispatcher.DispatcherUIController;
 import org.epzilla.dispatcher.dispatcherObjectModel.DispatcherObjectModel;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 import org.epzilla.dispatcher.dispatcherObjectModel.ClientInfoObject;
+import org.epzilla.dispatcher.dispatcherObjectModel.LeaderInfoObject;
 
 
 /**
@@ -61,10 +63,6 @@ public class DispatcherAsClient {
                             if (object instanceof TransactedList<?>)
                                 addList((TransactedList<TriggerInfoObject>) object);
 
-                            if (object instanceof TransactedArray<?>)
-                                addIpList((TransactedArray<String>) object);
-
-
                         }
 
                         public void onRemoved(Transaction transaction,
@@ -77,9 +75,6 @@ public class DispatcherAsClient {
             // The share might already contain Lists add them to local memory
 
             for (TransactedObject o : share) {
-
-                if (o instanceof TransactedArray<?>)
-                    addIpList((TransactedArray<String>) o);
 
                 if (o instanceof TransactedList<?>) {
                     addList((TransactedList<?>) o);
@@ -99,33 +94,44 @@ public class DispatcherAsClient {
     private static void addList(final TransactedList<?> info) {
 
 
-        if (info.get(0) instanceof TriggerInfoObject)
-        {
+        if (info.get(0) instanceof TriggerInfoObject) {
+            addTriggerList((TransactedList<TriggerInfoObject>) info);
+        }
+        if (info.get(0) instanceof ClientInfoObject) {
 
         }
-        if (info.get(0) instanceof ClientInfoObject)
-        {
+        if (info.get(0) instanceof LeaderInfoObject) {
 
         }
-
-
-        DispatcherUIController.appendTextToStatus("TriggerList added.");
-//        TriggerManager.triggers = info;
-        info.addListener(new FieldListener() {
-            public void onChange(Transaction transaction, int i) {
-                DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.triggers.get(TriggerManager.triggers.size() - 1).gettrigger()));
-            }
-        });
-
     }
 
-    private static void addIpList(final TransactedArray<String> info) {
-
-        DispatcherUIController.appendTextToStatus("IPList added.");
-        ClusterLeaderIpListManager.ipList = info;
+    private static void addTriggerList(final TransactedList<TriggerInfoObject> info) {
+        DispatcherUIController.appendTextToStatus("TriggerList added.");
+        TriggerManager.setTriggers(info);
         info.addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-                DispatcherUIController.appendIP("IP added to List: " + ClusterLeaderIpListManager.ipList.get(i));
+                DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
+            }
+        });
+    }
+
+    private static void addClientList(final TransactedList<ClientInfoObject> info) {
+        DispatcherUIController.appendTextToStatus("TriggerList added.");
+        ClientManager.setClientList(info);
+        info.addListener(new FieldListener() {
+            public void onChange(Transaction transaction, int i) {
+//                DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.triggers.get(TriggerManager.triggers.size() - 1).gettrigger()));
+            }
+        });
+    }
+
+    private static void addIpList(final TransactedList<LeaderInfoObject> info) {
+
+        DispatcherUIController.appendTextToStatus("IPList added.");
+        ClusterLeaderIpListManager.setIpList(info);
+        info.addListener(new FieldListener() {
+            public void onChange(Transaction transaction, int i) {
+                DispatcherUIController.appendIP("IP added to List: " + ClusterLeaderIpListManager.getIpList().get(i));
             }
         });
 
