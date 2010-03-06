@@ -13,6 +13,7 @@ import org.epzilla.dispatcher.ClusterLeaderIpListManager;
 import org.epzilla.dispatcher.DispatcherUIController;
 import org.epzilla.dispatcher.dispatcherObjectModel.DispatcherObjectModel;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
+import org.epzilla.dispatcher.dispatcherObjectModel.ClientInfoObject;
 
 
 /**
@@ -81,7 +82,7 @@ public class DispatcherAsClient {
                     addIpList((TransactedArray<String>) o);
 
                 if (o instanceof TransactedList<?>) {
-                    addList((TransactedList<TriggerInfoObject>) o);
+                    addList((TransactedList<?>) o);
                 }
 
             }
@@ -95,10 +96,21 @@ public class DispatcherAsClient {
         return success;
     }
 
-    private static void addList(final TransactedList<TriggerInfoObject> info) {
+    private static void addList(final TransactedList<?> info) {
+
+
+        if (info.get(0) instanceof TriggerInfoObject)
+        {
+
+        }
+        if (info.get(0) instanceof ClientInfoObject)
+        {
+
+        }
+
 
         DispatcherUIController.appendTextToStatus("TriggerList added.");
-        TriggerManager.triggers = info;
+//        TriggerManager.triggers = info;
         info.addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
                 DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.triggers.get(TriggerManager.triggers.size() - 1).gettrigger()));
