@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
@@ -35,7 +36,7 @@ public class About extends JFrame implements ActionListener{
 		if (topPanel == null) {
 			lblLogo = new JLabel();
 			lblLogo.setSize(new Dimension(170, 84));
-			lblLogo.setIcon(new ImageIcon("images/mulu.JPG"));
+			lblLogo.setIcon(new ImageIcon("images//logo.JPG"));
 			lblLogo.setLocation(new Point(1, -1));
 			topPanel = new JPanel();
 			topPanel.setLayout(null);
@@ -86,7 +87,8 @@ public class About extends JFrame implements ActionListener{
 	    int y = (screen.height-height)/2;
 	    setBounds(x,y,width,height);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logo.JPG")));
+		Image img = Toolkit.getDefaultToolkit().getImage("images/logo.jpg");
+       	this.setIconImage(img);
 		this.setSize(new Dimension(475, 258));
 		this.setResizable(false);
 		this.setContentPane(getJContentPane());
@@ -101,12 +103,11 @@ public class About extends JFrame implements ActionListener{
 		}
 		return jContentPane;
 	}
-
+	@Override
 	public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
 		if(source==btnOK){
-//			this.hide();
-            this.setVisible(false);
+			this.hide();
 		}
 		
 	}
