@@ -30,4 +30,7 @@ public class DispatcherUIController {
         instance.getTxtIPSet().append(text + "\n");
     }
 
+       public static void clearIPList() {
+        instance.getTxtIPSet().setText("");
+    }
 }
