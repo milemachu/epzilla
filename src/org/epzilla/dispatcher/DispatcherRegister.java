@@ -13,14 +13,15 @@ public class DispatcherRegister{
 	public DispatcherRegister(){
 	}
 	
-	public void register(String ip,String serviceName,String dispatcherName) throws MalformedURLException, RemoteException, NotBoundException, UnknownHostException{
+	public void register(String ip,String serviceName,String port,String dispatcherName) throws MalformedURLException, RemoteException, NotBoundException, UnknownHostException{
     		String url = "rmi://"+ip+"/"+serviceName;
 			NameService service = (NameService)Naming.lookup(url);
         	InetAddress inetAddress = InetAddress.getLocalHost();
         	String ipAddress = inetAddress.getHostAddress();
+        	int num = Integer.parseInt(port);
         	String id = dispIdGen(ipAddress);
         	String name = dispatcherName+id;
-        	int i = service.insertNode(name, ipAddress, 5005);
+        	int i = service.insertNode(name, ipAddress, num);
         	       	if(i==0)
         	       		System.out.println("Insertion failure");
         	       	else if(i==1)
@@ -45,7 +46,7 @@ public class DispatcherRegister{
     public static void main(String args[]) {
     	DispatcherRegister reg =new DispatcherRegister();
     	try {
-			reg.register("127.0.0.1","NameServer","Dispatcher");
+			reg.register("127.0.0.1","NameServer","5000","Dispatcher");
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
