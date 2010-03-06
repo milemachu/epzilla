@@ -4,7 +4,7 @@
 //                                                                              
 //==============================================================================
 
-package clusterInfoObjectModel;
+package org.epzilla.clusterNode.clusterInfoObjectModel;
 
 import jstm.core.*;
 
@@ -36,7 +36,7 @@ public final class ClusterObjectModel extends jstm.core.ObjectModel {
     public TransactedObject createInstance(int classId, Connection route) {
         switch (classId) {
             case 0:
-                return new clusterInfoObjectModel.TriggerObject();
+                return new TriggerObject();
         }
 
         throw new IllegalArgumentException("Unknown class id: " + classId);
