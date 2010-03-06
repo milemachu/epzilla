@@ -4,7 +4,7 @@
 //                                                                              
 //==============================================================================
 
-package clusterInfoObjectModel;
+package org.epzilla.clusterNode.clusterInfoObjectModel;
 
 import jstm.core.*;
 
