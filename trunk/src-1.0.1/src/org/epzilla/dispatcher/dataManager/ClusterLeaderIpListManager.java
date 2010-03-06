@@ -7,6 +7,7 @@ import jstm.core.Transaction;
 import java.util.TimerTask;
 
 import org.epzilla.dispatcher.dispatcherObjectModel.LeaderInfoObject;
+import org.epzilla.dispatcher.DispatcherUIController;
 
 
 /**
@@ -44,6 +45,9 @@ public class ClusterLeaderIpListManager {
                 }
             }
         }, 10, 500);
+        removeIP("192.168.1.1");
+        removeIP("192.168.1.2");
+
     }
 
     public static void addIP(String clusterID, String ip) {
@@ -63,25 +67,29 @@ public class ClusterLeaderIpListManager {
 
     public static void removeIP(String ip) {
         if (getIpList() != null) {
-            int size = getIpList().size();
-            int indexToRemove = -1;
-            LeaderInfoObject[] arr = new LeaderInfoObject[size + 2];
-            arr = getIpList().toArray(arr);
-            for (int i = 0; i < size; i++) {
-                if (arr[i].getleaderIP().equals(ip)) {
-                    indexToRemove = i;
-                    break;
+            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                Site.getLocal().allowThread();
+                Transaction transaction = Site.getLocal().startTransaction();
+                for (int i = 0; i < ipList.size(); i++) {
+                    if (ipList.get(i).getleaderIP().equals(ip)) {
+                        ipList.remove(i);
+                        break;
+                    }
                 }
+                transaction.commit();
+                count++;
             }
-            if (indexToRemove != -1) {
-                if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
-                    Site.getLocal().allowThread();
-                    Transaction transaction = Site.getLocal().startTransaction();
-                    getIpList().remove(indexToRemove);
-                    transaction.commit();
-                    count++;
-                }
-            }
+        }
+        printIPList();
+    }
+
+    public static void printIPList() {
+        DispatcherUIController.clearIPList();
+        int size = getIpList().size();
+        LeaderInfoObject[] arr = new LeaderInfoObject[size + 2];
+        arr = getIpList().toArray(arr);
+        for (int i = 1; i < size; i++) {
+            DispatcherUIController.appendIP(arr[i].getleaderIP());
         }
     }
 

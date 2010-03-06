@@ -120,7 +120,8 @@ public class DispatcherAsServer {
         }
         ClusterLeaderIpListManager.getIpList().addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-                DispatcherUIController.appendIP("IP added to List: " + ClusterLeaderIpListManager.getIpList().get(i));
+//              DispatcherUIController.appendIP("IP added to List: " + ClusterLeaderIpListManager.getIpList().get(i));
+                ClusterLeaderIpListManager.printIPList();
             }
         });
     }
