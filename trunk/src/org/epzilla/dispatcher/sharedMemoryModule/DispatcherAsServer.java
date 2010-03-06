@@ -1,17 +1,12 @@
 package org.epzilla.dispatcher.sharedMemoryModule;
 
-import jstm.transports.clientserver.Server;
-import jstm.transports.clientserver.socket.SocketServer;
-import jstm.core.*;
-
 import java.io.IOException;
-
-import org.epzilla.dispatcher.NodeVariables;
-import org.epzilla.dispatcher.TriggerManager;
-import org.epzilla.dispatcher.ClusterLeaderIpListManager;
-import org.epzilla.dispatcher.DispatcherUIController;
+import org.epzilla.dispatcher.*;
 import org.epzilla.dispatcher.dispatcherObjectModel.DispatcherObjectModel;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
+import jstm.core.*;
+import jstm.transports.clientserver.*;
+import jstm.transports.clientserver.socket.SocketServer;
 
 
 /**
@@ -122,6 +117,23 @@ public class DispatcherAsServer {
         });
 
     }
+
+        public static void loadClientList() {
+        DispatcherUIController.appendTextToStatus("Shared Transacted list Added for Clients..");
+        if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+            Site.getLocal().allowThread();
+            Transaction transaction = Site.getLocal().startTransaction();
+            share.add(ClientManager.getClientList());
+            transaction.commit();
+        }
+        ClientManager.getClientList().addListener(new FieldListener() {
+            public void onChange(Transaction transaction, int i) {
+//                DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.triggers.get(TriggerManager.triggers.size() - 1).gettrigger()));
+            }
+        });
+
+    }
+
 
     public static void loadIPList() {
         DispatcherUIController.appendTextToStatus("Shared Transacted list Added for IPs..");
