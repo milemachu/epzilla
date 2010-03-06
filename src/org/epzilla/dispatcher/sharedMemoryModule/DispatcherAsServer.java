@@ -1,9 +1,11 @@
 package org.epzilla.dispatcher.sharedMemoryModule;
 
 import java.io.IOException;
+
 import org.epzilla.dispatcher.*;
 import org.epzilla.dispatcher.dispatcherObjectModel.DispatcherObjectModel;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
+import org.epzilla.dispatcher.dispatcherObjectModel.ClientInfoObject;
 import jstm.core.*;
 import jstm.transports.clientserver.*;
 import jstm.transports.clientserver.socket.SocketServer;
@@ -107,6 +109,10 @@ public class DispatcherAsServer {
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
             Site.getLocal().allowThread();
             Transaction transaction = Site.getLocal().startTransaction();
+            TriggerInfoObject obj = new TriggerInfoObject();
+            obj.settriggerID("OOOO");
+            obj.settrigger("OOOO");
+            TriggerManager.triggers.add(obj);
             share.add(TriggerManager.triggers);
             transaction.commit();
         }
@@ -118,11 +124,14 @@ public class DispatcherAsServer {
 
     }
 
-        public static void loadClientList() {
+    public static void loadClientList() {
         DispatcherUIController.appendTextToStatus("Shared Transacted list Added for Clients..");
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
             Site.getLocal().allowThread();
             Transaction transaction = Site.getLocal().startTransaction();
+            ClientInfoObject obj = new ClientInfoObject();
+            obj.setclientID("CCCC");
+            ClientManager.getClientList().add(obj);            
             share.add(ClientManager.getClientList());
             transaction.commit();
         }
