@@ -3,6 +3,7 @@ package org.epzilla.ui;
 import java.awt.*;
 
 import javax.swing.*;
+
 import java.awt.Rectangle;
 import java.awt.Dimension;
 import javax.swing.JProgressBar;
@@ -20,8 +21,7 @@ public class SplashScreen extends JWindow {
         duration = d;
     }
     public void showSplash() {
-        
-        JPanel panel = new JPanel();
+    	JPanel panel = new JPanel();
         int width = 425;
         int height =240;
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -40,6 +40,7 @@ public class SplashScreen extends JWindow {
         copyrt.setBounds(new Rectangle(16, 207, 398, 19));
         panel.setLayout(null);
         panel.setBackground(Color.gray);
+        panel.setSize(new Dimension(419, 250));
         panel.add(label, null);
         panel.add(copyrt, null);
         panel.add(getProgressBar(), null);
@@ -75,6 +76,11 @@ public class SplashScreen extends JWindow {
 	}
 	public static void main(String[] args) {
         SplashScreen splash = new SplashScreen(3000);
+//        try {
+//			UIManager.setLookAndFeel("com.pagosoft.plaf.PgsLookAndFeel");
+//			SwingUtilities.updateComponentTreeUI(splash);
+//		} catch(Exception e) {}
+
         splash.showSplashAndExit();        
     }
 }
