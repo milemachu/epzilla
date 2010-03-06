@@ -379,8 +379,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	    }	
 	 public void showAbout(){
 		 About abut = new About();
-//			abut.show();
-         abut.setVisible(true);
+			abut.show();
 	 }
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -405,7 +404,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
         int x = screen.width;
         int y = screen.height;
        	this.setTitle("Dispatcher");
-        Image img = Toolkit.getDefaultToolkit().getImage("images/mulu.jpg");
+       	Image img = Toolkit.getDefaultToolkit().getImage("images/logo.jpg");
        	this.setIconImage(img);
        	this.setResizable(false);
        	this.setSize(new Dimension(899, 632));
@@ -415,7 +414,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
         this.setContentPane(getMyTabbedPane());
         this.setJMenuBar(getmyMenuBar());
         	}
-
+	@Override
 	public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
 		if(source==adminSettings){
