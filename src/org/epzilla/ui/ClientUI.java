@@ -10,6 +10,9 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.Rectangle;
 import javax.swing.event.*;
+import java.awt.Toolkit;
+import java.awt.Dimension;
+import java.awt.Point;
 
 public class ClientUI extends JFrame implements ActionListener,ListSelectionListener,WindowListener{
 
@@ -64,6 +67,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
         int x = screen.width;
         int y = screen.height;
        	this.setSize(new Dimension(685, 697));
+       	this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logo.JPG")));
        	this.setResizable(false);
        	this.setSize(x,y);
         this.setContentPane(getMyTabbedPane());
@@ -78,8 +82,9 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			lblDispatcherServiceName.setLocation(new Point(15, 178));
 			lblDispatcherServiceName.setSize(new Dimension(123, 16));
 			lblSettings = new JLabel();
-			lblSettings.setBounds(new Rectangle(17, 15, 196, 16));
 			lblSettings.setText("Server Settings");
+			lblSettings.setLocation(new Point(15, 15));
+			lblSettings.setSize(new Dimension(196, 25));
 			lblDispIP1 = new JLabel();
 			lblDispIP1.setBounds(new Rectangle(15, 148, 141, 16));
 			lblDispIP1.setText("Dispatcher IP Selected :");
@@ -88,16 +93,15 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			lblDetails.setText("Lookup available services in the System");
 			labelName = new JLabel();
 			labelName.setText("Name :");
-			labelName.setSize(new Dimension(80, 25));
-			labelName.setLocation(new Point(14, 91));
+			labelName.setSize(new Dimension(47, 25));
+			labelName.setLocation(new Point(55, 92));
 			labelPort = new JLabel();
 			labelPort.setText("Port :");
-			labelPort.setSize(new Dimension(80, 25));
-			labelPort.setLocation(new Point(15, 136));
+			labelPort.setBounds(new Rectangle(64, 135, 41, 25));
 			labelIP = new JLabel();
 			labelIP.setText("IP Address :");
-			labelIP.setSize(new Dimension(80, 25));
-			labelIP.setLocation(new Point(15, 49));
+			labelIP.setSize(new Dimension(72, 25));
+			labelIP.setLocation(new Point(25, 49));
 			tabbedPane = new JTabbedPane();
 		JPanel mainSettings = new JPanel();
 		mainSettings.setLayout(null);
@@ -378,8 +382,8 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private void getDispatchers(){
 		String ip = txtIP.getText().toString();
 		String serverName = txtName.getText().toString();
-		isRegister = false;
-		if((isValidIp(ip)==true) && (serverName.length()!=0)){
+		String port = txtPort.getText().toString();
+		if((isValidIp(ip)==true)&& (serverName.length()!=0)){
 		try {
 			ips=client.getServiceIp(ip,serverName);
 		} catch (MalformedURLException e) {
@@ -452,7 +456,8 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private void saveSettings(){
 		String ip = txtIP.getText().toString();
 		String serverName = txtName.getText().toString();
-		if((isValidIp(ip)==true)&& serverName.length()!=0){
+		String port = txtPort.getText().toString();
+		if((isValidIp(ip)==true)&& (serverName.length()!=0) && (isValidPort(port)==true)){
 		txtIP.setEditable(false);
 		txtName.setEditable(false);
 		txtPort.setEditable(false);
@@ -538,7 +543,25 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
         }
         return false;
     }
-	
+	private boolean isValidPort(String port){
+		 boolean returnValue = true;
+	      if (port.length() != 0) {
+	        try {
+	          int num = Integer.parseInt(port);
+	          if(num<1){
+	        	  returnValue = false;  
+	          }else if(num>65000){
+	        	  returnValue = false;
+	          }
+	        } catch (NumberFormatException e) {
+	          returnValue = false;
+	        }
+	      }else
+	    	  returnValue = false;
+	      
+	      return returnValue;
+
+	} 
 //	public static void main(String[] args) {
 //		SwingUtilities.invokeLater(new Runnable() {
 //			public void run() {

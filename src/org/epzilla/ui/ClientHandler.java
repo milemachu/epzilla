@@ -103,8 +103,7 @@ public class ClientHandler {
 		String url = "rmi://"+ip+"/"+serviceName;
 		DispInterface di = (DispInterface) Naming.lookup(url);
 		ClientCallbackInterface obj = new ClientCallbackImpl();
-		ClientCallbackInterface obj2 = obj;
-		di.unregisterCallback(obj2);
+		di.unregisterCallback(obj);
 	}
 	public static String clientIdGen(String addr) {
         String[] addrArray = addr.split("\\.");

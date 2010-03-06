@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+
 import java.awt.Rectangle;
 import java.awt.Point;
 import java.awt.Dimension;
@@ -20,7 +21,6 @@ public class Login extends JFrame implements ActionListener{
 	private JLabel lblDetails = null;
 	private JButton btnOK = null;
 	private JButton btnCancel = null;
-	private JButton btnHelp = null;
 	private JButton btnClose = null;
 
 	public Login() {
@@ -31,7 +31,7 @@ public class Login extends JFrame implements ActionListener{
 		if (tbUName == null) {
 			tbUName = new JTextField(25);
 			tbUName.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-			tbUName.setSize(new Dimension(175, 20));
+			tbUName.setSize(new Dimension(220, 20));
 			tbUName.setLocation(new Point(120, 55));
 		}
 		return tbUName;
@@ -40,7 +40,7 @@ public class Login extends JFrame implements ActionListener{
 		if (tbPassword == null) {
 			tbPassword = new JPasswordField(25);
 			tbPassword.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-			tbPassword.setSize(new Dimension(175, 20));
+			tbPassword.setSize(new Dimension(220, 20));
 			tbPassword.setLocation(new Point(122, 98));
 		}
 		return tbPassword;
@@ -48,7 +48,7 @@ public class Login extends JFrame implements ActionListener{
 	private JButton getBtnOK() {
 		if (btnOK == null) {
 			btnOK = new JButton();
-			btnOK.setLocation(new Point(129, 131));
+			btnOK.setLocation(new Point(179, 133));
 			btnOK.setText("Ok");
 			btnOK.setSize(new Dimension(75, 20));
 			btnOK.addActionListener(this);
@@ -62,24 +62,13 @@ public class Login extends JFrame implements ActionListener{
 	private JButton getBtnCancel() {
 		if (btnCancel == null) {
 			btnCancel = new JButton();
-			btnCancel.setLocation(new Point(216, 132));
+			btnCancel.setLocation(new Point(264, 133));
 			btnCancel.setText("Cancel");
 			btnCancel.setPreferredSize(new Dimension(75, 26));
 			btnCancel.setSize(new Dimension(75, 20));
 			btnCancel.addActionListener(this);
 			}
 		return btnCancel;
-	}
-	private JButton getBtnHelp() {
-		if (btnHelp == null) {
-			btnHelp = new JButton();
-			btnHelp.setBounds(new Rectangle(3, 145, 31, 31));
-			btnHelp.setBackground(new Color(238, 238, 238));
-			btnHelp.setIcon(new ImageIcon("images//iconHelp.JPG"));
-			btnHelp.setBorderPainted(false);
-			btnHelp.addActionListener(this);
-			}
-		return btnHelp;
 	}
 	private JButton getBtnClose() {
 		if (btnClose == null) {
@@ -116,7 +105,6 @@ public class Login extends JFrame implements ActionListener{
 		panel.add(lblDetails, null);
 		panel.add(getBtnOK(), null);
 		panel.add(getBtnCancel(), null);
-		panel.add(getBtnHelp(), null);
 		panel.add(getBtnClose(), null);
         int width = 350;
         int height =175;
@@ -132,9 +120,7 @@ public class Login extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
-		if(source==btnHelp){
-			
-		}else if(source==btnCancel){
+		 if(source==btnCancel){
 			tbUName.setText("");
 			tbPassword.setText("");
 		}else if(source == btnClose){
