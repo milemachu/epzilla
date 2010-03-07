@@ -13,8 +13,8 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 	private Vector<ClientCallbackInterface> clientList = new Vector<ClientCallbackInterface>();
 
     protected DispImpl() throws RemoteException {
-        super();
-        clientList = new Vector();
+        //super();
+   
 
     }
     public String uploadEventsToDispatcher(byte[] stream,String clientID,int eventSeqID) throws RemoteException {
@@ -45,30 +45,32 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     }
 	@Override
 	public String acceptNotifications() throws RemoteException {
-		return "hello";
+		return null;		
 	}
 	@Override
-	public void registerCallback(ClientCallbackInterface callbackClientObject)throws RemoteException {
-		if (!(clientList.contains(callbackClientObject))) {
-	         clientList.addElement(callbackClientObject);
-	      System.out.println("Registered new client ");
+	public void registerCallback(ClientCallbackInterface clientObject)throws RemoteException {
+		if (!(clientList.contains(clientObject))) {
+	         clientList.addElement(clientObject);
+	      System.out.println("Registered new client "+clientObject);
 	      calllbacks();
 		}
 	}
 	@Override
-	public void unregisterCallback(ClientCallbackInterface callbackClientObject)throws RemoteException {
-		 if (clientList.removeElement(callbackClientObject)) {
+	public void unregisterCallback(ClientCallbackInterface clientObject)throws RemoteException {
+		 if (clientList.removeElement(clientObject)) {
 		      System.out.println("Unregistered client ");
-		      calllbacks();
+		     // calllbacks();
 		    } else {
 		       System.out.println(
 		         "unregister: clientwasn't registered.");
 		    }
 	}
 	public synchronized void calllbacks( ) throws RemoteException{
-		ClientCallbackInterface nextClient = (ClientCallbackInterface)clientList.elementAt(1);
+		for (int i = 0; i < clientList.size(); i++){
+		ClientCallbackInterface nextClient = clientList.elementAt(i);
         nextClient.notifyClient("Events hit="+  clientList.size());
 	  } 
+	}
 
 
 }
