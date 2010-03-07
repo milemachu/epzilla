@@ -23,6 +23,7 @@ public class ClientHandler {
 	String ip ="";
 	String dispServiceName="";
 	String dispDetails = "";
+	ClientCallbackInterface obj;
 	
 	public Vector<String> getServiceIp(String serverIp,String serviceName) throws MalformedURLException, RemoteException, NotBoundException{
 	       		String url = "rmi://"+serverIp+"/"+serviceName;
@@ -97,13 +98,12 @@ public class ClientHandler {
 		DispInterface di = (DispInterface) Naming.lookup(url);
 		ClientCallbackInterface obj = new ClientCallbackImpl();
 		di.registerCallback(obj);
-	
+		setClientObject(obj);
 	}
 	public void unregisterCallback(String ip,String serviceName) throws MalformedURLException, RemoteException, NotBoundException{
 		String url = "rmi://"+ip+"/"+serviceName;
 		DispInterface di = (DispInterface) Naming.lookup(url);
-		ClientCallbackInterface obj = new ClientCallbackImpl();
-		di.unregisterCallback(obj);
+		di.unregisterCallback((ClientCallbackInterface) getclientObject());
 	}
 	public static String clientIdGen(String addr) {
         String[] addrArray = addr.split("\\.");
@@ -118,6 +118,12 @@ public class ClientHandler {
         }
         return value;
     }
+	public void setClientObject(Object objClient){
+		obj = (ClientCallbackInterface) objClient;
+	}
+	public Object getclientObject(){
+		return obj;
+	}
 	public static void main(String[] args) throws NotBoundException, IOException {
 	ClientHandler myClient = new ClientHandler();
 //	String l=myClient.clientIdGen("10.8.108.54");
