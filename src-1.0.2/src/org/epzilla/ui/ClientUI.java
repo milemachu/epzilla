@@ -218,6 +218,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			txtName = new JTextField();
 			txtName.setLocation(new Point(110, 96));
 			txtName.setSize(new Dimension(200, 20));
+			txtName.setText("NameServer");
 		}
 		return txtName;
 	}
@@ -385,19 +386,19 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		String serverName = txtName.getText().toString();
 		String port = txtPort.getText().toString();
 		if((isValidIp(ip)==true)&& (serverName.length()!=0)){
-		try {
-			ips=client.getServiceIp(ip,serverName);
-		} catch (MalformedURLException e) {
-			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
-		} catch (RemoteException e) {
-			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
-		} catch (NotBoundException e) {
-			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+			try {
+				ips=client.getServiceIp(ip,serverName);
+			} catch (MalformedURLException e) {
+				JOptionPane.showMessageDialog(null,"NameService IP Address incorrect","epZilla",JOptionPane.ERROR_MESSAGE);
+			} catch (RemoteException e) {
+				JOptionPane.showMessageDialog(null,"Remote Server not working","epZilla",JOptionPane.ERROR_MESSAGE);
+			} catch (NotBoundException e) {
+				JOptionPane.showMessageDialog(null,"Invalid NameService name","epZilla",JOptionPane.ERROR_MESSAGE);
+			}
+			listLookup.setListData(ips);
+			}else
+				JOptionPane.showMessageDialog(null,"Make sure setting details correct.","epZilla",JOptionPane.ERROR_MESSAGE);
 		}
-		listLookup.setListData(ips);
-		}else
-			JOptionPane.showMessageDialog(null,"Make sure setting details correct.","epZilla",JOptionPane.ERROR_MESSAGE);
-	}
 	private void sendFiles(){
 		String dispIP = txtDispIP.getText().toString();
 		String dispName = txtDispName.getText().toString();
@@ -521,9 +522,21 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 //		listLookup.setListData(ips);
 	}
 	private void clearDetails(){
+		try {
+			client.unregisterCallback(txtDispIP.getText().toString(),txtDispName.getText().toString());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		txtDispIP.setText("");
 		txtDispName.setText("");
-
+		isRegister=false;
 	}
 	private void showAbout(){
 		About abut = new About();
@@ -599,7 +612,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		}else if(source==btnCancelSend){
 			cancelSend();
 		}else if(source==btnClear){
-//			clearDetails();
+			clearDetails();
 		}else if(source==btnSave){
 			saveSettings();
 		}else if(source==btnLookup){

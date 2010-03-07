@@ -10,6 +10,9 @@ import java.awt.Rectangle;
 import java.awt.Point;
 import java.awt.Dimension;
 import java.awt.Font;
+import javax.swing.BorderFactory;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.BevelBorder;
 
 public class Login extends JFrame implements ActionListener{
 
@@ -98,6 +101,7 @@ public class Login extends JFrame implements ActionListener{
 		panel.setSize(new Dimension(350, 175));
 		panel.setEnabled(true);
 		panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 		panel.add(lblUName, null);
 		panel.add(lblPassword, null);
 		panel.add(getTbUName(), null);
