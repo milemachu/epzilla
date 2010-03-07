@@ -1,8 +1,5 @@
 package org.epzilla.dispatcher;
 
-import javax.management.ServiceNotFoundException;
-import javax.swing.SwingUtilities;
-import java.awt.*;
 import javax.swing.*;
 import java.awt.Dimension;
 
@@ -12,10 +9,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
-import java.awt.ComponentOrientation;
 import javax.swing.JLabel;
 import java.awt.Point;
 import javax.swing.JTextArea;
@@ -23,16 +16,14 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.Image;
 import java.awt.Rectangle;
-import javax.swing.JCheckBox;
 import java.awt.Font;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-
 import javax.swing.plaf.metal.*;
-import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
 
 import org.epzilla.ui.About;
@@ -75,7 +66,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	private JScrollPane statusScrollPane = null;
 	private JScrollPane triggerListScrollPane = null;
 	private JScrollPane ipScrollPane = null;
-	EventListener listener = new EventListener();  //  @jve:decl-index=0:
+	EventListener listener = new EventListener();
 	private JTabbedPane getMyTabbedPane() {
 		if (tabbedPane == null) {
 			lblDetails = new JLabel();
@@ -245,7 +236,6 @@ public class DispatcherUI extends JFrame implements ActionListener{
 			btnCancel = new JButton();
 			btnCancel.setLocation(new Point(271, 270));
 			btnCancel.setText("Cancel");
-			btnCancel.setMnemonic(KeyEvent.VK_UNDEFINED);
 			btnCancel.setSize(new Dimension(85, 20));
 			btnCancel.addActionListener(this);
 		}
@@ -404,7 +394,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
         int x = screen.width;
         int y = screen.height;
        	this.setTitle("Dispatcher");
-       	Image img = Toolkit.getDefaultToolkit().getImage("images/logo.jpg");
+       	Image img = Toolkit.getDefaultToolkit().getImage("images//logo.jpg");
        	this.setIconImage(img);
        	this.setResizable(false);
        	this.setSize(new Dimension(899, 632));
@@ -444,4 +434,4 @@ public class DispatcherUI extends JFrame implements ActionListener{
 			
 		}
 	}
-	}  //  @jve:decl-index=0:visual-constraint="14,9"
+	}
