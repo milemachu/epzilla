@@ -36,7 +36,7 @@ public class About extends JFrame implements ActionListener{
 		if (topPanel == null) {
 			lblLogo = new JLabel();
 			lblLogo.setSize(new Dimension(198, 84));
-			lblLogo.setIcon(new ImageIcon("images//logo.JPG"));
+			lblLogo.setIcon(new ImageIcon("images\\logo.JPG"));
 			lblLogo.setLocation(new Point(1, -1));
 			topPanel = new JPanel();
 			topPanel.setLayout(null);
@@ -86,8 +86,7 @@ public class About extends JFrame implements ActionListener{
 	    int x = (screen.width-width)/2;
 	    int y = (screen.height-height)/2;
 	    setBounds(x,y,width,height);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Image img = Toolkit.getDefaultToolkit().getImage("images/logo.jpg");
+	    Image img = Toolkit.getDefaultToolkit().getImage("images\\logo.jpg");
        	this.setIconImage(img);
 		this.setSize(new Dimension(475, 258));
 		this.setResizable(false);
@@ -111,5 +110,4 @@ public class About extends JFrame implements ActionListener{
 		}
 		
 	}
-
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+}
