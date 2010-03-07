@@ -10,8 +10,6 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.Rectangle;
 import javax.swing.event.*;
-
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -69,7 +67,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
         int x = screen.width;
         int y = screen.height;
        	this.setSize(new Dimension(685, 697));
-       	Image img = Toolkit.getDefaultToolkit().getImage("images/logo.jpg");
+    	Image img = Toolkit.getDefaultToolkit().getImage("images\\logo.jpg");
        	this.setIconImage(img);
        	this.setResizable(false);
        	this.setSize(x,y);
@@ -506,6 +504,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		String servicename = txtDispName.getText().toString();
 		try {
 			client.unregisterCallback(ip, servicename);
+			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -518,9 +517,13 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		}
 		txtDispIP.setText("");
 		txtDispName.setText("");
-		ips.removeAllElements();
-		listLookup.setListData(ips);
-		
+//		ips.removeAllElements();
+//		listLookup.setListData(ips);
+	}
+	private void clearDetails(){
+		txtDispIP.setText("");
+		txtDispName.setText("");
+
 	}
 	private void showAbout(){
 		About abut = new About();
@@ -596,7 +599,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		}else if(source==btnCancelSend){
 			cancelSend();
 		}else if(source==btnClear){
-			unregisterCallbackLocal();
+//			clearDetails();
 		}else if(source==btnSave){
 			saveSettings();
 		}else if(source==btnLookup){

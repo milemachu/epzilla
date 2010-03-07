@@ -74,7 +74,7 @@ public class Login extends JFrame implements ActionListener{
 		if (btnClose == null) {
 			btnClose = new JButton();
 			btnClose.setBounds(new Rectangle(322, 3, 25, 22));
-			btnClose.setIcon(new ImageIcon("images//iconClose.JPG"));
+			btnClose.setIcon(new ImageIcon("images\\iconClose.JPG"));
 			btnClose.addActionListener(this);
 		}
 		return btnClose;
@@ -117,7 +117,7 @@ public class Login extends JFrame implements ActionListener{
         setVisible(true); 
         this.setTitle("login");
 	}
-
+	@Override
 	public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
 		 if(source==btnCancel){
@@ -127,8 +127,7 @@ public class Login extends JFrame implements ActionListener{
 			System.exit(0);
 		}else if(source ==btnOK){
 			showMainUI();
-//			this.hide();
-             this.setVisible(false);
+			this.hide();
 		}
 	}
 }
