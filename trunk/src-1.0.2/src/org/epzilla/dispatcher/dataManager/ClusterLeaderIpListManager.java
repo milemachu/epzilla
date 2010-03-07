@@ -44,7 +44,7 @@ public class ClusterLeaderIpListManager {
                         timer1.cancel();
                 }
             }
-        }, 10, 500);
+        }, 10, 50);
         removeIP("192.168.1.1");
         removeIP("192.168.1.2");
 
@@ -67,17 +67,21 @@ public class ClusterLeaderIpListManager {
 
     public static void removeIP(String ip) {
         if (getIpList() != null) {
-            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
-                Site.getLocal().allowThread();
-                Transaction transaction = Site.getLocal().startTransaction();
-                for (int i = 0; i < ipList.size(); i++) {
-                    if (ipList.get(i).getleaderIP().equals(ip)) {
-                        ipList.remove(i);
-                        break;
+            try {
+                if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                    Site.getLocal().allowThread();
+                    Transaction transaction = Site.getLocal().startTransaction();
+                    for (int i = 0; i < ipList.size(); i++) {
+                        if (ipList.get(i).getleaderIP().equals(ip)) {
+                            ipList.remove(i);
+                            break;
+                        }
                     }
+                    transaction.commit();
+                    count++;
                 }
-                transaction.commit();
-                count++;
+            } catch (Exception e) {
+
             }
         }
         printIPList();

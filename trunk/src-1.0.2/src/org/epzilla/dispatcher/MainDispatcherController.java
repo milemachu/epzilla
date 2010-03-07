@@ -45,12 +45,15 @@ public class MainDispatcherController {
 
     public static void runAsServer() {
         RandomStringGenerator.generate(1000);
-        DispatcherAsServer.startServer();
+       boolean IsSuccessful = DispatcherAsServer.startServer();
+        if(IsSuccessful)
+        {
         DispatcherAsServer.loadTriggers();
         DispatcherAsServer.loadIPList();
         DispatcherAsServer.loadClientList();
         TriggerManager.initTestTriggerStream();
         ClusterLeaderIpListManager.loadSampleIPs();
+        }
 
     }
 
