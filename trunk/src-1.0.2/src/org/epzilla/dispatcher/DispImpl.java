@@ -59,10 +59,9 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 	public void unregisterCallback(ClientCallbackInterface clientObject)throws RemoteException {
 		 if (clientList.removeElement(clientObject)) {
 		      System.out.println("Unregistered client ");
-		     // calllbacks();
 		    } else {
 		       System.out.println(
-		         "unregister: clientwasn't registered.");
+		         "unregister: clientwasn't registered."+ clientObject);
 		    }
 	}
 	public synchronized void calllbacks( ) throws RemoteException{
