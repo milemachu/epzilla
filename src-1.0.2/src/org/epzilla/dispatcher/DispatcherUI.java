@@ -15,18 +15,20 @@ import javax.swing.JTextArea;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Font;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import javax.swing.plaf.metal.*;
+import java.util.ArrayList;
+
 import javax.swing.JScrollPane;
 
-import org.epzilla.ui.About;
+import org.epzilla.ui.ServerSettingsReader;
+
 import java.awt.Toolkit;
 
 
@@ -67,6 +69,32 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	private JScrollPane triggerListScrollPane = null;
 	private JScrollPane ipScrollPane = null;
 	EventListener listener = new EventListener();
+	static ServerSettingsReader reader = new ServerSettingsReader();
+	
+	public DispatcherUI() {
+		super();
+		initialize();
+	}	
+	private void initialize() {
+//		 try {
+//				UIManager.setLookAndFeel("com.pagosoft.plaf.PgsLookAndFeel");
+//				SwingUtilities.updateComponentTreeUI(this);
+//			} catch(Exception e) {}
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = screen.width;
+        int y = screen.height;
+       	this.setTitle("Dispatcher");
+       	Image img = Toolkit.getDefaultToolkit().getImage("images//logo.jpg");
+       	this.setIconImage(img);
+       	this.setResizable(false);
+       	this.setSize(new Dimension(899, 632));
+       	this.setSize(new Dimension(689, 439));
+       	this.setResizable(false);
+       	this.setSize(x,y);
+        this.setContentPane(getMyTabbedPane());
+        this.setJMenuBar(getmyMenuBar());
+        loadSettings();
+        	}
 	private JTabbedPane getMyTabbedPane() {
 		if (tabbedPane == null) {
 			lblDetails = new JLabel();
@@ -371,6 +399,19 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		 About abut = new About();
 			abut.show();
 	 }
+	 private void loadSettings(){
+			try {
+				ArrayList<String[]> data = reader.getServerIPSettings("./src/server_settings.xml");
+				String[] ar = data.get(0);
+				txtIP.setText(ar[0]);
+				txtPort.setText(ar[1]);
+				txtNameServer.setText(ar[2]);
+				} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -380,31 +421,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 			}
 		});
 	}
-	public DispatcherUI() {
-		super();
-		initialize();
-	}
-	
-	private void initialize() {
-//		 try {
-//				UIManager.setLookAndFeel("com.pagosoft.plaf.PgsLookAndFeel");
-//				SwingUtilities.updateComponentTreeUI(this);
-//			} catch(Exception e) {}
-		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = screen.width;
-        int y = screen.height;
-       	this.setTitle("Dispatcher");
-       	Image img = Toolkit.getDefaultToolkit().getImage("images//logo.jpg");
-       	this.setIconImage(img);
-       	this.setResizable(false);
-       	this.setSize(new Dimension(899, 632));
-       	this.setSize(new Dimension(689, 439));
-       	this.setResizable(false);
-       	this.setSize(x,y);
-        this.setContentPane(getMyTabbedPane());
-        this.setJMenuBar(getmyMenuBar());
-        	}
-	@Override
+		@Override
 	public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
 		if(source==adminSettings){
