@@ -61,8 +61,12 @@ public class SplashScreen extends JWindow {
     }
     private void showSplashAndExit() {        
         showSplash();
-        new Login();
+        showMainUI();
     }
+    private void showMainUI(){
+		new ClientUIControler();
+		ClientUIControler.initializeClientUI();
+	}
 	private JProgressBar getProgressBar() {
 		if (progressBar == null) {
 			progressBar = new JProgressBar(0,duration);
