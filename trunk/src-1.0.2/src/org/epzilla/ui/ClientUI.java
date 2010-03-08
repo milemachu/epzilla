@@ -7,6 +7,7 @@ import java.io.*;
 import java.net.*;
 import java.rmi.*;
 import java.util.*;
+
 import javax.swing.*;
 import java.awt.Rectangle;
 import javax.swing.event.*;
@@ -53,13 +54,17 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JTextField txtDispName = null;
 	private JCheckBox chkEvents = null;
 	private JCheckBox chkTriggers = null;
-	ClientHandler client;
-	boolean isRegister = false;
+	static ClientHandler client;
+    static ClientTest clientTest;   ///for testing purpose
+    boolean isRegister = false;
 	int eventSeqID;
 	int triggerSeqID;
+	static ServerSettingsReader reader;
 	public ClientUI() {
 		super();
 		client = new ClientHandler();
+        clientTest = new ClientTest();
+        reader = new ServerSettingsReader();
 		initialize();
 	}
 	private void initialize() {
@@ -75,6 +80,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
         this.setJMenuBar(getmyMenuBar());
        	this.setTitle("Epzilla DS");	
        	this.addWindowListener(this);
+       	loadSettings();
 	}
 	private JTabbedPane getMyTabbedPane() {
 		if (tabbedPane == null) {
@@ -218,7 +224,6 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			txtName = new JTextField();
 			txtName.setLocation(new Point(110, 96));
 			txtName.setSize(new Dimension(200, 20));
-			txtName.setText("NameServer");
 		}
 		return txtName;
 	}
@@ -253,8 +258,10 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JButton getBtnBrowse() {
 		if (btnBrowse == null) {
 			btnBrowse = new JButton();
-			btnBrowse.setText("Browse");			btnBrowse.setLocation(new Point(15, 218));
+			btnBrowse.setText("Browse");
+			btnBrowse.setLocation(new Point(15, 219));
 			btnBrowse.setSize(new Dimension(85, 20));
+			btnBrowse.setVisible(false);
 			btnBrowse.addActionListener(this);
 		}
 		return btnBrowse;
@@ -262,16 +269,19 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JTextField getTxtFile() {
 		if (txtFile == null) {
 			txtFile = new JTextField();
-			txtFile.setPreferredSize(new Dimension(4, 20));			txtFile.setSize(new Dimension(325, 20));
+			txtFile.setPreferredSize(new Dimension(4, 20));
+			txtFile.setSize(new Dimension(325, 20));
 			txtFile.setEditable(false);
 			txtFile.setLocation(new Point(165, 219));
+			txtFile.setVisible(false);
 		}
 		return txtFile;
 	}
 	private JButton getBtnSend() {
 		if (btnSend == null) {
 			btnSend = new JButton();
-			btnSend.setText("Send");			btnSend.setBounds(new Rectangle(218, 250, 85, 20));
+			btnSend.setText("Start");
+			btnSend.setBounds(new Rectangle(216, 249, 85, 20));
 			btnSend.addActionListener(this);
 			}
 		return btnSend;
@@ -279,7 +289,9 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JButton getBtnCancelSend() {
 		if (btnCancelSend == null) {
 			btnCancelSend = new JButton();
-			btnCancelSend.setText("Cancel");			btnCancelSend.setBounds(new Rectangle(331, 250, 85, 20));
+			btnCancelSend.setText("Cancel");
+			btnCancelSend.setBounds(new Rectangle(331, 250, 85, 20));
+			btnCancelSend.setVisible(true);
 			btnCancelSend.addActionListener(this);
 			}
 		return btnCancelSend;
@@ -362,6 +374,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			chkEvents.setText("Events");
 			chkEvents.setLocation(new Point(520, 220));
 			chkEvents.setSize(new Dimension(80, 21));
+			chkEvents.setVisible(false);
 		}
 		return chkEvents;
 	}
@@ -371,6 +384,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			chkTriggers.setText("Triggers");
 			chkTriggers.setLocation(new Point(520, 250));
 			chkTriggers.setSize(new Dimension(93, 21));
+			chkTriggers.setVisible(false);
 		}
 		return chkTriggers;
 	}
@@ -581,16 +595,41 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	      return returnValue;
 
 	} 
-//	public static void main(String[] args) {
-//		SwingUtilities.invokeLater(new Runnable() {
-//			public void run() {
-//				ClientUI thisClass = new ClientUI();
-//				thisClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//				thisClass.setVisible(true);
-//			}
-//		});
-//
-//	}
+	public void initProcess(){
+		String dispIP = txtDispIP.getText().toString();
+		String dispName = txtDispName.getText().toString();
+		String clientIp = getIpAddress();
+		if((dispIP.length()==0) && (dispName.length()==0)){
+			JOptionPane.showMessageDialog(null,"Perform Lookup operation and select service you want.","epZilla",JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		if((dispIP.length()!=0) && (dispName.length()!=0) ){
+            try {
+                clientTest.initProcess(dispIP,dispName);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (NotBoundException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+		else
+			JOptionPane.showMessageDialog(null,"Error in file send process.","epZilla",JOptionPane.ERROR_MESSAGE);
+	
+	}
+	private void loadSettings(){
+		try {
+			ArrayList<String[]> data = reader.getServerIPSettings("./src/server_settings.xml");
+			String[] ar = data.get(0);
+			txtIP.setText(ar[0]);
+			txtPort.setText(ar[1]);
+			txtName.setText(ar[2]);
+			} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	@Override
 	public void valueChanged(ListSelectionEvent event) {
 		Object source = event.getSource();
@@ -606,13 +645,14 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		if(source==btnBrowse){
 			loadFile();
 		}else if(source==btnSend){
-			sendFiles();
+//			sendFiles();
+			initProcess();
 		}else if(source==btnCancel){
 			cancelSettings();
 		}else if(source==btnCancelSend){
 			cancelSend();
 		}else if(source==btnClear){
-			clearDetails();
+//			clearDetails();
 		}else if(source==btnSave){
 			saveSettings();
 		}else if(source==btnLookup){
