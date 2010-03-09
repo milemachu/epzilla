@@ -9,6 +9,7 @@ package org.epzilla.clusterNode;
  */
 public class NodeController {
     private static int port = 4444;
+    private static String leaderIP = "localhost";
 
     public static int getPort() {
         return port;
@@ -16,5 +17,13 @@ public class NodeController {
 
     public static void setPort(int port) {
         NodeController.port = port;
+    }
+
+    public static String getLeaderIP() {
+        return leaderIP;
+    }
+
+    public static void setLeaderIP(String leaderIP) {
+        NodeController.leaderIP = leaderIP;
     }
 }
