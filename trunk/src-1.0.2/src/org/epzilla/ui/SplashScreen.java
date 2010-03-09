@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.Rectangle;
 import java.awt.Dimension;
 import javax.swing.JProgressBar;
+
+import org.epzilla.ui.controlers.ClientUIControler;
+
 import java.awt.Color;
 import java.awt.Font;
 
