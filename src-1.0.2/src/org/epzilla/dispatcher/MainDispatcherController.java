@@ -33,7 +33,7 @@ public class MainDispatcherController {
         run();
     }
 
-    private static void run() {
+    public static void run() {
         try {
            
             DispatcherUIController.InitializeUI();
