@@ -44,21 +44,21 @@ public class MainDispatcherController {
     }
 
     public static void runAsServer() {
-        RandomStringGenerator.generate(1000);
-       boolean IsSuccessful = DispatcherAsServer.startServer();
-        if(IsSuccessful)
-        {
-        DispatcherAsServer.loadTriggers();
-        DispatcherAsServer.loadIPList();
-        DispatcherAsServer.loadClientList();
-        TriggerManager.initTestTriggerStream();
-        ClusterLeaderIpListManager.loadSampleIPs();
+//        RandomStringGenerator.generate(1000);
+        boolean IsSuccessful = DispatcherAsServer.startServer();
+        if (IsSuccessful) {
+            DispatcherAsServer.loadTriggers();
+            DispatcherAsServer.loadIPList();
+            DispatcherAsServer.loadClientList();
+//        TriggerManager.initTestTriggerStream();
+//        ClusterLeaderIpListManager.loadSampleIPs();
         }
 
     }
 
     private static void runAsClient() {
         DispatcherAsClient.startClient();
+        DispatcherAsClient.checkServerStatus();
     }
 
 
