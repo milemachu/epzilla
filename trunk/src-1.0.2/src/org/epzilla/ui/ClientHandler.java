@@ -24,6 +24,8 @@ public class ClientHandler {
 	String dispServiceName="";
 	String dispDetails = "";
 	ClientCallbackInterface obj;
+	DispInterface di;
+	
 	public Vector<String> getServiceIp(String serverIp,String serviceName) throws MalformedURLException, RemoteException, NotBoundException{
 	       		String url = "rmi://"+serverIp+"/"+serviceName;
 	       		NameService r = (NameService)Naming.lookup(url);
@@ -123,8 +125,11 @@ public class ClientHandler {
 	public Object getclientObject(){
 		return obj;
 	}
-//	public static void main(String[] args) throws NotBoundException, IOException {
-//	ClientHandler myClient = new ClientHandler();
-//	}
+	public void setDispatcherObj(Object obj){
+        di = (DispInterface) obj;
+   }
+   public Object getDispatcherObj(){
+        return di;
+   }
 
 }
