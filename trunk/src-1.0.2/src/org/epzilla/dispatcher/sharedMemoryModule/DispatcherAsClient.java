@@ -12,7 +12,7 @@ import org.epzilla.dispatcher.dataManager.ClientManager;
 import org.epzilla.dispatcher.dataManager.ClusterLeaderIpListManager;
 import org.epzilla.dispatcher.dataManager.NodeVariables;
 import org.epzilla.dispatcher.dataManager.TriggerManager;
-import org.epzilla.dispatcher.DispatcherUIController;
+import org.epzilla.dispatcher.controlers.*;
 import org.epzilla.dispatcher.dispatcherObjectModel.DispatcherObjectModel;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 import org.epzilla.dispatcher.dispatcherObjectModel.ClientInfoObject;

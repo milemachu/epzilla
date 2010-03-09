@@ -8,8 +8,8 @@ import jstm.core.Transaction;
 import java.util.TimerTask;
 
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
+import org.epzilla.dispatcher.DispatcherUIController;
 import org.epzilla.dispatcher.RandomStringGenerator;
-import org.epzilla.dispatcher.controlers.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -53,6 +53,7 @@ public class TriggerManager {
     public static boolean addTriggerToList(byte[] trigger) {
         boolean success = false;
         if (getTriggers() != null) {
+//        	System.out.println(new String(trigger));
             if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
                 Site.getLocal().allowThread();
                 Transaction transaction = Site.getLocal().startTransaction();
@@ -60,9 +61,11 @@ public class TriggerManager {
                 // ID is the sequential number of the trigger
                 obj.settriggerID("TID:" + String.valueOf(count));
                 obj.settrigger(new String(trigger));
+               
                 getTriggers().add(obj);
                 transaction.commit();
                 success = true;
+//                DispatcherUIController.appendTrigger(new String(trigger));
                 System.out.println(new String(trigger));
             }
             count++;

@@ -6,6 +6,7 @@ import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
+import org.epzilla.dispatcher.rmi.*;
 
 
 import javax.swing.JTextArea;

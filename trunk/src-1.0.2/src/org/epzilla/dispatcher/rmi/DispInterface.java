@@ -1,10 +1,10 @@
-package org.epzilla.dispatcher;
+package org.epzilla.dispatcher.rmi;
 
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import org.epzilla.ui.ClientCallbackInterface;
+import org.epzilla.ui.rmi.*;
 
 public interface DispInterface extends Remote {
 

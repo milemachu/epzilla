@@ -1,6 +1,6 @@
 package org.epzilla.dispatcher.dataManager;
 
-import org.epzilla.dispatcher.DispatcherUI;
+import org.epzilla.dispatcher.ui.*;
 
 /**
  * Created by IntelliJ IDEA.

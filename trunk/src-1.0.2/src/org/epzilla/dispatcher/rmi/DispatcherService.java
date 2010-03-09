@@ -1,4 +1,4 @@
-package org.epzilla.dispatcher;
+package org.epzilla.dispatcher.rmi;
 
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -6,6 +6,8 @@ import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
+
+import org.epzilla.dispatcher.controlers.*;
 
 public class DispatcherService {
 
@@ -52,7 +54,6 @@ public class DispatcherService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
