@@ -29,12 +29,6 @@ public class ClientTest extends Thread{
     public ClientTest(){
 
     }
-    public void setDispatcherObj(Object obj){
-         di = (DispInterface) obj;
-    }
-    public Object getDispatcherObj(){
-         return di;
-    }
     public void lookUp(String ip, String name) throws MalformedURLException, NotBoundException, RemoteException {
          String url = "rmi://"+ip+"/"+name;
 		DispInterface di = (DispInterface) Naming.lookup(url);
@@ -45,6 +39,13 @@ public class ClientTest extends Thread{
         initSendTriggerStream();
 
     }
+   public void setDispatcherObj(Object obj){
+        di = (DispInterface) obj;
+   }
+   public Object getDispatcherObj(){
+        return di;
+   }
+
     public void initSendTriggerStream() {
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {
