@@ -1,6 +1,8 @@
-package org.epzilla.dispatcher;
+package org.epzilla.dispatcher.controlers;
 
 import javax.swing.*;
+
+import org.epzilla.dispatcher.ui.*;
 
 /**
  * Created by IntelliJ IDEA.

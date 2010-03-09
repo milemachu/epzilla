@@ -1,4 +1,4 @@
-package org.epzilla.dispatcher;
+package org.epzilla.dispatcher.ui;
 
 import javax.swing.*;
 import java.awt.Dimension;
@@ -27,7 +27,8 @@ import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 
-import org.epzilla.ui.ServerSettingsReader;
+import org.epzilla.dispatcher.EventListener;
+import org.epzilla.dispatcher.xml.*;
 
 import java.awt.Toolkit;
 
@@ -117,7 +118,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 			tabbedPane = new JTabbedPane();	
 		tabbedPane.addTab("Settings",getMainSettings());
 		tabbedPane.addTab("Summary",getSummeryTab());
-		tabbedPane.setVisible(false);
+		tabbedPane.setVisible(true);
 		}
 		return tabbedPane;
 	}
@@ -290,6 +291,8 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		if (txtTriggers == null) {
 			txtTriggers = new JTextArea();
 			txtTriggers.setBounds(new Rectangle(13, 337, 588, 173));
+			txtTriggers.setForeground(Color.green);
+			txtTriggers.setBackground(Color.black);
 		}
 		return txtTriggers;
 	}
@@ -314,13 +317,15 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		if (txtStatus == null) {
 			txtStatus = new JTextArea();
 			txtStatus.setBounds(new Rectangle(15, 47, 587, 177));
+			txtStatus.setForeground(Color.green);
+			txtStatus.setBackground(Color.black);
 		}
 		return txtStatus;
 	}
 	private JScrollPane getIpScrollPane() {
 		if (ipScrollPane == null) {
 			ipScrollPane = new JScrollPane();
-			ipScrollPane.setBounds(new Rectangle(723, 44, 270, 400));
+			ipScrollPane.setBounds(new Rectangle(723, 44, 270, 465));
 			ipScrollPane.setViewportView(getTxtIPSet());
 		}
 		return ipScrollPane;
@@ -329,6 +334,8 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		if (txtIPs == null) {
 			txtIPs = new JTextArea();
 			txtIPs.setBounds(new Rectangle(723, 44, 270, 400));
+			txtIPs.setForeground(Color.green);
+			txtIPs.setBackground(Color.black);
 		}
 		return txtIPs;
 	}

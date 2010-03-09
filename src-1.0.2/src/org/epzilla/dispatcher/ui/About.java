@@ -1,4 +1,4 @@
-package org.epzilla.dispatcher;
+package org.epzilla.dispatcher.ui;
 
 import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;

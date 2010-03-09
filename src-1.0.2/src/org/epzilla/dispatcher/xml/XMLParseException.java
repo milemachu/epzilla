@@ -1,4 +1,4 @@
-package org.epzilla.dispatcher;
+package org.epzilla.dispatcher.xml;
 
 /**
  * An net.epzilla.accumulator.util.XMLParseException is thrown when an error occures while parsing an XML

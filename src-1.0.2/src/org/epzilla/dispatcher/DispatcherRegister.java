@@ -7,7 +7,7 @@ import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
 import org.epzilla.nameserver.NameService;
 import org.epzilla.nameserver.NameServiceHandler;
-
+import org.epzilla.dispatcher.controlers.*;
 public class DispatcherRegister{
 
 	public DispatcherRegister(){

@@ -1,4 +1,4 @@
-package org.epzilla.dispatcher;
+package org.epzilla.dispatcher.xml;
 
 import java.io.ByteArrayOutputStream;
    import java.io.IOException;

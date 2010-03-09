@@ -1,11 +1,11 @@
-package org.epzilla.dispatcher;
+package org.epzilla.dispatcher.rmi;
 
 import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Vector;
 
-import org.epzilla.ui.ClientCallbackInterface;
+import org.epzilla.ui.rmi.*;
 import org.epzilla.dispatcher.dataManager.TriggerManager;
 
 public class DispImpl extends UnicastRemoteObject implements DispInterface {

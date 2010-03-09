@@ -7,7 +7,7 @@ import jstm.core.Transaction;
 import java.util.TimerTask;
 
 import org.epzilla.dispatcher.dispatcherObjectModel.LeaderInfoObject;
-import org.epzilla.dispatcher.DispatcherUIController;
+import org.epzilla.dispatcher.controlers.*;
 
 
 /**

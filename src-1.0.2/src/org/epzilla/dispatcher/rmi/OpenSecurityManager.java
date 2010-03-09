@@ -1,4 +1,4 @@
-package org.epzilla.dispatcher;
+package org.epzilla.dispatcher.rmi;
 
 import java.security.Permission;
 import java.rmi.RMISecurityManager;
