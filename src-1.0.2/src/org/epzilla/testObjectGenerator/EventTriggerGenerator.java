@@ -29,7 +29,7 @@ public class EventTriggerGenerator {
         return new String(buf);
     }
 
-    //For teting only-Dishan
+    //For testing only-Dishan
     public static void main(String[] args) {
         String temp;
         for (int i = 0; i < 10; i++) {
