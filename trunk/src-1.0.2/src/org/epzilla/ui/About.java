@@ -111,4 +111,4 @@ public class About extends JFrame implements ActionListener{
 		
 	}
 
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+}  
