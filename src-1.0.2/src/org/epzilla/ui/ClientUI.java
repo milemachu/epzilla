@@ -607,11 +607,11 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
             try {
                 clientTest.initProcess(dispIP,dispName);
             } catch (MalformedURLException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();  
             } catch (NotBoundException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();  
             } catch (RemoteException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();  
             }
         }
 		else
