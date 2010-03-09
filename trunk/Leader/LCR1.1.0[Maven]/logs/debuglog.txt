@@ -1,0 +1,58 @@
+0    [main] INFO  2010-03-09 14:20:07,171 org.epzilla.leader.EpzillaNodeInitiator  - Deploying RMI Services in:192.168.1.63
+297  [main] INFO  2010-03-09 14:20:07,468 org.epzilla.leader.EpzillaNodeInitiator  - RMI Services deployied. Initializing start up sequence.
+0    [main] INFO  2010-03-09 14:20:36,375 org.epzilla.leader.EpzillaNodeInitiator  - Deploying RMI Services in:192.168.1.63
+203  [main] INFO  2010-03-09 14:20:36,578 org.epzilla.leader.EpzillaNodeInitiator  - RMI Services deployied. Initializing start up sequence.
+15   [main] INFO  2010-03-09 14:21:53,421 org.epzilla.leader.EpzillaNodeInitiator  - Deploying RMI Services in:192.168.1.63
+219  [main] INFO  2010-03-09 14:21:53,625 org.epzilla.leader.EpzillaNodeInitiator  - RMI Services deployied. Initializing start up sequence.
+0    [main] INFO  2010-03-09 14:22:39,656 org.epzilla.leader.EpzillaNodeInitiator  - Deploying RMI Services in:192.168.1.63
+203  [main] INFO  2010-03-09 14:22:39,859 org.epzilla.leader.EpzillaNodeInitiator  - RMI Services deployied. Initializing start up sequence.
+0    [main] INFO  2010-03-09 22:39:04,479 org.epzilla.leader.EpzillaNodeInitiator  - Deploying RMI Services in:192.168.1.63
+282  [main] INFO  2010-03-09 22:39:04,761 org.epzilla.leader.EpzillaNodeInitiator  - RMI Services deployied. Initializing start up sequence.
+282  [main] INFO  2010-03-09 22:39:04,761 org.epzilla.leader.EpzillaNodeInitiator  - Cannot connect to the default node.
+0    [main] INFO  2010-03-10 00:47:16,636 org.epzilla.leader.EpzillaNodeInitiator  - Configuration loaded and ready to initialize
+0    [main] INFO  2010-03-10 00:47:16,636 org.epzilla.leader.EpzillaNodeInitiator  - Deploying RMI Services in:192.168.1.63
+312  [main] INFO  2010-03-10 00:47:16,948 org.epzilla.leader.EpzillaNodeInitiator  - RMI Services deployied. Initializing start up sequence.
+312  [main] INFO  2010-03-10 00:47:16,948 org.epzilla.leader.EpzillaNodeInitiator  - No STM is present in the cluster. Launching the leader election since this is the default server.
+0    [main] INFO  2010-03-10 00:59:43,417 org.epzilla.leader.EpzillaNodeInitiator  - Configuration loaded and ready to initialize
+0    [main] INFO  2010-03-10 00:59:43,417 org.epzilla.leader.EpzillaNodeInitiator  - Deploying RMI Services in:192.168.1.63
+328  [main] INFO  2010-03-10 00:59:43,745 org.epzilla.leader.EpzillaNodeInitiator  - RMI Services deployied. Initializing start up sequence.
+328  [main] INFO  2010-03-10 00:59:43,745 org.epzilla.leader.EpzillaNodeInitiator  - No STM is present in the cluster. Launching the leader election since this is the default server.
+0    [main] INFO  2010-03-10 01:01:04,573 org.epzilla.leader.EpzillaNodeInitiator  - Configuration loaded and ready to initialize
+31   [main] INFO  2010-03-10 01:01:04,604 org.epzilla.leader.EpzillaNodeInitiator  - Deploying RMI Services in:192.168.1.63
+5563 [main] INFO  2010-03-10 01:01:10,136 org.epzilla.leader.EpzillaNodeInitiator  - RMI Services deployied. Initializing start up sequence.
+54766 [main] INFO  2010-03-10 01:01:59,339 org.epzilla.leader.EpzillaNodeInitiator  - No STM is present in the cluster. Launching the leader election since this is the default server.
+0    [main] INFO  2010-03-10 01:52:35,714 org.epzilla.leader.EpzillaNodeInitiator  - Configuration loaded and ready to initialize
+0    [main] INFO  2010-03-10 01:52:35,714 org.epzilla.leader.EpzillaNodeInitiator  - Deploying RMI Services in:192.168.1.63
+265  [main] INFO  2010-03-10 01:52:35,979 org.epzilla.leader.EpzillaNodeInitiator  - RMI Services deployied. Initializing start up sequence.
+265  [main] INFO  2010-03-10 01:52:35,979 org.epzilla.leader.EpzillaNodeInitiator  - No STM is present in the cluster. Launching the leader election since this is the default server.
+0    [main] INFO  2010-03-10 02:06:45,151 org.epzilla.leader.EpzillaNodeInitiator  - Configuration loaded and ready to initialize
+0    [main] INFO  2010-03-10 02:06:45,151 org.epzilla.leader.EpzillaNodeInitiator  - Deploying RMI Services in:192.168.1.63
+282  [main] INFO  2010-03-10 02:06:45,433 org.epzilla.leader.EpzillaNodeInitiator  - RMI Services deployied. Initializing start up sequence.
+282  [main] INFO  2010-03-10 02:06:45,433 org.epzilla.leader.EpzillaNodeInitiator  - No STM is present in the cluster. Launching the leader election since this is the default server.
+21266 [main] ERROR 2010-03-10 02:07:06,417 org.epzilla.leader.EpzillaNodeInitiator  - This node cannot instantiate as a server or as a non leader.
+0    [main] INFO  2010-03-10 02:08:59,167 org.epzilla.leader.EpzillaNodeInitiator  - Configuration loaded and ready to initialize
+0    [main] INFO  2010-03-10 02:08:59,167 org.epzilla.leader.EpzillaNodeInitiator  - Deploying RMI Services in:192.168.1.63
+266  [main] INFO  2010-03-10 02:08:59,433 org.epzilla.leader.EpzillaNodeInitiator  - RMI Services deployied. Initializing start up sequence.
+266  [main] INFO  2010-03-10 02:08:59,433 org.epzilla.leader.EpzillaNodeInitiator  - No STM is present in the cluster. Launching the leader election since this is the default server.
+21125 [main] ERROR 2010-03-10 02:09:20,292 org.epzilla.leader.EpzillaNodeInitiator  - This node cannot instantiate as a server or as a non leader.
+0    [main] INFO  2010-03-10 02:10:08,729 org.epzilla.leader.EpzillaNodeInitiator  - Configuration loaded and ready to initialize
+0    [main] INFO  2010-03-10 02:10:08,729 org.epzilla.leader.EpzillaNodeInitiator  - Deploying RMI Services in:192.168.1.63
+188  [main] INFO  2010-03-10 02:10:08,917 org.epzilla.leader.EpzillaNodeInitiator  - RMI Services deployied. Initializing start up sequence.
+188  [main] INFO  2010-03-10 02:10:08,917 org.epzilla.leader.EpzillaNodeInitiator  - No STM is present in the cluster. Launching the leader election since this is the default server.
+21172 [main] ERROR 2010-03-10 02:10:29,901 org.epzilla.leader.EpzillaNodeInitiator  - This node cannot instantiate as a server or as a non leader.
+0    [main] INFO  2010-03-10 02:11:29,104 org.epzilla.leader.EpzillaNodeInitiator  - Configuration loaded and ready to initialize
+0    [main] INFO  2010-03-10 02:11:29,104 org.epzilla.leader.EpzillaNodeInitiator  - Deploying RMI Services in:192.168.1.63
+204  [main] INFO  2010-03-10 02:11:29,308 org.epzilla.leader.EpzillaNodeInitiator  - RMI Services deployied. Initializing start up sequence.
+204  [main] INFO  2010-03-10 02:11:29,308 org.epzilla.leader.EpzillaNodeInitiator  - No STM is present in the cluster. Launching the leader election since this is the default server.
+21172 [main] ERROR 2010-03-10 02:11:50,276 org.epzilla.leader.EpzillaNodeInitiator  - This node cannot instantiate as a server or as a non leader.
+0    [main] INFO  2010-03-10 02:12:27,339 org.epzilla.leader.EpzillaNodeInitiator  - Configuration loaded and ready to initialize
+15   [main] INFO  2010-03-10 02:12:27,354 org.epzilla.leader.EpzillaNodeInitiator  - Deploying RMI Services in:192.168.1.63
+234  [main] INFO  2010-03-10 02:12:27,573 org.epzilla.leader.EpzillaNodeInitiator  - RMI Services deployied. Initializing start up sequence.
+0    [main] INFO  2010-03-10 02:17:25,136 org.epzilla.leader.EpzillaNodeInitiator  - Configuration loaded and ready to initialize
+0    [main] INFO  2010-03-10 02:17:25,136 org.epzilla.leader.EpzillaNodeInitiator  - Deploying RMI Services in:192.168.1.63
+203  [main] INFO  2010-03-10 02:17:25,339 org.epzilla.leader.EpzillaNodeInitiator  - RMI Services deployied. Initializing start up sequence.
+21218 [main] INFO  2010-03-10 02:17:46,354 org.epzilla.leader.EpzillaNodeInitiator  - Cannot connect to the default node.
+0    [main] INFO  2010-03-10 02:18:13,854 org.epzilla.leader.EpzillaNodeInitiator  - Configuration loaded and ready to initialize
+16   [main] INFO  2010-03-10 02:18:13,870 org.epzilla.leader.EpzillaNodeInitiator  - Deploying RMI Services in:192.168.1.63
+329  [main] INFO  2010-03-10 02:18:14,183 org.epzilla.leader.EpzillaNodeInitiator  - RMI Services deployied. Initializing start up sequence.
+51297 [main] INFO  2010-03-10 02:19:05,151 org.epzilla.leader.EpzillaNodeInitiator  - Cannot connect to the default node.
