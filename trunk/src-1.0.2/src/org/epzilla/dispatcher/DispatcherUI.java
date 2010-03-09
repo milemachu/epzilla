@@ -347,7 +347,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		}
 		if(nameService.length()!=0 && dispatcherName.length()!=0){
 				listener.register(ip, nameService,port,dispatcherName);
-				bind();
+//				bind();
 		}else{
 			JOptionPane.showMessageDialog(null,"Dispatcher registration fails. Enter setting details correctly.","epZilla",JOptionPane.ERROR_MESSAGE);
 		}
