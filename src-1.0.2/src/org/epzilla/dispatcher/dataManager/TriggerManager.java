@@ -64,7 +64,6 @@ public class TriggerManager {
                 transaction.commit();
                 success = true;
                 System.out.println(new String(trigger));
-                DispatcherUIController.appendTextToStatus(new String(trigger));
             }
             count++;
         }
