@@ -9,6 +9,7 @@ import java.util.TimerTask;
 
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 import org.epzilla.dispatcher.RandomStringGenerator;
+import org.epzilla.dispatcher.DispatcherUIController;
 
 /**
  * Created by IntelliJ IDEA.
@@ -62,6 +63,8 @@ public class TriggerManager {
                 getTriggers().add(obj);
                 transaction.commit();
                 success = true;
+                System.out.println(new String(trigger));
+                DispatcherUIController.appendTextToStatus(new String(trigger));
             }
             count++;
         }
