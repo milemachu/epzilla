@@ -29,6 +29,9 @@ public class DispatcherUIController {
     public static void appendIP(String text) {
         instance.getTxtIPSet().append(text + "\n");
     }
+    public static void appendResults(String text){
+    	instance.getTxtResult().append(text+ "\n");
+    }
 
        public static void clearIPList() {
         instance.getTxtIPSet().setText("");
