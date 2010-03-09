@@ -5,6 +5,7 @@ import jstm.transports.clientserver.socket.SocketClient;
 import jstm.transports.clientserver.ConnectionInfo;
 
 import java.util.Set;
+import java.util.TimerTask;
 
 
 import org.epzilla.dispatcher.dataManager.ClientManager;
@@ -61,14 +62,14 @@ public class DispatcherAsClient {
                                             TransactedObject object) {
 
                             if (object instanceof TransactedList<?>)
-                                addList((TransactedList<TriggerInfoObject>) object);
+                                addList((TransactedList<?>) object);
 
                         }
 
                         public void onRemoved(Transaction transaction,
                                               TransactedObject object) {
-                            if (object instanceof TransactedList<?>)
-                                removeList((TransactedList<TriggerInfoObject>) object);
+//                            if (object instanceof TransactedList<?>)
+//                                removeList((TransactedList<TriggerInfoObject>) object);
                         }
                     });
 
@@ -92,16 +93,15 @@ public class DispatcherAsClient {
     }
 
     private static void addList(final TransactedList<?> info) {
-
-
+        
         if (info.get(0) instanceof TriggerInfoObject) {
             addTriggerList((TransactedList<TriggerInfoObject>) info);
         }
         if (info.get(0) instanceof ClientInfoObject) {
-
+           addClientList((TransactedList<ClientInfoObject>) info);
         }
         if (info.get(0) instanceof LeaderInfoObject) {
-
+           addIpList((TransactedList<LeaderInfoObject>) info);
         }
     }
 
@@ -138,9 +138,22 @@ public class DispatcherAsClient {
     }
 
 
-    private static void removeList(final TransactedList<TriggerInfoObject> info) {
-
-
+    public static void checkServerStatus() {
+        final java.util.Timer timer1 = new java.util.Timer();
+        timer1.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (client.getStatus() == SocketClient.Status.DISCONNECTED) {
+                  DispatcherUIController.appendTextToStatus("Server Status..." + client.getStatus().toString());
+                  this.cancel();
+                }
+            }
+        }, 10, 1000);
     }
+
+//    private static void removeList(final TransactedList<TriggerInfoObject> info) {
+//
+//    }
+
 
 }
