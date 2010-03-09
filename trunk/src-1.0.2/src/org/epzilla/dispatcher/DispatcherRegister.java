@@ -23,9 +23,11 @@ public class DispatcherRegister{
         	String name = dispatcherName+id;
         	int i = service.insertNode(name, ipAddress, num);
         	       	if(i==0)
-        	       		System.out.println("Insertion failure");
-        	       	else if(i==1)
-        	       		System.out.println("Successfully inserted");        
+        	       	DispatcherUIController.appendResults("Insertion failure");
+//    	       		System.out.println("Insertion failure");
+        	       	else if(i==1)      
+        	       	DispatcherUIController.appendResults("Successfully inserted");
+//    	       		System.out.println("Successfully inserted");
     }
 	/*
 	 * generate dispatcher id
