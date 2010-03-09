@@ -11,7 +11,7 @@ public class DispatcherService {
 
 	public void bindDispatcher(String serviceName) throws RemoteException, UnknownHostException, MalformedURLException {
 		if(System.getSecurityManager()==null){
-			System.setSecurityManager(new RMISecurityManager());
+			System.setSecurityManager(new OpenSecurityManager());
 		}
 		DispInterface dispInt=new DispImpl();	
 		InetAddress inetAddress;
@@ -44,6 +44,7 @@ public class DispatcherService {
 		DispatcherService service =new DispatcherService();
     	try {
 			service.bindDispatcher("Dispatcher");
+            MainDispatcherController.run();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
