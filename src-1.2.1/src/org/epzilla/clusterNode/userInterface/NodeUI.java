@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import javax.swing.*;
 import java.awt.Point;
 import java.awt.Color;
+import java.awt.Label;
 
 public class NodeUI extends JFrame {
 
@@ -17,6 +18,9 @@ public class NodeUI extends JFrame {
 	private JTextArea jTextAreaStatus = null;
 	private JTextArea jTextAreaTriggers = null;
 	private JTextArea jTextAreaIPList = null;
+	private Label label = null;
+	private Label label1 = null;
+	private Label label2 = null;
 
 	/**
 	 * This is the default constructor
@@ -33,7 +37,7 @@ public class NodeUI extends JFrame {
 	 */
 	private void initialize() {
 		this.setSize(790, 501);
-		this.setLocation(new Point(30, 30));
+		this.setLocation(new Point(100, 100));
 		this.setContentPane(getJContentPane());
 		this.setTitle("epZilla Cluster Node ");
 	}
@@ -45,11 +49,23 @@ public class NodeUI extends JFrame {
 	 */
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
+			label2 = new Label();
+			label2.setBounds(new Rectangle(574, 25, 85, 20));
+			label2.setText("Cluster IP List:");
+			label1 = new Label();
+			label1.setBounds(new Rectangle(36, 204, 132, 21));
+			label1.setText("Cluster Trigger List:");
+			label = new Label();
+			label.setBounds(new Rectangle(38, 26, 114, 17));
+			label.setText("Node Status:");
 			jContentPane = new JPanel();
 			jContentPane.setLayout(null);
 			jContentPane.add(getJScrollPane(), null);
 			jContentPane.add(getJScrollPane1(), null);
 			jContentPane.add(getJScrollPane2(), null);
+			jContentPane.add(label, null);
+			jContentPane.add(label1, null);
+			jContentPane.add(label2, null);
 		}
 		return jContentPane;
 	}

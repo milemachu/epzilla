@@ -19,6 +19,33 @@ public class TriggerManager {
     private static TransactedList<TriggerObject> triggers = new TransactedList<TriggerObject>();
     static int count = 0;
 
+
+       // Code For Testing Only -Dishan
+    public static void initTestTriggerStream() {
+        final java.util.Timer timer1 = new java.util.Timer();
+        timer1.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (getTriggers() != null) {
+
+                    if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                        Site.getLocal().allowThread();
+                        Transaction transaction = Site.getLocal().startTransaction();
+                        TriggerObject obj = new TriggerObject();
+                        obj.settriggerID(String.valueOf(count));
+                        obj.settrigger(RandomStringGenerator.nextString());
+                        getTriggers().add(obj);
+                        transaction.commit();
+                    }
+                    count++;
+
+                    if (count == 200)
+                        timer1.cancel();
+                }
+            }
+        }, 0, 500);
+    }
+
     //AddTriggers through RMI to the shared memory
     public static boolean addTriggerToList(byte[] trigger) {
         boolean success = false;
