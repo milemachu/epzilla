@@ -41,7 +41,7 @@ public class ClientTest extends Thread{
     public void initProcess(String ip, String name) throws MalformedURLException, NotBoundException, RemoteException {
         lookUp(ip,name);
         initSendTriggerStream();
-//        initEventsStream();
+//        initSendEventsStream();
         trigger.start();
 //        events.start();
     }
@@ -86,7 +86,7 @@ public class ClientTest extends Thread{
             }
         });
     }
-  public void initEventsStream(){
+  public void initSendEventsStream(){
         final java.util.Timer timer1 = new java.util.Timer();
         events = new Thread(new Runnable() {
             @Override
