@@ -1,6 +1,7 @@
 package org.epzilla.clusterNode;
 
 import org.epzilla.clusterNode.userInterface.NodeUIController;
+import org.epzilla.clusterNode.sharedMemory.NodeAsLeader;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,7 +33,7 @@ public class NodeController {
     public static void main(String[] args)
     {
         NodeUIController.InitializeUI();
-
+        NodeAsLeader.startServer();
     }
 
 }
