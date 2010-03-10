@@ -275,7 +275,8 @@ public class DispatcherUI extends JFrame implements ActionListener{
 			txtResult = new JTextArea();
 			txtResult.setLocation(new Point(19, 340));
 			txtResult.setBackground(Color.white);
-			txtResult.setSize(new Dimension(447, 132));
+			txtResult.setSize(new Dimension(447, 50));
+            txtResult.setForeground(Color.RED);
 		}
 		return txtResult;
 	}
