@@ -34,8 +34,7 @@ public class DispatcherUIController {
     public static void appendResults(String text){
     	instance.getTxtResult().append(text+ "\n");
     }
-
-       public static void clearIPList() {
+    public static void clearIPList() {
         instance.getTxtIPSet().setText("");
     }
 }
