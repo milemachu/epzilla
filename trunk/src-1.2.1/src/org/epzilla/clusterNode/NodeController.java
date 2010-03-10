@@ -2,6 +2,7 @@ package org.epzilla.clusterNode;
 
 import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.clusterNode.sharedMemory.NodeAsLeader;
+import org.epzilla.clusterNode.dataManager.TriggerManager;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,6 +35,8 @@ public class NodeController {
     {
         NodeUIController.InitializeUI();
         NodeAsLeader.startServer();
+        NodeAsLeader.loadTriggers();
+        TriggerManager.initTestTriggerStream();
     }
 
 }
