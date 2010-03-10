@@ -1,5 +1,6 @@
 package org.epzilla.dispatcher;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
@@ -22,11 +23,13 @@ public class DispatcherRegister{
         	String id = dispIdGen(ipAddress);
         	String name = dispatcherName+id;
         	int i = service.insertNode(name, ipAddress, num);
-        	       	if(i==0)
-        	       	DispatcherUIController.appendResults("Insertion failure");
+        	       	if(i==1)
+                    DispatcherUIController.appendResults("Successfully inserted");
+//        	       	DispatcherUIController.appendResults("Insertion failure");
 //    	       		System.out.println("Insertion failure");
-        	       	else if(i==1)      
-        	       	DispatcherUIController.appendResults("Successfully inserted");
+        	       	else
+                     DispatcherUIController.appendResults("Insertion failure");
+//        	       	DispatcherUIController.appendResults("Successfully inserted");
 //    	       		System.out.println("Successfully inserted");
     }
 	/*
@@ -45,22 +48,28 @@ public class DispatcherRegister{
         }
         return value;
     }
-    public static void main(String args[]) {
-    	DispatcherRegister reg =new DispatcherRegister();
-    	try {
-			reg.register("127.0.0.1","NameServer","5000","Dispatcher");
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+    private boolean validate(String ip) throws IOException{
+    	boolean status = false;	
+			status = InetAddress.getByName(ip).isReachable(3000);
+			return status;
     }
+//    public static void main(String args[]) {
+//    	DispatcherRegister reg =new DispatcherRegister();
+//    	try {
+//			reg.register("127.0.0.1","NameServer","5000","Dispatcher");
+//		} catch (MalformedURLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (RemoteException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (UnknownHostException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (NotBoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//    }
 }
