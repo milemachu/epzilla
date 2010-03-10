@@ -360,6 +360,8 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			txtResults = new JTextArea();
 			txtResults.setBounds(new Rectangle(0, 0, 800, 600));
 			txtResults.setEditable(false);
+            txtResults.setForeground(Color.green);
+            txtResults.setBackground(Color.black);
 		}
 		return txtResults;
 	}
@@ -536,8 +538,8 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		}
 		txtDispIP.setText("");
 		txtDispName.setText("");
-//		ips.removeAllElements();
-//		listLookup.setListData(ips);
+		ips.removeAllElements();
+		listLookup.setListData(ips);
 	}
 	private void clearDetails(){
 		try {
