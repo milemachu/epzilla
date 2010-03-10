@@ -44,7 +44,6 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	private JLabel labelName = null;
 	private JButton btnRegister = null;
 	private JButton btnCancel = null;
-	private JTextArea txtResult = null;
 	private JLabel lblDetails = null;
 	private JMenuBar menuBar =null;
 	private JMenuItem about = null;
@@ -69,11 +68,18 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	private JScrollPane statusScrollPane = null;
 	private JScrollPane triggerListScrollPane = null;
 	private JScrollPane ipScrollPane = null;
-	EventListener listener = new EventListener();
+	private JScrollPane resultScrollPane = null;
 	static ServerSettingsReader reader = new ServerSettingsReader();
+	private JLabel lblEvtCount = null;
+	private JTextField txtEventCount = null;
+	private JLabel lblStatus = null;
+	private JTextArea txtResult = null;
 	
+	static EventListener listener;
+	boolean isRegister = false;
 	public DispatcherUI() {
 		super();
+		listener = new EventListener();
 		initialize();
 	}	
 	private void initialize() {
@@ -88,7 +94,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
        	Image img = Toolkit.getDefaultToolkit().getImage("images//logo.jpg");
        	this.setIconImage(img);
        	this.setResizable(false);
-       	this.setSize(new Dimension(899, 632));
+       	this.setSize(new Dimension(899, 731));
        	this.setSize(new Dimension(689, 439));
        	this.setResizable(false);
        	this.setSize(x,y);
@@ -124,6 +130,9 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	}
 	private JPanel getMainSettings(){
 		if(mainSettings==null){
+			lblStatus = new JLabel();
+			lblStatus.setBounds(new Rectangle(15, 340, 71, 23));
+			lblStatus.setText("Status :");
 			lblName = new JLabel();
 			lblName.setText("Service Name :");
 			lblName.setLocation(new Point(53, 203));
@@ -143,21 +152,25 @@ public class DispatcherUI extends JFrame implements ActionListener{
 			mainSettings.add(labelName, null);
 			mainSettings.add(getBtnRegister(), null);
 			mainSettings.add(getBtnCancel(), null);
-			mainSettings.add(getTxtResult(), null);
 			mainSettings.add(lblDetails, null);
 			mainSettings.add(lblDisp, null);
 			mainSettings.add(lblName, null);
 			mainSettings.add(getTbDispSerName(), null);
+			mainSettings.add(lblStatus, null);
+			mainSettings.add(getResultPane(), null);
 		}
 		return mainSettings;
 	}
 	private JPanel getSummeryTab(){
 		if(summary==null){
+			lblEvtCount = new JLabel();
+			lblEvtCount.setBounds(new Rectangle(15, 553, 88, 22));
+			lblEvtCount.setText("Event Count :");
 			lblIPs = new JLabel();
 			lblIPs.setBounds(new Rectangle(720, 17, 38, 16));
 			lblIPs.setText("IP :");
 			lblEvents = new JLabel();
-			lblEvents.setBounds(new Rectangle(16, 21, 117, 16));
+			lblEvents.setBounds(new Rectangle(15, 21, 117, 16));
 			lblEvents.setText("Status :");
 			lblTriggers = new JLabel();
 			lblTriggers.setBounds(new Rectangle(15, 313, 116, 16));
@@ -170,6 +183,8 @@ public class DispatcherUI extends JFrame implements ActionListener{
 			summary.add(lblTriggers, null);
 			summary.add(lblEvents, null);
 			summary.add(lblIPs, null);
+			summary.add(lblEvtCount, null);
+			summary.add(getTxtEventCount(), null);
 		}
 		return summary;
 	}
@@ -270,16 +285,6 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		}
 		return btnCancel;
 	}
-	public JTextArea getTxtResult() {
-		if (txtResult == null) {
-			txtResult = new JTextArea();
-			txtResult.setLocation(new Point(19, 340));
-			txtResult.setBackground(Color.white);
-			txtResult.setSize(new Dimension(447, 50));
-            txtResult.setForeground(Color.RED);
-		}
-		return txtResult;
-	}
 	private JScrollPane getTriggerScrollPane() {
 		if (triggerListScrollPane == null) {
 			triggerListScrollPane = new JScrollPane();
@@ -291,8 +296,9 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	public JTextArea getTxtTriggers() {
 		if (txtTriggers == null) {
 			txtTriggers = new JTextArea();
-			txtTriggers.setBounds(new Rectangle(13, 337, 588, 173));
+			txtTriggers.setBounds(new Rectangle(15, 337, 588, 173));
 			txtTriggers.setForeground(Color.green);
+			txtTriggers.setEditable(false);
 			txtTriggers.setBackground(Color.black);
 		}
 		return txtTriggers;
@@ -319,6 +325,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 			txtStatus = new JTextArea();
 			txtStatus.setBounds(new Rectangle(15, 47, 587, 177));
 			txtStatus.setForeground(Color.green);
+			txtStatus.setEditable(false);
 			txtStatus.setBackground(Color.black);
 		}
 		return txtStatus;
@@ -326,7 +333,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	private JScrollPane getIpScrollPane() {
 		if (ipScrollPane == null) {
 			ipScrollPane = new JScrollPane();
-			ipScrollPane.setBounds(new Rectangle(723, 44, 270, 465));
+			ipScrollPane.setBounds(new Rectangle(720, 44, 270, 465));
 			ipScrollPane.setViewportView(getTxtIPSet());
 		}
 		return ipScrollPane;
@@ -334,11 +341,38 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	public JTextArea getTxtIPSet(){
 		if (txtIPs == null) {
 			txtIPs = new JTextArea();
-			txtIPs.setBounds(new Rectangle(723, 44, 270, 400));
+			txtIPs.setBounds(new Rectangle(720, 44, 270, 400));
 			txtIPs.setForeground(Color.green);
+			txtIPs.setEditable(false);
 			txtIPs.setBackground(Color.black);
 		}
 		return txtIPs;
+	}
+	public JTextField getTxtEventCount() {
+		if (txtEventCount == null) {
+			txtEventCount = new JTextField();
+			txtEventCount.setBounds(new Rectangle(15, 581, 154, 30));
+			txtEventCount.setBackground(Color.black);
+			txtEventCount.setEditable(false);
+			txtEventCount.setForeground(Color.green);
+		}
+		return txtEventCount;
+	}
+	private JScrollPane getResultPane() {
+		if (resultScrollPane == null) {
+			resultScrollPane = new JScrollPane();
+			resultScrollPane.setBounds(new Rectangle(15,381, 600, 250));
+			resultScrollPane.setViewportView(getTxtResult());
+		}
+		return resultScrollPane;
+	} 
+	public JTextArea getTxtResult() {
+		if (txtResult == null) {
+			txtResult = new JTextArea();
+			txtResult.setBounds(new Rectangle(15, 381, 600, 250));
+			txtResult.setEditable(false);
+		}
+		return txtResult;
 	}
 	private void register() throws MalformedURLException, RemoteException, UnknownHostException, NotBoundException {
 		String ip = txtIP.getText().toString();
@@ -355,7 +389,8 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		}
 		if(nameService.length()!=0 && dispatcherName.length()!=0){
 				listener.register(ip, nameService,port,dispatcherName);
-//				bind();
+				isRegister = true;
+				
 		}else{
 			JOptionPane.showMessageDialog(null,"Dispatcher registration fails. Enter setting details correctly.","epZilla",JOptionPane.ERROR_MESSAGE);
 		}
@@ -415,11 +450,12 @@ public class DispatcherUI extends JFrame implements ActionListener{
 				txtPort.setText(ar[1]);
 				txtNameServer.setText(ar[2]);
 				} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-
+	 private void clearResults(){
+		 txtResult.setText("");
+	 }
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -446,11 +482,17 @@ public class DispatcherUI extends JFrame implements ActionListener{
 			
 		}else if(source==btnRegister){
 			try {
+				if(isRegister==false){
+					clearResults();
 				register();
+				}
+				else 
+					txtResult.append("Dispatcher already registered");
 			} catch (MalformedURLException e) {
 				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
 			} catch (RemoteException e) {
-				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+//				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+				txtResult.append(e.toString());
 			} catch (UnknownHostException e) {
 				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
 			} catch (NotBoundException e) {
@@ -459,4 +501,4 @@ public class DispatcherUI extends JFrame implements ActionListener{
 			
 		}
 	}
-	}
+	} 
