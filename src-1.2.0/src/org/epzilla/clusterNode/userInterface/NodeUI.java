@@ -101,7 +101,7 @@ public class NodeUI extends JFrame {
 	 * 	
 	 * @return javax.swing.JTextArea	
 	 */
-	private JTextArea getJTextAreaStatus() {
+	public JTextArea getJTextAreaStatus() {
 		if (jTextAreaStatus == null) {
 			jTextAreaStatus = new JTextArea();
 			jTextAreaStatus.setBackground(Color.black);
@@ -115,7 +115,7 @@ public class NodeUI extends JFrame {
 	 * 	
 	 * @return javax.swing.JTextArea	
 	 */
-	private JTextArea getJTextAreaTriggers() {
+	public JTextArea getJTextAreaTriggers() {
 		if (jTextAreaTriggers == null) {
 			jTextAreaTriggers = new JTextArea();
 			jTextAreaTriggers.setBackground(Color.black);
@@ -129,7 +129,7 @@ public class NodeUI extends JFrame {
 	 * 	
 	 * @return javax.swing.JTextArea	
 	 */
-	private JTextArea getJTextAreaIPList() {
+	public JTextArea getJTextAreaIPList() {
 		if (jTextAreaIPList == null) {
 			jTextAreaIPList = new JTextArea();
 			jTextAreaIPList.setBackground(Color.black);

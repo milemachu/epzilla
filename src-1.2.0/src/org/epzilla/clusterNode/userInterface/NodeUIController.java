@@ -23,5 +23,17 @@ public class NodeUIController {
         instance.setVisible(true);
 
     }
+
+    public static void appendTextToStatus(String text) {
+        instance.getJTextAreaStatus().append(text + "\n");
+    }
+
+    public static void appendTextToTriggerList(String text) {
+        instance.getJTextAreaTriggers().append(text + "\n");
+    }
+
+    public static void appendTextToIPList(String text) {
+        instance.getJTextAreaIPList().append(text + "\n");
+    }
 }
 
