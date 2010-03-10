@@ -21,6 +21,7 @@ public class NodeUIController {
     public static void InitializeUI() {
         instance = new NodeUI();
         instance.setVisible(true);
+      
 
     }
 

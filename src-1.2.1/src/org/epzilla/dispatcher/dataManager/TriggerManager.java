@@ -9,7 +9,6 @@ import java.util.TimerTask;
 
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 import org.epzilla.dispatcher.RandomStringGenerator;
-import org.epzilla.dispatcher.DispatcherUIController;
 
 /**
  * Created by IntelliJ IDEA.
