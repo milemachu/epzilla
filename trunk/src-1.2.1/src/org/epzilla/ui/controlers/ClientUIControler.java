@@ -18,6 +18,9 @@ public class ClientUIControler implements Runnable{
 			clientInstance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			clientInstance.setVisible(true);
 		}
+//		public static void appendResults(String message){
+//			clientInstance.getTxtResults().append(message + "\n");
+//		}
 	  @Override
 	  public void run() {
 		  clientInstance.getTxtResults().append(message + "\n");
