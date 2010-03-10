@@ -7,6 +7,7 @@ import org.epzilla.clusterNode.clusterInfoObjectModel.ClusterObjectModel;
 import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
 import org.epzilla.clusterNode.NodeController;
+import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
 import org.epzilla.clusterNode.dataManager.ClusterIPManager;
 
@@ -25,16 +26,16 @@ public class NodeAsLeader {
 
     public static boolean startServer() {
         boolean success = false;
-        System.out.println("Strating STM server");
+        NodeUIController.appendTextToStatus("Strating STM server...");
         Site.getLocal().registerObjectModel(new ClusterObjectModel());
         try {
             int port = NodeController.getPort();
             Server server = new SocketServer(port);
             server.start();
-            System.out.println("Attaching a share to sites group: server and clients...");
+            NodeUIController.appendTextToStatus("Attaching a share to sites group: server and clients...");
 
             share = new Share();
-            System.out.println("Waiting For Clients...");
+            NodeUIController.appendTextToStatus("Waiting For Clients...");
             // Once connected, retrieve the Group that represents the
             // server and its
             // clients
@@ -47,8 +48,6 @@ public class NodeAsLeader {
             }
             share = (Share) serverAndClientsSites.getOpenShares().toArray()[0];
             success = true;
-            System.out.println("Server Successfully started...");
-            System.out.println("Waiting for Clients...");
             System.in.read();
 
         } catch (Transaction.AbortedException e2) {
@@ -75,7 +74,7 @@ public class NodeAsLeader {
         }
         TriggerManager.getTriggers().addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-                System.out.println(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
+               NodeUIController.appendTextToTriggerList(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
             }
         });
 
@@ -94,7 +93,7 @@ public class NodeAsLeader {
         }
         ClusterIPManager.getIpList().addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-                System.out.println("New IP added to IP List");
+
 
             }
         });
