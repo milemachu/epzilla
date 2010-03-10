@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cluster id="1">
+<ip uid="1" default="true">192.168.1.5</ip>
+<ip uid="2" >192.168.1.63</ip>
+
+</cluster>
