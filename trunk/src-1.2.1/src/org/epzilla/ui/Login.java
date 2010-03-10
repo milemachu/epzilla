@@ -133,7 +133,7 @@ public class Login extends JFrame implements ActionListener{
 			System.exit(0);
 		}else if(source ==btnOK){
 			showMainUI();
-			this.hide();
+			this.setVisible(false);
 		}
 	}
 }

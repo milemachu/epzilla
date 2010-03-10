@@ -509,15 +509,11 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			client.regForCallback(ip, servicename);
 			isRegister=true;
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
 		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);		}
 		}
 	}
 	private void unregisterCallbackLocal(){
@@ -527,40 +523,21 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			client.unregisterCallback(ip, servicename);
 			
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
 		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);		}
 		txtDispIP.setText("");
 		txtDispName.setText("");
 		ips.removeAllElements();
 		listLookup.setListData(ips);
-	}
-	private void clearDetails(){
-		try {
-			client.unregisterCallback(txtDispIP.getText().toString(),txtDispName.getText().toString());
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		txtDispIP.setText("");
-		txtDispName.setText("");
 		isRegister=false;
+
 	}
 	private void showAbout(){
 		About abut = new About();
-		abut.show();
+        abut.setVisible(true);
 	}
 	public static boolean isValidIp(String ip)
     {
@@ -613,11 +590,11 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
             try {
                 clientTest.initProcess(dispIP,dispName);
             } catch (MalformedURLException e) {
-                e.printStackTrace();  
+            	JOptionPane.showMessageDialog(null,"Error in file send process.","epZilla",JOptionPane.ERROR_MESSAGE);  
             } catch (NotBoundException e) {
-                e.printStackTrace();  
+            	JOptionPane.showMessageDialog(null,"Dispatcher failure.","epZilla",JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException e) {
-                e.printStackTrace();  
+            	JOptionPane.showMessageDialog(null,"I/O error occured","epZilla",JOptionPane.ERROR_MESSAGE);
             }
         }
 		else
@@ -658,7 +635,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		}else if(source==btnCancelSend){
 			cancelSend();
 		}else if(source==btnClear){
-//			clearDetails();
+			unregisterCallbackLocal();
 		}else if(source==btnSave){
 			saveSettings();
 		}else if(source==btnLookup){
