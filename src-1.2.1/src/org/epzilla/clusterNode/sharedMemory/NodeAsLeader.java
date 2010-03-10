@@ -3,6 +3,7 @@ package org.epzilla.clusterNode.sharedMemory;
 import jstm.core.*;
 import jstm.transports.clientserver.Server;
 import jstm.transports.clientserver.socket.SocketServer;
+import jstm.transports.clientserver.socket.SocketClient;
 import org.epzilla.clusterNode.clusterInfoObjectModel.ClusterObjectModel;
 import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
@@ -13,6 +14,7 @@ import org.epzilla.clusterNode.dataManager.ClusterIPManager;
 
 
 import java.io.IOException;
+import java.util.TimerTask;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,6 +25,7 @@ import java.io.IOException;
  */
 public class NodeAsLeader {
     private static Share share;
+    private static Server server;
 
     public static boolean startServer() {
         boolean success = false;
@@ -30,7 +33,7 @@ public class NodeAsLeader {
         Site.getLocal().registerObjectModel(new ClusterObjectModel());
         try {
             int port = NodeController.getPort();
-            Server server = new SocketServer(port);
+            server = new SocketServer(port);
             server.start();
             NodeUIController.appendTextToStatus("Attaching a share to sites group: server and clients...");
 
@@ -48,13 +51,13 @@ public class NodeAsLeader {
             }
             share = (Share) serverAndClientsSites.getOpenShares().toArray()[0];
             success = true;
-            System.in.read();
+            checkServerStatus();
 
         } catch (Transaction.AbortedException e2) {
 
             e2.printStackTrace();
         } catch (IOException e3) {
-           
+
             e3.printStackTrace();
         }
         return success;
@@ -73,7 +76,7 @@ public class NodeAsLeader {
         }
         TriggerManager.getTriggers().addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-               NodeUIController.appendTextToTriggerList(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
+                NodeUIController.appendTextToTriggerList(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
             }
         });
 
@@ -96,6 +99,21 @@ public class NodeAsLeader {
 
             }
         });
+    }
+
+    public static void checkServerStatus() {
+        final java.util.Timer timer1 = new java.util.Timer();
+        timer1.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Group set = server.getServerAndClients();
+
+//                if (client.getStatus() == SocketClient.Status.DISCONNECTED) {
+////                     DispatcherUIController.appendTextToStatus("Server Status..." + client.getStatus().toString());
+//                    this.cancel();
+//                }
+            }
+        }, 10, 1000);
     }
 
 }
