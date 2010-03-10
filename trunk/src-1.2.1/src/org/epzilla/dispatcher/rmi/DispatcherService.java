@@ -56,7 +56,6 @@ public class DispatcherService {
     	try {
     		DispatcherService service = new DispatcherService();
 			service.bindDispatcher("Dispatcher");
-//           	DispatcherService service =new DispatcherService("Dispatcher");
             run();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
