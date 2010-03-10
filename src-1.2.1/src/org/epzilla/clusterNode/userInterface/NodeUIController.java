@@ -1,5 +1,7 @@
 package org.epzilla.clusterNode.userInterface;
 
+import javax.swing.*;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Dishan
@@ -20,8 +22,9 @@ public class NodeUIController {
 
     public static void InitializeUI() {
         instance = new NodeUI();
+        instance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         instance.setVisible(true);
-      
+
 
     }
 
