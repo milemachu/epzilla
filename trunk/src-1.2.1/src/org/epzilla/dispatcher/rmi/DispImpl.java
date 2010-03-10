@@ -6,12 +6,13 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Vector;
 
 import org.epzilla.ui.rmi.*;
-import org.epzilla.dispatcher.dataManager.TriggerManager;
+import org.epzilla.dispatcher.dataManager.*;
 
 public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
 	private Vector<ClientCallbackInterface> clientList = new Vector<ClientCallbackInterface>();
-
+	int id;
+	String clientID="";
     protected DispImpl() throws RemoteException {
         //super();
    
@@ -38,8 +39,6 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
             return "Ok";
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
         }
         return null;
     }
@@ -69,6 +68,16 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 		ClientCallbackInterface nextClient = clientList.elementAt(i);
         nextClient.notifyClient("Events hit="+  clientList.size());
 	  } 
+	}
+	@Override
+	public void acceptLeaderIp(String ip)	throws RemoteException {
+		try{
+			clientID = "CID"+id;
+		ClusterLeaderIpListManager.addIP(clientID, ip);
+		id++;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 
