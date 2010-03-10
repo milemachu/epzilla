@@ -1,5 +1,7 @@
 package org.epzilla.clusterNode;
 
+import org.epzilla.clusterNode.userInterface.NodeUIController;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Dishan
@@ -26,4 +28,11 @@ public class NodeController {
     public static void setLeaderIP(String leaderIP) {
         NodeController.leaderIP = leaderIP;
     }
+
+    public static void main(String[] args)
+    {
+        NodeUIController.InitializeUI();
+
+    }
+
 }
