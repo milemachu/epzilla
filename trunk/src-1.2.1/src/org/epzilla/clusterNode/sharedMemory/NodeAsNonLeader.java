@@ -35,12 +35,12 @@ public class NodeAsNonLeader {
             client = new SocketClient(NodeController.getLeaderIP(), NodeController.getPort());
             ConnectionInfo connection = client.connect();
             NodeUIController.appendTextToStatus("Client Started Successfully.... ");
-            NodeUIController.appendTextToStatus("Connected to server: " + connection.getServer().getObjectModelUID().toString());
+            NodeUIController.appendTextToStatus("Connected to server: " + NodeController.getLeaderIP().toString());
             share = new Share();
 
-//               DispatcherUIController.appendTextToStatus("Number of Open Shares: "
-//                       + String.valueOf(connection.getServerAndClients()
-//                       .getOpenShares().size()));
+            NodeUIController.appendTextToStatus("Number of Open Shares: "
+                    + String.valueOf(connection.getServerAndClients()
+                    .getOpenShares().size()));
             // Once connected, retrieve the Group that represents the
             // server and its
             // clients
