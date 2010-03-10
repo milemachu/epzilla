@@ -20,6 +20,6 @@ public class EventListener {
 		disReg.register(ip,serviceName,port,dispatcherName);
 	}
 	public void bindDispatcher(String disServiceName) throws RemoteException, UnknownHostException, MalformedURLException{
-		service.bindDispatcher(disServiceName);
+//		service.bindDispatcher(disServiceName);
 	}	
 }
