@@ -37,7 +37,7 @@ public class MainDispatcherController {
         try {
            
             DispatcherUIController.InitializeUI();
-            runAsServer();
+            runAsClient();
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
