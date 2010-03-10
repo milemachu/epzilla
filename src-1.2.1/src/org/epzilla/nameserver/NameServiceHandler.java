@@ -1,6 +1,8 @@
 package org.epzilla.nameserver;
 
 
+import org.epzilla.dispatcher.rmi.*;
+
 import java.net.InetAddress;
 import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
@@ -13,7 +15,7 @@ public class NameServiceHandler extends UnicastRemoteObject {
     }
    	public void bind(String serviceName){
 		if(System.getSecurityManager()==null){
-			System.setSecurityManager(new RMISecurityManager());
+			System.setSecurityManager(new org.epzilla.dispatcher.rmi.OpenSecurityManager());
 		}
 		try {
         	InetAddress inetAddress = InetAddress.getLocalHost();
@@ -28,8 +30,7 @@ public class NameServiceHandler extends UnicastRemoteObject {
 
 	}
     public static void main(String args[]) throws RemoteException {
-        //System.setSecurityManager(new RMISecurityManager());
-    	NameServiceHandler handler = new NameServiceHandler();
+       	NameServiceHandler handler = new NameServiceHandler();
     	handler.bind("NameServer");
     	
     }
