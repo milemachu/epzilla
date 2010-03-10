@@ -13,5 +13,5 @@ public interface DispInterface extends Remote {
 	public String acceptNotifications()throws RemoteException;
 	public void registerCallback(ClientCallbackInterface clientObject) throws RemoteException;
 	public void unregisterCallback(ClientCallbackInterface clientObject)throws RemoteException;
-
+	public void acceptLeaderIp(String ip) throws RemoteException;
 }
