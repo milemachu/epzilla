@@ -131,7 +131,8 @@ public class DispatcherAsClient {
         ClusterLeaderIpListManager.setIpList(info);
         info.addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-                DispatcherUIController.appendIP("IP added to List: " + ClusterLeaderIpListManager.getIpList().get(i));
+//                DispatcherUIController.appendIP("IP added to List: " + ClusterLeaderIpListManager.getIpList().get(i));
+            ClusterLeaderIpListManager.printIPList();
             }
         });
 
