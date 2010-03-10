@@ -51,17 +51,16 @@ public class NodeAsLeader {
             System.in.read();
 
         } catch (Transaction.AbortedException e2) {
-            // TODO Auto-generated catch block
+
             e2.printStackTrace();
         } catch (IOException e3) {
-            // TODO Auto-generated catch block
+           
             e3.printStackTrace();
         }
         return success;
     }
 
     public static void loadTriggers() {
-
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
             Site.getLocal().allowThread();
             Transaction transaction = Site.getLocal().startTransaction();
