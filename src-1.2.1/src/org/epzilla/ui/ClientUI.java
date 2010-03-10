@@ -594,7 +594,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
             } catch (NotBoundException e) {
             	JOptionPane.showMessageDialog(null,"Dispatcher failure.","epZilla",JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException e) {
-            	JOptionPane.showMessageDialog(null,"I/O error occured","epZilla",JOptionPane.ERROR_MESSAGE);
+            	JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
             }
         }
 		else
