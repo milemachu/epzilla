@@ -12,8 +12,8 @@ import org.epzilla.clusterNode.clusterInfoObjectModel.ClusterObjectModel;
 import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
 import org.epzilla.clusterNode.NodeController;
-import org.epzilla.clusterNode.TriggerManager;
-import org.epzilla.clusterNode.ClusterIPManager;
+import org.epzilla.clusterNode.dataManager.TriggerManager;
+import org.epzilla.clusterNode.dataManager.ClusterIPManager;
 
 /**
  * Created by IntelliJ IDEA.
