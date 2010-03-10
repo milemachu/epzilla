@@ -8,9 +8,18 @@ import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 
 import org.epzilla.dispatcher.controlers.*;
+import static org.epzilla.dispatcher.controlers.MainDispatcherController.*;
 
 public class DispatcherService {
 
+    String serviceName="";
+
+    public DispatcherService(){
+
+    }
+    public DispatcherService(String name){
+          this.serviceName = name;
+    }
 	public void bindDispatcher(String serviceName) throws RemoteException, UnknownHostException, MalformedURLException {
 		if(System.getSecurityManager()==null){
 			System.setSecurityManager(new OpenSecurityManager());
@@ -43,19 +52,16 @@ public class DispatcherService {
         return value;
     }
 	public static void main(String[] args) {
-		DispatcherService service =new DispatcherService();
+
     	try {
+    		DispatcherService service = new DispatcherService();
 			service.bindDispatcher("Dispatcher");
-            MainDispatcherController.run();
-		} catch (RemoteException e) {
+//           	DispatcherService service =new DispatcherService("Dispatcher");
+            run();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-	}
+    }
 
 }
