@@ -12,23 +12,16 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
 	private Vector<ClientCallbackInterface> clientList = new Vector<ClientCallbackInterface>();
 	int id;
-	String clientID="";
+	String clusterID="";
     protected DispImpl() throws RemoteException {
         //super();
-   
-
     }
     public String uploadEventsToDispatcher(byte[] stream,String clientID,int eventSeqID) throws RemoteException {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("ClientToServer.txt"));
-            writer.write(new String(stream));
-            writer.flush();
-            writer.close();
-            System.out.println(clientID+" "+eventSeqID);
-            return "Ok";
+        //add events to dispatcher logic here 
+        	return "OK";
         } catch (Exception e) {
             System.err.println("FileServer exception: " + e.getMessage());
-            e.printStackTrace();
         }
         return null;
     }
@@ -39,6 +32,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
             return "Ok";
 
         } catch (Exception e) {
+        	System.err.println("FileServer exception: " + e.getMessage());
         }
         return null;
     }
@@ -72,11 +66,11 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 	@Override
 	public void acceptLeaderIp(String ip)	throws RemoteException {
 		try{
-			clientID = "CID"+id;
-		ClusterLeaderIpListManager.addIP(clientID, ip);
-		id++;
-		}catch(Exception e){
-			e.printStackTrace();
+			clusterID = "CID"+id;
+			ClusterLeaderIpListManager.addIP(clusterID, ip);
+			id++;
+			}catch(Exception e){
+				e.printStackTrace();
 		}
 	}
 
