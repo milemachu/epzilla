@@ -24,13 +24,10 @@ public class DispatcherRegister{
         	String name = dispatcherName+id;
         	int i = service.insertNode(name, ipAddress, num);
         	       	if(i==1)
-                    DispatcherUIController.appendResults("Successfully inserted");
-//        	       	DispatcherUIController.appendResults("Insertion failure");
-//    	       		System.out.println("Insertion failure");
+        	       		DispatcherUIController.appendResults("Dispatcher Successfully Registered in the Name Server");
         	       	else
-                     DispatcherUIController.appendResults("Insertion failure");
-//        	       	DispatcherUIController.appendResults("Successfully inserted");
-//    	       		System.out.println("Successfully inserted");
+        	       		DispatcherUIController.appendResults("Dispatcher Registration failure");
+
     }
 	/*
 	 * generate dispatcher id
