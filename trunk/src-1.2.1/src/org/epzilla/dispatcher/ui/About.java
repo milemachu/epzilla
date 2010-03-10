@@ -106,7 +106,7 @@ public class About extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
 		if(source==btnOK){
-			this.hide();
+			this.setVisible(false);
 		}
 		
 	}

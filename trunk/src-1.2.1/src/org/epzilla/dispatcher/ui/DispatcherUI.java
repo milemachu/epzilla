@@ -360,10 +360,10 @@ public class DispatcherUI extends JFrame implements ActionListener{
 			JOptionPane.showMessageDialog(null,"Dispatcher registration fails. Enter setting details correctly.","epZilla",JOptionPane.ERROR_MESSAGE);
 		}
 		}
-	private void bind() throws RemoteException, UnknownHostException, MalformedURLException{
-		String dispatcherName = txtDispSerName.getText().toString();
-			listener.bindDispatcher(dispatcherName);
-			}
+//	private void bind() throws RemoteException, UnknownHostException, MalformedURLException{
+//		String dispatcherName = txtDispSerName.getText().toString();
+//			listener.bindDispatcher(dispatcherName);
+//			}
 	private boolean isValidPort(String port){
 		 boolean returnValue = true;
 	      if (port.length() != 0) {
@@ -405,7 +405,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	    }	
 	 public void showAbout(){
 		 About abut = new About();
-			abut.show();
+		 abut.setVisible(true);
 	 }
 	 private void loadSettings(){
 			try {
