@@ -16,8 +16,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="" />
-    <ignored path=".idea/workspace.xml" />
     <ignored path="TEST Build of JSTM.iws" />
+    <ignored path=".idea/workspace.xml" />
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="Commander">
@@ -89,75 +89,73 @@
   <component name="FileColors" enabled="true" enabledForTabs="true" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="DispatcherService.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/epzilla/dispatcher/rmi/DispatcherService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="30" selection-start="787" selection-end="787" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NodeAsNonLeader.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/sharedMemory/NodeAsNonLeader.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="13" selection-start="843" selection-end="843" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NodeController.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="NodeController.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/NodeController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="30" selection-start="552" selection-end="552" vertical-scroll-proportion="0.32898173">
+            <state line="24" column="10" selection-start="638" selection-end="638" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NodeUI.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/userInterface/NodeUI.java">
+      <file leaf-file-name="QueryExecuter.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/parser/QueryExecuter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="59" column="15" selection-start="1727" selection-end="1727" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Reader.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/lib/jstm.jar!/jstm/core/Reader.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="0" selection-start="1406" selection-end="1406" vertical-scroll-proportion="0.0">
+            <state line="20" column="28" selection-start="574" selection-end="574" vertical-scroll-proportion="-0.06049822">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NodeVariables.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/epzilla/dispatcher/dataManager/NodeVariables.java">
+      <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="91" selection-start="516" selection-end="516" vertical-scroll-proportion="0.0">
+            <state line="47" column="22" selection-start="1342" selection-end="1342" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainDispatcherController.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/epzilla/dispatcher/controlers/MainDispatcherController.java">
+      <file leaf-file-name="SingleQueryResult.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/parser/SingleQueryResult.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="28" selection-start="1285" selection-end="1285" vertical-scroll-proportion="0.0">
+            <state line="10" column="13" selection-start="242" selection-end="242" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DispatcherAsClient.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/epzilla/dispatcher/sharedMemoryModule/DispatcherAsClient.java">
+      <file leaf-file-name="ResultAssembler.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/parser/ResultAssembler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="81" column="17" selection-start="3317" selection-end="3317" vertical-scroll-proportion="0.0">
+            <state line="5" column="13" selection-start="84" selection-end="84" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="QueryParser.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/parser/QueryParser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="13" selection-start="364" selection-end="364" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UnionFind.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/parser/UnionFind.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="41" column="33" selection-start="847" selection-end="847" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Util.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/parser/Util.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="37" selection-start="355" selection-end="355" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -526,7 +524,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="userInterface" />
+          <option name="myItemId" value="query" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -548,73 +546,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="sharedMemory" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="TEST Build of JSTM" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="TEST Build of JSTM" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="org.epzilla" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="clusterNode" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="dataManager" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="TEST Build of JSTM" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="TEST Build of JSTM" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="org.epzilla" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="clusterNode" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="clusterObjectModelEngine" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="TEST Build of JSTM" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="TEST Build of JSTM" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="org.epzilla" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="clusterNode" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="clusterInfoObjectModel" />
+          <option name="myItemId" value="parser" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -654,7 +586,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="RunManagerConfig.showSettingsBeforeRunnig" value="false" />
@@ -676,9 +608,9 @@
       <recent name="org.epzilla.dispatcher.dataManager" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.NodeController">
-    <tempConfiguration default="false" name="NodeController" type="Application" factoryName="Application" enabled="false" merge="false" runner="emma">
-      <option name="MAIN_CLASS_NAME" value="org.epzilla.clusterNode.NodeController" />
+  <component name="RunManager" selected="Application.Main">
+    <tempConfiguration default="false" name="Main" type="Application" factoryName="Application" enabled="false" merge="false" runner="emma">
+      <option name="MAIN_CLASS_NAME" value="org.epzilla.clusterNode.Main" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -898,8 +830,16 @@
     <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Application.MainDispatcherController" />
       <item index="1" class="java.lang.String" itemvalue="Application.ModelGenerationEngine" />
-      <item index="2" class="java.lang.String" itemvalue="Application.NodeController" />
+      <item index="2" class="java.lang.String" itemvalue="Application.Main" />
     </list>
+    <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
+      <Host>localhost</Host>
+      <Port>5050</Port>
+    </configuration>
+    <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
+      <Host>localhost</Host>
+      <Port>5050</Port>
+    </configuration>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
       <Port>5050</Port>
@@ -970,7 +910,7 @@
     <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
     <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
     <option name="IGNORE_SPACES_IN_MERGE" value="false" />
-    <configuration useDefault="true">C:\Users\Dishan\AppData\Roaming\Subversion</configuration>
+    <configuration useDefault="true">C:\Users\Rajeev\AppData\Roaming\Subversion</configuration>
     <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
   </component>
   <component name="TaskManager">
@@ -1003,28 +943,28 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="776" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32903227" sideWeight="0.5" order="1" side_tool="false" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40775195" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="Dataflow to this" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31937984" sideWeight="0.5" order="10" side_tool="false" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31935483" sideWeight="0.5" order="10" side_tool="false" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3998378" sideWeight="0.9891473" order="0" side_tool="false" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12055016" sideWeight="0.8108527" order="5" side_tool="false" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23438767" sideWeight="0.6604651" order="0" side_tool="false" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.120032445" sideWeight="0.8108527" order="5" side_tool="false" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23438767" sideWeight="0.66451615" order="0" side_tool="false" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" />
       <window_info id="Web Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32868218" sideWeight="0.5" order="2" side_tool="false" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32419354" sideWeight="0.5" order="2" side_tool="false" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" />
@@ -1097,45 +1037,19 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/epzilla/dispatcher/ui/About.java">
+    <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/sharedMemory/NodeAsNonLeader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="110" column="8" selection-start="3327" selection-end="3327" vertical-scroll-proportion="0.0">
+        <state line="25" column="13" selection-start="843" selection-end="843" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/clusterObjectModelEngine/ClusterObjectModelGenerator.java">
+    <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/userInterface/NodeUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="13" selection-start="288" selection-end="288" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/dataManager/TriggerManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="17" selection-start="1612" selection-end="1612" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/epzilla/dispatcher/dataManager/TriggerManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="13" selection-start="460" selection-end="460" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/sharedMemory/NodeAsLeader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="13" selection-start="897" selection-end="897" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/jstm.jar!/jstm/core/Site.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="0" selection-start="3801" selection-end="3801" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="59" column="15" selection-start="1727" selection-end="1727" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1153,9 +1067,58 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/epzilla/dispatcher/controlers/MainDispatcherController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="28" selection-start="1285" selection-end="1285" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/epzilla/dispatcher/sharedMemoryModule/DispatcherAsClient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="81" column="17" selection-start="3317" selection-end="3317" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/NodeController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="10" selection-start="638" selection-end="638" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/parser/SingleQueryResult.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="13" selection-start="242" selection-end="242" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/parser/ResultAssembler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="13" selection-start="84" selection-end="84" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/parser/QueryParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="13" selection-start="364" selection-end="364" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/parser/UnionFind.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="33" selection-start="847" selection-end="847" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/parser/Util.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="37" selection-start="355" selection-end="355" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1174,39 +1137,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/epzilla/dispatcher/controlers/MainDispatcherController.java">
+    <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="28" selection-start="1285" selection-end="1285" vertical-scroll-proportion="0.0">
+        <state line="47" column="22" selection-start="1342" selection-end="1342" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/epzilla/dispatcher/rmi/DispatcherService.java">
+    <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/parser/QueryExecuter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="30" selection-start="787" selection-end="787" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/sharedMemory/NodeAsNonLeader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="13" selection-start="843" selection-end="843" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/userInterface/NodeUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="15" selection-start="1727" selection-end="1727" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/epzilla/clusterNode/NodeController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="30" selection-start="552" selection-end="552" vertical-scroll-proportion="0.32898173">
+        <state line="20" column="28" selection-start="574" selection-end="574" vertical-scroll-proportion="-0.06049822">
           <folding />
         </state>
       </provider>

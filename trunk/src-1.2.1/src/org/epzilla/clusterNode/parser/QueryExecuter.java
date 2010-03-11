@@ -2,7 +2,10 @@ package org.epzilla.clusterNode.parser;
 
 
 import java.util.Vector;
+import java.util.HashSet;
+
 import org.epzilla.clusterNode.query.Query;
+import org.epzilla.clusterNode.query.QuerySyntaxException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,14 +15,37 @@ import org.epzilla.clusterNode.query.Query;
  * To change this template use File | Settings | File Templates.
  */
 public class QueryExecuter {
-    Vector<Query> queries = new Vector<Query>();
+    private Vector<Query> queries = new Vector<Query>();
+    private Vector<Query> mirror = new Vector<Query>();
+    private static Object lock = new Object();
+    private QueryParser parser = new QueryParser();
+    private HashSet<String> querySet = new HashSet<String>();
+
 
     public void addQuery(Query q) {
-        this.queries.add(q);
+        synchronized (lock) {
+            this.mirror.add(q);
+            this.queries = (Vector<Query>) this.mirror.clone();
+        }
     }
 
+    public void addQuery(String query) throws QuerySyntaxException {
+        if (!querySet.contains(query)) {
+            querySet.add(query);
+            Query q = parser.parseQuery(query);
+            synchronized (lock) {
+                this.mirror.add(q);
+                this.queries = (Vector<Query>) this.mirror.clone();
+            }
+        }
+    }
+
+
     public void removeQuery(Query q) {
-        this.queries.remove(q);
+        synchronized (lock) {
+            this.mirror.remove(q);
+            this.queries = (Vector<Query>) this.mirror.clone();
+        }
     }
 
     public String processEvents(String events) {
@@ -32,12 +58,13 @@ public class QueryExecuter {
             ResultAssembler ra = new ResultAssembler();
             ra.setUnionFind(uf);
             uf.add("Title");
-            boolean[] added = new boolean[queries.size()];
+            Vector<Query> queryRef = this.queries;
+            boolean[] added = new boolean[queryRef.size()];
             int queryIndex = 0;
             for (int i = 1; i <= eventGrid.length; i++) {
                 eventGrid[i - 1] = csvRows[i].split(",");
                 queryIndex = 0;
-                for (Query q : this.queries) {
+                for (Query q : queryRef) {
                     SingleQueryResult sq = new SingleQueryResult();
 
                     int[] mapping = getMapping(q.getConditionLeft(), headers);
