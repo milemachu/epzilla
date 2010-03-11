@@ -29,6 +29,6 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
     }
 
     public String acceptEventStream(byte[] stream, String cID) throws RemoteException {
-                         return null;
+        return null;
     }
 }
