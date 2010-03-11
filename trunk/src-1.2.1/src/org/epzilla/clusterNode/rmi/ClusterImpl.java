@@ -12,9 +12,9 @@ import java.rmi.server.UnicastRemoteObject;
  * Time: 10:49:26 AM
  * To change this template use File | Settings | File Templates.
  */
-public class ClusterImpl implements ClusterInterface {
+public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface {
 
-    public ClusterImpl() {
+    public ClusterImpl() throws RemoteException{
 
     }
 
