@@ -1,0 +1,25 @@
+package org.epzilla.clusterNode.rmi;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: Team epZilla
+ * Date: Mar 11, 2010
+ * Time: 10:49:26 AM
+ * To change this template use File | Settings | File Templates.
+ */
+public class ClusterImpl implements ClusterInterface{
+
+    public ClusterImpl(){
+        
+    }
+    public void acceptTiggerStream(byte[] stream,String cID,int triggerSeqID) throws RemoteException {
+
+    }
+
+    public void acceptEventStream(byte[] stream,String cID,int eventSeqID) throws RemoteException {
+       
+    }
+}
