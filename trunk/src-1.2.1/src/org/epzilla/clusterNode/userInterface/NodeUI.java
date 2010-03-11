@@ -193,7 +193,7 @@ public class NodeUI extends JFrame {
      *
      * @return javax.swing.JTextArea
      */
-    private JTextArea getJTextAreaLeader() {
+   public JTextArea getJTextAreaLeader() {
         if (jTextAreaLeader == null) {
             jTextAreaLeader = new JTextArea();
             jTextAreaLeader.setBounds(new Rectangle(138, 60, 165, 20));
@@ -208,7 +208,7 @@ public class NodeUI extends JFrame {
      *
      * @return javax.swing.JTextArea
      */
-    private JTextArea getJTextAreaEventCount() {
+    public JTextArea getJTextAreaEventCount() {
         if (jTextAreaEventCount == null) {
             jTextAreaEventCount = new JTextArea();
             jTextAreaEventCount.setBounds(new Rectangle(433, 60, 136, 21));

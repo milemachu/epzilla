@@ -35,6 +35,7 @@ public class NodeAsLeader {
             int port = NodeController.getPort();
             server = new SocketServer(port);
             server.start();
+            NodeUIController.setLeaderStatus("Leader");
             NodeUIController.appendTextToStatus("Attaching a share to sites group: server and clients...");
 
             share = new Share();
@@ -51,6 +52,7 @@ public class NodeAsLeader {
             }
             share = (Share) serverAndClientsSites.getOpenShares().toArray()[0];
             success = true;
+
             checkServerStatus();
 
         } catch (Transaction.AbortedException e2) {
