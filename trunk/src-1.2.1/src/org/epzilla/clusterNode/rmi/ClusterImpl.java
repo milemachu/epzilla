@@ -18,15 +18,17 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 
     }
 
-    public void acceptTiggerStream(byte[] stream, String cID) throws RemoteException {
+    public String acceptTiggerStream(byte[] stream, String cID) throws RemoteException {
         try {
             TriggerManager.addTriggerToList(stream);
+            return "OK";
         } catch (Exception e) {
                      e.printStackTrace();
         }
+        return null;
     }
 
-    public void acceptEventStream(byte[] stream, String cID) throws RemoteException {
-
+    public String acceptEventStream(byte[] stream, String cID) throws RemoteException {
+                         return null;
     }
 }
