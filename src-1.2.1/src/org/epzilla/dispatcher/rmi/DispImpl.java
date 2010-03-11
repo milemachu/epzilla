@@ -4,21 +4,26 @@ import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Vector;
-
 import org.epzilla.ui.rmi.*;
 import org.epzilla.dispatcher.dataManager.*;
+import org.epzilla.dispatcher.controlers.DispatcherUIController;
 
 public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
 	private Vector<ClientCallbackInterface> clientList = new Vector<ClientCallbackInterface>();
 	int id;
 	String clusterID="";
+    int count=0;
     protected DispImpl() throws RemoteException {
         //super();
     }
     public String uploadEventsToDispatcher(byte[] stream,String clientID,int eventSeqID) throws RemoteException {
         try {
-        //add events to dispatcher logic here 
+        //add events to dispatcher logic here
+//            count++;
+//            String text = Integer.toString(count);
+//            DispatcherUIController.appendEventsCount(text);
+            EventsCounter.setEventCount();
         	return "OK";
         } catch (Exception e) {
             System.err.println("FileServer exception: " + e.getMessage());
