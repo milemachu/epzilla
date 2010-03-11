@@ -70,13 +70,15 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	private JScrollPane ipScrollPane = null;
 	private JScrollPane resultScrollPane = null;
 	static ServerSettingsReader reader = new ServerSettingsReader();
-	private JLabel lblEvtCount = null;
-	private JTextField txtEventCount = null;
+	private JLabel lblInEC = null;
+	private JTextField txtInEventCount = null;
 	private JLabel lblStatus = null;
 	private JTextArea txtResult = null;
 	
 	static EventListener listener;
 	boolean isRegister = false;
+	private JLabel lblOutEC = null;
+	private JTextField txtOutEventCount = null;
 	public DispatcherUI() {
 		super();
 		listener = new EventListener();
@@ -163,9 +165,12 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	}
 	private JPanel getSummeryTab(){
 		if(summary==null){
-			lblEvtCount = new JLabel();
-			lblEvtCount.setBounds(new Rectangle(15, 553, 88, 22));
-			lblEvtCount.setText("Event Count :");
+			lblOutEC = new JLabel();
+			lblOutEC.setBounds(new Rectangle(220, 553, 138, 22));
+			lblOutEC.setText("Outgoing Event Count :");
+			lblInEC = new JLabel();
+			lblInEC.setBounds(new Rectangle(15, 553, 140, 22));
+			lblInEC.setText("Incoming Event Count :");
 			lblIPs = new JLabel();
 			lblIPs.setBounds(new Rectangle(720, 17, 38, 16));
 			lblIPs.setText("IP :");
@@ -183,8 +188,10 @@ public class DispatcherUI extends JFrame implements ActionListener{
 			summary.add(lblTriggers, null);
 			summary.add(lblEvents, null);
 			summary.add(lblIPs, null);
-			summary.add(lblEvtCount, null);
-			summary.add(getTxtEventCount(), null);
+			summary.add(lblInEC, null);
+			summary.add(getTxtInEventCount(), null);
+			summary.add(lblOutEC, null);
+			summary.add(getTxtOutEventCount(), null);
 		}
 		return summary;
 	}
@@ -348,15 +355,25 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		}
 		return txtIPs;
 	}
-	public JTextField getTxtEventCount() {
-		if (txtEventCount == null) {
-			txtEventCount = new JTextField();
-			txtEventCount.setBounds(new Rectangle(15, 581, 154, 30));
-			txtEventCount.setBackground(Color.black);
-			txtEventCount.setEditable(false);
-			txtEventCount.setForeground(Color.green);
+	public JTextField getTxtInEventCount() {
+		if (txtInEventCount == null) {
+			txtInEventCount = new JTextField();
+			txtInEventCount.setBounds(new Rectangle(15, 581, 154, 30));
+			txtInEventCount.setBackground(Color.black);
+			txtInEventCount.setEditable(false);
+			txtInEventCount.setForeground(Color.green);
 		}
-		return txtEventCount;
+		return txtInEventCount;
+	}
+	public JTextField getTxtOutEventCount() {
+		if (txtOutEventCount == null) {
+			txtOutEventCount = new JTextField();
+			txtOutEventCount.setBounds(new Rectangle(220, 581, 154, 30));
+			txtOutEventCount.setForeground(Color.green);
+			txtOutEventCount.setEditable(false);
+			txtOutEventCount.setBackground(Color.black);
+		}
+		return txtOutEventCount;
 	}
 	private JScrollPane getResultPane() {
 		if (resultScrollPane == null) {
@@ -487,7 +504,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 				register();
 				}
 				else 
-					txtResult.append("Dispatcher already registered");
+					txtResult.append("Dispatcher already registered"+"\n");
 			} catch (MalformedURLException e) {
 				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
 			} catch (RemoteException e) {
