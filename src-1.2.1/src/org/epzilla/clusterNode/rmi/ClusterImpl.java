@@ -1,5 +1,7 @@
 package org.epzilla.clusterNode.rmi;
 
+import org.epzilla.clusterNode.dataManager.TriggerManager;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -10,16 +12,21 @@ import java.rmi.server.UnicastRemoteObject;
  * Time: 10:49:26 AM
  * To change this template use File | Settings | File Templates.
  */
-public class ClusterImpl implements ClusterInterface{
+public class ClusterImpl implements ClusterInterface {
 
-    public ClusterImpl(){
-        
-    }
-    public void acceptTiggerStream(byte[] stream,String cID,int triggerSeqID) throws RemoteException {
+    public ClusterImpl() {
 
     }
 
-    public void acceptEventStream(byte[] stream,String cID,int eventSeqID) throws RemoteException {
-       
+    public void acceptTiggerStream(byte[] stream, String cID, int triggerSeqID) throws RemoteException {
+        try {
+            TriggerManager.addTriggerToList(stream);
+        } catch (Exception e) {
+                     e.printStackTrace();
+        }
+    }
+
+    public void acceptEventStream(byte[] stream, String cID, int eventSeqID) throws RemoteException {
+
     }
 }
