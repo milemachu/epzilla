@@ -41,9 +41,9 @@ public class ClientTest extends Thread{
     public void initProcess(String ip, String name) throws MalformedURLException, NotBoundException, RemoteException {
         lookUp(ip,name);
         initSendTriggerStream();
-//        initSendEventsStream();
+        initSendEventsStream();
         trigger.start();
-//        events.start();
+        events.start();
     }
     public void initSendTriggerStream(){
         trigger = new Thread(new Runnable() {
@@ -63,18 +63,17 @@ public class ClientTest extends Thread{
                     String response = null;
 
                     byte []buffer =  str.getBytes();
-//                    System.out.println("trigger sending");
-
-
                     try {
                         response = di.uploadTriggersToDispatcher(buffer,cID,triggerSeqID);
                     } catch (RemoteException e) {
                     }
 
-                if(response!=null)
+                if(response!=null){
                     System.out.println("Dispatcher Recieved the triggrs from the client and the response is "+response);
+                }
                 else {
-                    System.out.println("File sending error reported.");
+                    ClientUIControler.appendResults("Dispatcher service not working or connection to the Dispatcher service failed"+"\n");
+                     return;
                 }
 //}
                     try {
@@ -116,7 +115,8 @@ public class ClientTest extends Thread{
             if(response!=null)
                 System.out.println("Dispatcher Recieved the events from the client and the response is "+response);
             else {
-                System.out.println("File sending error reported.");
+//               ClientUIControler.appendResults("Dispatcher service not working or connection to the Dispatcher service failed"+"\n");
+//                return;
             }
           try {
                         Thread.sleep(500);
