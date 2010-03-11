@@ -6,9 +6,13 @@ import jstm.core.Transaction;
 
 
 import java.util.TimerTask;
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 import org.epzilla.dispatcher.RandomStringGenerator;
+import org.epzilla.dispatcher.clusterHandler.TriggerSender;
 
 /**
  * Created by IntelliJ IDEA.
@@ -81,16 +85,32 @@ public class TriggerManager {
     }
 
 
-    public static void sendTriggersToclusters() {
+    public static void sendTriggersToclusters(byte[] trigger) {
         if (currentIP == "localhost") {
             currentIP = current1IP;
         }
 
         if (currentIP == current1IP) {
-
+            try {
+                TriggerSender.acceptTrigger(currentIP,"001",trigger);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (NotBoundException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
             currentIP = current2IP;
         } else if (currentIP == current2IP) {
-
+                        try {
+                TriggerSender.acceptTrigger(currentIP,"002",trigger);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (NotBoundException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
             currentIP = current1IP;
         }
 
