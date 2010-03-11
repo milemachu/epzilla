@@ -26,7 +26,7 @@ public class DispatcherRegister{
         	       	if(i==1)
         	       		DispatcherUIController.appendResults("Dispatcher Successfully Registered in the Name Server");
         	       	else
-        	       		DispatcherUIController.appendResults("Dispatcher Already registered");
+        	       		DispatcherUIController.appendResults("Dispatcher Successfully Registered in the Name Server");
 
     }
 	/*

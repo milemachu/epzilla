@@ -35,7 +35,7 @@ public class TriggerSender {
 //   		ClusterInterface obj = (ClusterInterface) Naming.lookup(url);
         String response=null;
         response = clusterObj.acceptTiggerStream(stream,cID);
-        if(response=="OK")
+        if(response!=null)
             System.out.println("Triggers send to the cluster");
         else
             System.out.println("Triggers not accepted");
