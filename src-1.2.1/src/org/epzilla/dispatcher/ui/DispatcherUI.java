@@ -275,7 +275,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	private JButton getBtnRegister() {
 		if (btnRegister == null) {
 			btnRegister = new JButton();
-			btnRegister.setLocation(new Point(164, 269));
+			btnRegister.setLocation(new Point(155, 250));
 			btnRegister.setText("Register");
 			btnRegister.setSize(new Dimension(85, 20));
 			btnRegister.addActionListener(this);
@@ -285,7 +285,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	private JButton getBtnCancel() {
 		if (btnCancel == null) {
 			btnCancel = new JButton();
-			btnCancel.setLocation(new Point(271, 270));
+			btnCancel.setLocation(new Point(260, 250));
 			btnCancel.setText("Cancel");
 			btnCancel.setSize(new Dimension(85, 20));
 			btnCancel.addActionListener(this);
@@ -397,11 +397,11 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		String dispatcherName = txtDispSerName.getText().toString();
 		String port = txtPort.getText().toString();
 		if(isValidIp(ip)==false){
-			JOptionPane.showMessageDialog(null,"Enter valid IP Address of NameServer.","epZilla",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Enter valid IP Address of NameServer.","Message",JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if(isValidPort(port)==false){
-			JOptionPane.showMessageDialog(null,"Enter valid Port number","epZilla",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Enter valid Port number","Message",JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if(nameService.length()!=0 && dispatcherName.length()!=0){
@@ -409,7 +409,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 				isRegister = true;
 				
 		}else{
-			JOptionPane.showMessageDialog(null,"Dispatcher registration fails. Enter setting details correctly.","epZilla",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Dispatcher registration fails. Enter setting details correctly.","Message",JOptionPane.ERROR_MESSAGE);
 		}
 		}
 //	private void bind() throws RemoteException, UnknownHostException, MalformedURLException{
@@ -473,6 +473,13 @@ public class DispatcherUI extends JFrame implements ActionListener{
 	 private void clearResults(){
 		 txtResult.setText("");
 	 }
+    private void systemExit(){
+          int response = JOptionPane.showConfirmDialog(null,"Are you sure you want to exit?","Confirm Exit",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if(response==0)
+            System.exit(0);
+        else
+            return;
+    }
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -490,7 +497,7 @@ public class DispatcherUI extends JFrame implements ActionListener{
 		}else if(source==help){
 			
 		}else if(source==exit){
-			System.exit(0);
+			systemExit();
 		}else if(source==about){
 			showAbout();
 		}else if(source==closetabs){
@@ -503,17 +510,18 @@ public class DispatcherUI extends JFrame implements ActionListener{
 					clearResults();
 				register();
 				}
-				else 
-					txtResult.append("Dispatcher already registered"+"\n");
+				else
+                    JOptionPane.showMessageDialog(null,"Dispatcher already registered","Message",JOptionPane.INFORMATION_MESSAGE);
+//
 			} catch (MalformedURLException e) {
-				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,e,"Message",JOptionPane.ERROR_MESSAGE);
 			} catch (RemoteException e) {
 //				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
-				txtResult.append(e.toString());
+				txtResult.append("Name Server is not working or configurations are incorrect");
 			} catch (UnknownHostException e) {
-				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,e,"Message",JOptionPane.ERROR_MESSAGE);
 			} catch (NotBoundException e) {
-				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,e,"Message",JOptionPane.ERROR_MESSAGE);
 			}
 			
 		}
