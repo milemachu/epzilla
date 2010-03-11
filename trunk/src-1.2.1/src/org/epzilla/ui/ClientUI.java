@@ -9,6 +9,7 @@ import java.rmi.*;
 import java.util.*;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.Rectangle;
 import javax.swing.event.*;
 
@@ -61,6 +62,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	static ClientHandler client;
     static ClientTest clientTest;   ///for testing purpose
     boolean isRegister = false;
+    boolean isLookup =false;
 	int eventSeqID;
 	int triggerSeqID;
 	static ServerSettingsReader reader;
@@ -85,7 +87,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
        	this.setTitle("Epzilla DS");	
        	this.addWindowListener(this);
        	loadSettings();
-        btnClear.enableInputMethods(false); //Clear button disable initially 
+        btnClear.setEnabled(false);
 	}
 	private JTabbedPane getMyTabbedPane() {
 		if (tabbedPane == null) {
@@ -146,9 +148,9 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		results.setLayout(null);
 		results.add(getBtnOK(), null);
 		results.add(getResultsScrollPane(), null);
-		tabbedPane.addTab("Settings",mainSettings);
 		tabbedPane.addTab("Service",upload);
-		tabbedPane.addTab("Results",results);
+		tabbedPane.addTab("Summary",results);
+		tabbedPane.addTab("Settings",mainSettings);
 
 			tabbedPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 			tabbedPane.setVisible(true);
@@ -286,7 +288,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		if (btnSend == null) {
 			btnSend = new JButton();
 			btnSend.setText("Start");
-			btnSend.setBounds(new Rectangle(216, 249, 85, 20));
+			btnSend.setBounds(new Rectangle(216, 220, 85, 20));
 			btnSend.addActionListener(this);
 			}
 		return btnSend;
@@ -295,7 +297,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		if (btnCancelSend == null) {
 			btnCancelSend = new JButton();
 			btnCancelSend.setText("Cancel");
-			btnCancelSend.setBounds(new Rectangle(331, 250, 85, 20));
+			btnCancelSend.setBounds(new Rectangle(331, 220, 85, 20));
 			btnCancelSend.setVisible(true);
 			btnCancelSend.addActionListener(this);
 			}
@@ -306,7 +308,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			listLookup = new JList(ips);
 			listLookup.setSize(new Dimension(325, 72));
 			listLookup.setLocation(new Point(165, 46));
-			listLookup.addListSelectionListener(this);		}
+            listLookup.addListSelectionListener(this);		}
 		return listLookup;
 	}
 	private JButton getBtnClear() {
@@ -409,18 +411,20 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		if((isValidIp(ip)==true)&& (serverName.length()!=0)){
 			try {
 				ips=client.getServiceIp(ip,serverName);
+                listLookup.setListData(ips);
+                if(ips.size()!=0){
+                btnLookup.setEnabled(false);
+                btnClear.setEnabled(true); }
 			} catch (MalformedURLException e) {
-				JOptionPane.showMessageDialog(null,"NameService IP Address incorrect","epZilla",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,"NameService IP Address incorrect","Message",JOptionPane.ERROR_MESSAGE);
 			} catch (RemoteException e) {
-				JOptionPane.showMessageDialog(null,"Remote Server not working","epZilla",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Remote Server not working","Message",JOptionPane.ERROR_MESSAGE);
 			} catch (NotBoundException e) {
-				JOptionPane.showMessageDialog(null,"Invalid NameService name","epZilla",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Invalid NameService name","Message",JOptionPane.ERROR_MESSAGE);
 			}
-			listLookup.setListData(ips);
-//            btnLookup.isEnabled();
-            btnClear.isEnabled();
+
 			}else
-				JOptionPane.showMessageDialog(null,"Make sure setting details correct.","epZilla",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Make sure setting details correct.","Message",JOptionPane.ERROR_MESSAGE);
 		}
 	private void sendFiles(){
 		String dispIP = txtDispIP.getText().toString();
@@ -428,17 +432,17 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		String fileLocation = txtFile.getText().toString();
 		String clientIp = getIpAddress();
 		if((dispIP.length()==0) && (dispName.length()==0)){
-			JOptionPane.showMessageDialog(null,"Perform Lookup operation and select service you want.","epZilla",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Perform Lookup operation and select service you want.","Message",JOptionPane.ERROR_MESSAGE);
 			return;
 		}else if(fileLocation.length()==0){
 			JOptionPane.showMessageDialog(null,"Browse file to send.","epZilla",JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		else if((chkEvents.isSelected()==false)&&(chkTriggers.isSelected()==false)){
-			JOptionPane.showMessageDialog(null,"Select either send as Event or send as Triggers.","epZilla",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Select either send as Event or send as Triggers.","Message",JOptionPane.ERROR_MESSAGE);
 			return;
 		}else if((chkEvents.isSelected()==true)&&(chkTriggers.isSelected()==true)){
-			JOptionPane.showMessageDialog(null,"Select either send as Event or send as Triggers.","epZilla",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Select either send as Event or send as Triggers.","Message",JOptionPane.ERROR_MESSAGE);
 			chkEvents.setSelected(false);
 			chkTriggers.setSelected(false);
 			return;	
@@ -447,26 +451,26 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			try {
 				client.uploadEventsFile(dispIP, dispName, fileLocation,clientIp,eventSeqID);
 				eventSeqID++;
-				JOptionPane.showMessageDialog(null,"Successfully sent the Event file.","epZilla",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Successfully sent the Event file.","Message",JOptionPane.INFORMATION_MESSAGE);
 			} catch (NotBoundException e) {
-				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,e,"Message",JOptionPane.ERROR_MESSAGE);
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,e,"Message",JOptionPane.ERROR_MESSAGE);
 			}
 		}else if((dispIP.length()!=0) && (dispName.length()!=0) && (fileLocation.length()!=0) && (chkTriggers.isSelected()==true)){
 			try {
 				client.uploadTriggersFile(dispIP, dispName, fileLocation,clientIp,triggerSeqID);
 				triggerSeqID++;
-				JOptionPane.showMessageDialog(null,"Successfully sent the Triggers file.","epZilla",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Successfully sent the Triggers file.","Message",JOptionPane.INFORMATION_MESSAGE);
 			} catch (NotBoundException e) {
-				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,e,"Message",JOptionPane.ERROR_MESSAGE);
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,e,"Message",JOptionPane.ERROR_MESSAGE);
 			}
 
 		}
 		else
-			JOptionPane.showMessageDialog(null,"Error in file send process.","epZilla",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Error in file send process.","Message",JOptionPane.ERROR_MESSAGE);
 		}
 	private String getIpAddress(){
 		InetAddress inetAddress = null;
@@ -487,7 +491,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		txtName.setEditable(false);
 		txtPort.setEditable(false);
 		}else
-			JOptionPane.showMessageDialog(null,"Enter setting details correctly.","epZilla",JOptionPane.ERROR_MESSAGE);	
+			JOptionPane.showMessageDialog(null,"Enter setting details correctly.","Message",JOptionPane.ERROR_MESSAGE);
 	}
 	private void cancelSettings(){
 		txtIP.setEditable(true);
@@ -498,7 +502,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		txtResults.setText(str);
 	}
 	public void cancelSend(){
-		JOptionPane.showMessageDialog(null,"Are you sure cancel the operation.","epZilla",JOptionPane.WARNING_MESSAGE);
+		JOptionPane.showMessageDialog(null,"Are you sure cancel the operation.","Message",JOptionPane.WARNING_MESSAGE);
 		return;
 	}
 	private void setDispValues(String str){
@@ -512,11 +516,11 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			client.regForCallback(ip, servicename);
 			isRegister=true;
 		} catch (RemoteException e) {
-			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,e,"Message",JOptionPane.ERROR_MESSAGE);
 		} catch (MalformedURLException e) {
-			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,e,"Message",JOptionPane.ERROR_MESSAGE);
 		} catch (NotBoundException e) {
-			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);		}
+			JOptionPane.showMessageDialog(null,e,"Message",JOptionPane.ERROR_MESSAGE);		}
 		}
 	}
 	private void unregisterCallbackLocal(){
@@ -531,11 +535,15 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 //			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
 //		} catch (NotBoundException e) {
 //			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);		}
-		txtDispIP.setText("");
+		btnLookup.setEnabled(true);
+        btnClear.setEnabled(false);
+        txtDispIP.setText("");
 		txtDispName.setText("");
 		ips.removeAllElements();
 		listLookup.setListData(ips);
 		isRegister=false;
+
+
 
 	}
 	private void showAbout(){
@@ -586,18 +594,18 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		String dispName = txtDispName.getText().toString();
 		String clientIp = getIpAddress();
 		if((dispIP.length()==0) && (dispName.length()==0)){
-			JOptionPane.showMessageDialog(null,"Perform Lookup operation and select service you want.","epZilla",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Perform Lookup operation and select service you want.","Message",JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if((dispIP.length()!=0) && (dispName.length()!=0) ){
             try {
                 clientTest.initProcess(dispIP,dispName);
             } catch (MalformedURLException e) {
-            	JOptionPane.showMessageDialog(null,"Error in file send process.","epZilla",JOptionPane.ERROR_MESSAGE);  
+            	JOptionPane.showMessageDialog(null,"Error in file send process.","Message",JOptionPane.ERROR_MESSAGE);
             } catch (NotBoundException e) {
-            	JOptionPane.showMessageDialog(null,"Dispatcher failure.","epZilla",JOptionPane.ERROR_MESSAGE);
+            	JOptionPane.showMessageDialog(null,"Dispatcher failure.","Message",JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException e) {
-            	JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+            	JOptionPane.showMessageDialog(null,e,"Message",JOptionPane.ERROR_MESSAGE);
             }
         }
 		else
@@ -616,13 +624,24 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 			e.printStackTrace();
 		}
 	}
+    private void systemExit(){
+      int response = JOptionPane.showConfirmDialog(null,"Are you sure you want to exit?","Confirm Exit",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if(response==0)
+            System.exit(0);
+        else
+            return;
+    }
 	@Override
 	public void valueChanged(ListSelectionEvent event) {
 		Object source = event.getSource();
 		if(source==listLookup){
 			int i = listLookup.getSelectedIndex();
 			String s = i>=0?ips.get(i):"";
+            if(s!=null){
 			setDispValues(s);
+            }
+            else
+                return;
 		}
 	}	
 	@Override
@@ -631,7 +650,6 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		if(source==btnBrowse){
 			loadFile();
 		}else if(source==btnSend){
-//			sendFiles();
 			initProcess();
 		}else if(source==btnCancel){
 			cancelSettings();
@@ -650,7 +668,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		}else if(source== closetabs){
 			tabbedPane.setVisible(false);
 		}else if(source == exit){
-			System.exit(0);
+			systemExit();
 		}else if(source==help){
 			
 		}else if(source==about){
