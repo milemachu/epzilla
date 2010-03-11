@@ -75,19 +75,19 @@ public class NodeUI extends JFrame {
         if (jContentPane == null) {
             label3 = new Label();
             label3.setBounds(new Rectangle(345, 62, 85, 19));
-            label3.setFont(new Font("Calibri", Font.PLAIN, 14));
+            label3.setFont(new Font("Calibri", Font.PLAIN, 12));
             label3.setText("Event Count:");
             label2 = new Label();
             label2.setBounds(new Rectangle(739, 59, 104, 20));
-            label2.setFont(new Font("Dialog", Font.PLAIN, 14));
+            label2.setFont(new Font("Dialog", Font.PLAIN, 12));
             label2.setText("Cluster IP List:");
             label1 = new Label();
             label1.setBounds(new Rectangle(48, 359, 132, 21));
-            label1.setFont(new Font("Dialog", Font.PLAIN, 14));
+            label1.setFont(new Font("Dialog", Font.PLAIN, 12));
             label1.setText("Cluster Trigger List:");
             label = new Label();
             label.setBounds(new Rectangle(50, 62, 86, 17));
-            label.setFont(new Font("Dialog", Font.PLAIN, 14));
+            label.setFont(new Font("Dialog", Font.PLAIN, 12));
             label.setText("Node Status:");
             jContentPane = new JPanel();
             jContentPane.setLayout(null);
