@@ -67,7 +67,8 @@ public class ClientHandler {
 	        if(response!=null)
 	        	System.out.println("Dispatcher Recieved the file from the client and the response is "+response);
 			else {
-				System.out.println("File sending error reported.");
+                ClientUIControler.appendResults("Dispatcher service not working"+"/n");
+                return;
 			}
 	        isDispatcherInit = true;
 		}
@@ -93,7 +94,8 @@ public class ClientHandler {
         if(response!=null)
         	System.out.println("Dispatcher Recieved the file from the client and the response is "+response);
 		else {
-			System.out.println("File sending error reported.");
+            ClientUIControler.appendResults("Dispatcher service not working"+"/n");
+                return;
 		}
 		}
 	}
@@ -119,10 +121,13 @@ public class ClientHandler {
 		response= disObj.uploadTriggersToDispatcher(buffer,cID,triggerSeqID);
 		
 		
-        if(response!=null)
+        if(response!=null){
         	System.out.println("Dispatcher Recieved the file from the client and the response is "+response);
-        else
-        	System.out.println("File sending error reported.");
+        }
+        else{
+            ClientUIControler.appendResults("Dispatcher service not working"+"/n");
+                return;
+        }
 		}
 		else if(isDispatcherInit==true){
 			String response = null;
@@ -144,10 +149,13 @@ public class ClientHandler {
 			response= disObj.uploadTriggersToDispatcher(buffer,cID,triggerSeqID);
 			
 			
-	        if(response!=null)
+	        if(response!=null){
 	        	System.out.println("Dispatcher Recieved the file from the client and the response is "+response);
-	        else
-	        	System.out.println("File sending error reported.");
+            }
+	        else {
+                ClientUIControler.appendResults("Dispatcher service not working"+"/n");
+                return;
+            }
 
 		}
 	}
