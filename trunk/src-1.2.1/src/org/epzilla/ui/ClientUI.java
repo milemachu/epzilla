@@ -517,17 +517,17 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		}
 	}
 	private void unregisterCallbackLocal(){
-		String ip = txtDispIP.getText().toString();
-		String servicename = txtDispName.getText().toString();
-		try {
-			client.unregisterCallback(ip, servicename);
-			
-		} catch (MalformedURLException e) {
-			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
-		} catch (RemoteException e) {
-			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
-		} catch (NotBoundException e) {
-			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);		}
+//		String ip = txtDispIP.getText().toString();
+//		String servicename = txtDispName.getText().toString();
+//		try {
+//			client.unregisterCallback(ip, servicename);
+//
+//		} catch (MalformedURLException e) {
+//			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+//		} catch (RemoteException e) {
+//			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
+//		} catch (NotBoundException e) {
+//			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);		}
 		txtDispIP.setText("");
 		txtDispName.setText("");
 		ips.removeAllElements();
