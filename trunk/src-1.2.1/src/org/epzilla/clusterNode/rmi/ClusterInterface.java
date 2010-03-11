@@ -13,6 +13,6 @@ import org.epzilla.ui.rmi.*;
  * To change this template use File | Settings | File Templates.
  */
 public interface ClusterInterface extends Remote {
-    public void acceptTiggerStream(byte[] stream,String cID,int triggerSeqID) throws RemoteException;
-    public void acceptEventStream(byte[] stream,String cID,int eventSeqID) throws RemoteException;
+    public void acceptTiggerStream(byte[] stream,String cID) throws RemoteException;
+    public void acceptEventStream(byte[] stream,String cID) throws RemoteException;
 }

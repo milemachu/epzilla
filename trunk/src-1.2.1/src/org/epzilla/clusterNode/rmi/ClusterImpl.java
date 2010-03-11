@@ -18,7 +18,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 
     }
 
-    public void acceptTiggerStream(byte[] stream, String cID, int triggerSeqID) throws RemoteException {
+    public void acceptTiggerStream(byte[] stream, String cID) throws RemoteException {
         try {
             TriggerManager.addTriggerToList(stream);
         } catch (Exception e) {
@@ -26,7 +26,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         }
     }
 
-    public void acceptEventStream(byte[] stream, String cID, int eventSeqID) throws RemoteException {
+    public void acceptEventStream(byte[] stream, String cID) throws RemoteException {
 
     }
 }
