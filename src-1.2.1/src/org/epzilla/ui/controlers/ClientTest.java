@@ -41,9 +41,9 @@ public class ClientTest extends Thread{
     public void initProcess(String ip, String name) throws MalformedURLException, NotBoundException, RemoteException {
         lookUp(ip,name);
         initSendTriggerStream();
-//        initSendEventsStream();
+        initSendEventsStream();
         trigger.start();
-//        events.start();
+        events.start();
     }
     public void initSendTriggerStream(){
         trigger = new Thread(new Runnable() {
@@ -55,7 +55,7 @@ public class ClientTest extends Thread{
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 while (true) {
-                synchronized (lock) {
+//                synchronized (lock) {
 
                     String str  = EventTriggerGenerator.getNextTrigger();
                     String cID= "1";
@@ -72,13 +72,13 @@ public class ClientTest extends Thread{
                     }
 
                 if(response!=null)
-                    System.out.println("Dispatcher Recieved the file from the client and the response is "+response);
+                    System.out.println("Dispatcher Recieved the triggrs from the client and the response is "+response);
                 else {
                     System.out.println("File sending error reported.");
                 }
-}
+//}
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
@@ -98,27 +98,32 @@ public class ClientTest extends Thread{
                 }
                 while (true) {
 
-                 synchronized (lock){
+//                 synchronized (lock){
 
                 String str  = EventTriggerGenerator.getNextTrigger();
                 String cID= "1";
-                int triggerSeqID = 1;
+                int eventsSeqID = 1;
                 String response = null;
 
                 byte []buffer =  str.getBytes();
-                System.out.println("events manager");
+//                System.out.println("events manager");
 
                 try {
-                    response = di.uploadTriggersToDispatcher(buffer,cID,triggerSeqID);
+                    response = di.uploadEventsToDispatcher(buffer,cID,eventsSeqID);
                 } catch (RemoteException e) {
                 }
 
             if(response!=null)
-                System.out.println("Dispatcher Recieved the file from the client and the response is "+response);
+                System.out.println("Dispatcher Recieved the events from the client and the response is "+response);
             else {
                 System.out.println("File sending error reported.");
             }
-                }
+          try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+//                }
             }
             }
         });
