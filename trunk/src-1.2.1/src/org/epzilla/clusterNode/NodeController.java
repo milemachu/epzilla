@@ -31,12 +31,16 @@ public class NodeController {
         NodeController.leaderIP = leaderIP;
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         NodeUIController.InitializeUI();
         NodeAsLeader.startServer();
         NodeAsLeader.loadTriggers();
 //        TriggerManager.initTestTriggerStream();    For testing ONLY
     }
 
+    public static void init() {
+        NodeUIController.InitializeUI();
+        NodeAsLeader.startServer();
+        NodeAsLeader.loadTriggers();
+    }
 }

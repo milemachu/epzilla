@@ -14,6 +14,7 @@ import org.epzilla.dispatcher.rmi.DispImpl;
 import org.epzilla.nameserver.NameService;
 import org.epzilla.clusterNode.rmi.ClusterInterface;
 import org.epzilla.clusterNode.rmi.ClusterImpl;
+import org.epzilla.clusterNode.NodeController;
 
 public class LeaderTest {
 
@@ -23,7 +24,7 @@ public class LeaderTest {
 		}
 		ClusterInterface clusterInt=new ClusterImpl();
 		InetAddress inetAddress;
-		inetAddress = InetAddress.getLocalHost();
+		inetAddress = InetAddress.getLocalHost();                           
     	String ipAddress = inetAddress.getHostAddress();
         String sname= serviceName;
     	String name ="rmi://"+ipAddress+"/"+sname;
@@ -41,13 +42,16 @@ public class LeaderTest {
 	public static void main(String[] args) {
        LeaderTest leader = new LeaderTest();
         try {
+            NodeController.init();
             leader.bindClusterNode("Cluster");
-//            leader.register();
+            leader.register();
         } catch (UnknownHostException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (MalformedURLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (RemoteException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (NotBoundException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 //        catch (NotBoundException e) {
