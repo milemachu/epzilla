@@ -57,8 +57,7 @@ public class EventTriggerGenerator {
             writer.append(Const.COLOR[random.nextInt(Const.COLOR.length)]);
             writer.append(',');
             writer.append(Const.YEAR[random.nextInt(Const.YEAR.length)]);
-            writer.append('\n');
-
+            
         }
         catch (Exception e) {
             e.printStackTrace();
