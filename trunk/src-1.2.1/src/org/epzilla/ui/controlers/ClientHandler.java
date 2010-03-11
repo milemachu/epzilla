@@ -152,17 +152,17 @@ public class ClientHandler {
 		}
 	}
 	public void regForCallback(String ip,String serviceName) throws NotBoundException, RemoteException, MalformedURLException{
-		if(isDispatcherInit==false){
-			initDispatcherInter(ip, serviceName);
-			ClientCallbackInterface obj = new ClientCallbackImpl();
-			disObj.registerCallback(obj);
-			setClientObject(obj);
-		}
-		else if(isDispatcherInit==true){
-			ClientCallbackInterface obj = new ClientCallbackImpl();
-			disObj.registerCallback(obj);
-			setClientObject(obj);
-		}
+//		if(isDispatcherInit==false){
+//			initDispatcherInter(ip, serviceName);
+//			ClientCallbackInterface obj = new ClientCallbackImpl();
+//			disObj.registerCallback(obj);
+//			setClientObject(obj);
+//		}
+//		else if(isDispatcherInit==true){
+//			ClientCallbackInterface obj = new ClientCallbackImpl();
+//			disObj.registerCallback(obj);
+//			setClientObject(obj);
+//		}
 	}
 	public void unregisterCallback(String ip,String serviceName) throws MalformedURLException, RemoteException, NotBoundException{
 		disObj.unregisterCallback((ClientCallbackInterface) getclientObject());
