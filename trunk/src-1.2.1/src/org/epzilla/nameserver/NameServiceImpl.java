@@ -15,7 +15,7 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
 
 	    public int search(String str) throws RemoteException {
 	        for (int i = 0; i < dirsize; i++)
-	            if (names[i].equals(str)) return i;
+	            if (ipAddrs[i].equals(str)) return i;
 	        return -1;
 	    }
 	    public int insertNode(String name, String ipAdrs, int portNumber)
