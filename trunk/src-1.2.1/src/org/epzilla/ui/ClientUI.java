@@ -85,6 +85,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
        	this.setTitle("Epzilla DS");	
        	this.addWindowListener(this);
        	loadSettings();
+        btnClear.enableInputMethods(false); //Clear button disable initially 
 	}
 	private JTabbedPane getMyTabbedPane() {
 		if (tabbedPane == null) {
@@ -416,6 +417,8 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 				JOptionPane.showMessageDialog(null,"Invalid NameService name","epZilla",JOptionPane.ERROR_MESSAGE);
 			}
 			listLookup.setListData(ips);
+//            btnLookup.isEnabled();
+            btnClear.isEnabled();
 			}else
 				JOptionPane.showMessageDialog(null,"Make sure setting details correct.","epZilla",JOptionPane.ERROR_MESSAGE);
 		}
