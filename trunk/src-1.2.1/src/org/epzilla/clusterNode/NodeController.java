@@ -36,7 +36,7 @@ public class NodeController {
         NodeUIController.InitializeUI();
         NodeAsLeader.startServer();
         NodeAsLeader.loadTriggers();
-        TriggerManager.initTestTriggerStream();
+//        TriggerManager.initTestTriggerStream();    For testing ONLY
     }
 
 }

@@ -21,6 +21,9 @@ public class TriggerManager {
 
     private static TransactedList<TriggerInfoObject> triggers = new TransactedList<TriggerInfoObject>();
     static int count = 0;
+    static String currentIP = "localhost";
+    static String current1IP = " ";
+    static String current2IP = " ";
 
     // Code For Testing Only -Dishan
     public static void initTestTriggerStream() {
@@ -76,4 +79,22 @@ public class TriggerManager {
     public static void setTriggers(TransactedList<TriggerInfoObject> triggers) {
         TriggerManager.triggers = triggers;
     }
+
+
+    public static void sendTriggersToclusters() {
+        if (currentIP == "localhost") {
+            currentIP = current1IP;
+        }
+
+        if (currentIP == current1IP) {
+
+            currentIP = current2IP;
+        } else if (currentIP == current2IP) {
+
+            currentIP = current1IP;
+        }
+
+
+    }
+
 }
