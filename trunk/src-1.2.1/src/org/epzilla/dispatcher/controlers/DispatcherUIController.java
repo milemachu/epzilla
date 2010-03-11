@@ -37,4 +37,11 @@ public class DispatcherUIController {
     public static void clearIPList() {
         instance.getTxtIPSet().setText("");
     }
+    public static void appendInEventsCount(String text){
+         instance.getTxtInEventCount().setText("");
+         instance.getTxtInEventCount().setText(text);
+    }
+    public static void appendOutEventCount(String text){
+    	
+    }
 }
