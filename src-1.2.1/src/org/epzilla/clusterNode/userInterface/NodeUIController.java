@@ -39,5 +39,13 @@ public class NodeUIController {
     public static void appendTextToIPList(String text) {
         instance.getJTextAreaIPList().append(text + "\n");
     }
+
+    public static void setLeaderStatus(String text)
+    {
+        instance.getJTextAreaLeader().setText(text);
+    }
+
 }
+
+
 

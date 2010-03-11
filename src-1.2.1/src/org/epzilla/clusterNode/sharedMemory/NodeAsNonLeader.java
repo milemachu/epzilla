@@ -79,6 +79,7 @@ public class NodeAsNonLeader {
 
             }
             success = true;
+            NodeUIController.setLeaderStatus("Non Leader");
         } catch (Exception e2) {
             NodeUIController.appendTextToStatus("Attempt to Start Client Failed... ");
             NodeUIController.appendTextToStatus(e2.getMessage());
