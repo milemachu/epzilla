@@ -12,6 +12,7 @@ import org.epzilla.dispatcher.controlers.DispatcherUIController;
 public class EventsCounter {
 
     static int count=0;
+    
     public EventsCounter(){
     }
     public static void setEventCount(){
