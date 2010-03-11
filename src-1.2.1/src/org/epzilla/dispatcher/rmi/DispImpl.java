@@ -10,7 +10,7 @@ import org.epzilla.dispatcher.controlers.DispatcherUIController;
 
 public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
-	private Vector<ClientCallbackInterface> clientList = new Vector<ClientCallbackInterface>();
+    private Vector<ClientCallbackInterface> clientList = new Vector<ClientCallbackInterface>();
 	int id;
 	String clusterID="";
     int count=0;
@@ -78,6 +78,4 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 				e.printStackTrace();
 		}
 	}
-
-
 }
