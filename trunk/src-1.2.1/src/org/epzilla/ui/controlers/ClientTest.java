@@ -41,9 +41,9 @@ public class ClientTest extends Thread{
     public void initProcess(String ip, String name) throws MalformedURLException, NotBoundException, RemoteException {
         lookUp(ip,name);
         initSendTriggerStream();
-        initSendEventsStream();
+//        initSendEventsStream();
         trigger.start();
-        events.start();
+//        events.start();
     }
     public void initSendTriggerStream(){
         trigger = new Thread(new Runnable() {
