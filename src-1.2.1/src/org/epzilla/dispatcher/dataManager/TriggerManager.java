@@ -67,6 +67,7 @@ public class TriggerManager {
                 obj.settriggerID("TID:" + String.valueOf(count));
                 obj.settrigger(new String(trigger));
                 getTriggers().add(obj);
+                sendTriggersToclusters(trigger);
                 transaction.commit();
                 success = true;
                 System.out.println(new String(trigger));
@@ -87,12 +88,16 @@ public class TriggerManager {
 
     public static void sendTriggersToclusters(byte[] trigger) {
         if (currentIP == "localhost") {
+
+            current1IP = ClusterLeaderIpListManager.getIpList().get(1).getleaderIP();
+            current2IP = ClusterLeaderIpListManager.getIpList().get(2).getleaderIP();
+
             currentIP = current1IP;
         }
 
         if (currentIP == current1IP) {
             try {
-                TriggerSender.acceptTrigger(currentIP,"001",trigger);
+                TriggerSender.acceptTrigger(currentIP, "001", trigger);
             } catch (MalformedURLException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             } catch (NotBoundException e) {
@@ -102,8 +107,8 @@ public class TriggerManager {
             }
             currentIP = current2IP;
         } else if (currentIP == current2IP) {
-                        try {
-                TriggerSender.acceptTrigger(currentIP,"002",trigger);
+            try {
+                TriggerSender.acceptTrigger(currentIP, "002", trigger);
             } catch (MalformedURLException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             } catch (NotBoundException e) {
