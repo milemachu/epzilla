@@ -88,10 +88,8 @@ public class TriggerManager {
 
     public static void sendTriggersToclusters(byte[] trigger) {
         if (currentIP == "localhost") {
-
             current1IP = ClusterLeaderIpListManager.getIpList().get(1).getleaderIP();
             current2IP = ClusterLeaderIpListManager.getIpList().get(2).getleaderIP();
-
             currentIP = current1IP;
         }
 
