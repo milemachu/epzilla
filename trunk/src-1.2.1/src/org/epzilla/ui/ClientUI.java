@@ -9,7 +9,6 @@ import java.rmi.*;
 import java.util.*;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.Rectangle;
 import javax.swing.event.*;
 
@@ -60,7 +59,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JCheckBox chkEvents = null;
 	private JCheckBox chkTriggers = null;
 	static ClientHandler client;
-    static ClientTest clientTest;   ///for testing purpose
+    static ClientInit clientTest;   ///for testing purpose
     boolean isRegister = false;
     boolean isLookup =false;
 	int eventSeqID;
@@ -69,7 +68,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	public ClientUI() {
 		super();
 		client = new ClientHandler();
-        clientTest = new ClientTest();
+        clientTest = new ClientInit();
         reader = new ServerSettingsReader();
 		initialize();
 	}
