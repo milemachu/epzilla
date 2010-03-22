@@ -1,0 +1,11 @@
+<rmi-services>
+    <service>
+        <name>AccumulatorService</name>
+        <interface>net.epzilla.accumulator.service.AccumulatorService</interface>
+        <class>net.epzilla.accumulator.service.AccumulatorServiceImpl</class>
+        <url>rmi://127.0.0.1/AccumulatorService</url>
+        <autodeploy>true</autodeploy>
+    </service>
+
+
+</rmi-services>
