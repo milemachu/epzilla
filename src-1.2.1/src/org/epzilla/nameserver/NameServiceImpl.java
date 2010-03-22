@@ -2,14 +2,16 @@ package org.epzilla.nameserver;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 public class NameServiceImpl extends UnicastRemoteObject implements NameService {
 
-	 final static int maxSize = 100;
+        final static int maxSize = 100;
 	    private  static String[] names = new String[maxSize];
 	    private  static String[] ipAddrs = new String[maxSize];
 	    private  static int[] ports = new int[maxSize];
 	    private int dirsize = 0;
+        ArrayList<String> ipArr = new ArrayList<String>();
 	    
 	    public NameServiceImpl()throws RemoteException{}
 
@@ -27,7 +29,7 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
 	            ports[dirsize] = portNumber;
 	            dirsize++;
 	            return 1;
-	        } else // already there, or table full
+	        } else
 	            return 0;
 	    }
 //	    @Override
@@ -46,5 +48,14 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
 		public int getDirectorySize() throws RemoteException {
 	    	return dirsize;
 		}
+        public int getDispatcherID() throws RemoteException {
+            LoadBalancer lBalance = new LoadBalancer();
+            int dispID=0;
+            for(int i=0;i<dirsize;i++){
+                ipArr.add(ipAddrs[i]);
+            }
+              dispID = lBalance.selectRandIP(ipArr);
+              return dispID;
+        }
 
 }
