@@ -76,11 +76,10 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = screen.width;
         int y = screen.height;
-       	this.setSize(new Dimension(685, 697));
     	Image img = Toolkit.getDefaultToolkit().getImage("images\\logo.jpg");
        	this.setIconImage(img);
-       	this.setResizable(false);
        	this.setSize(x,y);
+        this.setPreferredSize(new Dimension(1024,768));
         this.setContentPane(getMyTabbedPane());
         this.setJMenuBar(getmyMenuBar());
        	this.setTitle("Epzilla DS");	
