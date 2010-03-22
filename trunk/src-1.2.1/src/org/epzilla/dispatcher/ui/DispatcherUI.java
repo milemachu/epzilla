@@ -95,11 +95,8 @@ public class DispatcherUI extends JFrame implements ActionListener{
        	this.setTitle("Dispatcher");
        	Image img = Toolkit.getDefaultToolkit().getImage("images//logo.jpg");
        	this.setIconImage(img);
-       	this.setResizable(false);
-       	this.setSize(new Dimension(899, 731));
-       	this.setSize(new Dimension(689, 439));
-       	this.setResizable(false);
        	this.setSize(x,y);
+        this.setPreferredSize(new Dimension(1024,768));
         this.setContentPane(getMyTabbedPane());
         this.setJMenuBar(getmyMenuBar());
         loadSettings();
