@@ -59,7 +59,7 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 	private JCheckBox chkEvents = null;
 	private JCheckBox chkTriggers = null;
 	static ClientHandler client;
-    static ClientInit clientTest;   ///for testing purpose
+    static ClientInit clientTest;
     boolean isRegister = false;
     boolean isLookup =false;
 	int eventSeqID;
@@ -406,9 +406,10 @@ public class ClientUI extends JFrame implements ActionListener,ListSelectionList
 		String ip = txtIP.getText().toString();
 		String serverName = txtName.getText().toString();
 		String port = txtPort.getText().toString();
+        String clientIp = getIpAddress();
 		if((isValidIp(ip)==true)&& (serverName.length()!=0)){
 			try {
-				ips=client.getServiceIp(ip,serverName);
+				ips=client.getServiceIp(ip,serverName,clientIp);
                 listLookup.setListData(ips);
                 if(ips.size()!=0){
                 btnLookup.setEnabled(false);

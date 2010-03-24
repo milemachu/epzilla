@@ -23,6 +23,7 @@ public class ClientHandler {
 	int dispatcherPort;
 	Vector<String> dispIP=new Vector<String>();
 	String ip ="";
+    String clientID="";
 	String dispServiceName="";
 	String dispDetails = "";
 	static ClientCallbackInterface obj;
@@ -30,16 +31,19 @@ public class ClientHandler {
 	static DispInterface disObj;
 	boolean isDispatcherInit = false;
 	
-	public Vector<String> getServiceIp(String serverIp,String serviceName) throws MalformedURLException, RemoteException, NotBoundException{
+	public Vector<String> getServiceIp(String serverIp,String serviceName,String clientIp) throws MalformedURLException, RemoteException, NotBoundException{
 		initNameService(serverIp, serviceName);		
-		int size = service.getDirectorySize();
-		for(int i=0; i<size;i++){
-			ip = service.getHostName(i);
-			dispServiceName = service.getNames(i);
-			dispDetails=ip+" "+dispServiceName;
-			dispIP.add(dispDetails);
+        clientID = clientIdGen(clientIp);
+        dispDetails = service.getDispatcher(clientID);
+        dispIP.add(dispDetails);
+//		int size = service.getDirectorySize();
+//		for(int i=0; i<size;i++){
+//			ip = service.getHostName(i);
+//			dispServiceName = service.getNames(i);
+//			dispDetails=ip+" "+dispServiceName;
+//			dispIP.add(dispDetails);
 			System.out.println(dispIP);
-			}
+//			}
 		return dispIP;
 	    }
 		public void uploadEventsFile(String ip,String serviceName,String fileLocation,String clientIp,int eventSeqID) throws NotBoundException, IOException{
@@ -175,7 +179,7 @@ public class ClientHandler {
 	public void unregisterCallback(String ip,String serviceName) throws MalformedURLException, RemoteException, NotBoundException{
 		disObj.unregisterCallback((ClientCallbackInterface) getclientObject());
 	}
-	public static String clientIdGen(String addr) {
+	private static String clientIdGen(String addr) {
         String[] addrArray = addr.split("\\.");
         String temp="";
         String value="";
@@ -188,12 +192,12 @@ public class ClientHandler {
         }
         return value;
     }
-	public void initNameService(String serverIp,String serviceName) throws MalformedURLException, RemoteException, NotBoundException{
+	private void initNameService(String serverIp,String serviceName) throws MalformedURLException, RemoteException, NotBoundException{
 		String url = "rmi://"+serverIp+"/"+serviceName;
    		NameService r = (NameService)Naming.lookup(url);
    		setNameServiceObj(r);
 	}
-	public void initDispatcherInter(String ip, String serviceName) throws MalformedURLException, RemoteException, NotBoundException{
+	private void initDispatcherInter(String ip, String serviceName) throws MalformedURLException, RemoteException, NotBoundException{
 		String url = "rmi://"+ip+"/"+serviceName;
 		DispInterface di = (DispInterface) Naming.lookup(url);
 		setDispatcherObj(di);
