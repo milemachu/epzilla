@@ -11,7 +11,7 @@ import java.rmi.registry.Registry;
 import java.io.IOException;
 
 public class NameServiceHandler extends UnicastRemoteObject {
-       Registry registry;
+    Registry registry;
     public NameServiceHandler() throws RemoteException {
     }
     private void startRegistry(){

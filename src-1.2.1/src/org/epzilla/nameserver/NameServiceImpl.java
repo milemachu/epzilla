@@ -1,27 +1,34 @@
 package org.epzilla.nameserver;
 
+import org.epzilla.nameserver.xml.ServerSettingsReader;
+import org.epzilla.nameserver.loadbalance.LoadBalancer;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.io.IOException;
 
 public class NameServiceImpl extends UnicastRemoteObject implements NameService {
 
-        final static int maxSize = 100;
+        static int maxSize = 100;
 	    private  static String[] names = new String[maxSize];
 	    private  static String[] ipAddrs = new String[maxSize];
 	    private  static int[] ports = new int[maxSize];
 	    private int dirsize = 0;
         ArrayList<String> ipArr = new ArrayList<String>();
+        static ServerSettingsReader reader = new ServerSettingsReader();
+
 	    
-	    public NameServiceImpl()throws RemoteException{}
+	    public NameServiceImpl()throws RemoteException{
+        }
 
 	    public int search(String str) throws RemoteException {
 	        for (int i = 0; i < dirsize; i++)
-	            if (ipAddrs[i].equals(str)) return i;
+	            if (ipAddrs[i].equals(str))
+                    return i;
 	        return -1;
 	    }
-	    public int insertNode(String name, String ipAdrs, int portNumber)
-	            throws RemoteException {
+	    public int insertNode(String name, String ipAdrs, int portNumber)throws RemoteException {
 	    	int oldIndex = search(ipAdrs); // is it already there
 	        if ((oldIndex == -1) && (dirsize < maxSize)) { 
 	            names[dirsize] = name;
@@ -48,14 +55,24 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
 		public int getDirectorySize() throws RemoteException {
 	    	return dirsize;
 		}
-        public int getDispatcherID() throws RemoteException {
-            LoadBalancer lBalance = new LoadBalancer();
-            int dispID=0;
-            for(int i=0;i<dirsize;i++){
-                ipArr.add(ipAddrs[i]);
-            }
-              dispID = lBalance.selectRandIP(ipArr);
-              return dispID;
+        public String getDispatcher(String clientID) throws RemoteException {
+            String dispIP = LoadBalancer.search(clientID,dirsize,ipAddrs);
+            int dispID = search(dispIP);
+            String toReturn = dispIP+" "+names[dispID];
+            return toReturn;
         }
+    /*
+    load maximum number of Dispatchers from the XML file
+    currently not included
+     */
+     private void loadSettings(){
+			try {
+				ArrayList<String[]> data = reader.getServerIPSettings("./src/org/epzilla/nameserver/nameserver_settings.xml");
+				String[] ar = data.get(0);
+				maxSize=Integer.parseInt(ar[0]);
+                } catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 
 }
