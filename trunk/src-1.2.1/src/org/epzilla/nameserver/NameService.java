@@ -8,6 +8,6 @@ public interface NameService extends Remote {
     public String getHostName(int index) throws RemoteException;
     public String getNames(int index) throws RemoteException;
     public int getDirectorySize() throws RemoteException;
-    public int getDispatcherID() throws RemoteException;
+    public String getDispatcher(String clientID) throws RemoteException;
 }
 
