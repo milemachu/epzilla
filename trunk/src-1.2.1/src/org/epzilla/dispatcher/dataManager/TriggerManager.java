@@ -13,6 +13,7 @@ import java.rmi.RemoteException;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 import org.epzilla.dispatcher.RandomStringGenerator;
 import org.epzilla.dispatcher.clusterHandler.TriggerSender;
+import org.epzilla.dispatcher.clusterHandler.TriggerLog;
 
 /**
  * Created by IntelliJ IDEA.
@@ -95,6 +96,7 @@ public class TriggerManager {
 
         if (currentIP == current1IP) {
             try {
+                TriggerLog.writeTolog(currentIP, "001", trigger);    //trigger log
                 TriggerSender.acceptTrigger(currentIP, "001", trigger);
             } catch (MalformedURLException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -106,6 +108,7 @@ public class TriggerManager {
             currentIP = current2IP;
         } else if (currentIP == current2IP) {
             try {
+                TriggerLog.writeTolog(currentIP, "002", trigger);  //trigger log
                 TriggerSender.acceptTrigger(currentIP, "002", trigger);
             } catch (MalformedURLException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
