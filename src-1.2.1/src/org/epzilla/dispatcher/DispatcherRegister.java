@@ -45,28 +45,4 @@ public class DispatcherRegister{
         }
         return value;
     }
-
-    private boolean validate(String ip) throws IOException{
-    	boolean status = false;	
-			status = InetAddress.getByName(ip).isReachable(3000);
-			return status;
-    }
-//    public static void main(String args[]) {
-//    	DispatcherRegister reg =new DispatcherRegister();
-//    	try {
-//			reg.register("127.0.0.1","NameServer","5000","Dispatcher");
-//		} catch (MalformedURLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (RemoteException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (UnknownHostException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (NotBoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//    }
 }

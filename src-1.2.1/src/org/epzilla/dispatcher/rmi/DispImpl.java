@@ -1,28 +1,26 @@
 package org.epzilla.dispatcher.rmi;
 
-import java.io.*;
 import java.rmi.RemoteException;
+import java.rmi.NotBoundException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Vector;
+import java.net.MalformedURLException;
+import java.net.UnknownHostException;
+
 import org.epzilla.ui.rmi.*;
 import org.epzilla.dispatcher.dataManager.*;
-import org.epzilla.dispatcher.controlers.DispatcherUIController;
 
 public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
     private Vector<ClientCallbackInterface> clientList = new Vector<ClientCallbackInterface>();
-	int id;
-	String clusterID="";
-    int count=0;
+	private int id;
+	private String clusterID="";
+
     protected DispImpl() throws RemoteException {
         //super();
     }
     public String uploadEventsToDispatcher(byte[] stream,String clientID,int eventSeqID) throws RemoteException {
         try {
-        //add events to dispatcher logic here
-//            count++;
-//            String text = Integer.toString(count);
-//            DispatcherUIController.appendEventsCount(text);
             EventsCounter.setEventCount();
         	return "OK";
         } catch (Exception e) {
@@ -34,7 +32,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     public String uploadTriggersToDispatcher(byte[] stream,String clientID,int triggerSeqID) throws RemoteException {
         try {
             TriggerManager.addTriggerToList(stream);
-            return "Ok";
+            return "OK";
 
         } catch (Exception e) {
         	System.err.println("FileServer exception: " + e.getMessage());
@@ -46,7 +44,8 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 		return null;		
 	}
 	@Override
-	public void registerCallback(ClientCallbackInterface clientObject)throws RemoteException {
+	public void registerCallback(ClientCallbackInterface clientObject) throws RemoteException, MalformedURLException, UnknownHostException, NotBoundException {
+        DispLoadBalance.updateLoad();
 		if (!(clientList.contains(clientObject))) {
 	         clientList.addElement(clientObject);
 	      System.out.println("Registered new client "+clientObject);
@@ -68,7 +67,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         nextClient.notifyClient("Events hit="+  clientList.size());
 	  } 
 	}
-	@Override
+
 	public void acceptLeaderIp(String ip)	throws RemoteException {
 		try{
 			clusterID = "CID"+id;

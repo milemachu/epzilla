@@ -2,13 +2,13 @@ package org.epzilla.dispatcher.logs;
 
 import java.io.*;
 /*
- * FileScanner class takes the trigger set ID and recover them
- * ID is in the form:- T0,T1,........T125.....
+ * FileScanner class takes the Cluster ID and recover them
+ * ID is in the form:- CID0, CID1.....
  * RecoveryList class takes log file and create undo and redo lists
  */
 public class ReadLog {
 	 static File file = new File("c:\\checkpoint.txt");
-	 static String reqstr = "TID49";
+	 static String reqstr = "CID2";
 	
     public static void main(String[] args) {
     	FileScanner fs = new FileScanner();

@@ -10,18 +10,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileScanner implements FileScannerInterface,Runnable{
-	List<String> recoverArr = new ArrayList<String>();
-	List<String> undoList = new ArrayList<String>();
-	File file;
-	String strmatch = "";
-	Scanner scanner = null;
-	Matcher m1 =null;
-	Matcher m2 = null;
-	String st1 = "";
-	String st2 = "";
+	private List<String> recoverArr = new ArrayList<String>();
+	private List<String> undoList = new ArrayList<String>();
+	private File file;
+	private String strmatch = "";
+	private Scanner scanner = null;
+	private Matcher m1 =null;
+	private Matcher m2 = null;
+	private String st1 = "";
+	private String st2 = "";
 //	Pattern p1 = Pattern.compile("^(.{2}) (.*)$");
-	Pattern p1 = Pattern.compile("^[TID0-9]+ (.{10})$");
-	Pattern p2 = Pattern.compile("</commit>");
+	private Pattern p1 = Pattern.compile("^[CID0-9]+ (.{10})$");
+	private Pattern p2 = Pattern.compile("</commit>");
 	
 	public FileScanner(File dd, List<String> recArray) {
 		this.file = dd;
@@ -69,7 +69,7 @@ public class FileScanner implements FileScannerInterface,Runnable{
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		}
-		printArray(recoverArr);
+		RecoveredTriggers.triggerList(recoverArr);
 		long end = System.currentTimeMillis();
 		System.out.println("Time: "+(end-start)); 
 	}
@@ -78,10 +78,4 @@ public class FileScanner implements FileScannerInterface,Runnable{
 		// TODO Auto-generated method stub
 		
 	}
-	public void printArray(List<String> array) {
-		for(int i=0; i<array.size();i++){
-			System.out.println(array.get(i));
-		}			
-	}
-
 }
