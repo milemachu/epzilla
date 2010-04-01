@@ -11,19 +11,18 @@ import java.util.regex.Pattern;
 
 
 public class RecoveryList implements FileScannerInterface{
-	List<String> undoList = new ArrayList<String>();
-	List<String> redoList = new ArrayList<String>();
-//	Pattern p1 = Pattern.compile("^(.{2}) (.{10})$");
-	Pattern p1 = Pattern.compile("^[TID0-9]+ (.{10})$");
-	Pattern p2 = Pattern.compile("</commit>");
-	Matcher m1 =null;
-	Matcher m2 = null;
-	File file;
-	Scanner scanner = null;
-	String st1 = "";
-	String st2 = "";
-	String strmatch = "";
-	int i=0;
+	private List<String> undoList = new ArrayList<String>();
+	private List<String> redoList = new ArrayList<String>();
+	private Pattern p1 = Pattern.compile("^[CID0-9]+ (.{10})$");
+	private Pattern p2 = Pattern.compile("</commit>");
+	private Matcher m1 =null;
+	private Matcher m2 = null;
+	private File file;
+	private Scanner scanner = null;
+	private String st1 = "";
+	private String st2 = "";
+	private String strmatch = "";
+	private int i=0;
 	
 	public RecoveryList(File f) {
 		this.file = f;
@@ -77,11 +76,10 @@ public class RecoveryList implements FileScannerInterface{
 		Thread t = new Thread(scanner);
 		t.start();
 	}
-	@Override
 	public void printArray(List<String> array) {
 		for(int i=0; i<array.size();i++){
 			System.out.println(array.get(i));
-		}	
+		}
 	}
 	
 
