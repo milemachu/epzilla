@@ -1,9 +1,10 @@
 package org.epzilla.nameserver.loadbalance;
 
-import java.util.*;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.io.IOException;
+import java.util.Hashtable;
+import java.util.Random;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,43 +14,52 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public class LoadBalancer {
-    static int timeOut = 2000;
-    static Hashtable<String,String> ipTable = new Hashtable<String,String>();
-    static String ipAddress="";
-    static Random generator = new Random();
+    private static int timeOut = 2000;
+    private static Hashtable<String, String> ipTable = new Hashtable<String, String>();
+    private static String ipAddress = "";
+    private static Random generator = new Random();
+    private static int ips = 0;
 
-    private static String insertIntoTable(String clientID, String[] ipAddrs,int dirSize){
-        if(ipTable.isEmpty()){
-           ipTable.put(clientID,ipAddrs[0]);
+    private static String insertIntoTable(String clientID, String[] ipAddrs, int dirSize) {
+        if (ipTable.isEmpty()) {
+            ipTable.put(clientID, ipAddrs[0]);
             return ipAddrs[0];
-        }else{
-           int id = selectRand(dirSize);
-           ipTable.put(clientID,ipAddrs[id]);
+        } else {
+            int id = selectRand(dirSize);
+            ipTable.put(clientID, ipAddrs[id]);
             return ipAddrs[id];
         }
     }
-    public static String search(String clientID, int dirsize, String[] ipAddrs){
-        if(ipTable.containsKey(clientID)){
-            ipAddress= (String)ipTable.get(clientID);
-        }else if(!ipTable.containsKey(clientID)){
-            ipAddress = insertIntoTable(clientID,ipAddrs,dirsize);
+
+    public static String search(String clientID, int dirsize, String[] ipAddrs) {
+        if (ipTable.containsKey(clientID)) {
+            ipAddress = (String) ipTable.get(clientID);
+        } else if (!ipTable.containsKey(clientID)) {
+            ipAddress = insertIntoTable(clientID, ipAddrs, dirsize);
         }
+        if (isValidIp(ipAddress) == false) {
+            ipTable.remove(clientID);
+            System.err.println(ipAddress);
+            search(clientID, dirsize, ipAddrs);
+        }
+        System.out.println(ipAddress);
         return ipAddress;
     }
-    private static int selectRand(int dirSize){
-       int id=1;
-       id = generator.nextInt(dirSize-1);
+
+    private static int selectRand(int dirSize) {
+        int id = 1;
+        id = generator.nextInt(dirSize);
         return id;
     }
-    private boolean isValidIp(String ip){
-    	boolean status = false;
-    	try {
-			status = InetAddress.getByName(ip).isReachable(timeOut);
 
-    	} catch (UnknownHostException e) {
-		} catch (IOException e) {
-			}
-		return status;
+    private static boolean isValidIp(String ip) {
+        boolean status = false;
+        try {
+            status = InetAddress.getByName(ip).isReachable(timeOut);
+
+        } catch (UnknownHostException e) {
+        } catch (IOException e) {
+        }
+        return status;
     }
-
 }
