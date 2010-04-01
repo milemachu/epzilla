@@ -29,7 +29,7 @@ public class LeaderRegister {
 		System.out.println("Cluster Node successfully deployed.....");
     }
     private void register() throws RemoteException, MalformedURLException, NotBoundException, UnknownHostException {
-        String url = "rmi://"+"10.8.108.170"+"/"+"Dispatcher010008108170";
+        String url = "rmi://"+"127.0.0.1"+"/"+"Dispatcher127000000001";
 		DispInterface service;
 		service = (DispInterface)Naming.lookup(url);
 		InetAddress inetAddress = InetAddress.getLocalHost();
