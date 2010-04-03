@@ -1,0 +1,27 @@
+SELECT avg(StockTrades.price), min(StockPrices.price) RETAIN 10 EVENTS OUTPUT StkTrades.avgprice, StkTrades.minprice;
+SELECT sum(TDWLTrades.trades) RETAIN 10 MINUTES noSliding OUTPUT TDTrades.sumtrades;
+FINDOCCURRENCES VehicleTrader.'car' OUTPUT caroccurrence.vehicletraders;
+COUNT StockTrades OUTPUT 10 MINUTES as StkTrades.eventCOUNT;
+SELECT sum(StockTrades.numtrades) RETAIN 10 MINUTES OUTPUT StkTrades.sumtrades;
+FINDOCCURRENCES VehicleTraders.'bus' OUTPUT busoccurrence.vehicletraders;
+FINDOCCURRENCES VehicleTraders.'van', BusTraders.'bus' OUTPUT vanoccurrence.vehicletraders, van.out;
+SELECT total(StockTraders.price) RETAIN 10 EVENTS OUTPUT stocktraders.totalprice;
+SELECT avg(DialogStocks.stockPrice) RETAIN 20 EVENTS OUTPUT DialogStocks.avgprice;
+SELECT avg(DialogStocks.numTrades), max(AirTelStocks.numTrades) RETAIN 10 EVENTS OUTPUT DialogStocksResult.avgtrades, DialogStocksResult.maxtrades;
+SELECT avg(MobitelStocks.stockPrice) RETAIN 20 EVENTS OUTPUT MobiStoks.avgprice;
+SELECT total(MobitelStocks.numTrades) RETAIN 10 EVENTS OUTPUT MobiStocks.tottrades;
+SELECT avg(SuntelStocks.stockPrice), min(SuntelStocks.stockPrice) RETAIN 20 EVENTS OUTPUT SunStocks.avgprice, SunStocks.minprice;
+SELECT total(SuntelStocks.numTrades) RETAIN 10 EVENTS OUTPUT SunStocks.totprice;
+SELECT min(SunVsMobi.avgpricediff) RETAIN 10 EVENTS OUTPUT SVMCOUNT.minvalue;
+SELECT SunStocks.avgprice - MobiStocks.avgprice RETAIN 10 EVENTS OUTPUT SunVsMobi.avgpricediff;
+SELECT min(AirTelStocks.stockPrice) RETAIN 20 EVENTS OUTPUT AirTelStocks.minprice;
+SELECT min(AirTelStocks.numTrades) RETAIN 50 EVENTS OUTPUT AirTelStocks.mintrades;
+SELECT max(SeylanStocks.stockPrice) RETAIN 20 EVENTS OUTPUT SeylanStocks.maxprice;
+SELECT total(SeylanStocks.numTrades) RETAIN 10 EVENTS OUTPUT SeylanStocks.totaltrades;
+COUNT hsbc, nsb OUTPUT 120 MINUTES as hsbcEVENTS.COUNT;
+COUNT hsbc WHERE hsbc.price > 10 OUTPUT 120 MINUTES as hsbcEVENTS.highpriceCOUNT;
+COUNT slt OUTPUT 240 MINUTES as sltEVENTS.COUNT;
+SELECT MobiStocks.avgprice - StkTrades.avgprice RETAIN 10 EVENTS OUTPUT MobiStks.reldif;
+SELECT SeylanStocks.maxprice - StkTrades.avgprice RETAIN 10 EVENTS OUTPUT SeylanStocks.maxperformance;
+SELECT (SeylanStocks.total/StkTrades.sumtrades) RETAIN 10 EVENTS OUTPUT SeylanStocks.maxsellingpercentage;
+
