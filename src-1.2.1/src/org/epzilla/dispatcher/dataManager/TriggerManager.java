@@ -86,39 +86,42 @@ public class TriggerManager {
         TriggerManager.triggers = triggers;
     }
 
+    // get the Cluster leader IP list >> ClusterLeaderIpListManager.getIpList()
+    //  and send them the triggers
+    // the algo fr sending allocating triggers to clusters should be run here
 
     public static void sendTriggersToclusters(byte[] trigger) {
-        if (currentIP == "localhost") {
-            current1IP = ClusterLeaderIpListManager.getIpList().get(1).getleaderIP();
-            current2IP = ClusterLeaderIpListManager.getIpList().get(2).getleaderIP();
-            currentIP = current1IP;
-        }
-
-        if (currentIP == current1IP) {
-            try {
-                TriggerLog.writeTolog(currentIP, "001", trigger);    //trigger log
-                TriggerSender.acceptTrigger(currentIP, "001", trigger);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            } catch (NotBoundException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            } catch (RemoteException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
-            currentIP = current2IP;
-        } else if (currentIP == current2IP) {
-            try {
-                TriggerLog.writeTolog(currentIP, "002", trigger);  //trigger log
-                TriggerSender.acceptTrigger(currentIP, "002", trigger);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            } catch (NotBoundException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            } catch (RemoteException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
-            currentIP = current1IP;
-        }
+//        if (currentIP == "localhost") {
+//            current1IP = ClusterLeaderIpListManager.getIpList().get(1).getleaderIP();
+//            current2IP = ClusterLeaderIpListManager.getIpList().get(2).getleaderIP();
+//            currentIP = current1IP;
+//        }
+//
+//        if (currentIP == current1IP) {
+//            try {
+//                TriggerLog.writeTolog(currentIP, "001", trigger);    //trigger log
+//                TriggerSender.acceptTrigger(currentIP, "001", trigger);
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//            } catch (NotBoundException e) {
+//                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//            } catch (RemoteException e) {
+//                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//            }
+//            currentIP = current2IP;
+//        } else if (currentIP == current2IP) {
+//            try {
+//                TriggerLog.writeTolog(currentIP, "002", trigger);  //trigger log
+//                TriggerSender.acceptTrigger(currentIP, "002", trigger);
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//            } catch (NotBoundException e) {
+//                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//            } catch (RemoteException e) {
+//                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//            }
+//            currentIP = current1IP;
+//        }
 
 
     }
