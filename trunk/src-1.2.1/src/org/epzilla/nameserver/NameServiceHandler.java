@@ -14,11 +14,11 @@ public class NameServiceHandler extends UnicastRemoteObject {
     public NameServiceHandler() throws RemoteException {
     }
 
-    private void startRegistry() {
+    private static void startRegistry() {
         Process rmiProcess = null;
         try {
             rmiProcess = Runtime.getRuntime().exec("rmiregistry");
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         }
         catch (IOException ex) {
             //exception handling logic here
@@ -28,7 +28,7 @@ public class NameServiceHandler extends UnicastRemoteObject {
         }
     }
 
-    public void bind(String serviceName) {
+    public static void bind(String serviceName) {
 
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new org.epzilla.dispatcher.rmi.OpenSecurityManager());

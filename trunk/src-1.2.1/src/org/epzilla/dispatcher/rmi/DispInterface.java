@@ -15,6 +15,7 @@ public interface DispInterface extends Remote {
 	public String acceptNotifications()throws RemoteException;
 	public void registerCallback(ClientCallbackInterface clientObject) throws RemoteException, MalformedURLException, UnknownHostException, NotBoundException;
 	public void unregisterCallback(ClientCallbackInterface clientObject)throws RemoteException;
-	public void acceptLeaderIp(String ip) throws RemoteException;
+	public void acceptLeaderIp(String ip,String clusterID) throws RemoteException;
+    public void replayLogs(String clusterID,String leadeIP)throws RemoteException;
    
 }

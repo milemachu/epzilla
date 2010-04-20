@@ -60,7 +60,7 @@ public class ClientInit extends Thread {
                     try {
                         response = di.uploadTriggersToDispatcher(buffer, cID, triggerSeqID);
                     } catch (RemoteException e) {
-                        e.printStackTrace();
+//                        e.printStackTrace();
                     }
 
                     if (response != null) {

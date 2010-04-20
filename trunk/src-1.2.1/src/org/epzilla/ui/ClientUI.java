@@ -23,6 +23,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.Vector;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 
 public class ClientUI extends JFrame implements ActionListener, ListSelectionListener, WindowListener {
 
@@ -80,6 +82,18 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     }
 
     private void initialize() {
+         try {
+            UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (UnsupportedLookAndFeelException e) {
+        }
+        catch (ClassNotFoundException e) {
+        }
+        catch (InstantiationException e) {
+        }
+        catch (IllegalAccessException e) {
+        }
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = screen.width;
         int y = screen.height;
@@ -675,8 +689,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         if (response == 0) {
             unregisterCallbackLocal();
             System.exit(0);
-        } else
-            return;
+        }
     }
 
     @Override
@@ -734,6 +747,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     @Override
     public void windowClosing(WindowEvent e) {
+        systemExit();
     }
 
     @Override
