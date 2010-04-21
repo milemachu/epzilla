@@ -16,7 +16,7 @@ public class DispatcherUIController {
 
     public static void InitializeUI() {
         instance = new DispatcherUI();
-        instance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        instance.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         instance.setVisible(true);
     }
 

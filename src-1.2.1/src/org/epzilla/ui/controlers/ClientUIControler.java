@@ -17,7 +17,7 @@ public class ClientUIControler implements Runnable {
 
     public static void initializeClientUI() {
         clientInstance = new ClientUI();
-        clientInstance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        clientInstance.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         clientInstance.setVisible(true);
     }
 

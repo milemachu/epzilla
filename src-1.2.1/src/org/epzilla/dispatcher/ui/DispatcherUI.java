@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
@@ -68,10 +70,10 @@ public class DispatcherUI extends JFrame implements ActionListener {
     }
 
     private void initialize() {
-//		 try {
-//				UIManager.setLookAndFeel("com.pagosoft.plaf.PgsLookAndFeel");
-//				SwingUtilities.updateComponentTreeUI(this);
-//			} catch(Exception e) {}
+		 try {
+				UIManager.setLookAndFeel("com.pagosoft.plaf.PgsLookAndFeel");
+				SwingUtilities.updateComponentTreeUI(this);
+			} catch(Exception e) {}
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = screen.width;
         int y = screen.height;
@@ -83,6 +85,15 @@ public class DispatcherUI extends JFrame implements ActionListener {
         this.setContentPane(getMyTabbedPane());
         this.setJMenuBar(getmyMenuBar());
         loadSettings();
+        this.addWindowListener( new WindowAdapter() {
+                   public void windowClosing(WindowEvent evt) {
+                      int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Confirm Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                      if (response == JOptionPane.YES_OPTION) {
+                         dispose();
+                         System.exit(0);
+                      }
+                   }
+                } );
     }
 
     private JTabbedPane getMyTabbedPane() {
