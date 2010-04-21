@@ -58,7 +58,6 @@ public class DispatcherService {
 			service.bindDispatcher("Dispatcher");
             run();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }

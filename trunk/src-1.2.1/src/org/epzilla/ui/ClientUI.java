@@ -9,10 +9,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -26,7 +23,7 @@ import java.util.Vector;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 
-public class ClientUI extends JFrame implements ActionListener, ListSelectionListener, WindowListener {
+public class ClientUI extends JFrame implements ActionListener, ListSelectionListener {
 
     private JTabbedPane tabbedPane = null;
     private JTextField txtIP = null;
@@ -82,18 +79,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     }
 
     private void initialize() {
-         try {
-            UIManager.setLookAndFeel(
-                    UIManager.getSystemLookAndFeelClassName());
-        }
-        catch (UnsupportedLookAndFeelException e) {
-        }
-        catch (ClassNotFoundException e) {
-        }
-        catch (InstantiationException e) {
-        }
-        catch (IllegalAccessException e) {
-        }
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = screen.width;
         int y = screen.height;
@@ -104,9 +89,19 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         this.setContentPane(getMyTabbedPane());
         this.setJMenuBar(getmyMenuBar());
         this.setTitle("Epzilla DS");
-        this.addWindowListener(this);
+        this.addWindowListener( new WindowAdapter() {
+                   public void windowClosing(WindowEvent evt) {
+                      int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Confirm Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                      if (response == JOptionPane.YES_OPTION) {
+                         dispose();
+                         System.exit(0);
+                      }
+                   }
+                } );
+
         loadSettings();
         btnClear.setEnabled(false);
+
     }
 
     private JTabbedPane getMyTabbedPane() {
@@ -679,7 +674,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             txtPort.setText(ar[1]);
             txtName.setText(ar[2]);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -735,34 +729,5 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         } else if (source == about) {
             showAbout();
         }
-    }
-
-    @Override
-    public void windowActivated(WindowEvent e) {
-    }
-
-    @Override
-    public void windowClosed(WindowEvent e) {
-    }
-
-    @Override
-    public void windowClosing(WindowEvent e) {
-        systemExit();
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent e) {
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent e) {
-    }
-
-    @Override
-    public void windowIconified(WindowEvent e) {
-    }
-
-    @Override
-    public void windowOpened(WindowEvent e) {
     }
 }
