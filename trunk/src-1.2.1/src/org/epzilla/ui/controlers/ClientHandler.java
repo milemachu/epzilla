@@ -5,9 +5,6 @@ import org.epzilla.nameserver.NameService;
 import org.epzilla.ui.rmi.ClientCallbackImpl;
 import org.epzilla.ui.rmi.ClientCallbackInterface;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
@@ -43,121 +40,6 @@ public class ClientHandler {
 //			dispIP.add(dispDetails);
         System.out.println(dispIP);
         return dispIP;
-    }
-
-    public void uploadEventsFile(String ip, String serviceName, String fileLocation, String clientIp, int eventSeqID) throws NotBoundException, IOException {
-        if (isDispatcherInit == false) {
-            initDispatcherInter(ip, serviceName);
-
-            String response = null;
-            String cID = clientIdGen(clientIp);
-            FileReader fReader = new FileReader(fileLocation);
-            BufferedReader reader = new BufferedReader(fReader);
-            String line = reader.readLine();
-            String str = null;
-            while (line != null) {
-                str += line;
-                line = reader.readLine();
-            }
-            byte[] buffer = str.getBytes();
-
-            reader.close();
-            fReader.close();
-
-            reader = null;
-            fReader = null;
-            response = disObj.uploadEventsToDispatcher(buffer, cID, eventSeqID);
-            if (response != null)
-                System.out.println("Dispatcher Recieved the file from the client and the response is " + response);
-            else {
-                ClientUIControler.appendResults("Dispatcher service not working" + "/n");
-                return;
-            }
-            isDispatcherInit = true;
-        } else if (isDispatcherInit == true) {
-            String response = null;
-            String cID = clientIdGen(clientIp);
-            FileReader fReader = new FileReader(fileLocation);
-            BufferedReader reader = new BufferedReader(fReader);
-            String line = reader.readLine();
-            String str = null;
-            while (line != null) {
-                str += line;
-                line = reader.readLine();
-            }
-            byte[] buffer = str.getBytes();
-
-            reader.close();
-            fReader.close();
-
-            reader = null;
-            fReader = null;
-            response = disObj.uploadEventsToDispatcher(buffer, cID, eventSeqID);
-            if (response != null)
-                System.out.println("Dispatcher Recieved the file from the client and the response is " + response);
-            else {
-                ClientUIControler.appendResults("Dispatcher service not working" + "/n");
-                return;
-            }
-        }
-    }
-
-    public void uploadTriggersFile(String ip, String serviceName, String fileLocation, String clientIp, int triggerSeqID) throws NotBoundException, IOException {
-        if (isDispatcherInit == false) {
-            initDispatcherInter(ip, serviceName);
-            String response = null;
-            String cID = clientIdGen(clientIp);
-            FileReader fReader = new FileReader(fileLocation);
-            BufferedReader reader = new BufferedReader(fReader);
-            String line = reader.readLine();
-            String str = null;
-            while (line != null) {
-                str += line;
-                line = reader.readLine();
-            }
-            byte[] buffer = str.getBytes();
-
-            reader.close();
-            fReader.close();
-            reader = null;
-            fReader = null;
-            response = disObj.uploadTriggersToDispatcher(buffer, cID, triggerSeqID);
-
-
-            if (response != null) {
-                System.out.println("Dispatcher Recieved the file from the client and the response is " + response);
-            } else {
-                ClientUIControler.appendResults("Dispatcher service not working" + "/n");
-                return;
-            }
-        } else if (isDispatcherInit == true) {
-            String response = null;
-            String cID = clientIdGen(clientIp);
-            FileReader fReader = new FileReader(fileLocation);
-            BufferedReader reader = new BufferedReader(fReader);
-            String line = reader.readLine();
-            String str = null;
-            while (line != null) {
-                str += line;
-                line = reader.readLine();
-            }
-            byte[] buffer = str.getBytes();
-
-            reader.close();
-            fReader.close();
-            reader = null;
-            fReader = null;
-            response = disObj.uploadTriggersToDispatcher(buffer, cID, triggerSeqID);
-
-
-            if (response != null) {
-                System.out.println("Dispatcher Recieved the file from the client and the response is " + response);
-            } else {
-                ClientUIControler.appendResults("Dispatcher service not working" + "/n");
-                return;
-            }
-
-        }
     }
 
     public void regForCallback(String ip, String serviceName) throws NotBoundException, RemoteException, MalformedURLException, UnknownHostException {

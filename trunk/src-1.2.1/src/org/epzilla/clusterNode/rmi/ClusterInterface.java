@@ -2,6 +2,7 @@ package org.epzilla.clusterNode.rmi;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 
 /**
@@ -12,6 +13,7 @@ import java.rmi.RemoteException;
  * To change this template use File | Settings | File Templates.
  */
 public interface ClusterInterface extends Remote {
-    public String acceptTiggerStream(byte[] stream,String cID) throws RemoteException;
-    public String acceptEventStream(byte[] stream,String cID) throws RemoteException;
+    public String acceptTiggerStream(ArrayList<String> tList, String cID) throws RemoteException;
+
+    public String acceptEventStream(ArrayList<String> eList, String cID) throws RemoteException;
 }

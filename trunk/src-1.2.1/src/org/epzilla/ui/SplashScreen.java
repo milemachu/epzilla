@@ -5,6 +5,7 @@ import org.epzilla.ui.controlers.ClientUIControler;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class SplashScreen extends JWindow {
 
     private static final long serialVersionUID = 1L;
@@ -17,6 +18,7 @@ public class SplashScreen extends JWindow {
     }
 
     public void showSplash() {
+
         JPanel panel = new JPanel();
         int width = 425;
         int height = 240;
@@ -32,7 +34,7 @@ public class SplashScreen extends JWindow {
         JLabel copyrt = new JLabel("Copyright@epZilla Team  2009-2010, All Rights Reserved", JLabel.CENTER);
         copyrt.setFont(new Font("Cambria", Font.BOLD, 12));
         copyrt.setForeground(Color.white);
-        copyrt.setText("© epZilla Team  2009-2010, All Rights Reserved");
+//        copyrt.setText("© epZilla Team  2009-2010, All Rights Reserved");
         copyrt.setBounds(new Rectangle(16, 207, 398, 19));
         panel.setLayout(null);
         panel.setBackground(Color.gray);
@@ -78,13 +80,9 @@ public class SplashScreen extends JWindow {
         }
         return progressBar;
     }
+
     public static void main(String[] args) {
         SplashScreen splash = new SplashScreen(3000);
-//        try {
-//			UIManager.setLookAndFeel("com.pagosoft.plaf.PgsLookAndFeel");
-//			SwingUtilities.updateComponentTreeUI(splash);
-//		} catch(Exception e) {}
-
         splash.showSplashAndExit();
     }
 }

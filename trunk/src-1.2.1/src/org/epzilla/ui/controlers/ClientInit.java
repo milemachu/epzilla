@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,9 +35,9 @@ public class ClientInit extends Thread {
     public void initProcess(String ip, String name) throws MalformedURLException, NotBoundException, RemoteException {
         lookUp(ip, name);
         initSendTriggerStream();
-//        initSendEventsStream();
+        initSendEventsStream();
         trigger.start();
-//        events.start();
+        events.start();
     }
 
     public void initSendTriggerStream() {
@@ -49,18 +50,17 @@ public class ClientInit extends Thread {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 while (true) {
-//                synchronized (lock) {
-
-                    String str = EventTriggerGenerator.getNextTrigger();
                     String cID = "1";
                     int triggerSeqID = 1;
                     String response = null;
 
-                    byte[] buffer = str.getBytes();
+                    ArrayList<String> triggers = new ArrayList<String>();
+                    for (int i = 0; i < 10; i++) {
+                        triggers.add(EventTriggerGenerator.getNextTrigger());
+                    }
                     try {
-                        response = di.uploadTriggersToDispatcher(buffer, cID, triggerSeqID);
+                        response = di.uploadTriggersToDispatcher(triggers, cID, triggerSeqID);
                     } catch (RemoteException e) {
-//                        e.printStackTrace();
                     }
 
                     if (response != null) {
@@ -69,7 +69,6 @@ public class ClientInit extends Thread {
                         ClientUIControler.appendResults("Dispatcher service not working or connection to the Dispatcher service failed" + "\n");
                         return;
                     }
-//}
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException e) {
@@ -90,15 +89,17 @@ public class ClientInit extends Thread {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 while (true) {
-
-                    String str = EventTriggerGenerator.getNextTrigger();
                     String cID = "1";
                     int eventsSeqID = 1;
                     String response = null;
 
-                    byte[] buffer = str.getBytes();
+                    ArrayList<String> events = new ArrayList<String>();
+                    for (int i = 0; i < 10; i++) {
+                        events.add(EventTriggerGenerator.getNextEvent());
+                    }
+
                     try {
-                        response = di.uploadEventsToDispatcher(buffer, cID, eventsSeqID);
+                        response = di.uploadEventsToDispatcher(events, cID, eventsSeqID);
                     } catch (RemoteException e) {
                     }
 
