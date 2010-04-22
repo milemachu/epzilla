@@ -4,6 +4,7 @@ import org.epzilla.clusterNode.dataManager.TriggerManager;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,21 +15,23 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface {
 
-    public ClusterImpl() throws RemoteException{
+    public ClusterImpl() throws RemoteException {
 
     }
 
-    public String acceptTiggerStream(byte[] stream, String cID) throws RemoteException {
+    public String acceptTiggerStream(ArrayList<String> tList, String cID) throws RemoteException {
         try {
-            TriggerManager.addTriggerToList(stream);
+            for (int i = 0; i < tList.size(); i++) {
+                TriggerManager.addTriggerToList(tList.get(i));
+            }
             return "OK";
         } catch (Exception e) {
-                     e.printStackTrace();
+            e.printStackTrace();
         }
         return null;
     }
 
-    public String acceptEventStream(byte[] stream, String cID) throws RemoteException {
+    public String acceptEventStream(ArrayList<String> eList, String cID) throws RemoteException {
         return null;
     }
 }

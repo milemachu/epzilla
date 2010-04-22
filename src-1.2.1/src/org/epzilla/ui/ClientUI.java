@@ -473,51 +473,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             JOptionPane.showMessageDialog(null, "Make sure setting details correct.", "Message", JOptionPane.ERROR_MESSAGE);
     }
 
-    private void sendFiles() {
-        String dispIP = txtDispIP.getText().toString();
-        String dispName = txtDispName.getText().toString();
-        String fileLocation = txtFile.getText().toString();
-        String clientIp = getIpAddress();
-        if ((dispIP.length() == 0) && (dispName.length() == 0)) {
-            JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Message", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (fileLocation.length() == 0) {
-            JOptionPane.showMessageDialog(null, "Browse file to send.", "epZilla", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if ((chkEvents.isSelected() == false) && (chkTriggers.isSelected() == false)) {
-            JOptionPane.showMessageDialog(null, "Select either send as Event or send as Triggers.", "Message", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if ((chkEvents.isSelected() == true) && (chkTriggers.isSelected() == true)) {
-            JOptionPane.showMessageDialog(null, "Select either send as Event or send as Triggers.", "Message", JOptionPane.ERROR_MESSAGE);
-            chkEvents.setSelected(false);
-            chkTriggers.setSelected(false);
-            return;
-        }
-        if ((dispIP.length() != 0) && (dispName.length() != 0) && (fileLocation.length() != 0) && (chkEvents.isSelected() == true)) {
-            try {
-                client.uploadEventsFile(dispIP, dispName, fileLocation, clientIp, eventSeqID);
-                eventSeqID++;
-                JOptionPane.showMessageDialog(null, "Successfully sent the Event file.", "Message", JOptionPane.INFORMATION_MESSAGE);
-            } catch (NotBoundException e) {
-                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
-            }
-        } else if ((dispIP.length() != 0) && (dispName.length() != 0) && (fileLocation.length() != 0) && (chkTriggers.isSelected() == true)) {
-            try {
-                client.uploadTriggersFile(dispIP, dispName, fileLocation, clientIp, triggerSeqID);
-                triggerSeqID++;
-                JOptionPane.showMessageDialog(null, "Successfully sent the Triggers file.", "Message", JOptionPane.INFORMATION_MESSAGE);
-            } catch (NotBoundException e) {
-                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
-            }
-
-        } else
-            JOptionPane.showMessageDialog(null, "Error in file send process.", "Message", JOptionPane.ERROR_MESSAGE);
-    }
-
     private String getIpAddress() {
         InetAddress inetAddress = null;
         try {
