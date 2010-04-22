@@ -1,6 +1,6 @@
 package org.epzilla.dispatcher.logs;
 
-import org.epzilla.dispatcher.xml.LogFileSettingReader;
+import org.epzilla.dispatcher.xml.*;
 
 import java.io.File;
 import java.io.IOException;
