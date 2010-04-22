@@ -78,7 +78,6 @@ public class SplashScreen extends JWindow {
         }
         return progressBar;
     }
-
     public static void main(String[] args) {
         SplashScreen splash = new SplashScreen(3000);
 //        try {
