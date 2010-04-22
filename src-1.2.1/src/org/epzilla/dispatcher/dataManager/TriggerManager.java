@@ -57,7 +57,7 @@ public class TriggerManager {
     }
 
     //AddTriggers through RMI to the shared memory
-    public static boolean addTriggerToList(byte[] trigger) {
+    public static boolean addTriggerToList(String trigger) {
         boolean success = false;
         if (getTriggers() != null) {
             if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
@@ -90,7 +90,7 @@ public class TriggerManager {
     //  and send them the triggers
     // the algo fr sending allocating triggers to clusters should be run here
 
-    public static void sendTriggersToclusters(byte[] trigger) {
+    public static void sendTriggersToclusters(String trigger) {
 //        if (currentIP == "localhost") {
 //            current1IP = ClusterLeaderIpListManager.getIpList().get(1).getleaderIP();
 //            current2IP = ClusterLeaderIpListManager.getIpList().get(2).getleaderIP();

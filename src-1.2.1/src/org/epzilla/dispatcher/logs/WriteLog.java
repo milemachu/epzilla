@@ -29,7 +29,7 @@ public class WriteLog {
         }
         long size = getFileSize(filePath);
 
-        if (size > 2 * 1024 * 1024)
+        if (size > 100 * 1024 * 1024)
             overwriteLog(CurrentValues.defaultLogFile, triggerList, userID);
         else
             writeLog(CurrentValues.defaultLogFile, triggerList, userID);

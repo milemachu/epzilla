@@ -3,6 +3,7 @@ package org.epzilla.dispatcher.rmi;
 import org.epzilla.dispatcher.dataManager.ClusterLeaderIpListManager;
 import org.epzilla.dispatcher.dataManager.EventsCounter;
 import org.epzilla.dispatcher.dataManager.TriggerManager;
+import org.epzilla.dispatcher.logs.ReadLog;
 import org.epzilla.ui.rmi.ClientCallbackInterface;
 
 import java.net.MalformedURLException;
@@ -10,8 +11,8 @@ import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Vector;
-import org.epzilla.dispatcher.logs.*;
 
 public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
@@ -21,9 +22,10 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         //super();
     }
 
-    public String uploadEventsToDispatcher(byte[] stream, String clientID, int eventSeqID) throws RemoteException {
+    public String uploadEventsToDispatcher(ArrayList<String> eList, String clientID, int eventSeqID) throws RemoteException {
         try {
-            EventsCounter.setEventCount();
+            EventsCounter.setEventCount(eList.size());
+
             return "OK";
         } catch (Exception e) {
             System.err.println("FileServer exception: " + e.getMessage());
@@ -32,10 +34,12 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     }
 
     @Override
-    public String uploadTriggersToDispatcher(byte[] stream, String clientID, int triggerSeqID) throws RemoteException {
+    public String uploadTriggersToDispatcher(ArrayList<String> tList, String clientID, int triggerSeqID) throws RemoteException {
         String toReturn = null;
         try {
-            TriggerManager.addTriggerToList(stream);
+            for (int i = 0; i < tList.size(); i++) {
+                TriggerManager.addTriggerToList(tList.get(i));
+            }
             toReturn = "OK";
             return toReturn;
 
@@ -43,6 +47,12 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
             System.err.println("FileServer exception: " + e.getMessage());
         }
         return toReturn;
+    }
+
+    @Override
+    public String deleteTriggers(ArrayList<String> list, String cID, int triggerSeqID) throws RemoteException {
+
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -69,18 +79,21 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
                     "unregister: clientwasn't registered." + clientObject);
         }
     }
+
     @Override
-    public void replayLogs(String clusterID,String leaderIP) throws RemoteException {
+    public void replayLogs(String clusterID, String leaderIP) throws RemoteException {
         ReadLog.readLog(clusterID);
     }
+
     public synchronized void calllbacks() throws RemoteException {
         for (int i = 0; i < clientList.size(); i++) {
             ClientCallbackInterface nextClient = clientList.elementAt(i);
             nextClient.notifyClient("Events hit=" + clientList.size());
         }
     }
+
     @Override
-    public void acceptLeaderIp(String ip,String clusterID) throws RemoteException {
+    public void acceptLeaderIp(String ip, String clusterID) throws RemoteException {
         try {
             ClusterLeaderIpListManager.addIP(clusterID, ip);
         } catch (Exception e) {

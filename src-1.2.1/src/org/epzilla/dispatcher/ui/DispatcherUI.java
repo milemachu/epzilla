@@ -16,7 +16,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-
 public class DispatcherUI extends JFrame implements ActionListener {
     private JTabbedPane tabbedPane = null;
     private JTextField txtIP = null;
@@ -64,16 +63,13 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JTextField txtOutEventCount = null;
 
     public DispatcherUI() {
-        super();
+//        super();
         listener = new EventListener();
         initialize();
     }
 
     private void initialize() {
-		 try {
-				UIManager.setLookAndFeel("com.pagosoft.plaf.PgsLookAndFeel");
-				SwingUtilities.updateComponentTreeUI(this);
-			} catch(Exception e) {}
+
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = screen.width;
         int y = screen.height;

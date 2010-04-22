@@ -11,16 +11,18 @@ import org.epzilla.dispatcher.controlers.DispatcherUIController;
  */
 public class EventsCounter {
 
-    private static int count=0;
-    
-    public EventsCounter(){
+    private static int count = 0;
+
+    public EventsCounter() {
     }
-    public static void setEventCount(){
-        count++;
+
+    public static void setEventCount(int i) {
+        count = count + i;
         String text = Integer.toString(count);
         DispatcherUIController.appendInEventsCount(text);
     }
-    public static int getEventCount(){
+
+    public static int getEventCount() {
         return count;
     }
 
