@@ -1,3 +1,6 @@
 org.epzilla.common.discovery
+org.epzilla.common.discovery.accumulator
+org.epzilla.common.discovery.dispatcher
 org.epzilla.common.discovery.multicast
+org.epzilla.common.discovery.node
 org.epzilla.common.discovery.unicast
