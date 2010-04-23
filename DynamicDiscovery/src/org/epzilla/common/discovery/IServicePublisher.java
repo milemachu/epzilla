@@ -9,6 +9,7 @@ package org.epzilla.common.discovery;
  */
 public interface IServicePublisher {
 	
+	
 	public void publishService();
 	
 	public void addSubscription(String serviceClient, String serviceName);
