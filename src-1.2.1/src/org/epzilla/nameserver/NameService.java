@@ -9,9 +9,12 @@ public interface NameService extends Remote {
 
     public int getDirectorySize() throws RemoteException;
 
-    //    public String getDispatcher(String clientID) throws RemoteException;
     public String getDispatcherIP() throws RemoteException;
 
-    public void updateLoad(String ip) throws RemoteException;
+    public String getClientID(String ipAdrs) throws RemoteException;
+
+    public void updateIncLoad(String ip) throws RemoteException;
+
+    public void updateDecLoad(String ip) throws RemoteException;
 }
 

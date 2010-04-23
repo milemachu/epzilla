@@ -4,16 +4,23 @@ import org.epzilla.nameserver.loadbalance.RBLoadBalancer;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Hashtable;
 import java.util.Vector;
 
 public class NameServiceImpl extends UnicastRemoteObject implements NameService {
 
     private int dirsize = 0;
+    private static String clientID = "";
     private static Vector<String> dispatcherName = new Vector<String>();
     private static Vector<String> dispatcherIPAdrs = new Vector<String>();
     private static Vector<Integer> dispatcherPort = new Vector<Integer>();
+    private static Hashtable<String, String> clientList = new Hashtable<String, String>();
 
     public NameServiceImpl() throws RemoteException {
+    }
+
+    public int getDirsize() {
+        return dirsize;
     }
 
     private int searchDisp(String s) {
@@ -37,7 +44,10 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
     }
 
 
-    //	    @Override
+    protected NameServiceImpl(int port) throws RemoteException {
+        super(port);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
     public int getDirectorySize() throws RemoteException {
         return dirsize;
     }
@@ -58,7 +68,35 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
         return toReturn;
     }
 
-    public void updateLoad(String ip) throws RemoteException {
-        RBLoadBalancer.update(ip);
+    public String getClientID(String ipAdrs) throws RemoteException {
+        if (clientList.containsKey(ipAdrs)) {
+            clientID = clientList.get(ipAdrs);
+        } else {
+            clientID = clientIdGen(ipAdrs);
+            clientList.put(ipAdrs, clientID);
+        }
+        return clientID;
+    }
+
+    private static String clientIdGen(String addr) {
+        String[] addrArray = addr.split("\\.");
+        String temp = "";
+        String value = "";
+        for (int i = 0; i < addrArray.length; i++) {
+            temp = addrArray[i].toString();
+            while (temp.length() != 3) {
+                temp = '0' + temp;
+            }
+            value += temp;
+        }
+        return value;
+    }
+
+    public void updateIncLoad(String ip) throws RemoteException {
+        RBLoadBalancer.updateInc(ip);
+    }
+
+    public void updateDecLoad(String ip) throws RemoteException {
+        RBLoadBalancer.updateDec(ip);
     }
 }

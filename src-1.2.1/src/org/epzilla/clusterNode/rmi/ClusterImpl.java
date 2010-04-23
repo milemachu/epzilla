@@ -34,4 +34,8 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
     public String acceptEventStream(ArrayList<String> eList, String cID) throws RemoteException {
         return null;
     }
+
+    public String deleteTriggers(ArrayList<String> list, String cID) throws RemoteException {
+        return null;  
+    }
 }

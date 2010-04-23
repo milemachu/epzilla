@@ -12,16 +12,19 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Vector;
 
 public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
     private Vector<ClientCallbackInterface> clientList = new Vector<ClientCallbackInterface>();
+    private HashMap clientMap = new HashMap<String, String>();
+    private String clientIpAdrs = "";
 
     protected DispImpl() throws RemoteException {
-        //super();
     }
 
+    @Override
     public String uploadEventsToDispatcher(ArrayList<String> eList, String clientID, int eventSeqID) throws RemoteException {
         try {
             EventsCounter.setEventCount(eList.size());
@@ -52,7 +55,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     @Override
     public String deleteTriggers(ArrayList<String> list, String cID, int triggerSeqID) throws RemoteException {
 
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @Override
@@ -62,16 +65,18 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
     @Override
     public void registerCallback(ClientCallbackInterface clientObject) throws RemoteException, MalformedURLException, UnknownHostException, NotBoundException {
-        DispLoadBalance.updateLoad();
+        DispLoadBalance.updateIncLoad();
         if (!(clientList.contains(clientObject))) {
             clientList.addElement(clientObject);
+
             System.out.println("Registered new client " + clientObject);
             calllbacks();
         }
     }
 
     @Override
-    public void unregisterCallback(ClientCallbackInterface clientObject) throws RemoteException {
+    public void unregisterCallback(ClientCallbackInterface clientObject) throws RemoteException, MalformedURLException, UnknownHostException, NotBoundException {
+        DispLoadBalance.updateDecLoad();
         if (clientList.removeElement(clientObject)) {
             System.out.println("Unregistered client ");
         } else {
@@ -85,11 +90,22 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         ReadLog.readLog(clusterID);
     }
 
-    public synchronized void calllbacks() throws RemoteException {
-        for (int i = 0; i < clientList.size(); i++) {
-            ClientCallbackInterface nextClient = clientList.elementAt(i);
-            nextClient.notifyClient("Events hit=" + clientList.size());
+    @Override
+    public void registerClients(String ip, String id) throws RemoteException {
+        clientMap.put(id, ip);
+    }
+
+    @Override
+    public void unRegisterClients(String ip, String id) {
+        clientMap.remove(id);
+    }
+
+    @Override
+    public String retriveClientIP(String clientID) throws RemoteException {
+        if(clientMap.containsKey(clientID)){
+          clientIpAdrs = (String) clientMap.get(clientID);
         }
+        return clientIpAdrs;
     }
 
     @Override
@@ -100,4 +116,13 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
             e.printStackTrace();
         }
     }
+
+    public synchronized void calllbacks() throws RemoteException {
+        for (int i = 0; i < clientList.size(); i++) {
+            ClientCallbackInterface nextClient = clientList.elementAt(i);
+            nextClient.notifyClient("Events hit=" + clientList.size());
+        }
+    }
+
+
 }
