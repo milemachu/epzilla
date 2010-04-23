@@ -16,4 +16,6 @@ public interface ClusterInterface extends Remote {
     public String acceptTiggerStream(ArrayList<String> tList, String cID) throws RemoteException;
 
     public String acceptEventStream(ArrayList<String> eList, String cID) throws RemoteException;
+
+    public String deleteTriggers(ArrayList<String> list, String cID) throws RemoteException;
 }

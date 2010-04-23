@@ -9,7 +9,10 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -20,7 +23,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.Vector;
-import javax.swing.UIManager.LookAndFeelInfo;
 
 
 public class ClientUI extends JFrame implements ActionListener, ListSelectionListener {
@@ -66,8 +68,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private static ClientInit clientTest;
     private boolean isRegister = false;
     private boolean isLookup = false;
-    private int eventSeqID;
-    private int triggerSeqID;
+    private static String clientID = "";
+    private static String clientIP = "";
     private static ServerSettingsReader reader;
 
     public ClientUI() {
@@ -89,15 +91,15 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         this.setContentPane(getMyTabbedPane());
         this.setJMenuBar(getmyMenuBar());
         this.setTitle("Epzilla DS");
-        this.addWindowListener( new WindowAdapter() {
-                   public void windowClosing(WindowEvent evt) {
-                      int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Confirm Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                      if (response == JOptionPane.YES_OPTION) {
-                         dispose();
-                         System.exit(0);
-                      }
-                   }
-                } );
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent evt) {
+                int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Confirm Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (response == JOptionPane.YES_OPTION) {
+                    dispose();
+                    System.exit(0);
+                }
+            }
+        });
 
         loadSettings();
         btnClear.setEnabled(false);
@@ -330,6 +332,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             btnCancelSend.setText("Cancel");
             btnCancelSend.setBounds(new Rectangle(331, 220, 85, 20));
             btnCancelSend.setVisible(true);
+            btnCancelSend.setEnabled(false);
             btnCancelSend.addActionListener(this);
         }
         return btnCancelSend;
@@ -473,17 +476,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             JOptionPane.showMessageDialog(null, "Make sure setting details correct.", "Message", JOptionPane.ERROR_MESSAGE);
     }
 
-    private String getIpAddress() {
-        InetAddress inetAddress = null;
-        try {
-            inetAddress = InetAddress.getLocalHost();
-        } catch (java.net.UnknownHostException e) {
-            e.printStackTrace();
-        }
-        String ipAddress = inetAddress.getHostAddress();
-        return ipAddress;
-    }
-
     private void saveSettings() {
         String ip = txtIP.getText().toString();
         String serverName = txtName.getText().toString();
@@ -507,8 +499,12 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     }
 
     public void cancelSend() {
-        JOptionPane.showMessageDialog(null, "Are you sure cancel the operation.", "Message", JOptionPane.WARNING_MESSAGE);
-        return;
+        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel?", "Confirm Cancel", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (response == JOptionPane.YES_OPTION) {
+            unregisterCallbackLocal();
+            ClientInit.stopEventTriggerStream();
+        }
+
     }
 
     private void setDispValues(String str) {
@@ -520,6 +516,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         if (isRegister == false) {
             try {
                 client.regForCallback(ip, servicename);
+                ClientHandler.registerClient(clientIP, clientID);
                 isRegister = true;
             } catch (RemoteException e) {
                 JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
@@ -534,17 +531,20 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     }
 
     private void unregisterCallbackLocal() {
-//		String ip = txtDispIP.getText().toString();
-//		String servicename = txtDispName.getText().toString();
-//		try {
-//			client.unregisterCallback(ip, servicename);
-//
-//		} catch (MalformedURLException e) {
-//			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
-//		} catch (RemoteException e) {
-//			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
-//		} catch (NotBoundException e) {
-//			JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);		}
+        String ip = txtDispIP.getText().toString();
+        String servicename = txtDispName.getText().toString();
+        try {
+            client.unregisterCallback(ip, servicename);
+            ClientHandler.unRegisterClient(clientIP, clientID);
+        } catch (MalformedURLException e) {
+            JOptionPane.showMessageDialog(null, e, "epZilla", JOptionPane.ERROR_MESSAGE);
+        } catch (RemoteException e) {
+            JOptionPane.showMessageDialog(null, e, "epZilla", JOptionPane.ERROR_MESSAGE);
+        } catch (NotBoundException e) {
+            JOptionPane.showMessageDialog(null, e, "epZilla", JOptionPane.ERROR_MESSAGE);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         btnLookup.setEnabled(true);
         btnClear.setEnabled(false);
         txtDispIP.setText("");
@@ -598,17 +598,18 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     }
 
-    public void initProcess() {
+    private void initProcess() {
         String dispIP = txtDispIP.getText().toString();
         String dispName = txtDispName.getText().toString();
         String clientIp = getIpAddress();
+        btnCancelSend.setEnabled(true);
         if ((dispIP.length() == 0) && (dispName.length() == 0)) {
             JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Message", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if ((dispIP.length() != 0) && (dispName.length() != 0)) {
             try {
-                clientTest.initProcess(dispIP, dispName);
+                ClientInit.initProcess(dispIP, dispName, clientID);
             } catch (MalformedURLException e) {
                 JOptionPane.showMessageDialog(null, "Error in file send process.", "Message", JOptionPane.ERROR_MESSAGE);
             } catch (NotBoundException e) {
@@ -641,6 +642,27 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         }
     }
 
+    private String getIpAddress() {
+        InetAddress inetAddress = null;
+        try {
+            inetAddress = InetAddress.getLocalHost();
+        } catch (java.net.UnknownHostException e) {
+            e.printStackTrace();
+        }
+        clientIP = inetAddress.getHostAddress();
+        return clientIP;
+    }
+
+
+    private void getClientID() {
+        String clientIP = getIpAddress();
+        try {
+            clientID = ClientHandler.getClientsID(clientIP);
+        } catch (RemoteException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+
     @Override
     public void valueChanged(ListSelectionEvent event) {
         Object source = event.getSource();
@@ -666,11 +688,11 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         } else if (source == btnCancelSend) {
             cancelSend();
         } else if (source == btnClear) {
-            unregisterCallbackLocal();
         } else if (source == btnSave) {
             saveSettings();
         } else if (source == btnLookup) {
             getDispatchers();
+            getClientID();
         } else if (source == btnOK) {
 
         } else if (source == adminSettings) {

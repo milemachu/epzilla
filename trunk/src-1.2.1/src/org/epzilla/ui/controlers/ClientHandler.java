@@ -5,7 +5,6 @@ import org.epzilla.nameserver.NameService;
 import org.epzilla.ui.rmi.ClientCallbackImpl;
 import org.epzilla.ui.rmi.ClientCallbackInterface;
 
-import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.Naming;
@@ -15,21 +14,16 @@ import java.util.Vector;
 
 public class ClientHandler {
 
-    InetAddress dispatcher;
-    int dispatcherPort;
-    static Vector<String> dispIP = new Vector<String>();
-    String ip = "";
-    static String clientID = "";
-    String dispServiceName = "";
-    static String dispDetails = "";
-    static ClientCallbackInterface obj;
-    static NameService service;
-    static DispInterface disObj;
-    boolean isDispatcherInit = false;
+    private static Vector<String> dispIP = new Vector<String>();
+    private static String clientID = "";
+    private static String dispDetails = "";
+    private static ClientCallbackInterface obj;
+    private static NameService service;
+    private static DispInterface disObj;
+    private boolean isDispatcherInit = false;
 
     public static Vector<String> getServiceIp(String serverIp, String serviceName, String clientIp) throws MalformedURLException, RemoteException, NotBoundException {
         initNameService(serverIp, serviceName);
-        clientID = clientIdGen(clientIp);
         dispDetails = service.getDispatcherIP();
         dispIP.add(dispDetails);
 //		int size = service.getDirectorySize();
@@ -40,6 +34,11 @@ public class ClientHandler {
 //			dispIP.add(dispDetails);
         System.out.println(dispIP);
         return dispIP;
+    }
+
+    public static String getClientsID(String ip) throws RemoteException {
+        clientID = service.getClientID(ip);
+        return clientID;
     }
 
     public void regForCallback(String ip, String serviceName) throws NotBoundException, RemoteException, MalformedURLException, UnknownHostException {
@@ -55,22 +54,20 @@ public class ClientHandler {
         }
     }
 
-    public void unregisterCallback(String ip, String serviceName) throws MalformedURLException, RemoteException, NotBoundException {
+    public void unregisterCallback(String ip, String serviceName) throws MalformedURLException, RemoteException, NotBoundException, UnknownHostException {
         disObj.unregisterCallback((ClientCallbackInterface) getclientObject());
     }
 
-    private static String clientIdGen(String addr) {
-        String[] addrArray = addr.split("\\.");
-        String temp = "";
-        String value = "";
-        for (int i = 0; i < addrArray.length; i++) {
-            temp = addrArray[i].toString();
-            while (temp.length() != 3) {
-                temp = '0' + temp;
-            }
-            value += temp;
-        }
-        return value;
+    public ClientHandler() {
+        super();    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    public static void registerClient(String ip, String id) throws RemoteException {
+        disObj.registerClients(ip, id);
+    }
+
+    public static void unRegisterClient(String ip, String id) throws RemoteException {
+        disObj.unRegisterClients(ip, id);
     }
 
     private static void initNameService(String serverIp, String serviceName) throws MalformedURLException, RemoteException, NotBoundException {

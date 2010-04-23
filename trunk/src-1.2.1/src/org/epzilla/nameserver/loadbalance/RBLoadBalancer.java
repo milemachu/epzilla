@@ -24,10 +24,19 @@ public class RBLoadBalancer {
         ipTable.put(ipAddress, 0);
     }
 
-    public static void update(String ipAddress) {
+    public static void updateInc(String ipAddress) {
         if (ipTable.containsKey(ipAddress)) {
             loadFactor = ipTable.get(ipAddress);
             loadFactor++;
+        }
+        ipTable.remove(ipAddress);
+        ipTable.put(ipAddress, loadFactor);
+    }
+
+    public static void updateDec(String ipAddress) {
+        if (ipTable.containsKey(ipAddress)) {
+            loadFactor = ipTable.get(ipAddress);
+            loadFactor--;
         }
         ipTable.remove(ipAddress);
         ipTable.put(ipAddress, loadFactor);
@@ -58,9 +67,9 @@ public class RBLoadBalancer {
     public static void main(String[] args) {
         insert("127.0.0.1");
         insert("126.0.0.1");
-        update("127.0.0.1");
+        updateInc("127.0.0.1");
         insert("129.0.0.1");
-        update("126.0.0.1");
+        updateInc("126.0.0.1");
         getIPAddress();
         System.out.println(ipTable);
     }

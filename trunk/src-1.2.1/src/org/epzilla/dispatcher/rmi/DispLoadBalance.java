@@ -25,13 +25,21 @@ public class DispLoadBalance {
     private static String port = "";
     private static String serviceName = "";
 
-    public static void updateLoad() throws MalformedURLException, RemoteException, NotBoundException, UnknownHostException {
+    public static void updateIncLoad() throws MalformedURLException, RemoteException, NotBoundException, UnknownHostException {
         loadSettings();
         String url = "rmi://" + ip + "/" + serviceName;
         NameService service = (NameService) Naming.lookup(url);
         InetAddress inetAddress = InetAddress.getLocalHost();
         String ipAddress = inetAddress.getHostAddress();
-        service.updateLoad(ipAddress);
+        service.updateIncLoad(ipAddress);
+    }
+
+    public static void updateDecLoad() throws MalformedURLException, NotBoundException, RemoteException, UnknownHostException {
+        String url = "rmi://" + ip + "/" + serviceName;
+        NameService service = (NameService) Naming.lookup(url);
+        InetAddress inetAddress = InetAddress.getLocalHost();
+        String ipAddress = inetAddress.getHostAddress();
+        service.updateDecLoad(ipAddress);
     }
 
     private static void loadSettings() {

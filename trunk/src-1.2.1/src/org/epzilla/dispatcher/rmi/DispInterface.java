@@ -21,10 +21,16 @@ public interface DispInterface extends Remote {
 
     public void registerCallback(ClientCallbackInterface clientObject) throws RemoteException, MalformedURLException, UnknownHostException, NotBoundException;
 
-    public void unregisterCallback(ClientCallbackInterface clientObject) throws RemoteException;
+    public void unregisterCallback(ClientCallbackInterface clientObject) throws RemoteException, MalformedURLException, UnknownHostException, NotBoundException;
 
     public void acceptLeaderIp(String ip, String clusterID) throws RemoteException;
 
     public void replayLogs(String clusterID, String leadeIP) throws RemoteException;
+
+    public void registerClients(String ip, String id) throws RemoteException;
+
+    public void unRegisterClients(String ip, String id) throws RemoteException;
+
+    public String retriveClientIP(String clientID) throws RemoteException;
 
 }
