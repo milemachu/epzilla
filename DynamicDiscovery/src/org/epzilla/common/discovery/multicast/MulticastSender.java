@@ -14,6 +14,7 @@ private int multicastPort;
 
 
 public MulticastSender(String multicastGroupIp, int multicastPort) {
+	
 	this.multicastGroupIp=multicastGroupIp;
 	this.multicastPort=multicastPort;
 	

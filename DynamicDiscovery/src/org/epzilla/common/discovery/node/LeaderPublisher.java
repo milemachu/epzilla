@@ -5,15 +5,18 @@ import org.epzilla.common.discovery.IServicePublisher;
 public class LeaderPublisher implements IServicePublisher {
 
 	@Override
-	public void addSubscription(String serviceClient, String serviceName) {
+	public boolean addSubscription(String serviceClient, String serviceName) {
+		return false;
 	}
 
 	@Override
-	public void publishService() {
+	public boolean publishService() {
+		return false;
 	}
 
 	@Override
-	public void removeSubscrition(String serviceClient, String serviceName) {
+	public boolean removeSubscrition(String serviceClient, String serviceName) {
+		return false;
 	}
 
 }
