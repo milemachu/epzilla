@@ -10,10 +10,10 @@ package org.epzilla.common.discovery;
 public interface IServicePublisher {
 	
 	
-	public void publishService();
+	public boolean publishService();
 	
-	public void addSubscription(String serviceClient, String serviceName);
+	public boolean addSubscription(String serviceClient, String serviceName);
 	
-	public void removeSubscrition(String serviceClient, String serviceName);
+	public boolean removeSubscrition(String serviceClient, String serviceName);
 
 }
