@@ -16,7 +16,7 @@ public class DispatcherPublisher implements IServicePublisher {
 	}
 
 	public boolean addSubscription(String serviceClient, String serviceName) {
-		if(serviceName.equalsIgnoreCase(this.serviceName)){
+		if(serviceName.equalsIgnoreCase("SUBSCRIBE_"+this.serviceName)){
 			synchronized (clusterLeaderIp) {
 				String  []arr=serviceClient.split(Constants.DISPATCHER_CLIENT_DELIMITER);
 				clusterLeaderIp.put(Integer.parseInt(arr[0]), arr[1]);
@@ -34,7 +34,7 @@ public class DispatcherPublisher implements IServicePublisher {
 	}
 
 	public boolean removeSubscrition(String serviceClient, String serviceName) {
-		if(serviceName.equalsIgnoreCase(this.serviceName)){
+		if(serviceName.equalsIgnoreCase("UNSUBSCRIBE_"+this.serviceName)){
 			synchronized (clusterLeaderIp){
 				clusterLeaderIp.remove(Integer.parseInt(serviceClient.split(Constants.DISPATCHER_CLIENT_DELIMITER)[0]));
 				return true;
@@ -44,7 +44,7 @@ public class DispatcherPublisher implements IServicePublisher {
 		return false;
 	}
 	
-	public Hashtable getSubscribers(){
+	public Hashtable<Integer, String> getSubscribers(){
 		return clusterLeaderIp;
 	}
 
