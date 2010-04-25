@@ -30,20 +30,23 @@ public class TCPListener {
 			socket.getInputStream().read(receivedData);
 			
 			StringBuilder sb=new StringBuilder();
-			sb.append(new String(receivedData).trim()).append(Constants.TCP_UNICAST_DELIMITER).append(socket.getRemoteSocketAddress());
+			sb.append(new String(receivedData).trim()).append(Constants.TCP_UNICAST_DELIMITER).append(socket.getRemoteSocketAddress().toString());
 			
 			receivedData =null;
 			
-			socket.close();
-			socket=null;
 			
-			serverSocket.close();
-			serverSocket =null;
 			
 			return sb.toString();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			socket=null;
 		}
 		
 		
