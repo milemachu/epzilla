@@ -5,6 +5,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import org.epzilla.common.discovery.Constants;
+
 public class TCPSender {
 	
 	private Socket socket;
@@ -30,11 +32,17 @@ public class TCPSender {
 			socket.getOutputStream().write(message.getBytes());
 			socket.getOutputStream().flush();
 			
-			socket.close();
-			socket=null;
+			
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			socket=null;
 		}
 		
 	}
@@ -42,7 +50,7 @@ public class TCPSender {
 	public static void main(String[] args) {
 		try {
 			TCPSender ts=new TCPSender(InetAddress.getLocalHost().getHostAddress(), 5010);
-			ts.sendMessage("TestTCPMessage");
+			ts.sendMessage("5"+Constants.DISPATCHER_CLIENT_DELIMITER+"DISPATCHER_SERVICE");
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}

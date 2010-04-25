@@ -43,5 +43,9 @@ public class DispatcherPublisher implements IServicePublisher {
 		
 		return false;
 	}
+	
+	public Hashtable getSubscribers(){
+		return clusterLeaderIp;
+	}
 
 }

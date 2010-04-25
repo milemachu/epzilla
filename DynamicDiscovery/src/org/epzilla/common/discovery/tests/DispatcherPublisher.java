@@ -38,7 +38,7 @@ public class DispatcherPublisher {
 				MulticastReceiver receiver = new MulticastReceiver(
 						multicastGroupIp, multicastPort);
 
-				while (true) {
+				while (!isReceived) {
 					System.out.println(receiver.messageReceived());
 					isReceived=true;
 				}
@@ -53,7 +53,7 @@ public class DispatcherPublisher {
 		while (!isReceived) {
 			
 		}
-		t.stop();
+	
 		t = null;
 	}
 
