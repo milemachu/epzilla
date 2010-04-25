@@ -8,6 +8,7 @@ public class DispatcherDiscoveryManager {
 	
 	Thread tcpThread;
 	Thread multicastThread;
+	int tcpPort=5010;
 	static DispatcherPublisher publisher;
 	
 	public DispatcherDiscoveryManager() {
@@ -17,7 +18,7 @@ public class DispatcherDiscoveryManager {
 			TCPListener tcpListner;
 			@Override
 			public void run() {
-				tcpListner=new TCPListener(5010); 
+				tcpListner=new TCPListener(tcpPort); 
 				
 				while (true) {
 					String messageReceived=tcpListner.MessageReceived();
