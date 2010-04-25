@@ -1,22 +1,69 @@
 package org.epzilla.common.discovery.node;
 
+import java.util.HashSet;
+import java.util.Hashtable;
+
+import org.epzilla.common.discovery.Constants;
 import org.epzilla.common.discovery.IServicePublisher;
+import org.epzilla.common.discovery.multicast.MulticastSender;
 
 public class LeaderPublisher implements IServicePublisher {
+	private String serviceName = "LEADER_SERVICE";
+	private String multicastGroupIp = "224.0.0.3";
+	private int multicastPort = 5015;
+	private Hashtable<Integer, String> clusterNodeIp = new Hashtable<Integer, String>();
+	private HashSet<String> dispatcherIp = new HashSet<String>();
 
-	@Override
 	public boolean addSubscription(String serviceClient, String serviceName) {
+		if (serviceName.equalsIgnoreCase("SUBSCRIBE_" + this.serviceName)) {
+			synchronized (clusterNodeIp) {
+				String[] arr = serviceClient
+						.split(Constants.NODE_CLIENT_DELIMITER);
+				clusterNodeIp.put(Integer.parseInt(arr[0]), arr[1]);
+				return true;
+			}
+		}
 		return false;
 	}
 
-	@Override
 	public boolean publishService() {
-		return false;
+		MulticastSender broadcaster = new MulticastSender(multicastGroupIp,
+				multicastPort);
+		broadcaster.broadcastMessage(serviceName);
+		return true;
 	}
 
-	@Override
 	public boolean removeSubscrition(String serviceClient, String serviceName) {
+		if (serviceName.equalsIgnoreCase("UNSUBSCRIBE_" + this.serviceName)) {
+			synchronized (clusterNodeIp) {
+				clusterNodeIp.remove(Integer.parseInt(serviceClient
+						.split(Constants.NODE_CLIENT_DELIMITER)[0]));
+				return true;
+			}
+		}
+
 		return false;
 	}
 
+	public boolean updateDispatcherList(String dispatcherIpToInsert) {
+		synchronized (dispatcherIp) {
+			dispatcherIp.add(dispatcherIpToInsert);
+			return true;
+		}
+	}
+
+	public boolean removeDispatcherList(String dispatcherIpToRemove) {
+		synchronized (dispatcherIp) {
+			dispatcherIp.remove(dispatcherIpToRemove);
+			return true;
+		}
+	}
+
+	public Hashtable<Integer, String> getSubscribers() {
+		return clusterNodeIp;
+	}
+
+	public HashSet<String> getDispatchers() {
+		return dispatcherIp;
+	}
 }
