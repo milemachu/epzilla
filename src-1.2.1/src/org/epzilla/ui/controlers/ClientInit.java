@@ -48,7 +48,7 @@ public class ClientInit extends Thread {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        e.printStackTrace();  
                     }
                     while (true) {
                         int triggerSeqID = 1;
@@ -66,13 +66,13 @@ public class ClientInit extends Thread {
                         if (response != null) {
                             System.out.println("Dispatcher Recieved the triggrs from the client and the response is " + response);
                         } else {
-                            ClientUIControler.appendResults("Dispatcher service not working or connection to the Dispatcher service failed" + "\n");
+                            ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped" + "\n");
                             return;
                         }
                         try {
                             Thread.sleep(2000);
                         } catch (InterruptedException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -87,7 +87,7 @@ public class ClientInit extends Thread {
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        e.printStackTrace(); 
                     }
                     while (true) {
                         int eventsSeqID = 1;
@@ -106,13 +106,13 @@ public class ClientInit extends Thread {
                         if (response != null)
                             System.out.println("Dispatcher Recieved the events from the client and the response is " + response);
                         else {
-                            ClientUIControler.appendResults("Dispatcher service not working or connection to the Dispatcher service failed" + "\n");
+                            ClientUIControler.appendResults("Connection to the Dispatcher service failed, events sending stoped" + "\n");
                             return;
                         }
                         try {
                             Thread.sleep(500);
                         } catch (InterruptedException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            e.printStackTrace(); 
                         }
                     }
                 }

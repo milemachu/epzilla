@@ -31,6 +31,6 @@ public interface DispInterface extends Remote {
 
     public void unRegisterClients(String ip, String id) throws RemoteException;
 
-    public String retriveClientIP(String clientID) throws RemoteException;
+    public String getClientIP(String clientID) throws RemoteException;
 
 }

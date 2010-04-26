@@ -1,6 +1,6 @@
 package org.epzilla.dispatcher.ui;
 
-import org.epzilla.dispatcher.EventListener;
+import org.epzilla.dispatcher.DispatcherRegister;
 import org.epzilla.dispatcher.xml.ServerSettingsReader;
 
 import javax.swing.*;
@@ -56,15 +56,11 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JTextField txtInEventCount = null;
     private JLabel lblStatus = null;
     private JTextArea txtResult = null;
-
-    private static EventListener listener;
     private boolean isRegister = false;
     private JLabel lblOutEC = null;
     private JTextField txtOutEventCount = null;
 
     public DispatcherUI() {
-//        super();
-        listener = new EventListener();
         initialize();
     }
 
@@ -79,17 +75,18 @@ public class DispatcherUI extends JFrame implements ActionListener {
         this.setSize(x, y);
         this.setPreferredSize(new Dimension(1024, 768));
         this.setContentPane(getMyTabbedPane());
+        tabbedPane.setVisible(false);
         this.setJMenuBar(getmyMenuBar());
         loadSettings();
-        this.addWindowListener( new WindowAdapter() {
-                   public void windowClosing(WindowEvent evt) {
-                      int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Confirm Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                      if (response == JOptionPane.YES_OPTION) {
-                         dispose();
-                         System.exit(0);
-                      }
-                   }
-                } );
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent evt) {
+                int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Confirm Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (response == JOptionPane.YES_OPTION) {
+                    dispose();
+                    System.exit(0);
+                }
+            }
+        });
     }
 
     private JTabbedPane getMyTabbedPane() {
@@ -318,7 +315,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
         if (txtDispSerName == null) {
             txtDispSerName = new JTextField();
             txtDispSerName.setSize(new Dimension(200, 20));
-            txtDispSerName.setText("Dispatcher");
+            txtDispSerName.setText("DISPATCHER_SERVICE");
             txtDispSerName.setLocation(new Point(150, 202));
         }
         return txtDispSerName;
@@ -418,7 +415,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             return;
         }
         if (nameService.length() != 0 && dispatcherName.length() != 0) {
-            listener.register(ip, nameService, port, dispatcherName);
+            DispatcherRegister.register(ip, nameService, port, dispatcherName);
             isRegister = true;
 
         } else {
@@ -480,10 +477,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
         }
     }
 
-    private void clearResults() {
-        txtResult.setText("");
-    }
-
     private void systemExit() {
         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Confirm Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == 0)
@@ -520,16 +513,14 @@ public class DispatcherUI extends JFrame implements ActionListener {
         } else if (source == btnRegister) {
             try {
                 if (isRegister == false) {
-                    clearResults();
+                    txtResult.setText("");
                     register();
                 } else
                     JOptionPane.showMessageDialog(null, "Dispatcher already registered", "Message", JOptionPane.INFORMATION_MESSAGE);
-//
             } catch (MalformedURLException e) {
                 JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException e) {
-//				JOptionPane.showMessageDialog(null,e,"epZilla",JOptionPane.ERROR_MESSAGE);
-                txtResult.append("Name Server is not working or configurations are incorrect");
+                txtResult.append("Name Server is not working....");
             } catch (UnknownHostException e) {
                 JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
             } catch (NotBoundException e) {

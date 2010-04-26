@@ -89,6 +89,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         this.setSize(x, y);
         this.setPreferredSize(new Dimension(1024, 768));
         this.setContentPane(getMyTabbedPane());
+        tabbedPane.setVisible(false);
         this.setJMenuBar(getmyMenuBar());
         this.setTitle("Epzilla DS");
         this.addWindowListener(new WindowAdapter() {
@@ -501,7 +502,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     public void cancelSend() {
         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel?", "Confirm Cancel", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == JOptionPane.YES_OPTION) {
-            unregisterCallbackLocal();
+            btnCancelSend.setEnabled(false);
             ClientInit.stopEventTriggerStream();
         }
 
@@ -637,8 +638,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private void systemExit() {
         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Confirm Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == 0) {
-            unregisterCallbackLocal();
             System.exit(0);
+            unregisterCallbackLocal();
         }
     }
 
@@ -659,7 +660,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         try {
             clientID = ClientHandler.getClientsID(clientIP);
         } catch (RemoteException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return;
         }
     }
 
@@ -688,6 +689,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         } else if (source == btnCancelSend) {
             cancelSend();
         } else if (source == btnClear) {
+            unregisterCallbackLocal();
         } else if (source == btnSave) {
             saveSettings();
         } else if (source == btnLookup) {
