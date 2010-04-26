@@ -44,7 +44,6 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
                 TriggerManager.addTriggerToList(tList.get(i));
             }
             toReturn = "OK";
-            return toReturn;
 
         } catch (Exception e) {
             System.err.println("FileServer exception: " + e.getMessage());
@@ -70,7 +69,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
             clientList.addElement(clientObject);
 
             System.out.println("Registered new client " + clientObject);
-            calllbacks();
+            callBacks();
         }
     }
 
@@ -78,7 +77,8 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     public void unregisterCallback(ClientCallbackInterface clientObject) throws RemoteException, MalformedURLException, UnknownHostException, NotBoundException {
         DispLoadBalance.updateDecLoad();
         if (clientList.removeElement(clientObject)) {
-            System.out.println("Unregistered client ");
+            System.out.println("Unregistered the client ");
+            callBacks();
         } else {
             System.out.println(
                     "unregister: clientwasn't registered." + clientObject);
@@ -101,7 +101,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     }
 
     @Override
-    public String retriveClientIP(String clientID) throws RemoteException {
+    public String getClientIP(String clientID) throws RemoteException {
         if(clientMap.containsKey(clientID)){
           clientIpAdrs = (String) clientMap.get(clientID);
         }
@@ -117,10 +117,10 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         }
     }
 
-    public synchronized void calllbacks() throws RemoteException {
+    public synchronized void callBacks() throws RemoteException {
         for (int i = 0; i < clientList.size(); i++) {
             ClientCallbackInterface nextClient = clientList.elementAt(i);
-            nextClient.notifyClient("Events hit=" + clientList.size());
+            nextClient.notifyClient("No. of registered clients=" + clientList.size());
         }
     }
 

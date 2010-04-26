@@ -14,7 +14,7 @@ public class DispatcherRegister{
 	public DispatcherRegister(){
 	}
 	
-	public void register(String ip,String serviceName,String port,String dispatcherName) throws MalformedURLException, RemoteException, NotBoundException, UnknownHostException{
+	public static void register(String ip,String serviceName,String port,String dispatcherName) throws MalformedURLException, RemoteException, NotBoundException, UnknownHostException{
     		String url = "rmi://"+ip+"/"+serviceName;
 			NameService service = (NameService)Naming.lookup(url);
         	InetAddress inetAddress = InetAddress.getLocalHost();
@@ -32,7 +32,7 @@ public class DispatcherRegister{
 	/*
 	 * generate dispatcher id
 	 */
-	public static String dispIdGen(String addr) {
+	private static String dispIdGen(String addr) {
         String[] addrArray = addr.split("\\.");
         String temp="";
         String value="";

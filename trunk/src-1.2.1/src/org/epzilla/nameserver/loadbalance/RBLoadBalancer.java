@@ -63,16 +63,6 @@ public class RBLoadBalancer {
             }
         });
     }
-
-    public static void main(String[] args) {
-        insert("127.0.0.1");
-        insert("126.0.0.1");
-        updateInc("127.0.0.1");
-        insert("129.0.0.1");
-        updateInc("126.0.0.1");
-        getIPAddress();
-        System.out.println(ipTable);
-    }
 }
 
 class IpComparator implements Comparator {

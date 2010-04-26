@@ -12,7 +12,7 @@ import static org.epzilla.dispatcher.controlers.MainDispatcherController.*;
 
 public class DispatcherService {
 
-    String serviceName="";
+    private String serviceName="";
 
     public DispatcherService(){
 
@@ -20,7 +20,7 @@ public class DispatcherService {
     public DispatcherService(String name){
           this.serviceName = name;
     }
-	public void bindDispatcher(String serviceName) throws RemoteException, UnknownHostException, MalformedURLException {
+	private void bindDispatcher(String serviceName) throws RemoteException, UnknownHostException, MalformedURLException {
 		if(System.getSecurityManager()==null){
 			System.setSecurityManager(new OpenSecurityManager());
 		}
@@ -38,7 +38,7 @@ public class DispatcherService {
 	/*
 	 * generate dispatcher id
 	 */
-	public String dispIdGen(String addr) {
+	private String dispIdGen(String addr) {
         String[] addrArray = addr.split("\\.");
         String temp="";
         String value="";
@@ -55,7 +55,7 @@ public class DispatcherService {
 
     	try {
     		DispatcherService service = new DispatcherService();
-			service.bindDispatcher("Dispatcher");
+			service.bindDispatcher("DISPATCHER_SERVICE");
             run();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class ClientUIControler implements Runnable {
     private static ClientUI clientInstance;
-    String message = "";
+    private String message = "";
 
     public ClientUIControler() {
     }

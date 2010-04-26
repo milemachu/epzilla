@@ -17,8 +17,7 @@ public class SplashScreen extends JWindow {
         duration = d;
     }
 
-    public void showSplash() {
-
+    public void showSplash() {        
         JPanel panel = new JPanel();
         int width = 425;
         int height = 240;
@@ -34,7 +33,6 @@ public class SplashScreen extends JWindow {
         JLabel copyrt = new JLabel("Copyright@epZilla Team  2009-2010, All Rights Reserved", JLabel.CENTER);
         copyrt.setFont(new Font("Cambria", Font.BOLD, 12));
         copyrt.setForeground(Color.white);
-//        copyrt.setText("© epZilla Team  2009-2010, All Rights Reserved");
         copyrt.setBounds(new Rectangle(16, 207, 398, 19));
         panel.setLayout(null);
         panel.setBackground(Color.gray);

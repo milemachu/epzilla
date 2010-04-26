@@ -23,6 +23,7 @@ public class ClientHandler {
     private boolean isDispatcherInit = false;
 
     public static Vector<String> getServiceIp(String serverIp, String serviceName, String clientIp) throws MalformedURLException, RemoteException, NotBoundException {
+        dispIP.removeAllElements();
         initNameService(serverIp, serviceName);
         dispDetails = service.getDispatcherIP();
         dispIP.add(dispDetails);
@@ -56,10 +57,6 @@ public class ClientHandler {
 
     public void unregisterCallback(String ip, String serviceName) throws MalformedURLException, RemoteException, NotBoundException, UnknownHostException {
         disObj.unregisterCallback((ClientCallbackInterface) getclientObject());
-    }
-
-    public ClientHandler() {
-        super();    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     public static void registerClient(String ip, String id) throws RemoteException {

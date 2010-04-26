@@ -9,7 +9,6 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 public class NameServiceHandler extends UnicastRemoteObject {
-    private Registry registry;
 
     public NameServiceHandler() throws RemoteException {
     }
@@ -49,7 +48,7 @@ public class NameServiceHandler extends UnicastRemoteObject {
     public static void main(String args[]) throws RemoteException {
         NameServiceHandler handler = new NameServiceHandler();
         handler.startRegistry();
-        handler.bind("NameServer");
+        handler.bind("NAME_SERVICE");
 
     }
 

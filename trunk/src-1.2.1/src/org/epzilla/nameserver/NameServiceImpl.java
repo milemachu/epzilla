@@ -25,7 +25,7 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
 
     private int searchDisp(String s) {
         for (int i = 0; i < dirsize; i++)
-            if (dispatcherIPAdrs.elementAt(i) == s)
+            if (dispatcherIPAdrs.elementAt(i).equalsIgnoreCase(s))
                 return i;
         return -1;
     }
@@ -43,24 +43,10 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
             return 0;
     }
 
-
-    protected NameServiceImpl(int port) throws RemoteException {
-        super(port);    //To change body of overridden methods use File | Settings | File Templates.
-    }
-
     public int getDirectorySize() throws RemoteException {
         return dirsize;
     }
-    /*
-   used for load balancer class
-    */
-//    public String getDispatcher(String clientID) throws RemoteException {
-//        String dispIP = LoadBalancer.search(clientID, dirsize, ipAddrs);
-//        int dispID = search(dispIP);
-//        String toReturn = dispIP + " " + names[dispID];
-//        return toReturn;
-//    }
-
+   
     public String getDispatcherIP() throws RemoteException {
         String dispIP = RBLoadBalancer.getIPAddress();
         int dispID = searchDisp(dispIP);

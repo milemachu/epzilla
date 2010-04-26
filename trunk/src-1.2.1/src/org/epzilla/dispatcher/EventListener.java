@@ -12,10 +12,10 @@ import org.epzilla.dispatcher.rmi.*;
 import javax.swing.JTextArea;
 
 public class EventListener {
-	DispatcherRegister disReg = new DispatcherRegister();
-	public EventListener(){
-	}
-	public void register(String ip,String serviceName,String port,String dispatcherName) throws MalformedURLException, RemoteException, UnknownHostException, NotBoundException{
-		disReg.register(ip,serviceName,port,dispatcherName);
-	}
+//	DispatcherRegister disReg = new DispatcherRegister();
+//	public EventListener(){
+//	}
+//	public void register(String ip,String serviceName,String port,String dispatcherName) throws MalformedURLException, RemoteException, UnknownHostException, NotBoundException{
+//		disReg.register(ip,serviceName,port,dispatcherName);
+//	}
 }
