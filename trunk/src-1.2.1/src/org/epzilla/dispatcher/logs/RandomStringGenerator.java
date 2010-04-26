@@ -53,6 +53,6 @@ public class RandomStringGenerator {
 			}
 	 private static void generateRandomStrings(int aStart, int aEnd, Random aRandom){
 		    token = Long.toString(Math.abs(aRandom.nextLong()), 36);
-		    myArr.add("TID "+token);
+		    myArr.add(token);
 		    }
 }
