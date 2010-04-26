@@ -30,6 +30,8 @@ public class MulticastMessageDecoder implements Runnable {
 			if(!NodeDiscoveryManager.isLeader()){
 				//Wait till the Leader publisher imple finishes.
 			}
+		}else if(mcArr[0].equalsIgnoreCase("NODE_SERVICE")){
+			//message from another node. Add this to our node list.
 		}
 	}
 
