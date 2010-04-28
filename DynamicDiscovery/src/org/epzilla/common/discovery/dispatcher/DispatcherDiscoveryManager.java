@@ -1,14 +1,20 @@
 package org.epzilla.common.discovery.dispatcher;
 
+import java.util.Iterator;
+
 import org.epzilla.common.discovery.Constants;
+import org.epzilla.common.discovery.multicast.MulticastReceiver;
 import org.epzilla.common.discovery.unicast.TCPListener;
 import org.epzilla.common.discovery.unicast.TCPSender;
 
 public class DispatcherDiscoveryManager {
 	
 	Thread tcpThread;
+	Thread mcListenerThread;
 	Thread multicastThread;
 	int tcpPort=5010;
+	private String multicastGroupIp="224.0.0.2";
+	private int multicastPort=5005;
 	static DispatcherPublisher publisher;
 	
 	public DispatcherDiscoveryManager() {
@@ -29,6 +35,22 @@ public class DispatcherDiscoveryManager {
 		});
 		
 		tcpThread.start();
+		
+		mcListenerThread=new Thread(new Runnable() {
+			MulticastReceiver mcReceiver;
+			@Override
+			public void run() {
+				mcReceiver=new MulticastReceiver(multicastGroupIp, multicastPort);
+				
+				while (true) {
+					String messageReceived=mcReceiver.messageReceived();
+					Thread executor=new Thread(new MulticastMessageDecoder(messageReceived));
+					executor.start();
+				}
+			}
+		});
+		
+		mcListenerThread.start();
 		
 		//Now Broadcast out capabilities via publisher.
 		
@@ -83,6 +105,20 @@ public class DispatcherDiscoveryManager {
 			e.printStackTrace();
 		}
 		System.out.println(DispatcherDiscoveryManager.getDispatcherPublisher().getSubscribers().get(5));
+		
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println(DispatcherDiscoveryManager.getDispatcherPublisher().getDispatchers().isEmpty());
+		System.out.println(DispatcherDiscoveryManager.getDispatcherPublisher().getDispatchers().size());
+
+		for (Iterator iterator = DispatcherDiscoveryManager.getDispatcherPublisher().getDispatchers().iterator(); iterator.hasNext();) {
+			String s = (String) iterator.next();
+			System.out.println(s);
+			
+		}
 		
 	}
 
