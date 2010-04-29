@@ -1,3 +1,0 @@
-<nameservice>
-<service ip="127.0.0.1" name="NameServer" port="5000" />
-</nameservice> 
