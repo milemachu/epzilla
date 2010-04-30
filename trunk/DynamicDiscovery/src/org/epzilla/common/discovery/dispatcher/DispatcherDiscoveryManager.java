@@ -107,7 +107,7 @@ public class DispatcherDiscoveryManager {
 		System.out.println(DispatcherDiscoveryManager.getDispatcherPublisher().getSubscribers().get(5));
 		
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(15000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
