@@ -4,7 +4,7 @@ import org.epzilla.dispatcher.dataManager.ClusterLeaderIpListManager;
 import org.epzilla.dispatcher.dataManager.EventsCounter;
 import org.epzilla.dispatcher.dataManager.TriggerManager;
 import org.epzilla.dispatcher.logs.ReadLog;
-import org.epzilla.ui.rmi.ClientCallbackInterface;
+import org.epzilla.client.rmi.ClientCallbackInterface;
 
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
