@@ -26,16 +26,24 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
             }
             return "OK";
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Trigger adding failure");
         }
         return null;
     }
 
     public String acceptEventStream(ArrayList<String> eList, String cID) throws RemoteException {
+        try {
+            for (int i = 0; i < eList.size(); i++) {
+
+            }
+            return "OK";
+        } catch (Exception e) {
+            System.out.println("Events adding failure");
+        }
         return null;
     }
 
     public String deleteTriggers(ArrayList<String> list, String cID) throws RemoteException {
-        return null;  
+        return null;
     }
 }
