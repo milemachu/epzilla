@@ -10,21 +10,23 @@ import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
- * User: chathura
- * Date: Mar 11, 2010
- * Time: 1:17:07 PM
+ * User: Chathura
+ * Date: May 1, 2010
+ * Time: 10:21:09 AM
  * To change this template use File | Settings | File Templates.
  */
-public class TriggerSender {
+public class EventSender {
     private static ClusterInterface clusterObj;
     private static String response = "";
 
-    public TriggerSender() {
+    public EventSender() {
     }
-
-    public static void acceptTrigger(String serverIp, String clusterID, ArrayList<String> triggers) throws MalformedURLException, NotBoundException, RemoteException {
+   /*
+   event stream need to be add to all the Cluster Nodes
+    */
+    public static void acceptEventStream(String serverIp, String clusterID, ArrayList<String> eventStream) throws MalformedURLException, NotBoundException, RemoteException {
         initCluster(serverIp, "CLUSTER");
-        sendTriggers(triggers, clusterID);
+        sendEventStream(eventStream, clusterID);
     }
 
     private static void initCluster(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
@@ -34,13 +36,13 @@ public class TriggerSender {
 
     }
 
-    private static void sendTriggers(ArrayList<String> triggers, String cID) throws RemoteException, MalformedURLException, NotBoundException {
+    private static void sendEventStream(ArrayList<String> events, String cID) throws RemoteException, MalformedURLException, NotBoundException {
         response = null;
-        response = clusterObj.acceptTiggerStream(triggers, cID);
+        response = clusterObj.acceptEventStream(events, cID);
         if (response != null)
-            System.out.println("Triggers send to the cluster");
+            System.out.println("Event stream send to the cluster");
         else
-            System.out.println("Triggers not accepted");
+            System.out.println("Event stream not accepted");
     }
 
     private static void setClusterObject(Object obj) {
@@ -50,5 +52,4 @@ public class TriggerSender {
     private static Object getClusterObject() {
         return clusterObj;
     }
-
 }

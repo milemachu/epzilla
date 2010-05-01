@@ -22,6 +22,7 @@ public class ClientInit extends Thread {
     private static DispInterface di;
     private static Thread trigger;
     private static Thread events;
+    private static boolean isLive = true;
 
     public ClientInit() {
     }
@@ -32,7 +33,7 @@ public class ClientInit extends Thread {
         setDispatcherObj(di);
     }
 
-    public static void initProcess(String ip, String name,String clientID) throws MalformedURLException, NotBoundException, RemoteException {
+    public static void initProcess(String ip, String name, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         lookUp(ip, name);
         cID = clientID;
         initSendTriggerStream();
@@ -42,13 +43,14 @@ public class ClientInit extends Thread {
     }
 
     public static void initSendTriggerStream() {
+        if (isLive == true) {
             trigger = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();  
+                        e.printStackTrace();
                     }
                     while (true) {
                         int triggerSeqID = 1;
@@ -77,17 +79,18 @@ public class ClientInit extends Thread {
                     }
                 }
             });
+        }
     }
 
     public static void initSendEventsStream() {
-
+        if (isLive == true) {
             events = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
-                        e.printStackTrace(); 
+                        e.printStackTrace();
                     }
                     while (true) {
                         int eventsSeqID = 1;
@@ -112,16 +115,16 @@ public class ClientInit extends Thread {
                         try {
                             Thread.sleep(500);
                         } catch (InterruptedException e) {
-                            e.printStackTrace(); 
+                            e.printStackTrace();
                         }
                     }
                 }
             });
+        }
     }
 
     public static void stopEventTriggerStream() {
-        trigger.interrupt();
-        events.interrupt();
+        isLive = false;
     }
 
     private static void setDispatcherObj(Object obj) {
