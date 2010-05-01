@@ -1,4 +1,4 @@
-package org.epzilla.ui.rmi;
+package org.epzilla.client.rmi;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

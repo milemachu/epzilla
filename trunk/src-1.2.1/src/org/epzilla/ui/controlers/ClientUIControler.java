@@ -1,6 +1,6 @@
-package org.epzilla.ui.controlers;
+package org.epzilla.client.controlers;
 
-import org.epzilla.ui.ClientUI;
+import org.epzilla.client.ClientUI;
 
 import javax.swing.*;
 

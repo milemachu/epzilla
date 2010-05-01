@@ -1,6 +1,6 @@
-package org.epzilla.ui;
+package org.epzilla.client;
 
-import org.epzilla.ui.controlers.ClientUIControler;
+import org.epzilla.client.controlers.ClientUIControler;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
