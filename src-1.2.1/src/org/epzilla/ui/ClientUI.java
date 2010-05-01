@@ -1,9 +1,9 @@
-package org.epzilla.ui;
+package org.epzilla.client;
 
 
-import org.epzilla.ui.controlers.ClientHandler;
-import org.epzilla.ui.controlers.ClientInit;
-import org.epzilla.ui.xml.ServerSettingsReader;
+import org.epzilla.client.controlers.ClientHandler;
+import org.epzilla.client.controlers.ClientInit;
+import org.epzilla.client.xml.ServerSettingsReader;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

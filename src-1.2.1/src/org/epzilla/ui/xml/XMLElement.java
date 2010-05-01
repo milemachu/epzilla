@@ -1,4 +1,4 @@
-package org.epzilla.ui.xml;
+package org.epzilla.client.xml;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

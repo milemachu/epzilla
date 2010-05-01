@@ -1,4 +1,4 @@
-package org.epzilla.ui;
+package org.epzilla.client;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;

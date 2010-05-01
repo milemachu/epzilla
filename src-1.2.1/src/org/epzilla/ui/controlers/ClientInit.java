@@ -1,4 +1,4 @@
-package org.epzilla.ui.controlers;
+package org.epzilla.client.controlers;
 
 import org.epzilla.dispatcher.rmi.DispInterface;
 import org.epzilla.testObjectGenerator.EventTriggerGenerator;

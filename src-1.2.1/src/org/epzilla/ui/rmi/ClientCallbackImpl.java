@@ -1,6 +1,6 @@
-package org.epzilla.ui.rmi;
+package org.epzilla.client.rmi;
 
-import org.epzilla.ui.controlers.ClientUIControler;
+import org.epzilla.client.controlers.ClientUIControler;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

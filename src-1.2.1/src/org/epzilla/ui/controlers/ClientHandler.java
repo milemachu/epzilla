@@ -1,9 +1,9 @@
-package org.epzilla.ui.controlers;
+package org.epzilla.client.controlers;
 
 import org.epzilla.dispatcher.rmi.DispInterface;
 import org.epzilla.nameserver.NameService;
-import org.epzilla.ui.rmi.ClientCallbackImpl;
-import org.epzilla.ui.rmi.ClientCallbackInterface;
+import org.epzilla.client.rmi.ClientCallbackImpl;
+import org.epzilla.client.rmi.ClientCallbackInterface;
 
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
