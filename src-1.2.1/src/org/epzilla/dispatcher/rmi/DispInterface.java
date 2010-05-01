@@ -1,6 +1,6 @@
 package org.epzilla.dispatcher.rmi;
 
-import org.epzilla.ui.rmi.ClientCallbackInterface;
+import org.epzilla.client.rmi.ClientCallbackInterface;
 
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
