@@ -1,7 +1,6 @@
 package org.epzilla.common.discovery.node;
 
 import java.util.HashSet;
-import java.util.Hashtable;
 
 import org.epzilla.common.discovery.Constants;
 import org.epzilla.common.discovery.IServicePublisher;
@@ -9,9 +8,9 @@ import org.epzilla.common.discovery.multicast.MulticastSender;
 
 public class LeaderPublisher implements IServicePublisher {
 	private String serviceName = "LEADER_SERVICE";
-	private String multicastGroupIp = "224.0.0.3";
-	private int multicastPort = 5015;
-	private Hashtable<Integer, String> clusterNodeIp = new Hashtable<Integer, String>();
+	private String multicastGroupIp = "224.0.0.2";
+	private int multicastPort = 5005;
+	private HashSet<String> clusterNodeIp = new HashSet<String>();
 	private HashSet<String> dispatcherIp = new HashSet<String>();
 
 	public boolean addSubscription(String serviceClient, String serviceName) {
@@ -19,7 +18,7 @@ public class LeaderPublisher implements IServicePublisher {
 			synchronized (clusterNodeIp) {
 				String[] arr = serviceClient
 						.split(Constants.NODE_CLIENT_DELIMITER);
-				clusterNodeIp.put(Integer.parseInt(arr[0]), arr[1]);
+				clusterNodeIp.add(arr[1]);
 				return true;
 			}
 		}
@@ -30,6 +29,13 @@ public class LeaderPublisher implements IServicePublisher {
 		MulticastSender broadcaster = new MulticastSender(multicastGroupIp,
 				multicastPort);
 		broadcaster.broadcastMessage(serviceName);
+		return true;
+	}
+	
+	public boolean publishService(int clusterId){
+		MulticastSender broadcaster = new MulticastSender(multicastGroupIp,
+				multicastPort);
+		broadcaster.broadcastMessage(serviceName+Constants.CLUSTER_ID_DELIMITER+clusterId);
 		return true;
 	}
 
@@ -59,7 +65,7 @@ public class LeaderPublisher implements IServicePublisher {
 		}
 	}
 
-	public Hashtable<Integer, String> getSubscribers() {
+	public HashSet<String> getSubscribers() {
 		return clusterNodeIp;
 	}
 
