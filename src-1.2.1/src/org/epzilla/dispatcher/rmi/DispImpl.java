@@ -27,7 +27,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     @Override
     public String uploadEventsToDispatcher(ArrayList<String> eList, String clientID, int eventSeqID) throws RemoteException {
         try {
-            EventsCounter.setEventCount(eList.size());
+            EventsCounter.setInEventCount(eList.size());
 
             return "OK";
         } catch (Exception e) {
