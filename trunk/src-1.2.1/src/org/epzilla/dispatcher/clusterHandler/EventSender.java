@@ -21,12 +21,16 @@ public class EventSender {
 
     public EventSender() {
     }
-   /*
+
+    /*
    event stream need to be add to all the Cluster Nodes
     */
-    public static void acceptEventStream(String serverIp, String clusterID, ArrayList<String> eventStream) throws MalformedURLException, NotBoundException, RemoteException {
-        initCluster(serverIp, "CLUSTER");
-        sendEventStream(eventStream, clusterID);
+    public static void acceptEventStream(String[] serverIp, String[] clusterID, ArrayList<String> eventStream) throws MalformedURLException, NotBoundException, RemoteException {
+        for (int i = 0; i < clusterID.length; i++) {
+            initCluster(serverIp[i], "CLUSTER_LEADER");
+            sendEventStream(eventStream, clusterID[i]);
+        }
+
     }
 
     private static void initCluster(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
@@ -39,10 +43,12 @@ public class EventSender {
     private static void sendEventStream(ArrayList<String> events, String cID) throws RemoteException, MalformedURLException, NotBoundException {
         response = null;
         response = clusterObj.acceptEventStream(events, cID);
-        if (response != null)
-            System.out.println("Event stream send to the cluster");
-        else
-            System.out.println("Event stream not accepted");
+        if (response != null){
+            System.out.println("Event stream send to the Cluster "+cID);
+        }
+        else{
+            System.out.println("Event stream not accepted by Cluster "+cID);
+        }
     }
 
     private static void setClusterObject(Object obj) {

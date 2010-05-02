@@ -1,7 +1,8 @@
 package org.epzilla.clusterNode.leaderReg;
 
 import org.epzilla.clusterNode.NodeController;
-import org.epzilla.clusterNode.rmi.*;
+import org.epzilla.clusterNode.rmi.ClusterImpl;
+import org.epzilla.clusterNode.rmi.ClusterInterface;
 import org.epzilla.clusterNode.xml.ClusterSettingsReader;
 import org.epzilla.dispatcher.rmi.DispInterface;
 
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 public class LeaderRegister {
     private static ClusterSettingsReader reader = new ClusterSettingsReader();
     private static String clusterID = "";
+    private static String serviceName = "CLUSTER_LEADER";
 
     public static void bindClusterNode(String serviceName) throws UnknownHostException, MalformedURLException, RemoteException {
         if (System.getSecurityManager() == null) {
@@ -26,8 +28,7 @@ public class LeaderRegister {
         InetAddress inetAddress;
         inetAddress = InetAddress.getLocalHost();
         String ipAddress = inetAddress.getHostAddress();
-        String sname = serviceName;
-        String name = "rmi://" + ipAddress + "/" + sname;
+        String name = "rmi://" + ipAddress + "/" + serviceName;
         Naming.rebind(name, clusterInt);
         System.out.println("Cluster Node successfully deployed.....");
     }
@@ -54,7 +55,7 @@ public class LeaderRegister {
     public static void main(String[] args) {
         try {
             NodeController.init();
-            bindClusterNode("CLUSTER");
+            bindClusterNode(serviceName);
             loadSettings();
             register();
         } catch (UnknownHostException e) {
@@ -66,10 +67,6 @@ public class LeaderRegister {
         } catch (NotBoundException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-//        catch (NotBoundException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        }
-
     }
 
 }
