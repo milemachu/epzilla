@@ -12,7 +12,7 @@ import static org.epzilla.dispatcher.controlers.MainDispatcherController.*;
 
 public class DispatcherService {
 
-    private String serviceName="";
+    private static String serviceName="DISPATCHER_SERVICE";
 
     public DispatcherService(){
 
@@ -55,7 +55,7 @@ public class DispatcherService {
 
     	try {
     		DispatcherService service = new DispatcherService();
-			service.bindDispatcher("DISPATCHER_SERVICE");
+			service.bindDispatcher(serviceName);
             run();
 		} catch (Exception e) {
 			e.printStackTrace();

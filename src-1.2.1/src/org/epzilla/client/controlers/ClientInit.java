@@ -22,7 +22,7 @@ public class ClientInit extends Thread {
     private static DispInterface di;
     private static Thread trigger;
     private static Thread events;
-    private static boolean isLive = true;
+    private static volatile boolean isLive = false;
 
     public ClientInit() {
     }
@@ -36,6 +36,7 @@ public class ClientInit extends Thread {
     public static void initProcess(String ip, String name, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         lookUp(ip, name);
         cID = clientID;
+        isLive = true;
         initSendTriggerStream();
         initSendEventsStream();
         trigger.start();
@@ -43,7 +44,6 @@ public class ClientInit extends Thread {
     }
 
     public static void initSendTriggerStream() {
-        if (isLive == true) {
             trigger = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -52,7 +52,7 @@ public class ClientInit extends Thread {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    while (true) {
+                    while (isLive) {
                         int triggerSeqID = 1;
                         String response = null;
 
@@ -79,11 +79,9 @@ public class ClientInit extends Thread {
                     }
                 }
             });
-        }
     }
 
     public static void initSendEventsStream() {
-        if (isLive == true) {
             events = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -92,7 +90,7 @@ public class ClientInit extends Thread {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    while (true) {
+                    while (isLive) {
                         int eventsSeqID = 1;
                         String response = null;
 
@@ -120,7 +118,6 @@ public class ClientInit extends Thread {
                     }
                 }
             });
-        }
     }
 
     public static void stopEventTriggerStream() {

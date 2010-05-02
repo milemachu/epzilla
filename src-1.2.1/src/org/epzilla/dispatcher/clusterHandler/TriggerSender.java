@@ -23,7 +23,7 @@ public class TriggerSender {
     }
 
     public static void acceptTrigger(String serverIp, String clusterID, ArrayList<String> triggers) throws MalformedURLException, NotBoundException, RemoteException {
-        initCluster(serverIp, "CLUSTER");
+        initCluster(serverIp, "CLUSTER_LEADER");
         sendTriggers(triggers, clusterID);
     }
 
