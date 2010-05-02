@@ -76,7 +76,9 @@ public class DispatcherDiscoveryManager {
 		return publisher;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
+		@SuppressWarnings("unused")
 		DispatcherDiscoveryManager dm=new DispatcherDiscoveryManager();
 		
 		TCPSender ts=new TCPSender("127.0.0.1", 5010);
