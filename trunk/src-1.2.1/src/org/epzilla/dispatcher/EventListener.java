@@ -9,7 +9,7 @@ import java.util.*;
 import org.epzilla.dispatcher.rmi.*;
 
 
-import javax.swing.JTextArea;
+//import javax.swing.JTextArea;
 
 public class EventListener {
 //	DispatcherRegister disReg = new DispatcherRegister();
