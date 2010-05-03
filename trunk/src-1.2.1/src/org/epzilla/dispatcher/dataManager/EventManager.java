@@ -20,11 +20,11 @@ public class EventManager {
     private static boolean isLoaded = false;
 
     public static void sendEventsToClusters(ArrayList<String> eList) {
-        if(!isLoaded){
-        loadClusterDetails();
+        if (!isLoaded) {
+            loadClusterDetails();
         }
         try {
-            EventSender.acceptEventStream(ipArr,idArr,eList);
+            EventSender.acceptEventStream(ipArr, idArr, eList);
         } catch (MalformedURLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NotBoundException e) {

@@ -1,9 +1,6 @@
 package org.epzilla.dispatcher.rmi;
 
-import org.epzilla.dispatcher.dataManager.ClusterLeaderIpListManager;
-import org.epzilla.dispatcher.dataManager.EventsCounter;
-import org.epzilla.dispatcher.dataManager.TriggerManager;
-import org.epzilla.dispatcher.dataManager.ClientManager;
+import org.epzilla.dispatcher.dataManager.*;
 import org.epzilla.dispatcher.logs.ReadLog;
 import org.epzilla.client.rmi.ClientCallbackInterface;
 
@@ -29,7 +26,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     public String uploadEventsToDispatcher(ArrayList<String> eList, String clientID, int eventSeqID) throws RemoteException {
         try {
             EventsCounter.setInEventCount(eList.size());
-
+            EventManager.sendEventsToClusters(eList);
             return "OK";
         } catch (Exception e) {
             System.err.println("FileServer exception");

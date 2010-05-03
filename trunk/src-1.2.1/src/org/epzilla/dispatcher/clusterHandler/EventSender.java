@@ -1,6 +1,7 @@
 package org.epzilla.dispatcher.clusterHandler;
 
 import org.epzilla.clusterNode.rmi.ClusterInterface;
+import org.epzilla.dispatcher.dataManager.EventsCounter;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  */
 public class EventSender {
     private static ClusterInterface clusterObj;
-    private static String response = "";
+    private static String response = null;
 
     public EventSender() {
     }
@@ -40,9 +41,9 @@ public class EventSender {
 
     }
 
-    private static void sendEventStream(ArrayList<String> events, String cID) throws RemoteException, MalformedURLException, NotBoundException {
-        response = null;
-        response = clusterObj.acceptEventStream(events, cID);
+    private static void sendEventStream(ArrayList<String> eList, String cID) throws RemoteException, MalformedURLException, NotBoundException {
+        response = clusterObj.acceptEventStream(eList, cID);
+        EventsCounter.setOutEventCount(eList.size());
         if (response != null){
             System.out.println("Event stream send to the Cluster "+cID);
         }
