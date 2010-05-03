@@ -1,8 +1,8 @@
 package org.epzilla.common.discovery.node;
 
 import org.epzilla.common.discovery.IServicePublisher;
-import org.epzilla.common.discovery.dispatcher.MulticastMessageDecoder;
-import org.epzilla.common.discovery.dispatcher.TCPMessageDecoder;
+import org.epzilla.common.discovery.node.MulticastMessageDecoder;
+import org.epzilla.common.discovery.node.TCPMessageDecoder;
 import org.epzilla.common.discovery.multicast.MulticastReceiver;
 import org.epzilla.common.discovery.unicast.TCPListener;
 
