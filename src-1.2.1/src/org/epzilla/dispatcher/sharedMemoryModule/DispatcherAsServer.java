@@ -89,21 +89,14 @@ public class DispatcherAsServer {
     }
 
     public static void loadClientList() {
-        DispatcherUIController.appendTextToStatus("Shared Transacted list Added for Clients..");
+        DispatcherUIController.appendTextToStatus("Shared Transacted Map Added for Clients..");
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
             Site.getLocal().allowThread();
             Transaction transaction = Site.getLocal().startTransaction();
-            ClientInfoObject obj = new ClientInfoObject();
-            obj.setclientID("CCCC");
-            ClientManager.getClientList().add(obj);
-            share.add(ClientManager.getClientList());
+            share.add(ClientManager.getClientMap());
             transaction.commit();
         }
-        ClientManager.getClientList().addListener(new FieldListener() {
-            public void onChange(Transaction transaction, int i) {
-//                DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.triggers.get(TriggerManager.triggers.size() - 1).gettrigger()));
-            }
-        });
+//        ClientManager.getClientMap().addListener(new );
 
     }
 
