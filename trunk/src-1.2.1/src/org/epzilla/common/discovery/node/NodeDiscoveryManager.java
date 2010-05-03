@@ -8,13 +8,14 @@ public class NodeDiscoveryManager {
 	Thread tcpListenerThread;
 	Thread multicastListnerThread;
 	Thread multicastSenderThread;
-	int tcpPort=5020;
-	String multicastGroupIp="224.0.0.3";
-	int multicastPort=5015;
+	int tcpPort=5010;
+	String multicastGroupIp="224.0.0.2";
+	int multicastPort=5005;
 	static LeaderPublisher leaderPublisher;
 	static NodePublisher nodePublisher;
 	static boolean isLeadeer=false;
 	static int clusterId;
+	static String clusterLeader;
 	
 	
 
@@ -26,6 +27,7 @@ public class NodeDiscoveryManager {
 		nodePublisher=new NodePublisher();
 		
 		multicastListnerThread=new Thread(new Runnable() {
+			@SuppressWarnings("unused")
 			MulticastReceiver mcReceiver;
 			@Override
 			public void run() {
@@ -49,8 +51,20 @@ public class NodeDiscoveryManager {
 		return isLeadeer;
 	}
 	
+	public static void setLeader(boolean result){
+		NodeDiscoveryManager.isLeadeer=result;
+	}
+	
 	public static int getClusterId(){
 		return clusterId;
+	}
+	
+	public static String getClusterLeader() {
+		return clusterLeader;
+	}
+	
+	public static void setClusterLeader(String clusterLeader){
+		NodeDiscoveryManager.clusterLeader=clusterLeader;
 	}
 	
 }
