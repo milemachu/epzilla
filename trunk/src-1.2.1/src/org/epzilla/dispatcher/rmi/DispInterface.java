@@ -17,7 +17,7 @@ public interface DispInterface extends Remote {
 
     public String deleteTriggers(ArrayList<String> list, String cID, int triggerSeqID) throws RemoteException;
 
-    public String acceptNotifications() throws RemoteException;
+    public void acceptNotifications(ArrayList<String> notification,String clientID) throws RemoteException;
 
     public void registerCallback(ClientCallbackInterface clientObject) throws RemoteException, MalformedURLException, UnknownHostException, NotBoundException;
 

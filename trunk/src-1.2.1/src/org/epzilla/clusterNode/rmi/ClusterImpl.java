@@ -15,14 +15,12 @@ import java.util.ArrayList;
  */
 public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface {
 
-    public ClusterImpl() throws RemoteException {
+    public ClusterImpl() throws RemoteException {}
 
-    }
-
-    public String acceptTiggerStream(ArrayList<String> tList, String cID) throws RemoteException {
+    public String acceptTiggerStream(ArrayList<String> tList, String clusterID, String clientID) throws RemoteException {
         try {
-            for (String aTList : tList) {
-                TriggerManager.addTriggerToList(aTList);
+            for (int i = 0; i < tList.size(); i++) {
+                TriggerManager.addTriggerToList(tList.get(i), clientID);
             }
             return "OK";
         } catch (Exception e) {
@@ -31,11 +29,11 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         return null;
     }
 
-    public String acceptEventStream(ArrayList<String> eList, String cID) throws RemoteException {
+    public String acceptEventStream(ArrayList<String> eList, String clusterID, String clientID) throws RemoteException {
         try {
-            for (String anEList : eList) {
 
-            }
+            //event accepting logic here
+
             return "OK";
         } catch (Exception e) {
             System.out.println("Events adding failure");
@@ -43,7 +41,8 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         return null;
     }
 
-    public String deleteTriggers(ArrayList<String> list, String cID) throws RemoteException {
+    public String deleteTriggers(ArrayList<String> list, String clusterID, String clientID) throws RemoteException {
+       // trigger deleting logic here
         return null;
     }
 }

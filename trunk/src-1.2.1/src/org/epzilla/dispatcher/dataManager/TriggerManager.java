@@ -57,7 +57,7 @@ public class TriggerManager {
     }
 
     //AddTriggers through RMI to the shared memory
-    public static boolean addTriggerToList(String trigger) {
+    public static boolean addTriggerToList(String trigger,String clientID) {
         boolean success = false;
         if (getTriggers() != null) {
             if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {

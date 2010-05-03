@@ -3,9 +3,11 @@ package org.epzilla.client.controlers;
 import org.epzilla.client.userInterface.ClientUI;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class ClientUIControler implements Runnable {
     private static ClientUI clientInstance;
+    private ArrayList<String> notifications;
     private String message = "";
 
     public ClientUIControler() {
@@ -13,6 +15,10 @@ public class ClientUIControler implements Runnable {
 
     public ClientUIControler(String msg) {
         this.message = msg;
+    }
+
+    public ClientUIControler(ArrayList<String> notifics) {
+        this.notifications = notifics;
     }
 
     public static void initializeClientUI() {
@@ -27,7 +33,9 @@ public class ClientUIControler implements Runnable {
 
     @Override
     public void run() {
-        clientInstance.getTxtResults().append(message + "\n");
+        for (String notification : notifications) {
+            clientInstance.getTxtResults().append(notification + "\n");
+        }
     }
 
 }

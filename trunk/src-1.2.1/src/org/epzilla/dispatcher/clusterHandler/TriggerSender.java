@@ -17,14 +17,14 @@ import java.util.ArrayList;
  */
 public class TriggerSender {
     private static ClusterInterface clusterObj;
-    private static String response = "";
+    private static String response = null;
 
     public TriggerSender() {
     }
 
-    public static void acceptTrigger(String serverIp, String clusterID, ArrayList<String> triggers) throws MalformedURLException, NotBoundException, RemoteException {
+    public static void acceptTrigger(String serverIp, String clusterID, ArrayList<String> triggers, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         initCluster(serverIp, "CLUSTER_LEADER");
-        sendTriggers(triggers, clusterID);
+        sendTriggers(triggers, clusterID, clientID);
     }
 
     private static void initCluster(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
@@ -34,9 +34,8 @@ public class TriggerSender {
 
     }
 
-    private static void sendTriggers(ArrayList<String> triggers, String cID) throws RemoteException, MalformedURLException, NotBoundException {
-        response = null;
-        response = clusterObj.acceptTiggerStream(triggers, cID);
+    private static void sendTriggers(ArrayList<String> triggers, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
+        response = clusterObj.acceptTiggerStream(triggers, clusterID, clientID);
         if (response != null)
             System.out.println("Triggers send to the cluster");
         else
@@ -45,10 +44,6 @@ public class TriggerSender {
 
     private static void setClusterObject(Object obj) {
         clusterObj = (ClusterInterface) obj;
-    }
-
-    private static Object getClusterObject() {
-        return clusterObj;
     }
 
 }

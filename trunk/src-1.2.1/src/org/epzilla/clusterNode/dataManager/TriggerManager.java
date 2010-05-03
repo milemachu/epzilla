@@ -1,10 +1,10 @@
 package org.epzilla.clusterNode.dataManager;
 
-import org.epzilla.dispatcher.RandomStringGenerator;
-import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
-import jstm.core.TransactedList;
 import jstm.core.Site;
+import jstm.core.TransactedList;
 import jstm.core.Transaction;
+import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
+import org.epzilla.dispatcher.RandomStringGenerator;
 
 import java.util.TimerTask;
 
@@ -20,7 +20,7 @@ public class TriggerManager {
     static int count = 0;
 
 
-       // Code For Testing Only -Dishan
+    // Code For Testing Only -Dishan
     public static void initTestTriggerStream() {
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {
@@ -47,7 +47,7 @@ public class TriggerManager {
     }
 
     //AddTriggers through RMI to the shared memory
-    public static boolean addTriggerToList(String trigger) {
+    public static boolean addTriggerToList(String trigger, String clientID) {
         boolean success = false;
         if (getTriggers() != null) {
             if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
