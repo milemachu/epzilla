@@ -64,6 +64,9 @@ public class DispatcherAsClient {
                             if (object instanceof TransactedList<?>)
                                 addList((TransactedList<?>) object);
 
+                            if(object instanceof TransactedMap<?,?>)
+                                addClientList((TransactedMap<?,?>) object);
+
                         }
 
                         public void onRemoved(Transaction transaction,
@@ -97,9 +100,6 @@ public class DispatcherAsClient {
         if (info.get(0) instanceof TriggerInfoObject) {
             addTriggerList((TransactedList<TriggerInfoObject>) info);
         }
-        if (info.get(0) instanceof ClientInfoObject) {
-           addClientList((TransactedList<ClientInfoObject>) info);
-        }
         if (info.get(0) instanceof LeaderInfoObject) {
            addIpList((TransactedList<LeaderInfoObject>) info);
         }
@@ -115,14 +115,14 @@ public class DispatcherAsClient {
         });
     }
 
-    private static void addClientList(final TransactedList<ClientInfoObject> info) {
-        DispatcherUIController.appendTextToStatus("TriggerList added.");
-        ClientManager.setClientList(info);
-        info.addListener(new FieldListener() {
-            public void onChange(Transaction transaction, int i) {
-//                DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.triggers.get(TriggerManager.triggers.size() - 1).gettrigger()));
-            }
-        });
+    private static void addClientList(final TransactedMap info) {
+        DispatcherUIController.appendTextToStatus("Client Map added.");
+        ClientManager.setClientMap(info);
+//        info.addListener(new FieldListener() {
+//            public void onChange(Transaction transaction, int i) {
+////                DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.triggers.get(TriggerManager.triggers.size() - 1).gettrigger()));
+//            }
+//        });
     }
 
     private static void addIpList(final TransactedList<LeaderInfoObject> info) {
@@ -151,10 +151,6 @@ public class DispatcherAsClient {
             }
         }, 10, 1000);
     }
-
-//    private static void removeList(final TransactedList<TriggerInfoObject> info) {
-//
-//    }
 
 
 }

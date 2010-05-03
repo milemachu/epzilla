@@ -1,7 +1,8 @@
 package org.epzilla.dispatcher.dataManager;
 
-import jstm.core.TransactedList;
-import org.epzilla.dispatcher.dispatcherObjectModel.ClientInfoObject;
+import jstm.core.Site;
+import jstm.core.Transaction;
+import jstm.core.TransactedMap;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,13 +12,35 @@ import org.epzilla.dispatcher.dispatcherObjectModel.ClientInfoObject;
  * To change this template use File | Settings | File Templates.
  */
 public class ClientManager {
-    private static TransactedList<ClientInfoObject> clientList = new TransactedList<ClientInfoObject>();
+    private static TransactedMap clientMap = new TransactedMap();
 
-    public static TransactedList<ClientInfoObject> getClientList() {
-        return clientList;
+    public static void addClient(String clientID, String ip) {
+        if (getClientMap() != null) {
+            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                Site.getLocal().allowThread();
+                Transaction transaction = Site.getLocal().startTransaction();
+                getClientMap().put(clientID,ip);
+                transaction.commit();
+            }
+        }
     }
 
-    public static void setClientList(TransactedList<ClientInfoObject> clientList) {
-        ClientManager.clientList = clientList;
+    public static void removeClient(String clientID) {
+        if (getClientMap() != null) {
+            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                Site.getLocal().allowThread();
+                Transaction transaction = Site.getLocal().startTransaction();
+                getClientMap().remove(clientID);
+                transaction.commit();
+            }
+        }
+    }
+
+    public static TransactedMap getClientMap() {
+        return clientMap;
+    }
+
+    public static void setClientMap(TransactedMap clientMap) {
+        ClientManager.clientMap = clientMap;
     }
 }
