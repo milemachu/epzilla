@@ -44,7 +44,7 @@ public class LeaderRegister {
 
     private static void loadSettings() {
         try {
-            ArrayList<String[]> data = reader.getServerIPSettings("./src/clusterID_settings.xml");
+            ArrayList<String[]> data = reader.getServerIPSettings("./src/settings/clusterID_settings.xml");
             String[] ar = data.get(0);
             clusterID = ar[0];
         } catch (IOException e) {

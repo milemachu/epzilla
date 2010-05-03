@@ -72,7 +72,13 @@ public class FileScanner implements Runnable {
             System.out.println("File not found");
         }
         RecoveredTriggers.triggerList(recoverArr);
+        printArray(recoverArr);
         long end = System.currentTimeMillis();
         System.out.println("Time: " + (end - start));
+    }
+     public static void printArray(List<String> array) {
+        for(int i=0; i<array.size();i++){
+            System.out.println(array.get(i));
+        }
     }
 }
