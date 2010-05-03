@@ -453,9 +453,9 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     }
 
     private void getDispatchers() {
-        String ip = txtIP.getText().toString();
+        String ip = txtIP.getText();
         String serverName = txtName.getText().toString();
-        String port = txtPort.getText().toString();
+        String port = txtPort.getText();
         String clientIp = getIpAddress();
         if ((isValidIp(ip) == true) && (serverName.length() != 0)) {
             try {
@@ -479,7 +479,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     private void saveSettings() {
         String ip = txtIP.getText().toString();
-        String serverName = txtName.getText().toString();
+        String serverName = txtName.getText();
         String port = txtPort.getText().toString();
         if ((isValidIp(ip) == true) && (serverName.length() != 0) && (isValidPort(port) == true)) {
             txtIP.setEditable(false);
@@ -532,7 +532,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     }
 
     private void unregisterCallbackLocal() {
-        String ip = txtDispIP.getText().toString();
+        String ip = txtDispIP.getText();
         String servicename = txtDispName.getText().toString();
         try {
             client.unregisterCallback(ip, servicename);
@@ -568,7 +568,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             boolean validIp = true;
             String[] values = ip.split("\\.");
             for (int k = 0; k < values.length; ++k) {
-                short v = Short.valueOf(values[k]).shortValue();
+                short v = Short.valueOf(values[k]);
                 if ((v < 0) || (v > 255)) {
                     validIp = false;
                     break;
@@ -600,7 +600,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     }
 
     private void initProcess() {
-        String dispIP = txtDispIP.getText().toString();
+        String dispIP = txtDispIP.getText();
         String dispName = txtDispName.getText().toString();
         String clientIp = getIpAddress();
         btnCancelSend.setEnabled(true);

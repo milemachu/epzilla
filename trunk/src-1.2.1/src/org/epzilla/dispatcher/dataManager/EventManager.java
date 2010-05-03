@@ -26,11 +26,11 @@ public class EventManager {
         try {
             EventSender.acceptEventStream(ipArr, idArr, eList,clientID);
         } catch (MalformedURLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            System.err.println(e);
         } catch (NotBoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+           System.err.println(e);
         } catch (RemoteException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+           System.err.println(e);
         }
     }
 

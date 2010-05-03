@@ -1,6 +1,5 @@
 package org.epzilla.client.controlers;
 
-import org.epzilla.client.rmi.ClientRegister;
 import org.epzilla.dispatcher.rmi.DispInterface;
 import org.epzilla.testObjectGenerator.EventTriggerGenerator;
 
@@ -25,7 +24,6 @@ public class ClientInit extends Thread {
     private static Thread trigger;
     private static Thread events;
     private static volatile boolean isLive = false;
-    private static String[] arr;
 
     public ClientInit() {
     }
@@ -35,11 +33,6 @@ public class ClientInit extends Thread {
         DispInterface di = (DispInterface) Naming.lookup(url);
         setDispatcherObj(di);
     }
-
-    public static void clientRegister() {
-         ClientRegister.main(arr);
-    }
-
     public static void initProcess(String ip, String name, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         lookUp(ip, name);
         ClientInit.clientID = clientID;
@@ -48,7 +41,6 @@ public class ClientInit extends Thread {
         initSendEventsStream();
         trigger.start();
         events.start();
-//        clientRegister();  // bind the client to its own rmi registry
     }
 
     public static void initSendTriggerStream() {

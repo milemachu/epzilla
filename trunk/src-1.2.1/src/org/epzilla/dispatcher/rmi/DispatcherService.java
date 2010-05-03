@@ -44,7 +44,7 @@ public class DispatcherService {
         String temp = "";
         String value = "";
         for (int i = 0; i < addrArray.length; i++) {
-            temp = addrArray[i].toString();
+            temp = addrArray[i];
             while (temp.length() != 3) {
                 temp = '0' + temp;
             }
