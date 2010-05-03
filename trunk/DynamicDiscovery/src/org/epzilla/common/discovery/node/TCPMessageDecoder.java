@@ -15,10 +15,10 @@ public class TCPMessageDecoder implements Runnable {
 		String []tcpArr=message.split(Constants.TCP_UNICAST_DELIMITER);
 		if(tcpArr[0].equalsIgnoreCase("SUBSCRIBE_LEADER_SERVICE") && NodeDiscoveryManager.isLeader()){
 			
-				((LeaderPublisher)NodeDiscoveryManager.getPublisher()).addSubscription(tcpArr[1], tcpArr[0]);
+				NodeDiscoveryManager.getLeaderPublisher().addSubscription(tcpArr[1], tcpArr[0]);
 			
 		}else if(tcpArr[0].equalsIgnoreCase("UNSUBSCRIBE_LEADER_SERVICE") && NodeDiscoveryManager.isLeader()){
-			((LeaderPublisher)NodeDiscoveryManager.getPublisher()).removeSubscrition(tcpArr[1], tcpArr[0]);
+			NodeDiscoveryManager.getLeaderPublisher().removeSubscrition(tcpArr[1], tcpArr[0]);
 		}
 	}
 
