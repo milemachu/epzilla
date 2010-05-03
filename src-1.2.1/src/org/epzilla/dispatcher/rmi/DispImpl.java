@@ -1,8 +1,11 @@
 package org.epzilla.dispatcher.rmi;
 
-import org.epzilla.dispatcher.dataManager.*;
-import org.epzilla.dispatcher.logs.ReadLog;
 import org.epzilla.client.rmi.ClientCallbackInterface;
+import org.epzilla.dispatcher.dataManager.ClientManager;
+import org.epzilla.dispatcher.dataManager.ClusterLeaderIpListManager;
+import org.epzilla.dispatcher.dataManager.EventsCounter;
+import org.epzilla.dispatcher.dataManager.TriggerManager;
+import org.epzilla.dispatcher.logs.ReadLog;
 
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
@@ -26,7 +29,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     public String uploadEventsToDispatcher(ArrayList<String> eList, String clientID, int eventSeqID) throws RemoteException {
         try {
             EventsCounter.setInEventCount(eList.size());
-//            EventManager.sendEventsToClusters(eList);
+//            EventManager.sendEventsToClusters(eList,clientID);
             return "OK";
         } catch (Exception e) {
             System.err.println("FileServer exception");
@@ -39,7 +42,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         String toReturn = null;
         try {
             for (int i = 0; i < tList.size(); i++) {
-                TriggerManager.addTriggerToList(tList.get(i));
+                TriggerManager.addTriggerToList(tList.get(i), clientID);
             }
             toReturn = "OK";
 
@@ -56,8 +59,9 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     }
 
     @Override
-    public String acceptNotifications() throws RemoteException {
-        return null;
+    public void acceptNotifications(ArrayList<String> notification, String clientID) throws RemoteException {
+          String clientIP = getClientIP(clientID);
+        
     }
 
     @Override
@@ -67,7 +71,6 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
             clientList.addElement(clientObject);
 
             System.out.println("Registered new client " + clientObject);
-            callBacks();
         }
     }
 
@@ -76,7 +79,6 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         DispLoadBalance.updateDecLoad();
         if (clientList.removeElement(clientObject)) {
             System.out.println("Unregistered the client ");
-            callBacks();
         } else {
             System.out.println(
                     "unregister: clientwasn't registered." + clientObject);
@@ -91,11 +93,11 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     @Override
     public void registerClients(String ip, String id) throws RemoteException {
         clientMap.put(id, ip);
-        ClientManager.addClient(id,ip);
+        ClientManager.addClient(id, ip);
     }
 
     @Override
-    public void unRegisterClients(String ip, String id) throws RemoteException{
+    public void unRegisterClients(String ip, String id) throws RemoteException {
         clientMap.remove(id);
         ClientManager.removeClient(id);
     }
@@ -105,7 +107,6 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 //        if(clientMap.containsKey(clientID)){
 //          clientIpAdrs = (String) clientMap.get(clientID);
 //        }
-
         return ClientManager.getClientIp(clientID);
     }
 
@@ -118,11 +119,11 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         }
     }
 
-    public synchronized void callBacks() throws RemoteException {
-        for (int i = 0; i < clientList.size(); i++) {
-            ClientCallbackInterface nextClient = clientList.elementAt(i);
-            nextClient.notifyClient("No. of registered clients=" + clientList.size());
-        }
+    public synchronized void callBacks(String clientID) throws RemoteException {
+//        for (int i = 0; i < clientList.size(); i++) {
+//            ClientCallbackInterface nextClient = clientList.elementAt(i);
+//            nextClient.notifyClient("No. of registered clients=" + clientList.size());
+//        }
     }
 
 

@@ -19,12 +19,12 @@ public class EventManager {
     private static ArrayList<String> idArr = new ArrayList<String>();
     private static boolean isLoaded = false;
 
-    public static void sendEventsToClusters(ArrayList<String> eList) {
+    public static void sendEventsToClusters(ArrayList<String> eList,String clientID) {
         if (!isLoaded) {
             loadClusterDetails();
         }
         try {
-            EventSender.acceptEventStream(ipArr, idArr, eList);
+            EventSender.acceptEventStream(ipArr, idArr, eList,clientID);
         } catch (MalformedURLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NotBoundException e) {

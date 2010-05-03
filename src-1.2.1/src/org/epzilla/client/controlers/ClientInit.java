@@ -1,5 +1,6 @@
 package org.epzilla.client.controlers;
 
+import org.epzilla.client.rmi.ClientRegister;
 import org.epzilla.dispatcher.rmi.DispInterface;
 import org.epzilla.testObjectGenerator.EventTriggerGenerator;
 
@@ -18,11 +19,13 @@ import java.util.ArrayList;
  */
 public class ClientInit extends Thread {
     private static Object lock = new Object();
-    private static String cID;
+    private static String cID = "";
+    private static String clientID;
     private static DispInterface di;
     private static Thread trigger;
     private static Thread events;
     private static volatile boolean isLive = false;
+    private static String[] arr;
 
     public ClientInit() {
     }
@@ -33,91 +36,96 @@ public class ClientInit extends Thread {
         setDispatcherObj(di);
     }
 
+    public static void clientRegister() {
+         ClientRegister.main(arr);
+    }
+
     public static void initProcess(String ip, String name, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         lookUp(ip, name);
-        cID = clientID;
+        ClientInit.clientID = clientID;
         isLive = true;
         initSendTriggerStream();
         initSendEventsStream();
         trigger.start();
         events.start();
+//        clientRegister();  // bind the client to its own rmi registry
     }
 
     public static void initSendTriggerStream() {
-            trigger = new Thread(new Runnable() {
-                @Override
-                public void run() {
+        trigger = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                while (isLive) {
+                    int triggerSeqID = 1;
+                    String response = null;
+
+                    ArrayList<String> triggers = new ArrayList<String>();
+                    for (int i = 0; i < 10; i++) {
+                        triggers.add(EventTriggerGenerator.getNextTrigger());
+                    }
                     try {
-                        Thread.sleep(1000);
+                        response = di.uploadTriggersToDispatcher(triggers, clientID, triggerSeqID);
+                    } catch (RemoteException e) {
+                    }
+
+                    if (response != null) {
+                        System.out.println("Dispatcher Recieved the triggrs from the client and the response is " + response);
+                    } else {
+                        ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped" + "\n");
+                        return;
+                    }
+                    try {
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    while (isLive) {
-                        int triggerSeqID = 1;
-                        String response = null;
-
-                        ArrayList<String> triggers = new ArrayList<String>();
-                        for (int i = 0; i < 10; i++) {
-                            triggers.add(EventTriggerGenerator.getNextTrigger());
-                        }
-                        try {
-                            response = di.uploadTriggersToDispatcher(triggers, cID, triggerSeqID);
-                        } catch (RemoteException e) {
-                        }
-
-                        if (response != null) {
-                            System.out.println("Dispatcher Recieved the triggrs from the client and the response is " + response);
-                        } else {
-                            ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped" + "\n");
-                            return;
-                        }
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
                 }
-            });
+            }
+        });
     }
 
     public static void initSendEventsStream() {
-            events = new Thread(new Runnable() {
-                @Override
-                public void run() {
+        events = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                while (isLive) {
+                    int eventsSeqID = 1;
+                    String response = null;
+
+                    ArrayList<String> events = new ArrayList<String>();
+                    for (int i = 0; i < 10; i++) {
+                        events.add(EventTriggerGenerator.getNextEvent());
+                    }
+
+                    try {
+                        response = di.uploadEventsToDispatcher(events, clientID, eventsSeqID);
+                    } catch (RemoteException e) {
+                    }
+
+                    if (response != null)
+                        System.out.println("Dispatcher Recieved the events from the client and the response is " + response);
+                    else {
+                        ClientUIControler.appendResults("Connection to the Dispatcher service failed, events sending stoped" + "\n");
+                        return;
+                    }
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    while (isLive) {
-                        int eventsSeqID = 1;
-                        String response = null;
-
-                        ArrayList<String> events = new ArrayList<String>();
-                        for (int i = 0; i < 10; i++) {
-                            events.add(EventTriggerGenerator.getNextEvent());
-                        }
-
-                        try {
-                            response = di.uploadEventsToDispatcher(events, cID, eventsSeqID);
-                        } catch (RemoteException e) {
-                        }
-
-                        if (response != null)
-                            System.out.println("Dispatcher Recieved the events from the client and the response is " + response);
-                        else {
-                            ClientUIControler.appendResults("Connection to the Dispatcher service failed, events sending stoped" + "\n");
-                            return;
-                        }
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
                 }
-            });
+            }
+        });
     }
 
     public static void stopEventTriggerStream() {
@@ -126,9 +134,5 @@ public class ClientInit extends Thread {
 
     private static void setDispatcherObj(Object obj) {
         di = (DispInterface) obj;
-    }
-
-    private static Object getDispatcherObj() {
-        return di;
     }
 }

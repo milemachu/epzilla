@@ -44,7 +44,7 @@ public class ClientHandler {
 
     public void regForCallback(String ip, String serviceName) throws NotBoundException, RemoteException, MalformedURLException, UnknownHostException {
         if (!isDispatcherInit) {
-            initDispatcherInter(ip, serviceName);
+            initDispatcher(ip, serviceName);
             ClientCallbackInterface obj = new ClientCallbackImpl();
             disObj.registerCallback(obj);
             setClientObject(obj);
@@ -73,17 +73,17 @@ public class ClientHandler {
         setNameServiceObj(r);
     }
 
-    private void initDispatcherInter(String ip, String serviceName) throws MalformedURLException, RemoteException, NotBoundException {
+    private static void initDispatcher(String ip, String serviceName) throws MalformedURLException, RemoteException, NotBoundException {
         String url = "rmi://" + ip + "/" + serviceName;
         DispInterface di = (DispInterface) Naming.lookup(url);
         setDispatcherObj(di);
     }
 
-    public void setClientObject(Object objClient) {
+    public static void setClientObject(Object objClient) {
         obj = (ClientCallbackInterface) objClient;
     }
 
-    public Object getclientObject() {
+    public static Object getclientObject() {
         return obj;
     }
 
@@ -91,15 +91,15 @@ public class ClientHandler {
         service = (NameService) objService;
     }
 
-    public Object getNameSerObj() {
+    public static Object getNameSerObj() {
         return service;
     }
 
-    public void setDispatcherObj(Object obj) {
+    public static void setDispatcherObj(Object obj) {
         disObj = (DispInterface) obj;
     }
 
-    public Object getDispatcherObj() {
+    public static Object getDispatcherObj() {
         return disObj;
     }
 
