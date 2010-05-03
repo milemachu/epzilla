@@ -3,6 +3,7 @@ package org.epzilla.dispatcher.rmi;
 import org.epzilla.dispatcher.dataManager.ClusterLeaderIpListManager;
 import org.epzilla.dispatcher.dataManager.EventsCounter;
 import org.epzilla.dispatcher.dataManager.TriggerManager;
+import org.epzilla.dispatcher.dataManager.ClientManager;
 import org.epzilla.dispatcher.logs.ReadLog;
 import org.epzilla.client.rmi.ClientCallbackInterface;
 
@@ -93,19 +94,22 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     @Override
     public void registerClients(String ip, String id) throws RemoteException {
         clientMap.put(id, ip);
+        ClientManager.addClient(id,ip);
     }
 
     @Override
-    public void unRegisterClients(String ip, String id) {
+    public void unRegisterClients(String ip, String id) throws RemoteException{
         clientMap.remove(id);
+        ClientManager.removeClient(id);
     }
 
     @Override
     public String getClientIP(String clientID) throws RemoteException {
-        if(clientMap.containsKey(clientID)){
-          clientIpAdrs = (String) clientMap.get(clientID);
-        }
-        return clientIpAdrs;
+//        if(clientMap.containsKey(clientID)){
+//          clientIpAdrs = (String) clientMap.get(clientID);
+//        }
+
+        return ClientManager.getClientIp(clientID);
     }
 
     @Override
