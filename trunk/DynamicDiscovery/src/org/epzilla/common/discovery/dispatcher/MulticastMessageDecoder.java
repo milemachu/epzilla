@@ -13,7 +13,7 @@ public class MulticastMessageDecoder implements Runnable {
 	public void run() {
 		//0=message;1=sender
 		String []mcArr=message.split(Constants.MULTICAST_DELIMITER);
-		if(mcArr[0].equalsIgnoreCase("DISPATCHER_SERVICE") && !DispatcherDiscoveryManager.getDispatcherPublisher().getDispatchers().contains(mcArr[1])){
+		if(mcArr[0].equalsIgnoreCase("DISPATCHER_SERVICE") /*&& !DispatcherDiscoveryManager.getDispatcherPublisher().getDispatchers().contains(mcArr[1])*/){
 			DispatcherDiscoveryManager.getDispatcherPublisher().insertDispatcher(mcArr[1]);
 		}
 	}
