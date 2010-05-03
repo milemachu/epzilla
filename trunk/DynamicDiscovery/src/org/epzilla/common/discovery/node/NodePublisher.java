@@ -16,9 +16,8 @@ public class NodePublisher implements IServicePublisher {
 	public boolean addSubscription(String serviceClient, String serviceName) {
 		if (serviceName.equalsIgnoreCase("SUBSCRIBE_" + this.serviceName)) {
 			synchronized (nodeList) {
-				String[] arr = serviceClient
-						.split(Constants.NODE_CLIENT_DELIMITER);
-				nodeList.add(arr[1]);
+			
+				nodeList.add(serviceClient);
 				return true;
 			}
 		}
@@ -44,8 +43,7 @@ public class NodePublisher implements IServicePublisher {
 	public boolean removeSubscrition(String serviceClient, String serviceName) {
 		if (serviceName.equalsIgnoreCase("UNSUBSCRIBE_" + this.serviceName)) {
 			synchronized (nodeList) {
-				nodeList.remove(Integer.parseInt(serviceClient
-						.split(Constants.NODE_CLIENT_DELIMITER)[0]));
+				nodeList.remove(Integer.parseInt(serviceClient));
 				return true;
 			}
 		}
