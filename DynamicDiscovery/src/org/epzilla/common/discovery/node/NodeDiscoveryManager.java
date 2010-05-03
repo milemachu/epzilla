@@ -1,5 +1,9 @@
 package org.epzilla.common.discovery.node;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Iterator;
+
 import org.epzilla.common.discovery.IServicePublisher;
 import org.epzilla.common.discovery.node.MulticastMessageDecoder;
 import org.epzilla.common.discovery.node.TCPMessageDecoder;
@@ -97,6 +101,15 @@ public class NodeDiscoveryManager {
 		return nodePublisher;
 	}
 	
+	public static LeaderPublisher getLeaderPublisher(){
+		return leaderPublisher;
+	}
+	
+	public static NodePublisher getNodePublisher(){
+		return nodePublisher;
+	}
+	
+	
 	public static boolean isLeader(){
 		return isLeadeer;
 	}
@@ -120,6 +133,32 @@ public class NodeDiscoveryManager {
 	
 	public static void main(String[] args) {
 		NodeDiscoveryManager nodeMan=new NodeDiscoveryManager(5);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
+		for (Iterator iterator = (nodeMan.getNodePublisher().getNodes().iterator()); iterator.hasNext();) {
+			String str = (String) iterator.next();
+			System.out.println(str);
+		}
+		
+		nodeMan.setLeader(true);
+		try {
+			nodeMan.setClusterLeader(InetAddress.getLocalHost().getHostAddress());
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
+		}
+		try {
+			Thread.sleep(30000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		for (Iterator iterator = nodeMan.getLeaderPublisher().getSubscribers().iterator(); iterator.hasNext();) {
+			String str = (String) iterator.next();
+			System.out.println(str);
+		}
 	}
 }

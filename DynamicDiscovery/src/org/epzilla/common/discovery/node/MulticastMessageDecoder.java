@@ -23,7 +23,7 @@ public class MulticastMessageDecoder implements Runnable {
 				ts.sendMessage(NodeDiscoveryManager.getClusterId()+Constants.DISPATCHER_CLIENT_DELIMITER+"SUBSCRIBE_DISPATCHER_SERVICE");
 				
 				//Now update the dispatcher list in the leader service.
-				((LeaderPublisher)NodeDiscoveryManager.getPublisher()).updateDispatcherList(mcArr[1]);
+				NodeDiscoveryManager.getLeaderPublisher().updateDispatcherList(mcArr[1]);
 			}
 		}else if(mcArr[0].startsWith("LEADER_SERVICE")){
 			//if this is a node client subscribe it.else forget it.
@@ -43,9 +43,9 @@ public class MulticastMessageDecoder implements Runnable {
 			//message from another node. Add this to our node list.
 			//0-NODE_SERVICE;1-ClusterId
 			String []info=mcArr[0].split(Constants.CLUSTER_ID_DELIMITER);
-			if(Integer.parseInt(info[1])==NodeDiscoveryManager.getClusterId() && !((NodePublisher)NodeDiscoveryManager.getPublisher()).getNodes().contains(mcArr[1])){
+			if(Integer.parseInt(info[1])==NodeDiscoveryManager.getClusterId() && !NodeDiscoveryManager.getNodePublisher().getNodes().contains(mcArr[1])){
 							//No msg. Just add update this side
-				((NodePublisher)NodeDiscoveryManager.getPublisher()).addSubscription(mcArr[1], "SUBSCRIBE_NODE_SERVICE");
+				NodeDiscoveryManager.getNodePublisher().addSubscription(mcArr[1], "SUBSCRIBE_NODE_SERVICE");
 			
 			}
 		}
