@@ -6,5 +6,7 @@ public interface Constants {
 	
 	public static String DISPATCHER_CLIENT_DELIMITER="\u0005";
 	public static String NODE_CLIENT_DELIMITER="\u0006";
+	
+	public static String CLUSTER_ID_DELIMITER="\u0010";
 
 }

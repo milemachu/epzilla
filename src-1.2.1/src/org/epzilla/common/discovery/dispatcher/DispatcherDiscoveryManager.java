@@ -76,7 +76,9 @@ public class DispatcherDiscoveryManager {
 		return publisher;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
+		@SuppressWarnings("unused")
 		DispatcherDiscoveryManager dm=new DispatcherDiscoveryManager();
 		
 		TCPSender ts=new TCPSender("127.0.0.1", 5010);
@@ -107,7 +109,7 @@ public class DispatcherDiscoveryManager {
 		System.out.println(DispatcherDiscoveryManager.getDispatcherPublisher().getSubscribers().get(5));
 		
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(15000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

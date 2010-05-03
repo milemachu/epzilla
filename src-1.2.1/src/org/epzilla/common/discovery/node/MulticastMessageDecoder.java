@@ -18,17 +18,23 @@ public class MulticastMessageDecoder implements Runnable {
 			//If this is the leader subscribe. else forget it.
 			//Send TCP connections to them.
 			if(NodeDiscoveryManager.isLeader()){
-				TCPSender ts=new TCPSender("127.0.0.1", 5010);
+				TCPSender ts=new TCPSender(mcArr[1], 5010);
 				ts.sendMessage(NodeDiscoveryManager.getClusterId()+Constants.DISPATCHER_CLIENT_DELIMITER+"SUBSCRIBE_DISPATCHER_SERVICE");
 				
 				//Now update the dispatcher list in the leader service.
 				((LeaderPublisher)NodeDiscoveryManager.getPublisher()).updateDispatcherList(mcArr[1]);
 			}
-		}else if(mcArr[0].equalsIgnoreCase("LEADER_SERVICE")){
+		}else if(mcArr[0].startsWith("LEADER_SERVICE")){
 			//if this is a node client subscribe it.else forget it.
 			//Send the TCP connection.
 			if(!NodeDiscoveryManager.isLeader()){
 				//Wait till the Leader publisher imple finishes.
+				//0-LEADER_SERVICE;1-ClusterId
+				String []info=mcArr[0].split(Constants.CLUSTER_ID_DELIMITER);
+				if(Integer.parseInt(info[1])==NodeDiscoveryManager.getClusterId()){
+					NodeDiscoveryManager.setClusterLeader(mcArr[1]);
+					//send a tcp msg to subscribe with it.
+				}
 			}
 		}else if(mcArr[0].equalsIgnoreCase("NODE_SERVICE")){
 			//message from another node. Add this to our node list.
