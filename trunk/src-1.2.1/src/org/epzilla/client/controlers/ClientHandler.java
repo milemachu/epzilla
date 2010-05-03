@@ -43,12 +43,12 @@ public class ClientHandler {
     }
 
     public void regForCallback(String ip, String serviceName) throws NotBoundException, RemoteException, MalformedURLException, UnknownHostException {
-        if (isDispatcherInit == false) {
+        if (!isDispatcherInit) {
             initDispatcherInter(ip, serviceName);
             ClientCallbackInterface obj = new ClientCallbackImpl();
             disObj.registerCallback(obj);
             setClientObject(obj);
-        } else if (isDispatcherInit == true) {
+        } else if (isDispatcherInit) {
             ClientCallbackInterface obj = new ClientCallbackImpl();
             disObj.registerCallback(obj);
             setClientObject(obj);

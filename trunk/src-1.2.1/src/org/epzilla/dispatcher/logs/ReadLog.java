@@ -27,7 +27,7 @@ public class ReadLog {
 
     private static void loadSettings() {
         try {
-            ArrayList<String[]> data = reader.getServerIPSettings("./src/log_file_settings.xml");
+            ArrayList<String[]> data = reader.getServerIPSettings("./src/settings/log_file_settings.xml");
             String[] ar = data.get(0);
             filePath = ar[0];
             file = new File(filePath);
