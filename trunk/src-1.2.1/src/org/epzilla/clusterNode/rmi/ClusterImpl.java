@@ -21,8 +21,8 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 
     public String acceptTiggerStream(ArrayList<String> tList, String cID) throws RemoteException {
         try {
-            for (int i = 0; i < tList.size(); i++) {
-                TriggerManager.addTriggerToList(tList.get(i));
+            for (String aTList : tList) {
+                TriggerManager.addTriggerToList(aTList);
             }
             return "OK";
         } catch (Exception e) {
@@ -33,7 +33,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 
     public String acceptEventStream(ArrayList<String> eList, String cID) throws RemoteException {
         try {
-            for (int i = 0; i < eList.size(); i++) {
+            for (String anEList : eList) {
 
             }
             return "OK";

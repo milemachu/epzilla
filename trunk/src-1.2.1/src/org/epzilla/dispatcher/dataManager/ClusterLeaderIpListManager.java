@@ -5,6 +5,8 @@ import jstm.core.Site;
 import jstm.core.Transaction;
 
 import java.util.TimerTask;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.epzilla.dispatcher.dispatcherObjectModel.LeaderInfoObject;
 import org.epzilla.dispatcher.controlers.*;
@@ -20,6 +22,8 @@ import org.epzilla.dispatcher.controlers.*;
 public class ClusterLeaderIpListManager {
     private static TransactedList<LeaderInfoObject> ipList = new TransactedList<LeaderInfoObject>(20);
     static int count = 0;
+    private static ArrayList<String> ipArr = new ArrayList<String>();
+    private static ArrayList<String> idArr = new ArrayList<String>();
 
     // Code For Testing Only -Dishan
     public static void loadSampleIPs() {
@@ -85,6 +89,34 @@ public class ClusterLeaderIpListManager {
             }
         }
         printIPList();
+    }
+   //add by chathura to get cluster leader ip list
+    public static ArrayList<String> getClientIpList() {
+        if (getIpList() != null) {
+            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                Site.getLocal().allowThread();
+                Transaction transaction = Site.getLocal().startTransaction();
+                for (int i = 0; i < ipList.size(); i++) {
+                    ipArr.add(ipList.get(i).getleaderIP());
+                }
+                transaction.commit();
+            }
+        }
+        return ipArr;
+    }
+    //add by chathura to get cluster id list
+    public static ArrayList<String> getClientIdList() {
+        if (getIpList() != null) {
+            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                Site.getLocal().allowThread();
+                Transaction transaction = Site.getLocal().startTransaction();
+                for (int i = 0; i < ipList.size(); i++) {
+                    idArr.add(ipList.get(i).getclusterID());
+                }
+                transaction.commit();
+            }
+        }
+        return idArr;
     }
 
     public static void printIPList() {

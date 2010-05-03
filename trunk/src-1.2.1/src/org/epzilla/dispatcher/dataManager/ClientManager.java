@@ -19,7 +19,7 @@ public class ClientManager {
             if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
                 Site.getLocal().allowThread();
                 Transaction transaction = Site.getLocal().startTransaction();
-                getClientMap().put(clientID,ip);
+                getClientMap().put(clientID, ip);
                 transaction.commit();
             }
         }
@@ -42,5 +42,18 @@ public class ClientManager {
 
     public static void setClientMap(TransactedMap clientMap) {
         ClientManager.clientMap = clientMap;
+    }
+
+    public static String getClientIp(String clientID) {
+        String cIP = "";
+        if ((getClientMap() != null) && (getClientMap().containsKey(clientID)) ) {
+            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                Site.getLocal().allowThread();
+                Transaction transaction = Site.getLocal().startTransaction();
+                cIP = (String) getClientMap().get(clientID);
+                transaction.commit();
+            }
+        }
+        return cIP;
     }
 }
