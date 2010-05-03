@@ -33,7 +33,7 @@ public class LoadBalancer {
 
     public static String search(String clientID, int dirsize, String[] ipAddrs) {
         if (ipTable.containsKey(clientID)) {
-            ipAddress = (String) ipTable.get(clientID);
+            ipAddress = ipTable.get(clientID);
         } else if (!ipTable.containsKey(clientID)) {
             ipAddress = insertIntoTable(clientID, ipAddrs, dirsize);
         }

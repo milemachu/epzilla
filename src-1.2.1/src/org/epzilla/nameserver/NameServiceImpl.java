@@ -7,6 +7,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Hashtable;
 import java.util.Vector;
 
+@SuppressWarnings({"RedundantStringToString"})
 public class NameServiceImpl extends UnicastRemoteObject implements NameService {
 
     private int dirsize = 0;
