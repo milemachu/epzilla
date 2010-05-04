@@ -8,6 +8,8 @@ import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
+import org.epzilla.common.discovery.dispatcher.DispatcherDiscoveryManager;
+
 public class DispatcherService {
 
     private static String serviceName = "DISPATCHER_SERVICE";
@@ -59,6 +61,11 @@ public class DispatcherService {
             DispatcherService service = new DispatcherService();
             service.bindDispatcher(serviceName);
             run();
+
+
+            //Dynamic Discovery
+            DispatcherDiscoveryManager ddm=new DispatcherDiscoveryManager();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
