@@ -34,8 +34,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private JLabel labelIP = null;
     private JLabel labelPort = null;
     private JLabel labelName = null;
-    private JButton btnSave = null;
-    private JButton btnCancel = null;
     private Vector<String> ips = new Vector<String>();
     private javax.swing.JFileChooser jFileChooser = null;
     private JMenuBar menuBar = null;
@@ -57,7 +55,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private JLabel lblDispIP1 = null;
     private JTextField txtDispIP = null;
     private JLabel lblSettings = null;
-    private JButton btnOK = null;
     private JScrollPane resultsScrollPane = null;
     public JTextArea txtResults = null;
     private JLabel lblDispatcherServiceName = null;
@@ -71,6 +68,9 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private static String clientID = "";
     private static String clientIP = "";
     private static ServerSettingsReader reader;
+    private JLabel lblSummary = null;
+    private JLabel lblCount = null;
+    private JTextField txtNotiCount = null;
 
     public ClientUI() {
         super();
@@ -89,7 +89,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         this.setSize(x, y);
         this.setPreferredSize(new Dimension(1024, 768));
         this.setContentPane(getMyTabbedPane());
-        tabbedPane.setVisible(false);
         this.setJMenuBar(getmyMenuBar());
         this.setTitle("Epzilla DS");
         this.addWindowListener(new WindowAdapter() {
@@ -109,6 +108,12 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     private JTabbedPane getMyTabbedPane() {
         if (tabbedPane == null) {
+            lblCount = new JLabel();
+            lblCount.setBounds(new Rectangle(705, 28, 120, 25));
+            lblCount.setText("Notifications count:");
+            lblSummary = new JLabel();
+            lblSummary.setBounds(new Rectangle(26, 5, 69, 24));
+            lblSummary.setText("Summary");
             lblDispatcherServiceName = new JLabel();
             lblDispatcherServiceName.setText("Service Name :");
             lblDispatcherServiceName.setLocation(new Point(15, 178));
@@ -143,8 +148,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             mainSettings.add(labelIP, null);
             mainSettings.add(labelPort, null);
             mainSettings.add(labelName, null);
-            mainSettings.add(getBtnSave(), null);
-            mainSettings.add(getBtnCancel(), null);
             mainSettings.add(lblSettings, null);
             JPanel upload = new JPanel();
             upload.setLayout(null);
@@ -164,8 +167,10 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             upload.add(getChkTriggers(), null);
             JPanel results = new JPanel();
             results.setLayout(null);
-            results.add(getBtnOK(), null);
             results.add(getResultsScrollPane(), null);
+            results.add(lblSummary, null);
+            results.add(lblCount, null);
+            results.add(getTxtNotiCount(), null);
             tabbedPane.addTab("Service", upload);
             tabbedPane.addTab("Summary", results);
             tabbedPane.addTab("Settings", mainSettings);
@@ -183,7 +188,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             file.add(getCloseMI());
             file.add(getExitMI());
             helpmenu.add(getAboutMI());
-            helpmenu.add(getHelpMI());
             menuBar.add(file);
             menuBar.add(helpmenu);
         }
@@ -197,15 +201,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             about.addActionListener(this);
         }
         return about;
-    }
-
-    private JMenuItem getHelpMI() {
-        if (help == null) {
-            help = new JMenuItem();
-            help.setText("Help");
-            help.addActionListener(this);
-        }
-        return help;
     }
 
     private JMenuItem getAdminSettingMI() {
@@ -262,28 +257,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         return txtName;
     }
 
-    private JButton getBtnSave() {
-        if (btnSave == null) {
-            btnSave = new JButton();
-            btnSave.setLocation(new Point(121, 183));
-            btnSave.setText("Save");
-            btnSave.setSize(new Dimension(85, 20));
-            btnSave.addActionListener(this);
-        }
-        return btnSave;
-    }
-
-    private JButton getBtnCancel() {
-        if (btnCancel == null) {
-            btnCancel = new JButton();
-            btnCancel.setLocation(new Point(218, 182));
-            btnCancel.setText("Cancel");
-            btnCancel.setSize(new Dimension(85, 20));
-            btnCancel.addActionListener(this);
-        }
-        return btnCancel;
-    }
-
     private javax.swing.JFileChooser getJFileChooser() {
         if (jFileChooser == null) {
             jFileChooser = new javax.swing.JFileChooser();
@@ -315,6 +288,17 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             txtFile.setVisible(false);
         }
         return txtFile;
+    }
+
+    public JTextField getTxtNotiCount() {
+        if (txtNotiCount == null) {
+            txtNotiCount = new JTextField();
+            txtNotiCount.setBounds(new Rectangle(820, 30, 122, 20));
+            txtNotiCount.setForeground(Color.green);
+            txtNotiCount.setEditable(false);
+            txtNotiCount.setBackground(Color.black);
+        }
+        return txtNotiCount;
     }
 
     private JButton getBtnSend() {
@@ -382,20 +366,10 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         return txtDispIP;
     }
 
-    private JButton getBtnOK() {
-        if (btnOK == null) {
-            btnOK = new JButton();
-            btnOK.setText("OK");
-            btnOK.setSize(new Dimension(85, 20));
-            btnOK.setLocation(new Point(25, 620));
-        }
-        return btnOK;
-    }
-
     private JScrollPane getResultsScrollPane() {
         if (resultsScrollPane == null) {
             resultsScrollPane = new JScrollPane();
-            resultsScrollPane.setBounds(new Rectangle(25, 15, 800, 600));
+            resultsScrollPane.setBounds(new Rectangle(25, 30, 600, 600));
             resultsScrollPane.setViewportView(getTxtResults());
         }
         return resultsScrollPane;
@@ -404,7 +378,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     public JTextArea getTxtResults() {
         if (txtResults == null) {
             txtResults = new JTextArea();
-            txtResults.setBounds(new Rectangle(0, 0, 800, 600));
+            txtResults.setBounds(new Rectangle(0, 0, 600, 600));
             txtResults.setEditable(false);
             txtResults.setForeground(Color.green);
             txtResults.setBackground(Color.black);
@@ -683,29 +657,23 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             loadFile();
         } else if (source == btnSend) {
             initProcess();
-        } else if (source == btnCancel) {
-            cancelSettings();
         } else if (source == btnCancelSend) {
             cancelSend();
         } else if (source == btnClear) {
             unregisterCallbackLocal();
-        } else if (source == btnSave) {
-            saveSettings();
         } else if (source == btnLookup) {
             getDispatchers();
             getClientID();
-        } else if (source == btnOK) {
-
         } else if (source == adminSettings) {
             tabbedPane.setVisible(true);
         } else if (source == closetabs) {
             tabbedPane.setVisible(false);
         } else if (source == exit) {
             systemExit();
-        } else if (source == help) {
-
         } else if (source == about) {
             showAbout();
         }
     }
+
+
 }

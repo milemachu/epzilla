@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class ServerSettingsReader {
 
-    public ArrayList<String[]> getServerIPSettings(String filename) throws IOException {
+    public static ArrayList<String[]> getServerIPSettings(String filename) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(filename));
         String line = null;
         StringBuilder sb = new StringBuilder("");
