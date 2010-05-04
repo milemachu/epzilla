@@ -25,7 +25,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JLabel labelPort = null;
     private JLabel labelName = null;
     private JButton btnRegister = null;
-    private JButton btnCancel = null;
+    private JButton btnLoadSettings = null;
     private JLabel lblDetails = null;
     private JMenuBar menuBar = null;
     private JMenuItem about = null;
@@ -38,6 +38,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JPanel mainSettings = null;
     private JPanel helptab = null;
     private JPanel summary = null;
+    private JPanel clusterDe = null;
     private JTextArea txtTriggers = null;
     private JLabel lblDisp = null;
     private JLabel lblName = null;
@@ -51,7 +52,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JScrollPane triggerListScrollPane = null;
     private JScrollPane ipScrollPane = null;
     private JScrollPane resultScrollPane = null;
-    private static ServerSettingsReader reader = new ServerSettingsReader();
+    private JScrollPane discoveryStatusPane = null;
     private JLabel lblInEC = null;
     private JTextField txtInEventCount = null;
     private JLabel lblStatus = null;
@@ -59,6 +60,10 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private boolean isRegister = false;
     private JLabel lblOutEC = null;
     private JTextField txtOutEventCount = null;
+    private JLabel lblDiscoveryStatus = null;
+    private JTextArea txtDiscoveryStatus = null;
+    private JLabel lblClusterIPs = null;
+    private JTextArea txtClusterIPs = null;
 
     public DispatcherUI() {
         initialize();
@@ -75,7 +80,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
         this.setSize(x, y);
         this.setPreferredSize(new Dimension(1024, 768));
         this.setContentPane(getMyTabbedPane());
-        tabbedPane.setVisible(false);
         this.setJMenuBar(getmyMenuBar());
         loadSettings();
         this.addWindowListener(new WindowAdapter() {
@@ -109,8 +113,9 @@ public class DispatcherUI extends JFrame implements ActionListener {
             labelIP.setSize(new Dimension(121, 25));
             labelIP.setLocation(new Point(25, 49));
             tabbedPane = new JTabbedPane();
-            tabbedPane.addTab("Settings", getMainSettings());
             tabbedPane.addTab("Summary", getSummeryTab());
+            tabbedPane.addTab("Cluster Details", getClusterDeTab());
+            tabbedPane.addTab("Settings", getMainSettings());
             tabbedPane.setVisible(true);
         }
         return tabbedPane;
@@ -139,7 +144,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             mainSettings.add(labelPort, null);
             mainSettings.add(labelName, null);
             mainSettings.add(getBtnRegister(), null);
-            mainSettings.add(getBtnCancel(), null);
+            mainSettings.add(getBtnLoadSetings(), null);
             mainSettings.add(lblDetails, null);
             mainSettings.add(lblDisp, null);
             mainSettings.add(lblName, null);
@@ -183,6 +188,26 @@ public class DispatcherUI extends JFrame implements ActionListener {
         return summary;
     }
 
+    private JPanel getClusterDeTab() {
+        if (clusterDe == null) {
+            lblDiscoveryStatus = new JLabel();
+            lblDiscoveryStatus.setBounds(new Rectangle(10, 10, 200, 25));
+            lblDiscoveryStatus.setText("Dispatcher Discovery Status :");
+
+            lblClusterIPs = new JLabel();
+            lblClusterIPs.setBounds(new Rectangle(550,10,150,25));
+            lblClusterIPs.setText("Cluster IPs :");
+            
+            clusterDe = new JPanel();
+            clusterDe.setLayout(null);
+            clusterDe.add(lblDiscoveryStatus, null);
+            clusterDe.add(getDiscoveryStaPane(), null);
+            clusterDe.add(lblClusterIPs,null);
+            clusterDe.add(getClusterIPs(),null);
+        }
+        return clusterDe;
+    }
+
     private JMenuBar getmyMenuBar() {
         if (menuBar == null) {
             menuBar = new JMenuBar();
@@ -190,7 +215,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             file.add(getCloseMI());
             file.add(getExitMI());
             helpmenu.add(getAboutMI());
-            helpmenu.add(getHelpMI());
+//            helpmenu.add(getHelpMI());
             menuBar.add(file);
             menuBar.add(helpmenu);
         }
@@ -247,6 +272,9 @@ public class DispatcherUI extends JFrame implements ActionListener {
             txtIP = new JTextField();
             txtIP.setLocation(new Point(150, 51));
             txtIP.setSize(new Dimension(200, 20));
+            txtIP.setBackground(Color.black);
+            txtIP.setForeground(Color.green);
+            txtIP.setEditable(false);
         }
         return txtIP;
     }
@@ -256,6 +284,9 @@ public class DispatcherUI extends JFrame implements ActionListener {
             txtPort = new JTextField();
             txtPort.setLocation(new Point(150, 135));
             txtPort.setSize(new Dimension(200, 20));
+            txtPort.setBackground(Color.black);
+            txtPort.setForeground(Color.green);
+            txtPort.setEditable(false);
         }
         return txtPort;
     }
@@ -265,6 +296,9 @@ public class DispatcherUI extends JFrame implements ActionListener {
             txtNameServer = new JTextField();
             txtNameServer.setLocation(new Point(150, 95));
             txtNameServer.setSize(new Dimension(200, 20));
+            txtNameServer.setBackground(Color.black);
+            txtNameServer.setForeground(Color.green);
+            txtNameServer.setEditable(false);
         }
         return txtNameServer;
     }
@@ -280,15 +314,15 @@ public class DispatcherUI extends JFrame implements ActionListener {
         return btnRegister;
     }
 
-    private JButton getBtnCancel() {
-        if (btnCancel == null) {
-            btnCancel = new JButton();
-            btnCancel.setLocation(new Point(260, 250));
-            btnCancel.setText("Cancel");
-            btnCancel.setSize(new Dimension(85, 20));
-            btnCancel.addActionListener(this);
+    private JButton getBtnLoadSetings() {
+        if (btnLoadSettings == null) {
+            btnLoadSettings = new JButton();
+            btnLoadSettings.setLocation(250, 250);
+            btnLoadSettings.setText("Reload Settings");
+            btnLoadSettings.setSize(new Dimension(85, 20));
+            btnLoadSettings.addActionListener(this);
         }
-        return btnCancel;
+        return btnLoadSettings;
     }
 
     private JScrollPane getTriggerScrollPane() {
@@ -317,6 +351,9 @@ public class DispatcherUI extends JFrame implements ActionListener {
             txtDispSerName.setSize(new Dimension(200, 20));
             txtDispSerName.setText("DISPATCHER_SERVICE");
             txtDispSerName.setLocation(new Point(150, 202));
+            txtDispSerName.setBackground(Color.black);
+            txtDispSerName.setForeground(Color.green);
+            txtDispSerName.setEditable(false);
         }
         return txtDispSerName;
     }
@@ -396,12 +433,43 @@ public class DispatcherUI extends JFrame implements ActionListener {
         if (txtResult == null) {
             txtResult = new JTextArea();
             txtResult.setBounds(new Rectangle(15, 381, 600, 250));
+            txtResult.setBackground(Color.black);
+            txtResult.setForeground(Color.green);
             txtResult.setEditable(false);
         }
         return txtResult;
     }
 
-    private void register() throws MalformedURLException, RemoteException, UnknownHostException, NotBoundException {
+    public JTextArea getTxtDiscoveryStatus() {
+        if (txtDiscoveryStatus == null) {
+            txtDiscoveryStatus = new JTextArea();
+            txtDiscoveryStatus.setBounds(new Rectangle(10, 35, 400, 500));
+            txtDiscoveryStatus.setForeground(Color.green);
+            txtDiscoveryStatus.setBackground(Color.black);
+        }
+        return txtDiscoveryStatus;
+    }
+
+    private JScrollPane getDiscoveryStaPane() {
+        if (discoveryStatusPane == null) {
+            discoveryStatusPane = new JScrollPane();
+            discoveryStatusPane.setBounds(new Rectangle(10, 35, 400, 500));
+            discoveryStatusPane.setViewportView(getTxtDiscoveryStatus());
+        }
+        return discoveryStatusPane;
+    }
+    public JTextArea getClusterIPs(){
+        if(txtClusterIPs == null){
+            txtClusterIPs = new JTextArea();
+            txtClusterIPs.setBounds(new Rectangle(550,35,200,500));
+            txtClusterIPs.setBackground(Color.black);
+            txtClusterIPs.setForeground(Color.green);
+            txtClusterIPs.setEditable(false);
+        }
+        return txtClusterIPs;
+    }
+
+    public void register() throws MalformedURLException, RemoteException, UnknownHostException, NotBoundException {
         String ip = txtIP.getText().toString();
         String nameService = txtNameServer.getText().toString();
         String dispatcherName = txtDispSerName.getText().toString();
@@ -417,6 +485,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
         if (nameService.length() != 0 && dispatcherName.length() != 0) {
             DispatcherRegister.register(ip, nameService, port, dispatcherName);
             isRegister = true;
+            btnRegister.setEnabled(false);
+            btnLoadSettings.setEnabled(false);
 
         } else {
             JOptionPane.showMessageDialog(null, "Dispatcher registration fails. Enter setting details correctly.", "Message", JOptionPane.ERROR_MESSAGE);
@@ -467,7 +537,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     private void loadSettings() {
         try {
-            ArrayList<String[]> data = reader.getServerIPSettings("./src/settings/server_settings.xml");
+            ArrayList<String[]> data = ServerSettingsReader.getServerIPSettings("./src/settings/server_settings.xml");
             String[] ar = data.get(0);
             txtIP.setText(ar[0]);
             txtPort.setText(ar[1]);
@@ -485,6 +555,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             return;
     }
 
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -500,6 +571,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
         Object source = event.getSource();
         if (source == adminSettings) {
             tabbedPane.setVisible(true);
+            tabbedPane.setFocusable(false);
         } else if (source == help) {
 
         } else if (source == exit) {
@@ -508,8 +580,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
             showAbout();
         } else if (source == closetabs) {
             tabbedPane.setVisible(false);
-        } else if (source == btnCancel) {
-
+        } else if (source == btnLoadSettings) {
+            loadSettings();
         } else if (source == btnRegister) {
             try {
                 if (isRegister == false) {

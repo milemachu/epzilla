@@ -4,6 +4,11 @@ import javax.swing.*;
 
 import org.epzilla.dispatcher.ui.*;
 
+import java.net.MalformedURLException;
+import java.net.UnknownHostException;
+import java.rmi.RemoteException;
+import java.rmi.NotBoundException;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Dishan
@@ -18,6 +23,17 @@ public class DispatcherUIController {
         instance = new DispatcherUI();
         instance.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         instance.setVisible(true);
+        try {
+            instance.register();
+        } catch (MalformedURLException e) {
+            appendResults("Settings details are incorrect");
+        } catch (RemoteException e) {
+            appendResults("Name Server not working...");
+        } catch (UnknownHostException e) {
+           appendResults("Settings details are incorrect");
+        } catch (NotBoundException e) {
+             appendResults("Settings details are incorrect");
+        }
     }
 
     public static void appendTextToStatus(String text) {

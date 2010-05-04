@@ -16,9 +16,8 @@ public class LeaderPublisher implements IServicePublisher {
 	public boolean addSubscription(String serviceClient, String serviceName) {
 		if (serviceName.equalsIgnoreCase("SUBSCRIBE_" + this.serviceName)) {
 			synchronized (clusterNodeIp) {
-				String[] arr = serviceClient
-						.split(Constants.NODE_CLIENT_DELIMITER);
-				clusterNodeIp.add(arr[1]);
+				
+				clusterNodeIp.add(serviceClient);
 				return true;
 			}
 		}
@@ -42,8 +41,7 @@ public class LeaderPublisher implements IServicePublisher {
 	public boolean removeSubscrition(String serviceClient, String serviceName) {
 		if (serviceName.equalsIgnoreCase("UNSUBSCRIBE_" + this.serviceName)) {
 			synchronized (clusterNodeIp) {
-				clusterNodeIp.remove(Integer.parseInt(serviceClient
-						.split(Constants.NODE_CLIENT_DELIMITER)[0]));
+				clusterNodeIp.remove(serviceClient);
 				return true;
 			}
 		}
