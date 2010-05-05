@@ -3,6 +3,7 @@ package org.epzilla.client.userInterface;
 import org.epzilla.client.controlers.ClientUIControler;
 
 import javax.swing.*;
+
 import java.awt.*;
 
 
@@ -17,7 +18,15 @@ public class SplashScreen extends JWindow {
         duration = d;
     }
 
-    public void showSplash() {        
+    public void showSplash() { 
+    	 try {
+              UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+         }
+         catch (UnsupportedLookAndFeelException e) {}
+         catch (ClassNotFoundException e) {}
+         catch (InstantiationException e) {}
+         catch (IllegalAccessException e) {}
+         
         JPanel panel = new JPanel();
         int width = 425;
         int height = 240;
