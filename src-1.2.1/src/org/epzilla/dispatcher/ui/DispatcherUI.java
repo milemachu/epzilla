@@ -36,7 +36,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JMenu file = new JMenu("File");
     private JMenu helpmenu = new JMenu("Help");
     private JPanel mainSettings = null;
-    private JPanel helptab = null;
     private JPanel summary = null;
     private JPanel clusterDe = null;
     private JTextArea txtTriggers = null;
@@ -70,6 +69,13 @@ public class DispatcherUI extends JFrame implements ActionListener {
     }
 
     private void initialize() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (UnsupportedLookAndFeelException e) {}
+        catch (ClassNotFoundException e) {}
+        catch (InstantiationException e) {}
+        catch (IllegalAccessException e) {}
 
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = screen.width;
@@ -95,6 +101,10 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     private JTabbedPane getMyTabbedPane() {
         if (tabbedPane == null) {
+            ImageIcon settingsIcon = new ImageIcon("images//settings.jpg");
+            ImageIcon summaryIcon = new ImageIcon("images//summary.jpg");
+            ImageIcon clusterDeIcon = new ImageIcon("images//clusterDe.jpg");
+
             lblDetails = new JLabel();
             lblDetails.setText("NameServer Details ");
             lblDetails.setLocation(new Point(15, 8));
@@ -112,10 +122,11 @@ public class DispatcherUI extends JFrame implements ActionListener {
             labelIP.setText("Server IP Address :");
             labelIP.setSize(new Dimension(121, 25));
             labelIP.setLocation(new Point(25, 49));
+            
             tabbedPane = new JTabbedPane();
-            tabbedPane.addTab("Summary", getSummeryTab());
-            tabbedPane.addTab("Cluster Details", getClusterDeTab());
-            tabbedPane.addTab("Settings", getMainSettings());
+            tabbedPane.addTab("Summary", summaryIcon, getSummeryTab());
+            tabbedPane.addTab("Cluster Details", clusterDeIcon, getClusterDeTab());
+            tabbedPane.addTab("Settings", settingsIcon, getMainSettings());
             tabbedPane.setVisible(true);
         }
         return tabbedPane;
@@ -123,6 +134,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     private JPanel getMainSettings() {
         if (mainSettings == null) {
+
             lblStatus = new JLabel();
             lblStatus.setBounds(new Rectangle(15, 340, 71, 23));
             lblStatus.setText("Status :");
@@ -195,15 +207,15 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblDiscoveryStatus.setText("Dispatcher Discovery Status :");
 
             lblClusterIPs = new JLabel();
-            lblClusterIPs.setBounds(new Rectangle(550,10,150,25));
+            lblClusterIPs.setBounds(new Rectangle(550, 10, 150, 25));
             lblClusterIPs.setText("Cluster IPs :");
-            
+
             clusterDe = new JPanel();
             clusterDe.setLayout(null);
             clusterDe.add(lblDiscoveryStatus, null);
             clusterDe.add(getDiscoveryStaPane(), null);
-            clusterDe.add(lblClusterIPs,null);
-            clusterDe.add(getClusterIPs(),null);
+            clusterDe.add(lblClusterIPs, null);
+            clusterDe.add(getClusterIPs(), null);
         }
         return clusterDe;
     }
@@ -215,7 +227,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
             file.add(getCloseMI());
             file.add(getExitMI());
             helpmenu.add(getAboutMI());
-//            helpmenu.add(getHelpMI());
             menuBar.add(file);
             menuBar.add(helpmenu);
         }
@@ -231,18 +242,10 @@ public class DispatcherUI extends JFrame implements ActionListener {
         return about;
     }
 
-    private JMenuItem getHelpMI() {
-        if (help == null) {
-            help = new JMenuItem();
-            help.setText("Help");
-            help.addActionListener(this);
-        }
-        return help;
-    }
-
     private JMenuItem getAdminSettingMI() {
         if (adminSettings == null) {
-            adminSettings = new JMenuItem();
+            ImageIcon settingsIcon = new ImageIcon("images//settings.jpg");
+            adminSettings = new JMenuItem(settingsIcon);
             adminSettings.setText("Administrator Settings");
             adminSettings.addActionListener(this);
         }
@@ -260,7 +263,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     private JMenuItem getCloseMI() {
         if (closetabs == null) {
-            closetabs = new JMenuItem();
+            ImageIcon closeIcon = new ImageIcon("images//close.jpg");
+            closetabs = new JMenuItem(closeIcon);
             closetabs.setText("Close Tabs");
             closetabs.addActionListener(this);
         }
@@ -458,10 +462,11 @@ public class DispatcherUI extends JFrame implements ActionListener {
         }
         return discoveryStatusPane;
     }
-    public JTextArea getClusterIPs(){
-        if(txtClusterIPs == null){
+
+    public JTextArea getClusterIPs() {
+        if (txtClusterIPs == null) {
             txtClusterIPs = new JTextArea();
-            txtClusterIPs.setBounds(new Rectangle(550,35,200,500));
+            txtClusterIPs.setBounds(new Rectangle(550, 35, 200, 500));
             txtClusterIPs.setBackground(Color.black);
             txtClusterIPs.setForeground(Color.green);
             txtClusterIPs.setEditable(false);
@@ -551,8 +556,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Confirm Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == 0)
             System.exit(0);
-        else
-            return;
     }
 
 
