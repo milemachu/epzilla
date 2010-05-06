@@ -462,8 +462,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         if (format) {
             boolean validIp = true;
             String[] values = ip.split("\\.");
-            for (int k = 0; k < values.length; ++k) {
-                short v = Short.valueOf(values[k]);
+            for (String value : values) {
+                short v = Short.valueOf(value);
                 if ((v < 0) || (v > 255)) {
                     validIp = false;
                     break;

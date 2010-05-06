@@ -72,11 +72,14 @@ public class DispatcherUI extends JFrame implements ActionListener {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
-        catch (UnsupportedLookAndFeelException e) {}
-        catch (ClassNotFoundException e) {}
-        catch (InstantiationException e) {}
-        catch (IllegalAccessException e) {}
-
+        catch (UnsupportedLookAndFeelException e) {
+        }
+        catch (ClassNotFoundException e) {
+        }
+        catch (InstantiationException e) {
+        }
+        catch (IllegalAccessException e) {
+        }
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = screen.width;
         int y = screen.height;
@@ -122,8 +125,9 @@ public class DispatcherUI extends JFrame implements ActionListener {
             labelIP.setText("Server IP Address :");
             labelIP.setSize(new Dimension(121, 25));
             labelIP.setLocation(new Point(25, 49));
-            
+
             tabbedPane = new JTabbedPane();
+            tabbedPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
             tabbedPane.addTab("Summary", summaryIcon, getSummeryTab());
             tabbedPane.addTab("Cluster Details", clusterDeIcon, getClusterDeTab());
             tabbedPane.addTab("Settings", settingsIcon, getMainSettings());
@@ -556,17 +560,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Confirm Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == 0)
             System.exit(0);
-    }
-
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                DispatcherUI thisClass = new DispatcherUI();
-                thisClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                thisClass.setVisible(true);
-            }
-        });
     }
 
     @Override

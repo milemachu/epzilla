@@ -1,13 +1,12 @@
 package org.epzilla.dispatcher.controlers;
 
+import org.epzilla.dispatcher.ui.DispatcherUI;
+
 import javax.swing.*;
-
-import org.epzilla.dispatcher.ui.*;
-
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
-import java.rmi.RemoteException;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,9 +29,9 @@ public class DispatcherUIController {
         } catch (RemoteException e) {
             appendResults("Name Server not working...");
         } catch (UnknownHostException e) {
-           appendResults("Settings details are incorrect");
+            appendResults("Settings details are incorrect");
         } catch (NotBoundException e) {
-             appendResults("Settings details are incorrect");
+            appendResults("Settings details are incorrect");
         }
     }
 
@@ -45,19 +44,24 @@ public class DispatcherUIController {
     }
 
     public static void appendIP(String text) {
+        instance.getClusterIPs().append(text + "\n"); //cluster IPs are displayed under the Cluster Details tab
         instance.getTxtIPSet().append(text + "\n");
     }
-    public static void appendResults(String text){
-    	instance.getTxtResult().append(text+ "\n");
+
+    public static void appendResults(String text) {
+        instance.getTxtResult().append(text + "\n");
     }
+
     public static void clearIPList() {
         instance.getTxtIPSet().setText("");
     }
-    public static void appendInEventsCount(String text){
-         instance.getTxtInEventCount().setText("");
-         instance.getTxtInEventCount().setText(text);
+
+    public static void appendInEventsCount(String text) {
+        instance.getTxtInEventCount().setText("");
+        instance.getTxtInEventCount().setText(text);
     }
-    public static void appendOutEventCount(String text){
-    	
+
+    public static void appendOutEventCount(String text) {
+
     }
 }
