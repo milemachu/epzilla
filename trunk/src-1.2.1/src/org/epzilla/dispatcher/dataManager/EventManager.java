@@ -1,11 +1,11 @@
 package org.epzilla.dispatcher.dataManager;
 
-import java.util.ArrayList;
+import org.epzilla.dispatcher.clusterHandler.EventSender;
+
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-
-import org.epzilla.dispatcher.clusterHandler.*;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,20 +18,30 @@ public class EventManager {
     private static ArrayList<String> ipArr = new ArrayList<String>();
     private static ArrayList<String> idArr = new ArrayList<String>();
     private static boolean isLoaded = false;
+    private static Thread eventsThread;
 
-    public static void sendEventsToClusters(ArrayList<String> eList,String clientID) {
+    public static void sendEventsToClusters(final ArrayList<String> eList, final String clientID) {
         if (!isLoaded) {
             loadClusterDetails();
         }
-        try {
-            EventSender.acceptEventStream(ipArr, idArr, eList,clientID);
-        } catch (MalformedURLException e) {
-            System.err.println(e);
-        } catch (NotBoundException e) {
-           System.err.println(e);
-        } catch (RemoteException e) {
-           System.err.println(e);
-        }
+        eventsThread = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    EventSender.acceptEventStream(ipArr, idArr, eList, clientID);
+                } catch (MalformedURLException e) {
+                    System.err.println(e);
+                } catch (NotBoundException e) {
+                    System.err.println(e);
+                } catch (RemoteException e) {
+                    System.err.println(e);
+                }
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private static void loadClusterDetails() {
