@@ -15,6 +15,7 @@ import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.awt.SystemColor;
 
 public class DispatcherUI extends JFrame implements ActionListener {
     private JTabbedPane tabbedPane = null;
@@ -33,8 +34,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JMenuItem adminSettings = null;
     private JMenuItem closetabs = null;
     private JMenuItem exit = null;
-    private JMenu file = new JMenu("File");
-    private JMenu helpmenu = new JMenu("Help");
+    private JMenu file = null;
+    private JMenu helpmenu = null;
     private JPanel mainSettings = null;
     private JPanel summary = null;
     private JPanel clusterDe = null;
@@ -84,6 +85,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
         int x = screen.width;
         int y = screen.height;
         this.setTitle("Dispatcher");
+        this.setBackground(SystemColor.control);
         Image img = Toolkit.getDefaultToolkit().getImage("images//logo.jpg");
         this.setIconImage(img);
         this.setSize(x, y);
@@ -227,6 +229,9 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JMenuBar getmyMenuBar() {
         if (menuBar == null) {
             menuBar = new JMenuBar();
+            menuBar.setBackground(SystemColor.control);
+            file = new JMenu("File");
+            helpmenu = new JMenu("Help");
             file.add(getAdminSettingMI());
             file.add(getCloseMI());
             file.add(getExitMI());
@@ -313,10 +318,11 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     private JButton getBtnRegister() {
         if (btnRegister == null) {
-            btnRegister = new JButton();
-            btnRegister.setLocation(new Point(155, 250));
+            ImageIcon registerIcon = new ImageIcon("images//register.jpg");
+            btnRegister = new JButton(registerIcon);
+            btnRegister.setLocation(new Point(150, 250));
             btnRegister.setText("Register");
-            btnRegister.setSize(new Dimension(85, 20));
+            btnRegister.setSize(new Dimension(97, 20));
             btnRegister.addActionListener(this);
         }
         return btnRegister;
@@ -324,10 +330,11 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     private JButton getBtnLoadSetings() {
         if (btnLoadSettings == null) {
-            btnLoadSettings = new JButton();
-            btnLoadSettings.setLocation(250, 250);
-            btnLoadSettings.setText("Reload Settings");
-            btnLoadSettings.setSize(new Dimension(85, 20));
+            ImageIcon reloadIcon = new ImageIcon("images//reload.jpg");
+            btnLoadSettings = new JButton(reloadIcon);
+            btnLoadSettings.setLocation(255, 250);
+            btnLoadSettings.setText("Reload");
+            btnLoadSettings.setSize(new Dimension(97, 20));
             btnLoadSettings.addActionListener(this);
         }
         return btnLoadSettings;
