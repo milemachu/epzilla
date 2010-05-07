@@ -5,6 +5,8 @@ import org.epzilla.client.controlers.ClientUIControler;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.Color;
+import java.awt.SystemColor;
 
 
 public class SplashScreen extends JWindow {
@@ -19,14 +21,7 @@ public class SplashScreen extends JWindow {
     }
 
     public void showSplash() { 
-    	 try {
-              UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-         }
-         catch (UnsupportedLookAndFeelException e) {}
-         catch (ClassNotFoundException e) {}
-         catch (InstantiationException e) {}
-         catch (IllegalAccessException e) {}
-         
+    	
         JPanel panel = new JPanel();
         int width = 425;
         int height = 240;
@@ -43,6 +38,7 @@ public class SplashScreen extends JWindow {
         copyrt.setFont(new Font("Cambria", Font.BOLD, 12));
         copyrt.setForeground(Color.white);
         copyrt.setBounds(new Rectangle(16, 207, 398, 19));
+        copyrt.setVisible(true);
         panel.setLayout(null);
         panel.setBackground(Color.gray);
         panel.setSize(new Dimension(419, 250));
@@ -53,6 +49,14 @@ public class SplashScreen extends JWindow {
         setVisible(true);
         iterate();
         setVisible(false);
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+       }
+       catch (UnsupportedLookAndFeelException e) {}
+       catch (ClassNotFoundException e) {}
+       catch (InstantiationException e) {}
+       catch (IllegalAccessException e) {}
+       
     }
 
     public void iterate() {
@@ -81,9 +85,9 @@ public class SplashScreen extends JWindow {
             progressBar = new JProgressBar(0, duration);
             progressBar.setBounds(new Rectangle(0, 228, 425, 10));
             progressBar.setValue(0);
-            progressBar.setBackground(new Color(238, 238, 238));
+            progressBar.setBackground(SystemColor.control);
             progressBar.setForeground(new Color(88, 224, 52));
-            progressBar.setStringPainted(false);
+            progressBar.setVisible(true);
         }
         return progressBar;
     }

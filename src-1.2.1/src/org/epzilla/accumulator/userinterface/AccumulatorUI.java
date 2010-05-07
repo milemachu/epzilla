@@ -1,25 +1,18 @@
 package org.epzilla.accumulator.userinterface;
 
-import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JFrame;
 import java.awt.Dimension;
-import javax.swing.JTextArea;
 import java.awt.Rectangle;
-import javax.swing.JLabel;
 import java.awt.Point;
-import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JSplitPane;
-import javax.swing.JScrollPane;
+import javax.swing.*;
+import javax.swing.JLabel;
 
 public class AccumulatorUI extends JFrame {
 
@@ -33,6 +26,7 @@ public class AccumulatorUI extends JFrame {
 	private JScrollPane resultScrollPane = null;
 	private JLabel lblTrigger = null;
 	private JTextArea txtTriggersPro = null;
+	private JLabel lblResults = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -41,6 +35,17 @@ public class AccumulatorUI extends JFrame {
 		initialize();
 	}
 	private void initialize() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (UnsupportedLookAndFeelException e) {
+        }
+        catch (ClassNotFoundException e) {
+        }
+        catch (InstantiationException e) {
+        }
+        catch (IllegalAccessException e) {
+        }
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = screen.width;
         int y = screen.height;
@@ -76,7 +81,7 @@ public class AccumulatorUI extends JFrame {
 			txtAccStatus.setEditable(false);
 			txtAccStatus.setForeground(Color.green);
 			txtAccStatus.setSize(new Dimension(140, 20));
-			txtAccStatus.setLocation(new Point(165, 42));
+			txtAccStatus.setLocation(new Point(810, 90));
 			txtAccStatus.setBackground(Color.black);
 		}
 		return txtAccStatus;
@@ -87,9 +92,8 @@ public class AccumulatorUI extends JFrame {
 			txtEventCount = new JTextArea();
 			txtEventCount.setEditable(false);
 			txtEventCount.setForeground(Color.green);
-			txtEventCount.setBounds(new Rectangle(836, 92, 140, 20));
 			txtEventCount.setSize(new Dimension(140, 20));
-			txtEventCount.setLocation(new Point(840, 92));
+			txtEventCount.setLocation(new Point(810, 120));
 			txtEventCount.setBackground(Color.black);
 		}
 		return txtEventCount;
@@ -104,16 +108,21 @@ public class AccumulatorUI extends JFrame {
 	}
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
+			lblResults = new JLabel();
+			lblResults.setBounds(new Rectangle(29, 56, 77, 27));
+			lblResults.setText("Results:");
 			lblTrigger = new JLabel();
-			lblTrigger.setBounds(new Rectangle(700, 128, 129, 20));
 			lblTrigger.setText("Triggers processed: ");
+			lblTrigger.setLocation(new Point(690, 150));
+			lblTrigger.setSize(new Dimension(129, 20));
 			lblStatus = new JLabel();
 			lblStatus.setText("Accumulator Status:");
 			lblStatus.setSize(new Dimension(128, 20));
-			lblStatus.setLocation(new Point(30, 44));
+			lblStatus.setLocation(new Point(690, 90));
 			lblEventCount = new JLabel();
 			lblEventCount.setText("Event Count:");
-			lblEventCount.setBounds(new Rectangle(700, 91, 80, 20));
+			lblEventCount.setLocation(new Point(690, 120));
+			lblEventCount.setSize(new Dimension(80, 20));
 			jContentPane = new JPanel();
 			jContentPane.setLayout(null);
 			jContentPane.add(lblEventCount, null);
@@ -123,21 +132,16 @@ public class AccumulatorUI extends JFrame {
 			jContentPane.add(getResultScrollPane(), null);
 			jContentPane.add(lblTrigger, null);
 			jContentPane.add(getTxtTriggersPro(), null);
+			jContentPane.add(lblResults, null);
 		}
 		return jContentPane;
 	}
-	/**
-	 * This method initializes txtTriggersPro	
-	 * 	
-	 * @return javax.swing.JTextArea	
-	 */
 	public JTextArea getTxtTriggersPro() {
 		if (txtTriggersPro == null) {
 			txtTriggersPro = new JTextArea();
-			txtTriggersPro.setLocation(new Point(838, 129));
 			txtTriggersPro.setBackground(Color.black);
 			txtTriggersPro.setForeground(Color.green);
-			txtTriggersPro.setLocation(new Point(840, 129));
+			txtTriggersPro.setLocation(new Point(810, 150));
 			txtTriggersPro.setSize(new Dimension(140, 20));
 		}
 		return txtTriggersPro;
