@@ -131,6 +131,7 @@ public class NodeDiscoveryManager {
 	}
 	
 	
+	@SuppressWarnings({ "static-access", "unchecked" })
 	public static void main(String[] args) {
 		NodeDiscoveryManager nodeMan=new NodeDiscoveryManager(5);
 		try {
