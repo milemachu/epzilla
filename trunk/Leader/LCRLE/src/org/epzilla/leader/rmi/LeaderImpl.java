@@ -1,0 +1,146 @@
+package org.epzilla.leader.rmi;
+
+import java.net.UnknownHostException;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
+import org.epzilla.leader.EpzillaProcess;
+import org.epzilla.leader.event.IEpzillaEventListner;
+import org.epzilla.leader.event.ListenerRegisteredEvent;
+import org.epzilla.leader.message.MessageDecoder;
+import org.epzilla.leader.util.Status;
+
+public class LeaderImpl extends UnicastRemoteObject implements LeaderInterface {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 708757744140286512L;
+
+	protected LeaderImpl() throws RemoteException {
+		super();
+
+	}
+
+	/**
+	 * This method can be called by any other node in the cluster to get the
+	 * status{Leader,Non leader, Unknown} Will return the current status of the
+	 * node to the requester.
+	 */
+	public String getStatus() throws RemoteException {
+
+		return EpzillaProcess.getInstance().getStatus();
+	}
+
+	/**
+	 * This method can be called by any member node of the node cluster and will
+	 * return the Unique ID assigned this node to the requester. Will be a non
+	 * negative integer.
+	 */
+	public int getUID() throws RemoteException {
+
+		return EpzillaProcess.getInstance().getUID();
+	}
+
+	/**
+	 * This method will be called by any other member in the node cluster to
+	 * check whether this node is the Leader. Instead of this, you may use the
+	 * method getStatus() to get the status of this node.
+	 */
+	public boolean isLeader() throws RemoteException {
+
+		return EpzillaProcess.getInstance().getStatus().equalsIgnoreCase(
+				Status.LEADER.toString()) ? true : false;
+	}
+
+	/**
+	 * This is the method which accepts control data and other type of messages.
+	 * The messages received to this method will be forwarded to the message
+	 * decoder and will be assigned to a different thread to deal with it.
+	 * 
+	 * @throws UnknownHostException
+	 */
+	public void receiveMessage(String message) throws RemoteException,
+			UnknownHostException {
+		// get the Message decoder instance and decode it..
+
+//		MessageDecoder.getInstance().decodeMessage(message);
+
+	}
+
+	/**
+	 * This method will return the boolean whether this is the default leader of
+	 * the respective STM based cluster. Any node can invoke this.
+	 */
+	public boolean isDefaultLeader() throws RemoteException {
+		return EpzillaProcess.getInstance().isDefaultLeader();
+
+	}
+
+	/**
+	 * This method will be called when the client start to register them to
+	 * receive message/event from the leader
+	 */
+	public void addListener(IEpzillaEventListner listener)
+			throws RemoteException {
+		EpzillaProcess.getInstance().addEpzillaEventListener(listener);
+		EpzillaProcess.getInstance().fireEpzillaEvent(
+				new ListenerRegisteredEvent(listener.getData()));
+
+	}
+
+	/**
+	 * This method is used to unregister a registered user from receiving events
+	 * from the leader.
+	 */
+	public void removeListener(IEpzillaEventListner listener)
+			throws RemoteException {
+		EpzillaProcess.getInstance().removeEpzillaEventListener(listener);
+	}
+
+	/**
+	 * This is used to get the Leader address from a remote machine without
+	 * running a Leader Election.
+	 */
+	public String getClusterLeader() throws RemoteException {
+		return EpzillaProcess.getInstance().getClusterLeader().getHostAddress();
+	}
+
+	/**
+	 * This method is used to identify the current state of the epzilla process
+	 * with getStatus.
+	 * <table>
+	 * <table width="90%" border="0">
+	 * <tr>
+	 * <th scope="col">Stage</th>
+	 * <th scope="col">isLeaderElectionRunning</th>
+	 * <th scope="col">status</th>
+	 * </tr>
+	 * <tr>
+	 * <td>Start up</td>
+	 * <td>false</td>
+	 * <td>unknown</td>
+	 * </tr>
+	 * <tr>
+	 * <td>after receiving uid</td>
+	 * <td>true</td>
+	 * <td>unknown</td>
+	 * </tr>
+	 * <tr>
+	 * <td>aftervreceiving leader</td>
+	 * <td>false</td>
+	 * <td>leader/nonleader</td>
+	 * </tr>
+	 * <tr>
+	 * <td>after receiving a uid</td>
+	 * <td>true</td>
+	 * <td>unknown</td>
+	 * </tr>
+	 * </table>
+	 */
+	public boolean isLeaderElectionRunning() throws RemoteException {
+
+		return EpzillaProcess.getInstance().isLeaderElectionRunning();
+	}
+
+}
