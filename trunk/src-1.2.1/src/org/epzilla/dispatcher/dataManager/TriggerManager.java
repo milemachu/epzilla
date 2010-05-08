@@ -26,9 +26,6 @@ public class TriggerManager {
 
     private static TransactedList<TriggerInfoObject> triggers = new TransactedList<TriggerInfoObject>();
     static int count = 0;
-    static String currentIP = "localhost";
-    static String current1IP = " ";
-    static String current2IP = " ";
 
     // Code For Testing Only -Dishan
     public static void initTestTriggerStream() {
@@ -66,6 +63,7 @@ public class TriggerManager {
                 TriggerInfoObject obj = new TriggerInfoObject();
                 // ID is the sequential number of the trigger
                 obj.settriggerID("TID:" + String.valueOf(count));
+                obj.setclientID(clientID);
                 obj.settrigger(new String(trigger));
                 getTriggers().add(obj);
                 sendTriggersToclusters(trigger);

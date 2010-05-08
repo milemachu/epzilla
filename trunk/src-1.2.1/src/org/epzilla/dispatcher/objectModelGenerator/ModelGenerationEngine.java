@@ -9,11 +9,13 @@ public class ModelGenerationEngine {
 
     private static ObjectModelDefinition create() {
         ObjectModelDefinition model = new ObjectModelDefinition("DispatcherObjectModel");
-        Package pack = new Package("org.epzilla.dispatcher.dispatcherObjectModel");
+        Package pack = new Package("dispatcherObjectModel");
         model.RootPackage = pack;
 
         Structure simple = new Structure("TriggerInfoObject");
         simple.Fields.add(new Field(String.class, "triggerID"));
+        simple.Fields.add(new Field(String.class, "clientID"));
+        simple.Fields.add(new Field(String.class, "clusterID"));
         simple.Fields.add(new Field(String.class, "trigger"));
 
         Structure client = new Structure("ClientInfoObject");
