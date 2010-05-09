@@ -25,8 +25,8 @@ public class DispatcherRegister{
         	int i = service.insertNode(name, ipAddress, num);
         	       	if(i==1)
         	       		DispatcherUIController.appendResults("Dispatcher Successfully Registered in the Name Server");
-        	       	else
-        	       		DispatcherUIController.appendResults("Dispatcher Successfully Registered in the Name Server");
+//        	       	else
+//        	       		DispatcherUIController.appendResults("Dispatcher Successfully Registered in the Name Server");
 
     }
 	/*
