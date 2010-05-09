@@ -1,6 +1,7 @@
 package org.epzilla.dispatcher.rmi;
 
 import static org.epzilla.dispatcher.controlers.MainDispatcherController.run;
+import org.epzilla.dispatcher.controlers.DispatcherUIController;
 
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -34,8 +35,6 @@ public class DispatcherService {
         String disServiceName = serviceName + id;
         String name = "rmi://" + ipAddress + "/" + disServiceName;
         Naming.rebind(name, dispInt);
-        System.out.println("Dispatcher Service successfully deployed.....");
-
     }
 
     /*

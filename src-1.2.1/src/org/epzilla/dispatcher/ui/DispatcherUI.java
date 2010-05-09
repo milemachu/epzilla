@@ -1,6 +1,7 @@
 package org.epzilla.dispatcher.ui;
 
 import org.epzilla.dispatcher.DispatcherRegister;
+import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.dispatcher.xml.ServerSettingsReader;
 
 import javax.swing.*;
@@ -15,7 +16,6 @@ import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.awt.SystemColor;
 
 public class DispatcherUI extends JFrame implements ActionListener {
     private JTabbedPane tabbedPane = null;
@@ -118,15 +118,15 @@ public class DispatcherUI extends JFrame implements ActionListener {
             labelName = new JLabel();
             labelName.setText("Service Name :");
             labelName.setSize(new Dimension(93, 25));
-            labelName.setLocation(new Point(49, 92));
+            labelName.setLocation(new Point(30, 92));
             labelPort = new JLabel();
             labelPort.setText("Port :");
             labelPort.setSize(new Dimension(41, 22));
-            labelPort.setLocation(new Point(105, 132));
+            labelPort.setLocation(new Point(30, 132));
             labelIP = new JLabel();
             labelIP.setText("Server IP Address :");
             labelIP.setSize(new Dimension(121, 25));
-            labelIP.setLocation(new Point(25, 49));
+            labelIP.setLocation(new Point(30, 49));
 
             tabbedPane = new JTabbedPane();
             tabbedPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -146,7 +146,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblStatus.setText("Status :");
             lblName = new JLabel();
             lblName.setText("Service Name :");
-            lblName.setLocation(new Point(53, 203));
+            lblName.setLocation(new Point(30, 203));
             lblName.setSize(new Dimension(94, 16));
             lblDisp = new JLabel();
             lblDisp.setText("Dispatcher Details ");
@@ -213,7 +213,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblDiscoveryStatus.setText("Dispatcher Discovery Status :");
 
             lblClusterIPs = new JLabel();
-            lblClusterIPs.setBounds(new Rectangle(550, 10, 150, 25));
+            lblClusterIPs.setBounds(new Rectangle(650, 10, 150, 25));
             lblClusterIPs.setText("Cluster IPs :");
 
             clusterDe = new JPanel();
@@ -477,7 +477,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     public JTextArea getClusterIPs() {
         if (txtClusterIPs == null) {
             txtClusterIPs = new JTextArea();
-            txtClusterIPs.setBounds(new Rectangle(550, 35, 200, 500));
+            txtClusterIPs.setBounds(new Rectangle(650, 35, 200, 500));
             txtClusterIPs.setBackground(Color.black);
             txtClusterIPs.setForeground(Color.green);
             txtClusterIPs.setEditable(false);
@@ -588,14 +588,13 @@ public class DispatcherUI extends JFrame implements ActionListener {
         } else if (source == btnRegister) {
             try {
                 if (isRegister == false) {
-                    txtResult.setText("");
                     register();
                 } else
                     JOptionPane.showMessageDialog(null, "Dispatcher already registered", "Message", JOptionPane.INFORMATION_MESSAGE);
             } catch (MalformedURLException e) {
                 JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException e) {
-                txtResult.append("Name Server is not working....");
+                DispatcherUIController.appendResults("Name Server not working...");
             } catch (UnknownHostException e) {
                 JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
             } catch (NotBoundException e) {

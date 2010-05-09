@@ -72,7 +72,7 @@ public class ClientInit extends Thread {
                         return;
                     }
                     try {
-                        Thread.sleep(2000);
+                        Thread.sleep(10000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -111,7 +111,7 @@ public class ClientInit extends Thread {
                         return;
                     }
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

@@ -110,14 +110,15 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             lblCount.setText("Notifications count:");
             lblSummary = new JLabel();
             lblSummary.setBounds(new Rectangle(26, 5, 69, 24));
-            lblSummary.setText("Summary");
+            lblSummary.setText("Summary:");
             lblDispatcherServiceName = new JLabel();
             lblDispatcherServiceName.setText("Service Name :");
             lblDispatcherServiceName.setLocation(new Point(15, 178));
             lblDispatcherServiceName.setSize(new Dimension(123, 16));
             lblSettings = new JLabel();
-            lblSettings.setText("Server Settings");
+            lblSettings.setText("Server Settings:");
             lblSettings.setLocation(new Point(15, 15));
+            lblSettings.setFont(new Font("Dialog", Font.BOLD, 12));
             lblSettings.setSize(new Dimension(196, 25));
             lblDispIP1 = new JLabel();
             lblDispIP1.setBounds(new Rectangle(15, 148, 141, 16));
@@ -128,14 +129,14 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             labelName = new JLabel();
             labelName.setText("Name :");
             labelName.setSize(new Dimension(47, 25));
-            labelName.setLocation(new Point(55, 92));
+            labelName.setLocation(new Point(30, 92));
             labelPort = new JLabel();
             labelPort.setText("Port :");
-            labelPort.setBounds(new Rectangle(64, 135, 41, 25));
+            labelPort.setBounds(new Rectangle(30, 135, 41, 25));
             labelIP = new JLabel();
             labelIP.setText("IP Address :");
             labelIP.setSize(new Dimension(72, 25));
-            labelIP.setLocation(new Point(25, 49));
+            labelIP.setLocation(new Point(30, 49));
 
             tabbedPane = new JTabbedPane();
 
@@ -235,6 +236,9 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             txtIP = new JTextField();
             txtIP.setLocation(new Point(110, 52));
             txtIP.setSize(new Dimension(200, 20));
+            txtIP.setBackground(Color.black);
+            txtIP.setForeground(Color.GREEN);
+            txtIP.setEditable(false);
         }
         return txtIP;
     }
@@ -244,6 +248,9 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             txtPort = new JTextField();
             txtPort.setLocation(new Point(110, 140));
             txtPort.setSize(new Dimension(204, 20));
+            txtPort.setBackground(Color.BLACK);
+            txtPort.setForeground(Color.GREEN);
+            txtPort.setEditable(false);
         }
         return txtPort;
     }
@@ -253,6 +260,9 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             txtName = new JTextField();
             txtName.setLocation(new Point(110, 96));
             txtName.setSize(new Dimension(200, 20));
+            txtName.setBackground(Color.BLACK);
+            txtName.setForeground(Color.GREEN);
+            txtName.setEditable(false);
         }
         return txtName;
     }

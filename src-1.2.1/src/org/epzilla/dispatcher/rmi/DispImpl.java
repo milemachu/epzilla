@@ -17,8 +17,11 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
     private Vector<ClientCallbackInterface> clientList = new Vector<ClientCallbackInterface>();
     private HashMap clientMap = new HashMap<String, String>();
+    ArrayList<String> arr = new ArrayList<String>();
+
   
     protected DispImpl() throws RemoteException {
+         arr.add("Dispatcher Received the Trigger Stream");
     }
 
     @Override
@@ -41,6 +44,8 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
                 TriggerManager.addTriggerToList(tList.get(i), clientID);
             }
             toReturn = "OK";
+            arr.add(toReturn);
+            ClientNotifier.acceptNotifications(getClientIP(clientID),arr);
 
         } catch (Exception e) {
             System.err.println("FileServer exception: " + e.getMessage());

@@ -34,7 +34,7 @@ public class SplashScreen extends JWindow {
         JLabel label = new JLabel();
         label.setBounds(new Rectangle(5, 5, 414, 197));
         label.setIcon(img);
-        JLabel copyrt = new JLabel("Copyright@epZilla Team  2009-2010, All Rights Reserved", JLabel.CENTER);
+        JLabel copyrt = new JLabel("Copyright (c) epZilla Team  2009-2010. All Rights Reserved", JLabel.CENTER);
         copyrt.setFont(new Font("Cambria", Font.BOLD, 12));
         copyrt.setForeground(Color.white);
         copyrt.setBounds(new Rectangle(16, 207, 398, 19));

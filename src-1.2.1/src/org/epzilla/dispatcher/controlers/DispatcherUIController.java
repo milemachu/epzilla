@@ -7,6 +7,9 @@ import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,21 +20,23 @@ import java.rmi.RemoteException;
  */
 public class DispatcherUIController {
     private static DispatcherUI instance;
+    private static String dateTime;
 
     public static void InitializeUI() {
         instance = new DispatcherUI();
         instance.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         instance.setVisible(true);
+        appendResults("Dispatcher Successfully deployed");
         try {
             instance.register();
         } catch (MalformedURLException e) {
-            appendResults("Settings details are incorrect");
+            appendResults("Setting details are incorrect");
         } catch (RemoteException e) {
             appendResults("Name Server not working...");
         } catch (UnknownHostException e) {
-            appendResults("Settings details are incorrect");
+            appendResults("Setting details are incorrect");
         } catch (NotBoundException e) {
-            appendResults("Settings details are incorrect");
+            appendResults("Setting details are incorrect");
         }
     }
 
@@ -49,7 +54,13 @@ public class DispatcherUIController {
     }
 
     public static void appendResults(String text) {
-        instance.getTxtResult().append(text + "\n");
+        dateTime = getDateTime();
+        instance.getTxtResult().append(dateTime + ":" + text + "\n");
+    }
+
+    public static void appendDispDisStatus(String text) {
+        dateTime = getDateTime();
+        instance.getTxtDiscoveryStatus().append(dateTime + ":" + text + "\n");
     }
 
     public static void clearIPList() {
@@ -57,11 +68,17 @@ public class DispatcherUIController {
     }
 
     public static void appendInEventsCount(String text) {
-        instance.getTxtInEventCount().setText("");
         instance.getTxtInEventCount().setText(text);
     }
 
     public static void appendOutEventCount(String text) {
 
     }
+
+    private static String getDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+
 }
