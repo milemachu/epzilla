@@ -12,6 +12,7 @@ public class Epzilla {
 	private static String status=Status.UNKNOWN.name();
 	private static String defaultLeader=null;
 	private static boolean isLeaderElectionRunning=false;
+	private static String componentType=null;
 //	private static Vector<E> need a list of timer tasks
 	
 	public static long getUID() {
@@ -105,5 +106,13 @@ public class Epzilla {
 				Epzilla.isLeaderElectionRunning=true;			
 		}
 		
+	}
+
+	public static void setComponentType(String componentType) {
+		Epzilla.componentType = componentType;
+	}
+
+	public static String getComponentType() {
+		return componentType;
 	}
 }

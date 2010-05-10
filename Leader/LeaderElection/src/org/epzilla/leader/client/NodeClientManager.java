@@ -50,4 +50,9 @@ public class NodeClientManager {
 		return nodeDiscMgr;
 	}
 	
+	public static String getNextNode(){
+		return null;
+		//TODO: Complete this.
+	}
+	
 }
