@@ -30,6 +30,9 @@ public class DispatcherClientManager {
 		return dispatcherDiscMgr;
 	}
 	
-	
+	public static String getNextDispatcher(){
+		return null;
+		//TODO: Complete it 
+	}
 	
 }
