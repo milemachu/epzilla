@@ -1,7 +1,11 @@
 package org.epzilla.leader.message;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import org.epzilla.leader.event.PulseIntervalTimeoutEvent;
+
 public class MessageDecoder {
-	@SuppressWarnings("unused")
 	private EventHandler eventHandler;
 	
 	public MessageDecoder() {
@@ -16,7 +20,19 @@ public class MessageDecoder {
 		System.out.println("Decoding the received message "+messageType);
 		
 		//Starting the decoding process
-		
+		if (Integer.parseInt(strItems[0]) == MessageMeta.LEADER) {
+			//LEADER message to inform about the new Leader
+			try {
+				if (strItems[1].equalsIgnoreCase(InetAddress.getLocalHost()
+						.getHostAddress())) {
+					//This is the leader
+					System.out.println("Localhost is the Leader");
+					eventHandler.fireEpzillaEvent(new PulseIntervalTimeoutEvent());
+				}
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+		}else{}
 		
 		return false;
 	}
