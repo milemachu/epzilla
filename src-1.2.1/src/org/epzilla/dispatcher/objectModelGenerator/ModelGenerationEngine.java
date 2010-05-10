@@ -9,7 +9,7 @@ public class ModelGenerationEngine {
 
     private static ObjectModelDefinition create() {
         ObjectModelDefinition model = new ObjectModelDefinition("DispatcherObjectModel");
-        Package pack = new Package("dispatcherObjectModel");
+        Package pack = new Package("org.epzilla.dispatcher.dispatcherObjectModel");
         model.RootPackage = pack;
 
         Structure simple = new Structure("TriggerInfoObject");
@@ -17,6 +17,12 @@ public class ModelGenerationEngine {
         simple.Fields.add(new Field(String.class, "clientID"));
         simple.Fields.add(new Field(String.class, "clusterID"));
         simple.Fields.add(new Field(String.class, "trigger"));
+        simple.Fields.add(new Field(String.class, "stratumId"));
+
+        // needed when redistribution happens
+        simple.Fields.add(new Field(String.class, "oldStratumId"));
+        simple.Fields.add(new Field(String.class, "oldClusterId"));
+
 
         Structure client = new Structure("ClientInfoObject");
         client.Fields.add(new Field(String.class, "clientID"));
@@ -36,7 +42,8 @@ public class ModelGenerationEngine {
     public static void main(String[] args) {
         ObjectModelDefinition model = create();
         Generator generator = new Generator(model);
-        generator.writeFiles("./src/org/epzilla/dispatcher/", Generator.Target.Java5, false);
+        generator.writeFiles("./src/", Generator.Target.Java5, false);
+        
     }
 
 }
