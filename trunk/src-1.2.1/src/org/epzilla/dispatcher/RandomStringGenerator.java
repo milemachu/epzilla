@@ -9,6 +9,9 @@ import java.util.Random;
  * Time: 8:48:56 AM
  * To change this template use File | Settings | File Templates.
  */
+
+// Class for testing only
+
 public class RandomStringGenerator {
 
     private static int wordCount = 0;
