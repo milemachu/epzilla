@@ -22,23 +22,35 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
         setField(0, value);
     }
 
-    public String getIP() {
+    public String getclusterID() {
         return (String) getField(1);
     }
 
-    public void setIP(String value) {
+    public void setclusterID(String value) {
         setField(1, value);
+    }
+
+    public String getIP() {
+        return (String) getField(2);
+    }
+
+    public void setIP(String value) {
+        setField(2, value);
     }
 
     public static final int NODEID_INDEX = 0;
 
     public static final String NODEID_NAME = "nodeID";
 
-    public static final int IP_INDEX = 1;
+    public static final int CLUSTERID_INDEX = 1;
+
+    public static final String CLUSTERID_NAME = "clusterID";
+
+    public static final int IP_INDEX = 2;
 
     public static final String IP_NAME = "IP";
 
-    public static final int FIELD_COUNT = 2;
+    public static final int FIELD_COUNT = 3;
 
     @Override
     public String getFieldName(int index) {
@@ -50,6 +62,8 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
             case 0:
                 return "nodeID";
             case 1:
+                return "clusterID";
+            case 2:
                 return "IP";
             default:
                 throw new java.lang.IllegalArgumentException();
@@ -65,7 +79,7 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
 
     @Override
     public String getObjectModelUID() {
-        return "PqR4Yyo5RdhxmnkV6dJhpQ";
+        return "V6WWr2v67JlITv85gX+8Cw";
     }
 
     private static final int[] NON_TRANSIENT_FIELDS = new int[] {  };
@@ -83,7 +97,7 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
         if (reads != null) {
             writer.writeShort(Short.MAX_VALUE);
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
                 writer.writeBoolean(reads[i]);
         }
 
@@ -105,6 +119,15 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
                     writer.writeString((String) values[1]);
                 }
             }
+
+            if (values[2] != null) {
+                if (values[2] == Removal.Instance)
+                    writer.writeShort((short) -3);
+                else {
+                    writer.writeShort((short) 3);
+                    writer.writeString((String) values[2]);
+                }
+            }
         }
 
         writer.writeShort((short) 0);
@@ -119,9 +142,9 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
         short index = reader.readShort();
 
         if (index == Short.MAX_VALUE) {
-            reads = new boolean[2];
+            reads = new boolean[3];
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
                 reads[i] = reader.readBoolean();
 
             index = reader.readShort();
@@ -129,13 +152,13 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
 
         if (index == 1) {
             if (values == null)
-                values = new Object[2];
+                values = new Object[3];
 
             values[0] = reader.readString();
             index = reader.readShort();
         } else if (index == -1) {
             if (values == null)
-                values = new Object[2];
+                values = new Object[3];
 
             values[0] = Removal.Instance;
             index = reader.readShort();
@@ -143,15 +166,29 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
 
         if (index == 2) {
             if (values == null)
-                values = new Object[2];
+                values = new Object[3];
 
             values[1] = reader.readString();
             index = reader.readShort();
         } else if (index == -2) {
             if (values == null)
-                values = new Object[2];
+                values = new Object[3];
 
             values[1] = Removal.Instance;
+            index = reader.readShort();
+        }
+
+        if (index == 3) {
+            if (values == null)
+                values = new Object[3];
+
+            values[2] = reader.readString();
+            index = reader.readShort();
+        } else if (index == -3) {
+            if (values == null)
+                values = new Object[3];
+
+            values[2] = Removal.Instance;
             index = reader.readShort();
         }
 

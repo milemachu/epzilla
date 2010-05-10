@@ -23,6 +23,7 @@ public class ClusterObjectModelGenerator {
 
         Structure ip = new Structure("NodeIPObject");
         ip.Fields.add(new Field(String.class, "nodeID"));
+        ip.Fields.add(new Field(String.class, "clusterID"));
         ip.Fields.add(new Field(String.class, "IP"));
 
         pack.Structures.add(simple);

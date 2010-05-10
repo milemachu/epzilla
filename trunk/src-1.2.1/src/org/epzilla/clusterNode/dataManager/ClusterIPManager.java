@@ -23,6 +23,7 @@ public class ClusterIPManager {
                 Transaction transaction = Site.getLocal().startTransaction();
                 NodeIPObject obj = new NodeIPObject();
                 obj.setIP(ip);
+                obj.setclusterID(clusterID);
                 getIpList().add(obj);
                 transaction.commit();
                 count++;
