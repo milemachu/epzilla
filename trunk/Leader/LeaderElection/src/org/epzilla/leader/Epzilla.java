@@ -12,6 +12,7 @@ public class Epzilla {
 	private static String status=Status.UNKNOWN.name();
 	private static String defaultLeader=null;
 	private static boolean isLeaderElectionRunning=false;
+//	private static Vector<E> need a list of timer tasks
 	
 	public static long getUID() {
 		return UID;
