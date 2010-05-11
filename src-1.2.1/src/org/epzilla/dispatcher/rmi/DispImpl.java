@@ -17,7 +17,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
     private Vector<ClientCallbackInterface> clientList = new Vector<ClientCallbackInterface>();
     private HashMap clientMap = new HashMap<String, String>();
-    ArrayList<String> arr = new ArrayList<String>();
+    private ArrayList<String> arr = new ArrayList<String>();
 
   
     protected DispImpl() throws RemoteException {
@@ -40,8 +40,8 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     public String uploadTriggersToDispatcher(ArrayList<String> tList, String clientID, int triggerSeqID) throws RemoteException {
         String toReturn = null;
         try {
-            for (int i = 0; i < tList.size(); i++) {
-                TriggerManager.addTriggerToList(tList.get(i), clientID);
+            for (String aTList : tList) {
+                TriggerManager.addTriggerToList(aTList, clientID);
             }
             toReturn = "OK";
             arr.add(toReturn);

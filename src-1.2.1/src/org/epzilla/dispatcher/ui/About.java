@@ -35,7 +35,7 @@ public class About extends JFrame implements ActionListener {
     private JPanel getBottomPanel() {
         if (bottomPanel == null) {
             bottomPanel = new JPanel();
-            JLabel lblcpyR = new JLabel("  Copyright (c) epZilla Team  2009-2010. All Rights Reserved");
+            JLabel lblcpyR = new JLabel("  Copyright © epZilla Team  2009-2010. All Rights Reserved");
             lblcpyR.setSize(400, 20);
             bottomPanel.setLayout(null);
             bottomPanel.setBounds(new Rectangle(0, 177, 469, 50));

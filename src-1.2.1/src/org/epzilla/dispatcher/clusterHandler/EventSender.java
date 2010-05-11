@@ -29,7 +29,7 @@ public class EventSender {
     public static void acceptEventStream(ArrayList<String> serverIp, ArrayList<String> clusterID, ArrayList<String> eventStream, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         for (int i = 0; i < clusterID.size(); i++) {
             initCluster(serverIp.get(i), "CLUSTER_LEADER");
-            sendEventStream(eventStream, clusterID.get(i), clientID);
+            sendEventStream(eventStream, serverIp.get(i), clusterID.get(i), clientID);
         }
 
     }
@@ -41,13 +41,14 @@ public class EventSender {
 
     }
 
-    private static void sendEventStream(ArrayList<String> eList, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
+    private static void sendEventStream(ArrayList<String> eList, String leaderIP, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
         response = clusterObj.acceptEventStream(eList, clusterID, clientID);
         EventsCounter.setOutEventCount(eList.size());
         if (response != null) {
             System.out.println("Event stream send to the Cluster " + clusterID);
         } else {
-            System.out.println("Event stream not accepted by Cluster " + clusterID);
+            LeaderDisconnector led = new LeaderDisconnector();
+            led.leaderRemover(leaderIP);
         }
     }
 
