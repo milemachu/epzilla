@@ -6,13 +6,13 @@ import java.net.UnknownHostException;
 import org.epzilla.leader.util.Status;
 
 public class Epzilla {
-	private static long UID=0;
-	private static int clusterId=0;
-	private static String clusterLeader=null;
-	private static String status=Status.UNKNOWN.name();
-	private static String defaultLeader=null;
-	private static boolean isLeaderElectionRunning=false;
-	private static String componentType=null;
+	private static long UID=0; //At init
+	private static int clusterId=0; //At init
+	private static String clusterLeader=null; //While running
+	private static String status=Status.UNKNOWN.name(); //While running
+	private static String defaultLeader=null; //At init
+	private static boolean isLeaderElectionRunning=false; //While running
+	private static String componentType=null; //At init
 //	private static Vector<E> need a list of timer tasks
 	
 	public static long getUID() {
