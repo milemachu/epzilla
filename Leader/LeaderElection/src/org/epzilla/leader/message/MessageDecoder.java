@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import org.epzilla.leader.Epzilla;
+import org.epzilla.leader.LCRAlgoImpl;
 import org.epzilla.leader.client.DispatcherClientManager;
 import org.epzilla.leader.client.NodeClientManager;
 import org.epzilla.leader.event.ProcessStatusChangedEvent;
@@ -15,6 +16,7 @@ import org.epzilla.leader.util.Status;
 
 public class MessageDecoder {
 	private EventHandler eventHandler;
+	private LCRAlgoImpl lcrAlgorithm;
 	
 	public MessageDecoder() {
 		eventHandler=new EventHandler();
@@ -86,6 +88,10 @@ public class MessageDecoder {
 			Epzilla.setLeaderElectionRunning(true);
 			eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
 			//RUN LCR ALGO
+			@SuppressWarnings("unused")
+			String result=lcrAlgorithm.runAlgorithm(message);
+			//Only 3 outcomes. 1=LEADER, if UID is same. 2=NON_LEADER, if received UID is small. 3=UNKNOWN, if received UID is large.
+			
 		}
 		
 		return false;
