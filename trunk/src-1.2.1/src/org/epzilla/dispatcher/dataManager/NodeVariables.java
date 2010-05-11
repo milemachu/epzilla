@@ -14,6 +14,15 @@ public class NodeVariables {
     private static String nodeIP = "localhost";
     private static String currentServerIP = "10.8.108.30";
     private static DispatcherUI mainUI;
+    private static int dispatcherId = 0;
+
+    public static int getDispatcherId() {
+        return dispatcherId;
+    }
+
+    public static void setDispatcherId(int dispatcherId) {
+        NodeVariables.dispatcherId = dispatcherId;
+    }
 
     public static String getNodeIP() {
         return nodeIP;
