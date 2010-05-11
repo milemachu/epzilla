@@ -102,10 +102,10 @@ public class TriggerManager {
                         obj.settrigger(new String(trigger));
                         obj.setdispatcherId(NodeVariables.getDispatcherId());
                         tempCount++;
-
+                        tio.add(obj);
                         // TODO - modify to do correct structuring...
                         sendTriggersToclusters(trigger);
-                        
+
                     }
                     getTriggers().addAll(tio);
 
