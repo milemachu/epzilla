@@ -18,6 +18,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     private Vector<ClientCallbackInterface> clientList = new Vector<ClientCallbackInterface>();
     private HashMap clientMap = new HashMap<String, String>();
     private ArrayList<String> arr = new ArrayList<String>();
+    private String clientIP;
 
   
     protected DispImpl() throws RemoteException {
@@ -41,8 +42,10 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         String toReturn = null;
         try {
 //            for (String aTList : tList) {
+//             TriggerManager.addTriggerToList(aTList,clientID);
             // todo remove if problematic.
             // add to stm all at once.
+           
                 TriggerManager.addAllTriggersToList(tList, clientID);
 //            }
             toReturn = "OK";
@@ -62,7 +65,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
     @Override
     public void acceptNotifications(ArrayList<String> notification, String clientID) throws RemoteException {
-          String clientIP = getClientIP(clientID);
+          clientIP = getClientIP(clientID);
         
     }
 
@@ -106,9 +109,6 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
     @Override
     public String getClientIP(String clientID) throws RemoteException {
-//        if(clientMap.containsKey(clientID)){
-//          clientIpAdrs = (String) clientMap.get(clientID);
-//        }
         return ClientManager.getClientIp(clientID);
     }
 

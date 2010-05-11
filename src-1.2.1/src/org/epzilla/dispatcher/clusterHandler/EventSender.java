@@ -28,7 +28,7 @@ public class EventSender {
     */
     public static void acceptEventStream(ArrayList<String> serverIp, ArrayList<String> clusterID, ArrayList<String> eventStream, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         for (int i = 0; i < clusterID.size(); i++) {
-            initCluster(serverIp.get(i), "CLUSTER_LEADER");
+            initCluster(serverIp.get(i), "CLUSTER_NODE");
             sendEventStream(eventStream, serverIp.get(i), clusterID.get(i), clientID);
         }
 
