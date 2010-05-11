@@ -10,13 +10,18 @@ import java.util.ArrayList;
  * Created by IntelliJ IDEA.
  * User: Team epZilla
  * Date: Mar 11, 2010
+ * Modified: May 11, 2010
  * Time: 10:49:26 AM
  * To change this template use File | Settings | File Templates.
  */
 public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface {
 
-    public ClusterImpl() throws RemoteException {}
+    public ClusterImpl() throws RemoteException {
+    }
 
+    /*
+   Accept trigger stream by Leader node
+    */
     public String acceptTiggerStream(ArrayList<String> tList, String clusterID, String clientID) throws RemoteException {
         try {
             for (int i = 0; i < tList.size(); i++) {
@@ -24,7 +29,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
             }
             return "OK";
         } catch (Exception e) {
-            System.out.println("Trigger adding failure");
+            System.err.println("Trigger adding failure");
         }
         return null;
     }
@@ -41,8 +46,19 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         return null;
     }
 
+    public String addEventStream(ArrayList<String> eList, String clientID) throws RemoteException {
+        return null;
+    }
+
+    /*
+   Accept trigger stream by Processing Node
+    */
+    public String addTriggerStream(ArrayList<String> tlist, String clientID) throws RemoteException {
+        return null;
+    }
+
     public String deleteTriggers(ArrayList<String> list, String clusterID, String clientID) throws RemoteException {
-       // trigger deleting logic here
+        // trigger deleting logic here
         return null;
     }
 }
