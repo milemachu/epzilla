@@ -5,15 +5,12 @@ import jstm.core.Site;
 import jstm.core.Transaction;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TimerTask;
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 import org.epzilla.dispatcher.RandomStringGenerator;
-import org.epzilla.dispatcher.clusterHandler.TriggerSender;
-import org.epzilla.dispatcher.clusterHandler.TriggerLog;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,9 +22,12 @@ import org.epzilla.dispatcher.clusterHandler.TriggerLog;
 public class TriggerManager {
 
     private static TransactedList<TriggerInfoObject> triggers = new TransactedList<TriggerInfoObject>();
+    private static Object triggerIdSyncLock = new Object();
+
     static int count = 0;
 
     // Code For Testing Only -Dishan
+
     public static void initTestTriggerStream() {
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {
@@ -54,27 +54,73 @@ public class TriggerManager {
     }
 
     //AddTriggers through RMI to the shared memory
-    public static boolean addTriggerToList(String trigger,String clientID) {
+
+    public static boolean addTriggerToList(String trigger, String clientID) {
         boolean success = false;
         if (getTriggers() != null) {
-            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
-                Site.getLocal().allowThread();
-                Transaction transaction = Site.getLocal().startTransaction();
-                TriggerInfoObject obj = new TriggerInfoObject();
-                // ID is the sequential number of the trigger
-                obj.settriggerID("TID:" + String.valueOf(count));
-                obj.setclientID(clientID);
-                obj.settrigger(new String(trigger));
-                getTriggers().add(obj);
-                sendTriggersToclusters(trigger);
-                transaction.commit();
-                success = true;
-                System.out.println(new String(trigger));
+            synchronized (triggerIdSyncLock) {
+
+                if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                    Site.getLocal().allowThread();
+                    Transaction transaction = Site.getLocal().startTransaction();
+                    TriggerInfoObject obj = new TriggerInfoObject();
+                    // ID is the sequential number of the trigger
+                    obj.settriggerID("TID:" + String.valueOf(count));
+                    obj.setclientID(clientID);
+                    obj.settrigger(new String(trigger));
+                    getTriggers().add(obj);
+
+                    // TODO - modify to do structuring...
+                    sendTriggersToclusters(trigger);
+                    transaction.commit();
+                    success = true;
+                    System.out.println(trigger);
+                }
+
+                if (success) {
+                    count++;
+                }
             }
-            count++;
         }
         return success;
     }
+
+    public static boolean addAllTriggersToList(List<String> triggerList, String clientID) {
+        boolean success = false;
+        if (getTriggers() != null) {
+            synchronized (triggerIdSyncLock) {
+                int tempCount = count;
+                if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                    Site.getLocal().allowThread();
+                    Transaction transaction = Site.getLocal().startTransaction();
+                    ArrayList<TriggerInfoObject> tio = new ArrayList();
+                    for (String trigger : triggerList) {
+                        TriggerInfoObject obj = new TriggerInfoObject();
+                        // ID is the sequential number of the trigger
+                        obj.settriggerID("TID:" + String.valueOf(tempCount));
+                        obj.setclientID(clientID);
+                        obj.settrigger(new String(trigger));
+                        obj.setdispatcherId(NodeVariables.getDispatcherId());
+                        tempCount++;
+
+                        // TODO - modify to do correct structuring...
+                        sendTriggersToclusters(trigger);
+                        
+                    }
+                    getTriggers().addAll(tio);
+
+                    transaction.commit();
+                    success = true;
+//                    System.out.println(new String(trigger));
+                }
+                if (success) {
+                    count = tempCount;
+                }
+            }
+        }
+        return success;
+    }
+
 
     public static TransactedList<TriggerInfoObject> getTriggers() {
         return triggers;

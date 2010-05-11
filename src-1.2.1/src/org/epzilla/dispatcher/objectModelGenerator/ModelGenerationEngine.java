@@ -14,6 +14,9 @@ public class ModelGenerationEngine {
 
         Structure simple = new Structure("TriggerInfoObject");
         simple.Fields.add(new Field(String.class, "triggerID"));
+        simple.Fields.add(new Field(int.class, "dispatcherId"));
+//        simple.Fields.add(new Field(String [].class, "testArray"));
+
         simple.Fields.add(new Field(String.class, "clientID"));
         simple.Fields.add(new Field(String.class, "clusterID"));
         simple.Fields.add(new Field(String.class, "trigger"));
