@@ -1,10 +1,5 @@
 package org.epzilla.leader;
 
-import java.net.MalformedURLException;
-import java.net.UnknownHostException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-
 import org.epzilla.leader.message.MessageMeta;
 import org.epzilla.leader.util.Status;
 
@@ -60,7 +55,7 @@ public class LCRAlgoImpl {
 //
 //					e.printStackTrace();
 //				}
-					return Status.UNKNOWN.name();
+					return Status.NON_LEADER.name();
 			} else if (receivedUid > Epzilla.getUID()) {
 				// No Forwarding of received message.Instead start sending the
 				// UID of this
