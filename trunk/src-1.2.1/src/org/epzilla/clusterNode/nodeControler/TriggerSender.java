@@ -1,5 +1,7 @@
 package org.epzilla.clusterNode.nodeControler;
 
+import java.util.ArrayList;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Chathura
@@ -8,5 +10,11 @@ package org.epzilla.clusterNode.nodeControler;
  * To change this template use File | Settings | File Templates.
  */
 public class TriggerSender {
-    public TriggerSender(){}
+    public TriggerSender() {
+    }
+
+    public void sendTriggers(String ip, String clientID, ArrayList<String> triggers) {
+
+    }
+
 }

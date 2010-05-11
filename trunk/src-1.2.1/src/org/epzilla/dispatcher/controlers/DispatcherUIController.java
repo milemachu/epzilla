@@ -58,7 +58,7 @@ public class DispatcherUIController {
         instance.getTxtResult().append(dateTime + ":" + text + "\n");
     }
 
-    public static void appendDispDisStatus(String text) {
+    public static void dispDiscoveryStatus(String text) {
         dateTime = getDateTime();
         instance.getTxtDiscoveryStatus().append(dateTime + ":" + text + "\n");
     }

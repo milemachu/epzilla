@@ -63,6 +63,7 @@ public class FileScanner implements Runnable {
                             } else
                                 recoverArr.add(st2);
 
+
                         }
                     }
                 }
@@ -71,13 +72,14 @@ public class FileScanner implements Runnable {
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         }
-        RecoveredTriggers.triggerList(recoverArr);
+//        RecoveredTriggers.triggerList(recoverArr);
         printArray(recoverArr);
         long end = System.currentTimeMillis();
         System.out.println("Time: " + (end - start));
     }
-     public static void printArray(List<String> array) {
-        for(int i=0; i<array.size();i++){
+
+    public static void printArray(List<String> array) {
+        for (int i = 0; i < array.size(); i++) {
             System.out.println(array.get(i));
         }
     }

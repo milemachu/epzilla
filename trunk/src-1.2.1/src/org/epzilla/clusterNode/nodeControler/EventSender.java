@@ -1,5 +1,7 @@
 package org.epzilla.clusterNode.nodeControler;
 
+import java.util.ArrayList;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Chathura
@@ -9,4 +11,7 @@ package org.epzilla.clusterNode.nodeControler;
  */
 public class EventSender {
     public EventSender(){}
+     public void sendEvents(String ip, String clientID, ArrayList<String> eventStream) {
+
+    }
 }
