@@ -79,7 +79,14 @@ public class MessageDecoder {
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			}
-		}else{}
+		}else if(Integer.parseInt(strItems[0])==MessageMeta.UID){
+			//LE has started
+			Epzilla.setClusterLeader(null);
+			Epzilla.setStatus(Status.UNKNOWN.name());
+			Epzilla.setLeaderElectionRunning(true);
+			eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
+			//RUN LCR ALGO
+		}
 		
 		return false;
 	}
