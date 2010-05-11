@@ -44,7 +44,6 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
                 TriggerManager.addTriggerToList(aTList, clientID);
             }
             toReturn = "OK";
-            arr.add(toReturn);
             ClientNotifier.acceptNotifications(getClientIP(clientID),arr);
 
         } catch (Exception e) {

@@ -1,9 +1,9 @@
 package org.epzilla.client.controlers;
 
-import org.epzilla.dispatcher.rmi.DispInterface;
-import org.epzilla.nameserver.NameService;
 import org.epzilla.client.rmi.ClientCallbackImpl;
 import org.epzilla.client.rmi.ClientCallbackInterface;
+import org.epzilla.dispatcher.rmi.DispInterface;
+import org.epzilla.nameserver.NameService;
 
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
@@ -25,8 +25,14 @@ public class ClientHandler {
     public static Vector<String> getServiceIp(String serverIp, String serviceName, String clientIp) throws MalformedURLException, RemoteException, NotBoundException {
         dispIP.removeAllElements();
         initNameService(serverIp, serviceName);
-        dispDetails = service.getDispatcherIP();
-        dispIP.add(dispDetails);
+        try {
+            dispDetails = service.getDispatcherIP();
+            if (dispDetails != " ") {
+                dispIP.add(dispDetails);
+            }
+        } catch (Exception e) {
+        }
+
 //		int size = service.getDirectorySize();
 //		for(int i=0; i<size;i++){
 //			ip = service.getHostName(i);

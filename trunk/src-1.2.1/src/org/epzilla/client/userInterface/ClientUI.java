@@ -386,7 +386,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             try {
                 ips = client.getServiceIp(ip, serverName, clientIp);
                 listLookup.setListData(ips);
-                if (ips.size() != 0) {
+                if (!ips.isEmpty()) {
                     btnLookup.setEnabled(false);
                     btnClear.setEnabled(true);
                 }
