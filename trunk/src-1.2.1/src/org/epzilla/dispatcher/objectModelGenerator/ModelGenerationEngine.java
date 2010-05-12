@@ -1,5 +1,6 @@
 package org.epzilla.dispatcher.objectModelGenerator;
 
+import jstm.core.TransactedList;
 import jstm.generator.*;
 import jstm.generator.Package;
 
@@ -35,9 +36,17 @@ public class ModelGenerationEngine {
         leaderIP.Fields.add(new Field(String.class, "clusterID"));
         leaderIP.Fields.add(new Field(String.class, "leaderIP"));
 
+        // contains a dynamic  trigger structure.
+        Structure clientTriggerStructure = new Structure("ClientTriggerStructure");
+        clientTriggerStructure.Fields.add(new Field(String.class, "clientId"));
+        clientTriggerStructure.Fields.add(new Field(int.class, "virtualStrata"));
+        clientTriggerStructure.Fields.add(new Field(TransactedList.class, "structure"));
+
+
         pack.Structures.add(simple);
         pack.Structures.add(client);
         pack.Structures.add(leaderIP);
+        pack.Structures.add(clientTriggerStructure);
         return model;
     }
 
