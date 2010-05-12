@@ -88,10 +88,15 @@ public class MessageDecoder {
 			Epzilla.setLeaderElectionRunning(true);
 			eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
 			//RUN LCR ALGO
-			@SuppressWarnings("unused")
 			String result=lcrAlgorithm.runAlgorithm(message);
 			//Only 3 outcomes. 1=LEADER, if UID is same. 2=NON_LEADER, if received UID is small. 3=UNKNOWN, if received UID is large.
-			
+			if(result.equalsIgnoreCase(Status.LEADER.name())){
+				//Received UID is this node's UID
+			}else if(result.equalsIgnoreCase(Status.NON_LEADER.name())){
+				//Received UID is smaller than this UID.
+			}else{
+				//Received UID is larger than this UID.
+			}
 		}
 		
 		return false;
