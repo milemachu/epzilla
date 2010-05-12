@@ -37,7 +37,7 @@ public class ModelGenerationEngine {
         leaderIP.Fields.add(new Field(String.class, "leaderIP"));
 
         // contains a dynamic  trigger structure.
-        Structure clientTriggerStructure = new Structure("ClientTriggerStructure");
+        Structure clientTriggerStructure = new Structure("TriggerDependencyStructure");
         clientTriggerStructure.Fields.add(new Field(String.class, "clientId"));
         clientTriggerStructure.Fields.add(new Field(int.class, "virtualStrata"));
         clientTriggerStructure.Fields.add(new Field(TransactedList.class, "structure"));
