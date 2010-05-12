@@ -15,7 +15,7 @@ public class EpzillaLeaderPubSub {
 	private	static Vector<IEpzillaEventListner> clientListenerList =new Vector<IEpzillaEventListner>();
 	
 	public static void initializePubSub(){
-		
+		//TODO: Need to handle this according to the component. Eg: IF node one, if Dis some thig else.
 		clientList=new HashSet<String>(NodeClientManager.getSubscribedNodeList());
 		
 		synchronized (clientList) {
@@ -24,6 +24,15 @@ public class EpzillaLeaderPubSub {
 					clientListenerList.add(new EpZillaListener(node));
 				}
 			}
+		}
+	}
+	
+	public static void resetPubSub(){
+		synchronized (clientList) {
+			clientList=null;
+		}
+		synchronized (clientListenerList) {
+			clientListenerList.removeAllElements();
 		}
 	}
 	
