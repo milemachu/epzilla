@@ -3,9 +3,11 @@ package org.epzilla.leader;
 import java.util.HashSet;
 import java.util.Vector;
 
+import org.epzilla.leader.client.DispatcherClientManager;
 import org.epzilla.leader.client.NodeClientManager;
 import org.epzilla.leader.event.listner.EpZillaListener;
 import org.epzilla.leader.event.listner.IEpzillaEventListner;
+import org.epzilla.leader.util.Component;
 import org.epzilla.leader.util.Status;
 
 public class EpzillaLeaderPubSub {
@@ -15,8 +17,11 @@ public class EpzillaLeaderPubSub {
 	private	static Vector<IEpzillaEventListner> clientListenerList =new Vector<IEpzillaEventListner>();
 	
 	public static void initializePubSub(){
-		//TODO: Need to handle this according to the component. Eg: IF node one, if Dis some thig else.
-		clientList=new HashSet<String>(NodeClientManager.getSubscribedNodeList());
+		if(Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
+			clientList=new HashSet<String>(NodeClientManager.getSubscribedNodeList());
+		}else if(Epzilla.getComponentType().equalsIgnoreCase(Component.DISPATCHER.name())){
+			clientList=new HashSet<String>(DispatcherClientManager.getDispatcherList());
+		}
 		
 		synchronized (clientList) {
 			synchronized (clientListenerList) {
