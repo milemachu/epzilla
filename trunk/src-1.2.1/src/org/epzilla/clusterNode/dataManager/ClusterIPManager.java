@@ -1,9 +1,11 @@
 package org.epzilla.clusterNode.dataManager;
 
-import jstm.core.TransactedList;
 import jstm.core.Site;
+import jstm.core.TransactedList;
 import jstm.core.Transaction;
 import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,6 +17,7 @@ import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
 public class ClusterIPManager {
     private static TransactedList<NodeIPObject> ipList = new TransactedList<NodeIPObject>();
     static int count = 0;
+    private static ArrayList<String> ipArr = new ArrayList<String>();
 
     public static void addIP(String clusterID, String ip) {
         if (getIpList() != null) {
@@ -48,6 +51,20 @@ public class ClusterIPManager {
         }
     }
 
+    //add by chathura
+    public static ArrayList<String> getNodeIpList() {
+        if (getIpList() != null) {
+            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                Site.getLocal().allowThread();
+                Transaction transaction = Site.getLocal().startTransaction();
+                for (int i = 0; i < ipList.size(); i++) {
+                    ipArr.add(ipList.get(i).getIP());
+                }
+                transaction.commit();
+            }
+        }
+        return ipArr;
+    }
 
     public static TransactedList<NodeIPObject> getIpList() {
         return ipList;

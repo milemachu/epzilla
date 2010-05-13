@@ -1,7 +1,6 @@
 package org.epzilla.clusterNode.dataManager;
 
-import org.epzilla.dispatcher.clusterHandler.EventSender;
-import org.epzilla.dispatcher.dataManager.ClusterLeaderIpListManager;
+import org.epzilla.clusterNode.nodeControler.EventSender;
 
 import java.util.ArrayList;
 import java.net.MalformedURLException;
@@ -27,12 +26,27 @@ public class EventsManager {
         }
         eventsThread = new Thread(new Runnable() {
             public void run() {
-                 // events sending logic here
+                   try {
+                       EventSender eSender = new EventSender(ipArr,clientID,eList);
+                       eSender.sendEvents();
+                } catch (MalformedURLException e) {
+                    System.err.println(e);
+                } catch (NotBoundException e) {
+                    System.err.println(e);
+                } catch (RemoteException e) {
+                    System.err.println(e);
+                }
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
     private static void loadNodesDetails() {
-          isLoaded = true;
+        ipArr = ClusterIPManager.getNodeIpList();
+        isLoaded = true;
     }
 }
