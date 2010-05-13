@@ -45,8 +45,8 @@ public class EventManager {
     }
 
     private static void loadClusterDetails() {
-        ipArr = ClusterLeaderIpListManager.getClientIpList();
-        idArr = ClusterLeaderIpListManager.getClientIdList();
+        ipArr = ClusterLeaderIpListManager.getClusterIpList();
+        idArr = ClusterLeaderIpListManager.getClusterIdList();
         isLoaded = true;
     }
 }

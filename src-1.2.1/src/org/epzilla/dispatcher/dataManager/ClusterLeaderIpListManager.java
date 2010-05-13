@@ -91,7 +91,7 @@ public class ClusterLeaderIpListManager {
         printIPList();
     }
    //add by chathura to get cluster leader ip list
-    public static ArrayList<String> getClientIpList() {
+    public static ArrayList<String> getClusterIpList() {
         if (getIpList() != null) {
             if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
                 Site.getLocal().allowThread();
@@ -105,7 +105,7 @@ public class ClusterLeaderIpListManager {
         return ipArr;
     }
     //add by chathura to get cluster id list
-    public static ArrayList<String> getClientIdList() {
+    public static ArrayList<String> getClusterIdList() {
         if (getIpList() != null) {
             if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
                 Site.getLocal().allowThread();
