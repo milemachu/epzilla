@@ -12,76 +12,19 @@ import org.epzilla.leader.util.Status;
  * 
  */
 public class LCRAlgoImpl {
-
-	
-
 	// This is the LCR logic
 	public String runAlgorithm(String message) {
-		String[] strArray = message.split(Character
-				.toString(MessageMeta.SEPARATOR));
-
+		String[] strArray = message.split(Character.toString(MessageMeta.SEPARATOR));
 		if (strArray != null && Integer.parseInt(strArray[1]) >= 1) {
 			int receivedUid = Integer.parseInt(strArray[1]);
-			if (receivedUid == Epzilla.getUID()) {
-				Epzilla.setClusterLeader(strArray[2]);
-				Epzilla.setStatus(Status.LEADER.toString());
-//					Epzilla.fireEpzillaEvent(
-//							new ProcessStatusChangedEvent());
-				Epzilla.setLeaderElectionRunning(false);
-					
-					return Status.LEADER.name();
-			
-				} else if (receivedUid < Epzilla.getUID()) {
-				// Pass the message to next node
-				// If we want we can declare this as a non leader since this is
-				// going to be declared as a non leader upon the receiving the
-				// Leader published message.
-
-//				try {
-//					// remove hardcode and get from the ip list
-//					LeaderMessageClient.forwardReceivedUidMessage(
-//							EpzillaProcess.getInstance().getIpNextToThis(),
-//							message);
-//				} catch (MalformedURLException e) {
-//
-//					e.printStackTrace();
-//				} catch (RemoteException e) {
-//
-//					e.printStackTrace();
-//				} catch (UnknownHostException e) {
-//
-//					e.printStackTrace();
-//				} catch (NotBoundException e) {
-//
-//					e.printStackTrace();
-//				}
+			if (receivedUid == Epzilla.getUID()) {			
+					return Status.LEADER.name();			
+			} else if (receivedUid < Epzilla.getUID()) {				
 					return Status.NON_LEADER.name();
-			} else if (receivedUid > Epzilla.getUID()) {
-				// No Forwarding of received message.Instead start sending the
-				// UID of this
-				// Remove the hardcode and get it from the list
-//				try {
-//					LeaderMessageClient.sendUidMessage(EpzillaProcess
-//							.getInstance().getIpNextToThis());
-//				} catch (MalformedURLException e) {
-//
-//					e.printStackTrace();
-//				} catch (RemoteException e) {
-//
-//					e.printStackTrace();
-//				} catch (UnknownHostException e) {
-//
-//					e.printStackTrace();
-//				} catch (NotBoundException e) {
-//
-//					e.printStackTrace();
-//				}
-				
+			} else if (receivedUid > Epzilla.getUID()) {		
 				return Status.UNKNOWN.name();
 			}
-		}
-	
-return null;
-	
+		}	
+		return null;	
 	}
 }

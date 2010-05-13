@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import org.epzilla.leader.Epzilla;
+import org.epzilla.leader.EpzillaLeaderPubSub;
 import org.epzilla.leader.LCRAlgoImpl;
 import org.epzilla.leader.client.DispatcherClientManager;
 import org.epzilla.leader.client.NodeClientManager;
@@ -45,31 +46,16 @@ public class MessageDecoder {
 					Epzilla.setStatus(Status.NON_LEADER.name());
 					Epzilla.setLeaderElectionRunning(false);
 					eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
-					
-					String componentType=Epzilla.getComponentType();
-					String nextIp = null;
-					if(componentType.equalsIgnoreCase(Component.DISPATCHER.name())){
-						//get next dispatcher
-						nextIp=DispatcherClientManager.getNextDispatcher();
-					}else if(componentType.equalsIgnoreCase(Component.NODE.name())){
-						//get next node
-						nextIp=NodeClientManager.getNextNode();
-					}else{
-						//get next wahtever
-					}
-					
+										
 					//Start Threading for sending data
-					final String nextHop=nextIp;
-					Thread forwarder=new Thread(new Runnable() {
-												
+					Thread forwarder=new Thread(new Runnable() {												
 						public void run() {
-							RmiMessageClient.forwardLeaderElectedMessage(nextHop, message);
+							RmiMessageClient.forwardLeaderElectedMessage(getNextHopToCommunicate(), message);
 						}
 					});					
 					forwarder.start();
 					
-					Thread executor=new Thread(new Runnable() {
-												
+					Thread executor=new Thread(new Runnable() {												
 						public void run() {
 							RmiMessageClient.registerListenerWithLeader(Epzilla.getClusterLeader(), new EpZillaListener());
 						}
@@ -92,13 +78,52 @@ public class MessageDecoder {
 			//Only 3 outcomes. 1=LEADER, if UID is same. 2=NON_LEADER, if received UID is small. 3=UNKNOWN, if received UID is large.
 			if(result.equalsIgnoreCase(Status.LEADER.name())){
 				//Received UID is this node's UID
+				Epzilla.setClusterLeader(strItems[1]);
+				Epzilla.setStatus(Status.LEADER.name());
+				Epzilla.setLeaderElectionRunning(false);
+				eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
+				EpzillaLeaderPubSub.initializePubSub();
+				//Starting Sender Thread
+				Thread sender=new Thread(new Runnable() {
+					public void run() {
+						RmiMessageClient.sendLeaderElectedMessage(getNextHopToCommunicate());
+					}
+				});
+				sender.start();
 			}else if(result.equalsIgnoreCase(Status.NON_LEADER.name())){
 				//Received UID is smaller than this UID.
+				Thread forwarder=new Thread(new Runnable() {
+					public void run() {
+						RmiMessageClient.forwardReceivedUidMessage(getNextHopToCommunicate(), message);
+					}
+				});
+				forwarder.start();
 			}else{
 				//Received UID is larger than this UID.
+				Thread sender=new Thread(new Runnable() {
+					public void run() {
+						RmiMessageClient.sendUidMessage(getNextHopToCommunicate());
+					}
+				});
+				sender.start();
 			}
-		}
+		}//Go from here
 		
 		return false;
+	}
+	
+	private String getNextHopToCommunicate(){
+		String componentType=Epzilla.getComponentType();
+		String nextIp = null;
+		if(componentType.equalsIgnoreCase(Component.DISPATCHER.name())){
+			//get next dispatcher
+			nextIp=DispatcherClientManager.getNextDispatcher();
+		}else if(componentType.equalsIgnoreCase(Component.NODE.name())){
+			//get next node
+			nextIp=NodeClientManager.getNextNode();
+		}else{
+			//get next wahtever
+		}		
+		return nextIp;
 	}
 }

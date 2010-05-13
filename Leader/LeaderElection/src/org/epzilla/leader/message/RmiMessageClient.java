@@ -40,13 +40,18 @@ public class RmiMessageClient {
 	 * @throws NotBoundException
 	 * @throws UnknownHostException
 	 */
-	public static void sendLeaderElectedMessage(String remoteIp)
-			throws MalformedURLException, RemoteException, NotBoundException,
-			UnknownHostException {
-		LeaderInterface li = getLeaderInterface(remoteIp);
-
-		li.receiveMessage(MessageGenerator.getLeaderPublishMessage());
-
+	public static void sendLeaderElectedMessage(String remoteIp){
+		LeaderInterface li;
+		try {
+			li = getLeaderInterface(remoteIp);
+			li.receiveMessage(MessageGenerator.getLeaderPublishMessage());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -86,15 +91,20 @@ public class RmiMessageClient {
 	 * @throws UnknownHostException
 	 */
 	public static void forwardReceivedUidMessage(String remoteIp,
-			String receivedMessage) throws MalformedURLException,
-			RemoteException, NotBoundException, UnknownHostException {
+			String receivedMessage){
 
-		LeaderInterface li = getLeaderInterface(remoteIp);
-
-		li.receiveMessage(receivedMessage);
-
+		LeaderInterface li;
+		try {
+			li = getLeaderInterface(remoteIp);
+			li.receiveMessage(receivedMessage);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			e.printStackTrace();
+		}
 		System.out.println("The UID of lower order forwarded to:" + remoteIp);
-
 	}
 
 	/**
@@ -107,13 +117,18 @@ public class RmiMessageClient {
 	 * @throws NotBoundException
 	 * @throws UnknownHostException
 	 */
-	public static void sendUidMessage(String remoteIp)
-			throws MalformedURLException, RemoteException, NotBoundException,
-			UnknownHostException {
-		LeaderInterface li = getLeaderInterface(remoteIp);
-
-		li.receiveMessage(MessageGenerator.getUidMessage());
-
+	public static void sendUidMessage(String remoteIp){
+		LeaderInterface li;
+		try {
+			li = getLeaderInterface(remoteIp);
+			li.receiveMessage(MessageGenerator.getUidMessage());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			e.printStackTrace();
+		}
 		System.out
 				.println("Recived UID is higher or same order. This UID sent to:"
 						+ remoteIp);
