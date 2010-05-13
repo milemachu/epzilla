@@ -18,28 +18,30 @@ import java.util.ArrayList;
 public class EventSender {
     private static ClusterInterface clusterObj;
     private static String response = null;
-    private static String nodeIP, clientID;
+    private static String clientID;
     private static ArrayList<String> events;
+    static ArrayList<String> serverIp;
 
     public EventSender() {
     }
 
-    public EventSender(String ip, String clientID, ArrayList<String> eventStream) {
-        this.nodeIP = ip;
+    public EventSender(ArrayList<String> serverIp, String clientID, ArrayList<String> eventStream) {
+        this.serverIp = serverIp;
         this.clientID = clientID;
         this.events = eventStream;
 
     }
 
     public static void sendEvents() throws RemoteException, MalformedURLException, NotBoundException {
-        initNode(nodeIP, "CLUSTER_NODE");
+        for (int i = 0; i < serverIp.size(); i++) {
+            initNode(serverIp.get(i), "CLUSTER_NODE");
+            response = clusterObj.addEventStream(events, clientID);
 
-        response = clusterObj.addEventStream(events, clientID);
-
-        if (response != null) {
-            System.out.println("Events added to the Node " + nodeIP);
-        } else {
-            System.err.println("Events adding failure to the Node" + nodeIP);
+            if (response != null) {
+                System.out.println("Events added to the Node " + serverIp.get(i));
+            } else {
+                System.err.println("Events adding failure to the Node" + serverIp.get(i));
+            }
         }
     }
 
