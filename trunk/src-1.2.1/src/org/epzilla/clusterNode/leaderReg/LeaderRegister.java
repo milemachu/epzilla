@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class LeaderRegister {
     private static ClusterSettingsReader reader = new ClusterSettingsReader();
     private static String clusterID = "";
-    private static String serviceName = "CLUSTER_LEADER";
+    private static String serviceName = "CLUSTER_NODE";
 
     public static void bindClusterNode(String serviceName) throws UnknownHostException, MalformedURLException, RemoteException {
         if (System.getSecurityManager() == null) {
@@ -34,7 +34,7 @@ public class LeaderRegister {
     }
 
     private static void register() throws RemoteException, MalformedURLException, NotBoundException, UnknownHostException {
-        String url = "rmi://" + "127.0.0.1" + "/" + "Dispatcher127000000001";
+        String url = "rmi://" + "10.8.108.175" + "/" + "Dispatcher100008108175";
         DispInterface service;
         service = (DispInterface) Naming.lookup(url);
         InetAddress inetAddress = InetAddress.getLocalHost();

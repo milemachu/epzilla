@@ -1,9 +1,14 @@
 package org.epzilla.nameserver;
 
+import org.epzilla.dispatcher.xml.ServerSettingsReader;
 import org.epzilla.nameserver.loadbalance.RBLoadBalancer;
+import org.epzilla.nameserver.xmlLog.XmlWriter;
+import org.epzilla.nameserver.xmlLog.XmlReader;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -39,6 +44,7 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
             dispatcherPort.add(dirsize, portNumber);
             dirsize++;
             RBLoadBalancer.insert(ipAdrs);
+            XmlWriter.writeToFile(name, ipAdrs, portNumber);
             return 1;
         } else
             return 0;
@@ -47,7 +53,7 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
     public int getDirectorySize() throws RemoteException {
         return dirsize;
     }
-   
+
     public String getDispatcherIP() throws RemoteException {
         String dispIP = RBLoadBalancer.getIPAddress();
         int dispID = searchDisp(dispIP);
@@ -77,6 +83,20 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
             value += temp;
         }
         return value;
+    }
+
+    private void loadDispDetails() {
+        try {
+            Vector<String[]> data = XmlReader.readFile("./src/org/epzilla/nameserver/xmlLog/dispatcherData.xml");
+          for(int i=0;i<data.size();i++){
+              String[] ar = data.get(i);
+              dispatcherName.add(ar[0]);
+              dispatcherIPAdrs.add(ar[1]);
+              dispatcherPort.add(Integer.valueOf(ar[2]));
+          }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void updateIncLoad(String ip) throws RemoteException {

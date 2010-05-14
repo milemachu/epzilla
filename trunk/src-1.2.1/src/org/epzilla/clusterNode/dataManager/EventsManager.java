@@ -3,6 +3,7 @@ package org.epzilla.clusterNode.dataManager;
 import org.epzilla.clusterNode.nodeControler.EventSender;
 
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -19,6 +20,9 @@ public class EventsManager {
     private static ArrayList<String> idArr = new ArrayList<String>();
     private static boolean isLoaded = false;
     private static Thread eventsThread;
+    private ConcurrentLinkedQueue eventQueue;
+
+//    public static
 
     public static void eventsToNodes(final ArrayList<String> eList, final String clientID) {
         if (!isLoaded) {
