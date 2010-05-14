@@ -20,6 +20,7 @@ public class ModelGenerationEngine {
 
         simple.Fields.add(new Field(String.class, "clientID"));
         simple.Fields.add(new Field(String.class, "clusterID"));
+        simple.Fields.add(new Field(String.class, "virtualClusterID"));
         simple.Fields.add(new Field(String.class, "trigger"));
         simple.Fields.add(new Field(String.class, "stratumId"));
 
@@ -42,11 +43,14 @@ public class ModelGenerationEngine {
         clientTriggerStructure.Fields.add(new Field(int.class, "virtualStrata"));
         clientTriggerStructure.Fields.add(new Field(TransactedList.class, "structure"));
 
+        Structure marker = new Structure("ShareMarker");
+        marker.Fields.add(new Field(String.class, "id"));
 
         pack.Structures.add(simple);
         pack.Structures.add(client);
         pack.Structures.add(leaderIP);
         pack.Structures.add(clientTriggerStructure);
+        pack.Structures.add(marker);
         return model;
     }
 
