@@ -92,7 +92,6 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
                 dispatcherPort.add(Integer.valueOf(ar[2]));
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
