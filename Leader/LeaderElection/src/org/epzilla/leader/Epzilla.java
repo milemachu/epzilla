@@ -2,6 +2,8 @@ package org.epzilla.leader;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Timer;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.epzilla.leader.util.Status;
 
@@ -13,7 +15,7 @@ public class Epzilla {
 	private static String defaultLeader=null; //At init
 	private static boolean isLeaderElectionRunning=false; //While running
 	private static String componentType=null; //At init
-//	private static Vector<E> need a list of timer tasks
+	private static ConcurrentLinkedQueue<Timer> timerQueue=new ConcurrentLinkedQueue<Timer>(); //While running
 	
 	public static long getUID() {
 		return UID;
@@ -114,5 +116,13 @@ public class Epzilla {
 
 	public static String getComponentType() {
 		return componentType;
+	}
+	
+	public static boolean addTimer(Timer timer){
+		return timerQueue.add(timer);		
+	}
+	
+	public static boolean removeTimer(Timer timer) {
+		return timerQueue.remove(timer);
 	}
 }
