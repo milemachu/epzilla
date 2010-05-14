@@ -20,10 +20,8 @@ public class NameServiceHandler extends UnicastRemoteObject {
             Thread.sleep(1000);
         }
         catch (IOException ex) {
-            //exception handling logic here
         }
         catch (InterruptedException exc) {
-            //exception handling logic here
         }
     }
 
