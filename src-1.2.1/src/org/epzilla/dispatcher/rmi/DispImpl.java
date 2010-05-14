@@ -19,6 +19,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     private Vector<ClientCallbackInterface> clientList = new Vector<ClientCallbackInterface>();
     private HashMap clientMap = new HashMap<String, String>();
     private ArrayList<String> arr = new ArrayList<String>();
+    private ArrayList<String> recoverTriggers = new ArrayList<String>();
     private String clientIP;
 
 
@@ -44,7 +45,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         try {
 //            for (String aTList : tList) {
 //             TriggerManager.addTriggerToList(aTList,clientID);
-            // todo remove if problematic.
+//             todo remove if problematic.
             // add to stm all at once.
 
             TriggerManager.addAllTriggersToList(tList, clientID);
@@ -93,7 +94,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
     @Override
     public void replayLogs(String clusterID, String leaderIP) throws RemoteException {
-        ReadLog.readLog(clusterID);
+        recoverTriggers = (ArrayList<String>) ReadLog.readLog(clusterID);
     }
 
     @Override

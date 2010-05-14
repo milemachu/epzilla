@@ -1,10 +1,11 @@
 package org.epzilla.dispatcher.logs;
 
-import org.epzilla.dispatcher.xml.*;
+import org.epzilla.dispatcher.xml.LogFileSettingReader;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /*
 * FileScanner class takes the Cluster ID and recover them
@@ -17,12 +18,14 @@ public class ReadLog {
     private static File file;
     private static String reqstr = "CID2";
     private static boolean isLoaded = false;
+    private static List<String> arr = null;
 
-    public static void readLog(String clusterID) {
+    public static List<String> readLog(String clusterID) {
         if (isLoaded == false) {
             loadSettings();
         }
-        FileScanner.readFile(file, clusterID);
+        arr = FileScanner.readFile(file, clusterID);
+        return arr;
     }
 
     private static void loadSettings() {
