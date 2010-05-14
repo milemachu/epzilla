@@ -84,6 +84,9 @@ public class MessageDecoder {
 				Epzilla.setStatus(Status.LEADER.name());
 				Epzilla.setLeaderElectionRunning(false);
 				eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
+				if(Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
+					NodeClientManager.setClusterLeader(strItems[1]);
+				}
 				EpzillaLeaderPubSub.initializePubSub();
 				//Starting Sender Thread
 				Thread sender=new Thread(new Runnable() {
