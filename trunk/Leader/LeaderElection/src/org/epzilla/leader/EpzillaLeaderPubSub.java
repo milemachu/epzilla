@@ -53,10 +53,14 @@ public class EpzillaLeaderPubSub {
 				clientListenerList.remove(listener);
 				return true;
 			}			
-		}
-		
-		return false;
-		
+		}		
+		return false;		
+	}
+	
+	public static HashSet<IEpzillaEventListner> getClientListenerList() {
+		synchronized (clientListenerList) {
+			return clientListenerList;
+		}		
 	}
 
 }
