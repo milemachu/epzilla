@@ -8,9 +8,11 @@ import org.epzilla.leader.EpzillaLeaderPubSub;
 import org.epzilla.leader.LCRAlgoImpl;
 import org.epzilla.leader.client.DispatcherClientManager;
 import org.epzilla.leader.client.NodeClientManager;
+import org.epzilla.leader.event.PingReceivedEvent;
 import org.epzilla.leader.event.ProcessStatusChangedEvent;
 import org.epzilla.leader.event.PulseIntervalTimeoutEvent;
 import org.epzilla.leader.event.PulseReceivedEvent;
+import org.epzilla.leader.event.RequestRejectedEvent;
 import org.epzilla.leader.event.listner.EpZillaListener;
 import org.epzilla.leader.util.Component;
 import org.epzilla.leader.util.Status;
@@ -107,7 +109,16 @@ public class MessageDecoder {
 				});
 				sender.start();
 			}
-		}//Go from here
+		}else if(Integer.parseInt(strItems[0])==MessageMeta.PULSE){
+			System.out.println("Pulse received.");
+			eventHandler.fireEpzillaEvent(new PulseReceivedEvent(strItems[1]));
+		}else if(Integer.parseInt(strItems[0])==MessageMeta.PING_LEADER){
+			System.out.println("Ping received.");
+			eventHandler.fireEpzillaEvent(new PingReceivedEvent(strItems[1]));
+		}else if(Integer.parseInt(strItems[0])==MessageMeta.REQUEST_NOT_ACCEPTED){
+			System.out.println("Request Not Accepted received.");
+			eventHandler.fireEpzillaEvent(new RequestRejectedEvent(Integer.parseInt(strItems[2])));
+		}
 		
 		return false;
 	}
