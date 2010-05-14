@@ -40,7 +40,7 @@ public class FileScanner implements Runnable {
         }
     }
 
-    public static void readFile(File file, String strReq) {
+    public static List<String> readFile(File file, String strReq) {
         long start = System.currentTimeMillis();
         try {
             scanner = new Scanner(file);
@@ -62,8 +62,6 @@ public class FileScanner implements Runnable {
                                 break;
                             } else
                                 recoverArr.add(st2);
-
-
                         }
                     }
                 }
@@ -72,10 +70,10 @@ public class FileScanner implements Runnable {
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         }
-//        RecoveredTriggers.triggerList(recoverArr);
         printArray(recoverArr);
         long end = System.currentTimeMillis();
         System.out.println("Time: " + (end - start));
+        return recoverArr;
     }
 
     public static void printArray(List<String> array) {

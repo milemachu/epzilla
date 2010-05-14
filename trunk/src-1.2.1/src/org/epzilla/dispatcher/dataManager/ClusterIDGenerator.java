@@ -20,7 +20,7 @@ public class ClusterIDGenerator {
             clusterID = (String) idMap.get(ip);
         } else {
             cID = generateID();
-            clusterID = "C" + cID;
+            clusterID = "CID" + cID;
             idMap.put(ip, clusterID);
         }
         return clusterID;
