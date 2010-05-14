@@ -1,6 +1,7 @@
 package org.epzilla.clusterNode.rmi;
 
 import org.epzilla.clusterNode.dataManager.TriggerManager;
+import org.epzilla.clusterNode.dataManager.EventsManager;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -37,7 +38,10 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
     public String acceptEventStream(ArrayList<String> eList, String clusterID, String clientID) throws RemoteException {
         try {
 
-            //event accepting logic here
+            EventsManager em = new EventsManager(clientID);
+            for(int i=0;i<eList.size();i++){
+                EventsManager.addEvents(eList.get(i));
+            }
 
             return "OK";
         } catch (Exception e) {
