@@ -21,7 +21,7 @@ import java.util.Map.Entry;
 public class XmlWriter {
 
 	public static void writeToFile(String name,String ip, int port){
-		//Write to the accounts.xml here
+
 		try {
 			BufferedWriter writer=new BufferedWriter(new FileWriter("./src/org/epzilla/nameserver/xmlLog/dispatcherData.xml"));
 
