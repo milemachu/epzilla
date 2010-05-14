@@ -1,12 +1,9 @@
 package org.epzilla.nameserver.xmlLog;
 
-import org.epzilla.dispatcher.xml.*;
-import org.epzilla.dispatcher.xml.XMLElement;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -18,13 +15,13 @@ import java.util.Vector;
  */
 public class XmlReader {
     public static Vector<String[]> readFile(String filename) throws IOException {
-          BufferedReader br = new BufferedReader(new FileReader(filename));
+        BufferedReader br = new BufferedReader(new FileReader(filename));
         String line = null;
         StringBuilder sb = new StringBuilder("");
         while ((line = br.readLine()) != null) {
             sb.append(line);
         }
-        org.epzilla.dispatcher.xml.XMLElement xe = new XMLElement();
+        XMLElement xe = new XMLElement();
         xe.parseString(sb.toString());
 
         Vector<String[]> lis = new Vector<String[]>();

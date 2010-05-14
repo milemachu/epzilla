@@ -1,18 +1,15 @@
 package org.epzilla.nameserver;
 
-import org.epzilla.dispatcher.xml.ServerSettingsReader;
 import org.epzilla.nameserver.loadbalance.RBLoadBalancer;
-import org.epzilla.nameserver.xmlLog.XmlWriter;
 import org.epzilla.nameserver.xmlLog.XmlReader;
+import org.epzilla.nameserver.xmlLog.XmlWriter;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Vector;
 
-@SuppressWarnings({"RedundantStringToString"})
 public class NameServiceImpl extends UnicastRemoteObject implements NameService {
 
     private int dirsize = 0;
@@ -88,12 +85,12 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
     private void loadDispDetails() {
         try {
             Vector<String[]> data = XmlReader.readFile("./src/org/epzilla/nameserver/xmlLog/dispatcherData.xml");
-          for(int i=0;i<data.size();i++){
-              String[] ar = data.get(i);
-              dispatcherName.add(ar[0]);
-              dispatcherIPAdrs.add(ar[1]);
-              dispatcherPort.add(Integer.valueOf(ar[2]));
-          }
+            for (int i = 0; i < data.size(); i++) {
+                String[] ar = data.get(i);
+                dispatcherName.add(ar[0]);
+                dispatcherIPAdrs.add(ar[1]);
+                dispatcherPort.add(Integer.valueOf(ar[2]));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
