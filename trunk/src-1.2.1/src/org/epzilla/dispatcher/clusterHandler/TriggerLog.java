@@ -30,7 +30,6 @@ public class TriggerLog {
                 try {
                     WriteLog.writeInit(triggers,clusterID);
                 } catch (IOException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 timer.cancel();
             }
