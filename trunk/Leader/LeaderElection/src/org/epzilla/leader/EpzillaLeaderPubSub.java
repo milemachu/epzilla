@@ -1,7 +1,6 @@
 package org.epzilla.leader;
 
 import java.util.HashSet;
-import java.util.Vector;
 
 import org.epzilla.leader.client.DispatcherClientManager;
 import org.epzilla.leader.client.NodeClientManager;
@@ -14,7 +13,7 @@ public class EpzillaLeaderPubSub {
 	
 	private static HashSet<String> clientList;
 	
-	private	static Vector<IEpzillaEventListner> clientListenerList =new Vector<IEpzillaEventListner>();
+	private	static HashSet<IEpzillaEventListner> clientListenerList =new HashSet<IEpzillaEventListner>();
 	
 	public static void initializePubSub(){
 		if(Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
@@ -37,7 +36,7 @@ public class EpzillaLeaderPubSub {
 			clientList=null;
 		}
 		synchronized (clientListenerList) {
-			clientListenerList.removeAllElements();
+			clientListenerList.clear();
 		}
 	}
 	

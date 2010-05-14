@@ -118,11 +118,15 @@ public class Epzilla {
 		return componentType;
 	}
 	
-	public static boolean addTimer(Timer timer){
+	public static boolean addToTimerQueue(Timer timer){
 		return timerQueue.add(timer);		
 	}
 	
-	public static boolean removeTimer(Timer timer) {
+	public static boolean removeFromTimerQueue(Timer timer) {
 		return timerQueue.remove(timer);
+	}
+	
+	public static void resetTimerQueue(){
+		timerQueue.clear();
 	}
 }
