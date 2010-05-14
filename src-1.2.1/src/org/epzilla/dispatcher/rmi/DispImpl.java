@@ -3,6 +3,7 @@ package org.epzilla.dispatcher.rmi;
 import org.epzilla.client.rmi.ClientCallbackInterface;
 import org.epzilla.dispatcher.dataManager.*;
 import org.epzilla.dispatcher.logs.ReadLog;
+import org.epzilla.dispatcher.notificationSystem.ClientNotifier;
 
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
@@ -20,16 +21,16 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     private ArrayList<String> arr = new ArrayList<String>();
     private String clientIP;
 
-  
+
     protected DispImpl() throws RemoteException {
-         arr.add("Dispatcher Received the Trigger Stream");
+        arr.add("Dispatcher Received the Trigger Stream");
     }
 
     @Override
     public String uploadEventsToDispatcher(ArrayList<String> eList, String clientID, int eventSeqID) throws RemoteException {
         try {
             EventsCounter.setInEventCount(eList.size());
-            EventManager.sendEventsToClusters(eList,clientID);
+//            EventManager.sendEventsToClusters(eList, clientID);
             return "OK";
         } catch (Exception e) {
             System.err.println("FileServer exception");
@@ -45,11 +46,11 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 //             TriggerManager.addTriggerToList(aTList,clientID);
             // todo remove if problematic.
             // add to stm all at once.
-           
-                TriggerManager.addAllTriggersToList(tList, clientID);
+
+            TriggerManager.addAllTriggersToList(tList, clientID);
 //            }
             toReturn = "OK";
-            ClientNotifier.acceptNotifications(getClientIP(clientID),arr);
+            ClientNotifier.acceptNotifications(getClientIP(clientID), arr);
 
         } catch (Exception e) {
             System.err.println("FileServer exception: " + e.getMessage());
@@ -65,8 +66,8 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
     @Override
     public void acceptNotifications(ArrayList<String> notification, String clientID) throws RemoteException {
-          clientIP = getClientIP(clientID);
-        
+        clientIP = getClientIP(clientID);
+
     }
 
     @Override
@@ -113,8 +114,9 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     }
 
     @Override
-    public void acceptLeaderIp(String ip, String clusterID) throws RemoteException {
+    public void acceptLeaderIp(String ip) throws RemoteException {
         try {
+            String clusterID = ClusterIDGenerator.getClusterID(ip);
             ClusterLeaderIpListManager.addIP(clusterID, ip);
         } catch (Exception e) {
             e.printStackTrace();
