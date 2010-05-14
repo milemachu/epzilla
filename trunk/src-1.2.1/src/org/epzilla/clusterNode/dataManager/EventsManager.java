@@ -3,10 +3,13 @@ package org.epzilla.clusterNode.dataManager;
 import org.epzilla.clusterNode.nodeControler.EventSender;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentMap;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.nio.Buffer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,22 +20,33 @@ import java.rmi.RemoteException;
  */
 public class EventsManager {
     private static ArrayList<String> ipArr = new ArrayList<String>();
-    private static ArrayList<String> idArr = new ArrayList<String>();
+    private static ArrayList<String> eList = new ArrayList<String>();
     private static boolean isLoaded = false;
     private static Thread eventsThread;
-    private ConcurrentLinkedQueue eventQueue;
+    private static String clientId;
+    private static ConcurrentLinkedQueue<String> eventQueue;
 
-//    public static
+    public EventsManager(String id){
+        this.clientId = id;
+        eventQueue = new ConcurrentLinkedQueue<String>();
+    }
 
-    public static void eventsToNodes(final ArrayList<String> eList, final String clientID) {
+    public static void eventsToNodes() {
         if (!isLoaded) {
             loadNodesDetails();
         }
         eventsThread = new Thread(new Runnable() {
             public void run() {
+                String event;
                    try {
-                       EventSender eSender = new EventSender(ipArr,clientID,eList);
+                       for(int i=0;i<20;i++){
+                           event = eventQueue.poll();
+                           eList.add(event);
+                           removeEvents(event);
+                       }
+                       EventSender eSender = new EventSender(ipArr,clientId,eList);
                        eSender.sendEvents();
+
                 } catch (MalformedURLException e) {
                     System.err.println(e);
                 } catch (NotBoundException e) {
@@ -49,6 +63,14 @@ public class EventsManager {
         });
     }
 
+    public static void addEvents(String events){
+        eventQueue.add(events);
+    
+    }
+    public static void removeEvents(String events){
+        eventQueue.remove(events);
+
+    }
     private static void loadNodesDetails() {
         ipArr = ClusterIPManager.getNodeIpList();
         isLoaded = true;
