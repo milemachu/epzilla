@@ -27,6 +27,8 @@ public class NodeClientManager {
 		try {
 			if(InetAddress.getLocalHost().getHostAddress().equalsIgnoreCase(clusterLeader))
 				NodeDiscoveryManager.setLeader(true);
+			else
+				NodeDiscoveryManager.setLeader(false);
 			NodeDiscoveryManager.setClusterLeader(clusterLeader);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
