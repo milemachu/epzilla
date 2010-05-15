@@ -16,6 +16,7 @@ import org.epzilla.clusterNode.loadAnalyzer.CpuMemAnalyzer;
 public class NodeController {
     private static int port = 4444;
     private static String leaderIP = "localhost";
+    private static String thisIP = "localhost";
     private static boolean isLeader = true;
 
     public static int getPort() {
@@ -40,6 +41,8 @@ public class NodeController {
         if (isLeader) {
             NodeAsLeader.startServer();
             NodeAsLeader.loadTriggers();
+            NodeAsLeader.loadIPList();
+            NodeAsLeader.loadPerformanceInfoList();
         } else {
             NodeAsNonLeader.startClient();
         }
@@ -58,5 +61,13 @@ public class NodeController {
 
     public static void setLeader(boolean leader) {
         isLeader = leader;
+    }
+
+    public static String getThisIP() {
+        return thisIP;
+    }
+
+    public static void setThisIP(String thisIP) {
+        NodeController.thisIP = thisIP;
     }
 }

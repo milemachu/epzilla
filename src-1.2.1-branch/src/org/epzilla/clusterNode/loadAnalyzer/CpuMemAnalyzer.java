@@ -6,6 +6,8 @@ import com.jezhumble.javasysmon.CpuTimes;
 import java.util.TimerTask;
 
 import org.epzilla.clusterNode.userInterface.NodeUIController;
+import org.epzilla.clusterNode.dataManager.PerformanceInfoManager;
+import org.epzilla.clusterNode.NodeController;
 
 /**
  * Created by IntelliJ IDEA.
@@ -44,7 +46,10 @@ public class CpuMemAnalyzer {
                     for (int i = 0; i < usageCache.length; i++) {
                         sum = sum + (int) (usageCache[i] * 100);
                     }
-                    NodeUIController.appendTextToPerformanceInfo("CPU Usage Average :" + sum / usageCache.length + " %");
+                    String temp = String.valueOf(sum / usageCache.length);
+                    long mem = (mon.physical().getTotalBytes() - mon.physical().getFreeBytes());
+                    NodeUIController.appendTextToPerformanceInfo("CPU Usage Average :" + temp + " %");
+                    PerformanceInfoManager.addPerformanceInfo(NodeController.getThisIP(), temp, String.valueOf((mem*100 / mon.physical().getTotalBytes())),"0");
                 }
                 NodeUIController.appendTextToPerformanceInfo("CPU Usage :" + val * 100 + " %");
                 long mem = (mon.physical().getTotalBytes() - mon.physical().getFreeBytes());

@@ -10,9 +10,9 @@ import jstm.core.*;
 
 public final class ClusterObjectModel extends jstm.core.ObjectModel {
 
-    public static final String UID = "V6WWr2v67JlITv85gX+8Cw";
+    public static final String UID = "Th6IIoiYIODUOFwhHFoIHQ";
 
-    public static final String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ObjectModelDefinition xsi:noNamespaceSchemaLocation=\"http://www.xstm.net/schemas/xstm-0.3.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Name>ClusterObjectModel</Name><RootPackage name=\"clusterInfoObjectModel\"><Packages/><Structures><Structure name=\"TriggerObject\"><Fields><Field transient=\"false\" name=\"clientID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"triggerID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"trigger\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure><Structure name=\"NodeIPObject\"><Fields><Field transient=\"false\" name=\"nodeID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"clusterID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"IP\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure></Structures></RootPackage></ObjectModelDefinition>";
+    public static final String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ObjectModelDefinition xsi:noNamespaceSchemaLocation=\"http://www.xstm.net/schemas/xstm-0.3.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Name>ClusterObjectModel</Name><RootPackage name=\"clusterInfoObjectModel\"><Packages/><Structures><Structure name=\"TriggerObject\"><Fields><Field transient=\"false\" name=\"clientID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"triggerID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"trigger\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure><Structure name=\"NodeIPObject\"><Fields><Field transient=\"false\" name=\"nodeID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"clusterID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"IP\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure><Structure name=\"PerformanceInfoObject\"><Fields><Field transient=\"false\" name=\"nodeIP\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"CPUusageAverage\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"MemUsageAverage\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"NetworkUsageAverage\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure></Structures></RootPackage></ObjectModelDefinition>";
 
     public ClusterObjectModel() {
     }
@@ -29,7 +29,7 @@ public final class ClusterObjectModel extends jstm.core.ObjectModel {
 
     @Override
     public int getClassCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -39,6 +39,8 @@ public final class ClusterObjectModel extends jstm.core.ObjectModel {
                 return new TriggerObject();
             case 1:
                 return new NodeIPObject();
+            case 2:
+                return new PerformanceInfoObject();
         }
 
         throw new IllegalArgumentException("Unknown class id: " + classId);

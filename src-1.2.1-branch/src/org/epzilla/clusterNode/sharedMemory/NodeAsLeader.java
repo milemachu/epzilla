@@ -7,10 +7,12 @@ import jstm.transports.clientserver.socket.SocketClient;
 import org.epzilla.clusterNode.clusterInfoObjectModel.ClusterObjectModel;
 import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
+import org.epzilla.clusterNode.clusterInfoObjectModel.PerformanceInfoObject;
 import org.epzilla.clusterNode.NodeController;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
 import org.epzilla.clusterNode.dataManager.ClusterIPManager;
+import org.epzilla.clusterNode.dataManager.PerformanceInfoManager;
 
 
 import java.io.IOException;
@@ -66,6 +68,7 @@ public class NodeAsLeader {
     }
 
     public static void loadTriggers() {
+        NodeUIController.appendTextToStatus("Adding TransactedList for Triggers...");
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
             Site.getLocal().allowThread();
             Transaction transaction = Site.getLocal().startTransaction();
@@ -85,7 +88,7 @@ public class NodeAsLeader {
     }
 
     public static void loadIPList() {
-
+       NodeUIController.appendTextToStatus("Adding TransactedList for Node IPs...");
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
             Site.getLocal().allowThread();
             Transaction transaction = Site.getLocal().startTransaction();
@@ -102,6 +105,26 @@ public class NodeAsLeader {
             }
         });
     }
+
+    public static void loadPerformanceInfoList() {
+       NodeUIController.appendTextToStatus("Adding TransactedList for Load Balance Info...");
+        if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+            Site.getLocal().allowThread();
+            Transaction transaction = Site.getLocal().startTransaction();
+            PerformanceInfoObject obj = new PerformanceInfoObject();
+            obj.setnodeIP("PPPP");
+            PerformanceInfoManager.getPerformanceList().add(obj);
+            share.add(PerformanceInfoManager.getPerformanceList());
+            transaction.commit();
+        }
+        PerformanceInfoManager.getPerformanceList().addListener(new FieldListener() {
+            public void onChange(Transaction transaction, int i) {
+                PerformanceInfoObject obj = PerformanceInfoManager.getPerformanceList().get(i);
+              NodeUIController.appendTextToStatus("Load Balancing Info Recieved:: IP:"+ obj.getnodeIP()+" CPU Usage:"+obj.getCPUusageAverage()+ "% Memory Usage:"+obj.getMemUsageAverage()+"%");
+            }
+        });
+    }
+
 
     public static void checkServerStatus() {
         final java.util.Timer timer1 = new java.util.Timer();
