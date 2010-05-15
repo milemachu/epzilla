@@ -40,6 +40,19 @@ public class NodeUIController {
         instance.getJTextAreaIPList().append(text + "\n");
     }
 
+    public static void appendTextToMachineInfo(String text) {
+        instance.getjTextAreaMachineInfo().append(text + "\n");
+    }
+
+      public static void appendTextToPerformanceInfo(String text) {
+        instance.getjTextAreaPerformance().append(text + "\n");
+    }
+
+    public static void clearPerformanceInfo()
+    {
+        instance.getjTextAreaPerformance().setText("");
+    }
+
     public static void setLeaderStatus(String text)
     {
         instance.getJTextAreaLeader().setText(text);
