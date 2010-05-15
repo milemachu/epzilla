@@ -28,6 +28,14 @@ public class ReadLog {
         return arr;
     }
 
+    public static boolean readLog() {
+        if (isLoaded == false) {
+            loadSettings();
+        }
+        FileScanner.readFile(file);
+        return true;
+    }
+
     private static void loadSettings() {
         try {
             ArrayList<String[]> data = reader.getServerIPSettings("./src/settings/log_file_settings.xml");
@@ -41,7 +49,7 @@ public class ReadLog {
     }
 
     public static void main(String[] args) {
-        readLog(reqstr);
+        readLog();
     }
 }
 

@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -46,6 +47,12 @@ public class DispatcherUIController {
 
     public static void appendTrigger(String text) {
         instance.getTxtTriggers().append(text + "\n");
+    }
+
+    public static void appendTriggers(List<String> triggers) {
+        for (int i = 0; i < triggers.size(); i++) {
+            instance.getTxtTriggers().append(triggers.get(i) + "\n");
+        }
     }
 
     public static void appendIP(String text) {
