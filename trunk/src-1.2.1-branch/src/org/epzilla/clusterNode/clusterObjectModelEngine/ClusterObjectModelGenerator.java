@@ -26,8 +26,15 @@ public class ClusterObjectModelGenerator {
         ip.Fields.add(new Field(String.class, "clusterID"));
         ip.Fields.add(new Field(String.class, "IP"));
 
+        Structure performanceInfo = new Structure("PerformanceInfoObject");
+        performanceInfo.Fields.add(new Field(String.class, "nodeIP"));
+        performanceInfo.Fields.add(new Field(String.class, "CPUusageAverage"));
+        performanceInfo.Fields.add(new Field(String.class, "MemUsageAverage"));
+        performanceInfo.Fields.add(new Field(String.class, "NetworkUsageAverage"));
+
         pack.Structures.add(simple);
         pack.Structures.add(ip);
+        pack.Structures.add(performanceInfo);
         return model;
     }
 

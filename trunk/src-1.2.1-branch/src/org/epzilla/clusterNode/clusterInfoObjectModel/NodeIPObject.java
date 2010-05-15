@@ -79,7 +79,7 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
 
     @Override
     public String getObjectModelUID() {
-        return "V6WWr2v67JlITv85gX+8Cw";
+        return "Th6IIoiYIODUOFwhHFoIHQ";
     }
 
     private static final int[] NON_TRANSIENT_FIELDS = new int[] {  };

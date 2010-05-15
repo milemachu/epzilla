@@ -11,10 +11,12 @@ import java.util.TimerTask;
 import org.epzilla.clusterNode.clusterInfoObjectModel.ClusterObjectModel;
 import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
+import org.epzilla.clusterNode.clusterInfoObjectModel.PerformanceInfoObject;
 import org.epzilla.clusterNode.NodeController;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
 import org.epzilla.clusterNode.dataManager.ClusterIPManager;
+import org.epzilla.clusterNode.dataManager.PerformanceInfoManager;
 
 /**
  * Created by IntelliJ IDEA.
@@ -97,6 +99,10 @@ public class NodeAsNonLeader {
         if (info.get(0) instanceof NodeIPObject) {
             addIpList((TransactedList<NodeIPObject>) info);
         }
+        if (info.get(0) instanceof PerformanceInfoObject) {
+            addPerformanceInfoList((TransactedList<PerformanceInfoObject>) info);
+        }
+
     }
 
     private static void addTriggerList(final TransactedList<TriggerObject> info) {
@@ -121,6 +127,19 @@ public class NodeAsNonLeader {
         });
 
     }
+
+        private static void addPerformanceInfoList(final TransactedList<PerformanceInfoObject> info) {
+
+        NodeUIController.appendTextToStatus("Performance Info List added...");
+        PerformanceInfoManager.setPerformanceList(info);
+        info.addListener(new FieldListener() {
+            public void onChange(Transaction transaction, int i) {
+//                   DispatcherUIController.appendIP("IP added to List: " + ClusterLeaderIpListManager.getIpList().get(i));
+            }
+        });
+
+    }
+
 
 
     public static void checkServerStatus() {
