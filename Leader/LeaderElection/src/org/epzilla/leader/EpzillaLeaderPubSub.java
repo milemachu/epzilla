@@ -40,10 +40,13 @@ public class EpzillaLeaderPubSub {
 		}
 	}
 	
-	public static void addClientListner(IEpzillaEventListner listener){
+	public static boolean addClientListner(IEpzillaEventListner listener){
 		synchronized (clientListenerList) {
-			if(Epzilla.getStatus().equalsIgnoreCase(Status.LEADER.name()))
-			clientListenerList.add(listener);
+			if(Epzilla.getStatus().equalsIgnoreCase(Status.LEADER.name())){
+				clientListenerList.add(listener);
+				return true;
+			}
+			return false;
 		}
 	}
 	
