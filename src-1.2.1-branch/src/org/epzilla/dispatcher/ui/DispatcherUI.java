@@ -1,6 +1,7 @@
 package org.epzilla.dispatcher.ui;
 
 import org.epzilla.dispatcher.DispatcherRegister;
+import org.epzilla.dispatcher.logs.ReadLog;
 import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.dispatcher.xml.ServerSettingsReader;
 
@@ -64,6 +65,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JTextArea txtDiscoveryStatus = null;
     private JLabel lblClusterIPs = null;
     private JTextArea txtClusterIPs = null;
+    private JCheckBox chkLogs = null;
+    private JButton btnReplayLogs = null;
 
     public DispatcherUI() {
         initialize();
@@ -169,6 +172,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
             mainSettings.add(getTbDispSerName(), null);
             mainSettings.add(lblStatus, null);
             mainSettings.add(getResultPane(), null);
+            mainSettings.add(getChkLogs(), null);
+            mainSettings.add(getBtnReplayLogs(), null);
         }
         return mainSettings;
     }
@@ -485,6 +490,30 @@ public class DispatcherUI extends JFrame implements ActionListener {
         return txtClusterIPs;
     }
 
+    private JCheckBox getChkLogs() {
+        if (chkLogs == null) {
+            chkLogs = new JCheckBox();
+            chkLogs.setText("Replay Logs");
+            chkLogs.setLocation(new Point(150, 290));
+            chkLogs.setSize(new Dimension(102, 21));
+            chkLogs.addActionListener(this);
+            chkLogs.setEnabled(true);
+        }
+        return chkLogs;
+    }
+
+    private JButton getBtnReplayLogs() {
+        if (btnReplayLogs == null) {
+            ImageIcon logsIcon = new ImageIcon("images//logs.jpg");
+            btnReplayLogs = new JButton(logsIcon);
+            btnReplayLogs.setBounds(new Rectangle(255, 290, 97, 20));
+            btnReplayLogs.setText("Replay");
+            btnReplayLogs.setEnabled(false);
+            btnReplayLogs.addActionListener(this);
+        }
+        return btnReplayLogs;
+    }
+
     public void register() throws MalformedURLException, RemoteException, UnknownHostException, NotBoundException {
         String ip = txtIP.getText().toString();
         String nameService = txtNameServer.getText().toString();
@@ -585,6 +614,18 @@ public class DispatcherUI extends JFrame implements ActionListener {
             tabbedPane.setVisible(false);
         } else if (source == btnLoadSettings) {
             loadSettings();
+        } else if (source == chkLogs) {
+            if (chkLogs.isSelected()) {
+                btnReplayLogs.setEnabled(true);
+            } else if (!chkLogs.isSelected()) {
+                btnReplayLogs.setEnabled(false);
+            }
+        } else if (source == btnReplayLogs) {
+            boolean status = ReadLog.readLog();
+            if(status){
+                btnReplayLogs.setEnabled(false);
+            }
+
         } else if (source == btnRegister) {
             try {
                 if (isRegister == false) {
@@ -603,4 +644,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
         }
     }
+
+
 }

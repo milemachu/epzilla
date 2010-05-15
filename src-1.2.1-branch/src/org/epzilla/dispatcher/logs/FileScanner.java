@@ -1,5 +1,7 @@
 package org.epzilla.dispatcher.logs;
 
+import org.epzilla.dispatcher.controlers.DispatcherUIController;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -74,6 +76,42 @@ public class FileScanner implements Runnable {
         long end = System.currentTimeMillis();
         System.out.println("Time: " + (end - start));
         return recoverArr;
+    }
+
+    public static void readFile(File file) {
+        long start = System.currentTimeMillis();
+        try {
+            scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                st1 = scanner.nextLine();
+                m1 = p1.matcher(st1);
+                m2 = p2.matcher(st1);
+                if (m1.find()) {
+                    StringTokenizer st = new StringTokenizer(st1);
+                    strmatch = st.nextToken();
+//                       if (strmatch.equals(st)) {
+                    while (scanner.hasNextLine()) {
+                        st2 = scanner.nextLine();
+                        m2 = p2.matcher(st2);
+                        m1 = p1.matcher(st2);
+                        if (m2.find()) {
+                            break;
+                        } else if (m1.find()) {
+                            break;
+                        } else
+                            recoverArr.add(st2);
+                    }
+//                       }
+                }
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+        printArray(recoverArr);
+        long end = System.currentTimeMillis();
+        System.out.println("Time: " + (end - start));
+        DispatcherUIController.appendTriggers(recoverArr);
     }
 
     public static void printArray(List<String> array) {
