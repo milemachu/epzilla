@@ -13,6 +13,7 @@ import org.epzilla.leader.event.ProcessStatusChangedEvent;
 import org.epzilla.leader.event.PulseIntervalTimeoutEvent;
 import org.epzilla.leader.event.PulseNotReceivedTimeoutEvent;
 import org.epzilla.leader.event.PulseReceivedEvent;
+import org.epzilla.leader.event.RequestRejectedEvent;
 import org.epzilla.leader.event.listner.EpZillaListener;
 import org.epzilla.leader.event.listner.IEpzillaEventListner;
 import org.epzilla.leader.util.Component;
@@ -104,9 +105,31 @@ public class EventHandler {
 				});
 				informer.start();
 			}
-		}
-		
-		
+		}else if(event instanceof ErrorOccurredEvent){
+			System.out.println("Error occured in the system.");
+		}else if(event instanceof RequestRejectedEvent){
+			int errorCode = ((RequestRejectedEvent) event).getData();
+			boolean isErrorOccured=false;
+			switch (errorCode) {
+			case 400:
+				if(!Epzilla.getStatus().equalsIgnoreCase(Status.LEADER.name()))
+					isErrorOccured=true;
+				break;
+			case 401:
+				if(!Epzilla.getStatus().equalsIgnoreCase(Status.NON_LEADER.name()))
+					isErrorOccured=true;
+				break;
+			case 402:
+				if(!Epzilla.getStatus().equalsIgnoreCase(Status.LEADER.name()))
+					isErrorOccured=true;
+				break;
+			default:
+				break;
+			}			
+			if(isErrorOccured)
+				Epzilla.addToTimerQueue(new ErrorOccurredEvent());
+			
+		}		
 		return false;
 	}
 	
