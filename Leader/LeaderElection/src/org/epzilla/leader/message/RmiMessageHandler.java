@@ -18,11 +18,12 @@ public class RmiMessageHandler {
 				while (true) {
 					String message=messageQueue.poll();
 					if(message!=null){
-						boolean isDecoded=false;
-						while (!isDecoded) {
-							isDecoded=messageDecoder.decodeMessage(message);
+//						boolean isDecoded=false;
+//						while (!isDecoded) {
+//							isDecoded=
+								messageDecoder.decodeMessage(message);
 							//Might be able to remove as well. Aware of that.
-						}						
+//						}						
 					}
 				}
 			}
