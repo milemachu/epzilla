@@ -6,6 +6,8 @@ import java.rmi.server.UnicastRemoteObject;
 import org.epzilla.leader.Epzilla;
 import org.epzilla.leader.EpzillaLeaderPubSub;
 import org.epzilla.leader.event.listner.IEpzillaEventListner;
+import org.epzilla.leader.message.RejectReason;
+import org.epzilla.leader.message.RmiMessageClient;
 import org.epzilla.leader.message.RmiMessageHandler;
 
 public class LeaderServiceImpl extends UnicastRemoteObject implements LeaderInterface {
@@ -23,9 +25,18 @@ public class LeaderServiceImpl extends UnicastRemoteObject implements LeaderInte
 	}
 
 	@Override
-	public void addListener(IEpzillaEventListner listener)
+	public void addListener(final IEpzillaEventListner listener)
 			throws RemoteException {
-		EpzillaLeaderPubSub.addClientListner(listener);		
+		final boolean result=EpzillaLeaderPubSub.addClientListner(listener);		
+		Thread pulsator=new Thread(new Runnable() {
+			public void run() {
+				if(result)
+					RmiMessageClient.sendPulse(listener.getData());
+				else
+					RmiMessageClient.sendRequestNotAccepted(listener.getData(), RejectReason.NOT_ALLOWED_TO_REGISTER_LISTNER_NOT_LEADER);				
+			}
+		});
+		pulsator.start();
 	}
 
 	@Override
