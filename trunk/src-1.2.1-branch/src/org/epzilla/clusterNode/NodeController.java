@@ -4,6 +4,7 @@ import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.clusterNode.sharedMemory.NodeAsLeader;
 import org.epzilla.clusterNode.sharedMemory.NodeAsNonLeader;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
+import org.epzilla.clusterNode.loadAnalyzer.CpuMemAnalyzer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +16,7 @@ import org.epzilla.clusterNode.dataManager.TriggerManager;
 public class NodeController {
     private static int port = 4444;
     private static String leaderIP = "localhost";
-    private static boolean isLeader= false;
+    private static boolean isLeader = true;
 
     public static int getPort() {
         return port;
@@ -35,12 +36,11 @@ public class NodeController {
 
     public static void main(String[] args) {
         NodeUIController.InitializeUI();
-        if(isLeader)
-        {
-        NodeAsLeader.startServer();
-        NodeAsLeader.loadTriggers();
-        }else
-        {
+        CpuMemAnalyzer.Initialize();
+        if (isLeader) {
+            NodeAsLeader.startServer();
+            NodeAsLeader.loadTriggers();
+        } else {
             NodeAsNonLeader.startClient();
         }
         //TriggerManager.initTestTriggerStream();   // For testing ONLY
