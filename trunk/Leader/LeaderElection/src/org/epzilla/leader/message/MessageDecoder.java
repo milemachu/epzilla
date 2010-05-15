@@ -48,6 +48,9 @@ public class MessageDecoder {
 					Epzilla.setStatus(Status.NON_LEADER.name());
 					Epzilla.setLeaderElectionRunning(false);
 					eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
+					if(Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
+						NodeClientManager.setClusterLeader(strItems[1]);
+					}
 										
 					//Start Threading for sending data
 					Thread forwarder=new Thread(new Runnable() {												
@@ -65,9 +68,11 @@ public class MessageDecoder {
 					executor.start();
 					
 					eventHandler.fireEpzillaEvent(new PulseReceivedEvent(strItems[1]));
+					return true;
 				}
 			} catch (UnknownHostException e) {
-				e.printStackTrace();
+				System.out.println("Error occured.");
+				return false;
 			}
 		}else if(Integer.parseInt(strItems[0])==MessageMeta.UID){
 			//LE has started
@@ -75,6 +80,9 @@ public class MessageDecoder {
 			Epzilla.setStatus(Status.UNKNOWN.name());
 			Epzilla.setLeaderElectionRunning(true);
 			eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
+			if(Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
+				NodeClientManager.setClusterLeader(null);
+			}
 			//RUN LCR ALGO
 			String result=lcrAlgorithm.runAlgorithm(message);
 			//Only 3 outcomes. 1=LEADER, if UID is same. 2=NON_LEADER, if received UID is small. 3=UNKNOWN, if received UID is large.
@@ -123,7 +131,7 @@ public class MessageDecoder {
 			eventHandler.fireEpzillaEvent(new RequestRejectedEvent(Integer.parseInt(strItems[2])));
 		}
 		
-		return false;
+		return true;
 	}
 	
 	private String getNextHopToCommunicate(){
