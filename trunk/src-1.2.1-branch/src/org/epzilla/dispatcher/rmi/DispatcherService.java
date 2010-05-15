@@ -1,6 +1,8 @@
 package org.epzilla.dispatcher.rmi;
 
 import static org.epzilla.dispatcher.controlers.MainDispatcherController.run;
+
+import net.epzilla.stratification.immediate.ApproximateDispatcher;
 import org.epzilla.dispatcher.controlers.DispatcherUIController;
 
 import java.net.InetAddress;
@@ -8,8 +10,10 @@ import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import org.epzilla.common.discovery.dispatcher.DispatcherDiscoveryManager;
+import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 
 public class DispatcherService {
 
@@ -61,7 +65,28 @@ public class DispatcherService {
             service.bindDispatcher(serviceName);
             run();
 
+            System.out.println("running as server...");
 
+            ApproximateDispatcher ad = new ApproximateDispatcher();
+            ArrayList<TriggerInfoObject> tlist = new ArrayList();
+
+            TriggerInfoObject tio = new TriggerInfoObject();
+            tio.settrigger("SELECT avg(StockTrades.price), min(StockPrices.price) RETAIN 10 EVENTS OUTPUT StkTrades.avgprice, StkTrades.minprice;");
+            tlist.add(tio);
+            tio = new TriggerInfoObject();
+            tio.settrigger("SELECT sum(TDWLTrades.trades) RETAIN 10 MINUTES noSliding OUTPUT TDTrades.sumtrades;");
+            tlist.add(tio);
+
+            tio.settrigger("SELECT avg(MobitelStocks.stockPrice) RETAIN 20 EVENTS OUTPUT MobiStoks.avgprice;");
+            tlist.add(tio);
+            
+            ad.assignClusters(tlist, 8);
+            for (TriggerInfoObject x: tlist) {
+                System.out.println("str:cls:");
+                System.out.println(x.getstratumId());
+                System.out.println(x.getclusterID());
+
+            }
             //Dynamic Discovery
             DispatcherDiscoveryManager ddm=new DispatcherDiscoveryManager();
 
