@@ -18,9 +18,9 @@ public class LCRAlgoImpl {
 		if (strArray != null && Integer.parseInt(strArray[1]) >= 1) {
 			int receivedUid = Integer.parseInt(strArray[1]);
 			if (receivedUid == Epzilla.getUID()) {			
-					return Status.LEADER.name();			
+				return Status.LEADER.name();			
 			} else if (receivedUid < Epzilla.getUID()) {				
-					return Status.NON_LEADER.name();
+				return Status.NON_LEADER.name();
 			} else if (receivedUid > Epzilla.getUID()) {		
 				return Status.UNKNOWN.name();
 			}
