@@ -14,9 +14,13 @@ public class NodeUI extends JFrame {
     private JScrollPane jScrollPane = null;
     private JScrollPane jScrollPane1 = null;
     private JScrollPane jScrollPane2 = null;
+    private JScrollPane jScrollPane3 = null;
+    private JScrollPane jScrollPane4 = null;
     private JTextArea jTextAreaStatus = null;
     private JTextArea jTextAreaTriggers = null;
     private JTextArea jTextAreaIPList = null;
+    private JTextArea jTextAreaPerformance = null;
+    private JTextArea jTextAreaMachineInfo = null;
     private Label label = null;
     private Label label1 = null;
     private Label label2 = null;
@@ -94,6 +98,8 @@ public class NodeUI extends JFrame {
             jContentPane.add(getJScrollPane(), null);
             jContentPane.add(getJScrollPane1(), null);
             jContentPane.add(getJScrollPane2(), null);
+            jContentPane.add(getJScrollPane3(), null);
+            jContentPane.add(getJScrollPane4(), null);
             jContentPane.add(label, null);
             jContentPane.add(label1, null);
             jContentPane.add(label2, null);
@@ -140,11 +146,40 @@ public class NodeUI extends JFrame {
     private JScrollPane getJScrollPane2() {
         if (jScrollPane2 == null) {
             jScrollPane2 = new JScrollPane();
-            jScrollPane2.setBounds(new Rectangle(736, 89, 244, 592));
+            jScrollPane2.setBounds(new Rectangle(736, 89, 244, 250));
             jScrollPane2.setViewportView(getJTextAreaIPList());
         }
         return jScrollPane2;
     }
+
+    /**
+     * This method initializes jScrollPane3
+     *
+     * @return javax.swing.JScrollPane
+     */
+    private JScrollPane getJScrollPane3() {
+        if (jScrollPane3 == null) {
+            jScrollPane3 = new JScrollPane();
+            jScrollPane3.setBounds(new Rectangle(736, 531, 244, 150));
+            jScrollPane3.setViewportView(getjTextAreaPerformance());
+        }
+        return jScrollPane3;
+    }
+
+    /**
+     * This method initializes jScrollPane4
+     *
+     * @return javax.swing.JScrollPane
+     */
+    private JScrollPane getJScrollPane4() {
+        if (jScrollPane4 == null) {
+            jScrollPane4 = new JScrollPane();
+            jScrollPane4.setBounds(new Rectangle(736, 386, 244, 145));
+            jScrollPane4.setViewportView(getjTextAreaMachineInfo());
+        }
+        return jScrollPane4;
+    }
+
 
     /**
      * This method initializes jTextAreaStatus
@@ -188,12 +223,31 @@ public class NodeUI extends JFrame {
         return jTextAreaIPList;
     }
 
+    public JTextArea getjTextAreaPerformance() {
+        if (jTextAreaPerformance == null) {
+            jTextAreaPerformance = new JTextArea();
+            jTextAreaPerformance.setBackground(Color.black);
+            jTextAreaPerformance.setForeground(Color.green);
+        }
+        return jTextAreaPerformance;
+    }
+
+    public JTextArea getjTextAreaMachineInfo() {
+        if (jTextAreaMachineInfo == null) {
+            jTextAreaMachineInfo = new JTextArea();
+            jTextAreaMachineInfo.setBackground(Color.black);
+            jTextAreaMachineInfo.setForeground(Color.green);
+        }
+        return jTextAreaMachineInfo;
+    }
+
+
     /**
      * This method initializes jTextAreaLeader
      *
      * @return javax.swing.JTextArea
      */
-   public JTextArea getJTextAreaLeader() {
+    public JTextArea getJTextAreaLeader() {
         if (jTextAreaLeader == null) {
             jTextAreaLeader = new JTextArea();
             jTextAreaLeader.setBounds(new Rectangle(138, 60, 165, 20));
@@ -214,8 +268,8 @@ public class NodeUI extends JFrame {
             jTextAreaEventCount.setBounds(new Rectangle(433, 60, 136, 21));
             jTextAreaEventCount.setForeground(Color.green);
             jTextAreaEventCount.setBackground(Color.black);
-		}
-		return jTextAreaEventCount;
-	}
+        }
+        return jTextAreaEventCount;
+    }
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
