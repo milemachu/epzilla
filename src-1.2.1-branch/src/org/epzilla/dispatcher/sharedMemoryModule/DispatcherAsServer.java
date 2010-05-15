@@ -2,16 +2,14 @@ package org.epzilla.dispatcher.sharedMemoryModule;
 
 import java.io.IOException;
 
+import net.epzilla.stratification.immediate.DynamicDependencyManager;
 import org.epzilla.dispatcher.*;
 import org.epzilla.dispatcher.controlers.*;
 import org.epzilla.dispatcher.dataManager.ClientManager;
 import org.epzilla.dispatcher.dataManager.ClusterLeaderIpListManager;
 import org.epzilla.dispatcher.dataManager.TriggerManager;
 import org.epzilla.dispatcher.dataManager.NodeVariables;
-import org.epzilla.dispatcher.dispatcherObjectModel.DispatcherObjectModel;
-import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
-import org.epzilla.dispatcher.dispatcherObjectModel.ClientInfoObject;
-import org.epzilla.dispatcher.dispatcherObjectModel.LeaderInfoObject;
+import org.epzilla.dispatcher.dispatcherObjectModel.*;
 import jstm.core.*;
 import jstm.transports.clientserver.*;
 import jstm.transports.clientserver.socket.SocketServer;
@@ -39,6 +37,7 @@ public class DispatcherAsServer {
             DispatcherUIController.appendTextToStatus("Attaching a share to sites group: server and clients...");
 
             share = new Share();
+            Share metadataShare = new Share();
 
             DispatcherUIController.appendTextToStatus("Waiting For Clients...");
             // Once connected, retrieve the Group that represents the
@@ -46,15 +45,27 @@ public class DispatcherAsServer {
             // clients
 
             Group serverAndClientsSites = server.getServerAndClients();
+            ShareMarker sm = new ShareMarker();
+            sm.setid("content");
+            share.add(sm);
+
+            sm = new ShareMarker();
+            sm.setid("meta");
+            metadataShare.add(sm);
 
             // Open a share in this group is there is none yet
 
             if (serverAndClientsSites.getOpenShares().size() == 0) {
                 Transaction transaction = Site.getLocal().startTransaction();
                 server.getServerAndClients().getOpenShares().add(share);
+                server.getServerAndClients().getOpenShares().add(metadataShare);
                 transaction.commit();
             }
-            share = (Share) serverAndClientsSites.getOpenShares().toArray()[0];
+
+            DynamicDependencyManager.setDependencyShare(metadataShare);
+
+            // todo - embed stratification stuff...
+//            share = (Share) serverAndClientsSites.getOpenShares().toArray()[0];
             success = true;
 
         } catch (Transaction.AbortedException e2) {

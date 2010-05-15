@@ -38,7 +38,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         }
         return null;
     }
-
+             
     @Override
     public String uploadTriggersToDispatcher(ArrayList<String> tList, String clientID, int triggerSeqID) throws RemoteException {
         String toReturn = null;

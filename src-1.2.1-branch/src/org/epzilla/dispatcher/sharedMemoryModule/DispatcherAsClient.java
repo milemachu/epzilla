@@ -8,15 +8,13 @@ import java.util.Set;
 import java.util.TimerTask;
 
 
+import net.epzilla.stratification.immediate.DynamicDependencyManager;
 import org.epzilla.dispatcher.dataManager.ClientManager;
 import org.epzilla.dispatcher.dataManager.ClusterLeaderIpListManager;
 import org.epzilla.dispatcher.dataManager.NodeVariables;
 import org.epzilla.dispatcher.dataManager.TriggerManager;
 import org.epzilla.dispatcher.controlers.*;
-import org.epzilla.dispatcher.dispatcherObjectModel.DispatcherObjectModel;
-import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
-import org.epzilla.dispatcher.dispatcherObjectModel.ClientInfoObject;
-import org.epzilla.dispatcher.dispatcherObjectModel.LeaderInfoObject;
+import org.epzilla.dispatcher.dispatcherObjectModel.*;
 
 
 /**
@@ -53,7 +51,22 @@ public class DispatcherAsClient {
 
             // Open a share in this group is there is none yet
 
-            share = (Share) shares.toArray()[0];
+            Object[] ar = shares.toArray();
+            share = (Share) ar[0];
+            Share metaShare = (Share) ar[1];
+
+            for (TransactedObject ob : share) {
+                if (ob instanceof ShareMarker) {
+                    if ("meta".equals(((ShareMarker) ob).getid())) {
+                        // shares need to be swapped.
+                        Share x = share;
+                        share = metaShare;
+                        metaShare = x;
+                    }
+                }
+            }
+
+            DynamicDependencyManager.setDependencyShare(metaShare);
 
             share
                     .addListener(new TransactedSet.Listener<TransactedObject>() {
@@ -64,8 +77,8 @@ public class DispatcherAsClient {
                             if (object instanceof TransactedList<?>)
                                 addList((TransactedList<?>) object);
 
-                            if(object instanceof TransactedMap<?,?>)
-                                addClientList((TransactedMap<?,?>) object);
+                            if (object instanceof TransactedMap<?, ?>)
+                                addClientList((TransactedMap<?, ?>) object);
 
                         }
 
@@ -96,12 +109,12 @@ public class DispatcherAsClient {
     }
 
     private static void addList(final TransactedList<?> info) {
-        
+
         if (info.get(0) instanceof TriggerInfoObject) {
             addTriggerList((TransactedList<TriggerInfoObject>) info);
         }
         if (info.get(0) instanceof LeaderInfoObject) {
-           addIpList((TransactedList<LeaderInfoObject>) info);
+            addIpList((TransactedList<LeaderInfoObject>) info);
         }
     }
 
@@ -132,7 +145,7 @@ public class DispatcherAsClient {
         info.addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
 //                DispatcherUIController.appendIP("IP added to List: " + ClusterLeaderIpListManager.getIpList().get(i));
-            ClusterLeaderIpListManager.printIPList();
+                ClusterLeaderIpListManager.printIPList();
             }
         });
 
@@ -145,8 +158,8 @@ public class DispatcherAsClient {
             @Override
             public void run() {
                 if (client.getStatus() == SocketClient.Status.DISCONNECTED) {
-                  DispatcherUIController.appendTextToStatus("Server Status..." + client.getStatus().toString());
-                  this.cancel();
+                    DispatcherUIController.appendTextToStatus("Server Status..." + client.getStatus().toString());
+                    this.cancel();
                 }
             }
         }, 10, 1000);

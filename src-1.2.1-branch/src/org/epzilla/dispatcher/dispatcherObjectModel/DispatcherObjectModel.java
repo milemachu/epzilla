@@ -10,9 +10,9 @@ import jstm.core.*;
 
 public final class DispatcherObjectModel extends jstm.core.ObjectModel {
 
-    public static final String UID = "JqX7FplneBvUq6nGuulV5w";
+    public static final String UID = "/s6uj5nH2R6mCK3e/qSnFQ";
 
-    public static final String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ObjectModelDefinition xsi:noNamespaceSchemaLocation=\"http://www.xstm.net/schemas/xstm-0.3.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Name>DispatcherObjectModel</Name><RootPackage name=\"org.epzilla.dispatcher.dispatcherObjectModel\"><Packages/><Structures><Structure name=\"TriggerInfoObject\"><Fields><Field transient=\"false\" name=\"triggerID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"dispatcherId\"><Type name=\"int\"/></Field><Field transient=\"false\" name=\"clientID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"clusterID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"trigger\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"stratumId\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"oldStratumId\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"oldClusterId\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure><Structure name=\"ClientInfoObject\"><Fields><Field transient=\"false\" name=\"clientID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"clientIP\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure><Structure name=\"LeaderInfoObject\"><Fields><Field transient=\"false\" name=\"clusterID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"leaderIP\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure><Structure name=\"TriggerDependencyStructure\"><Fields><Field transient=\"false\" name=\"clientId\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"virtualStrata\"><Type name=\"int\"/></Field><Field transient=\"false\" name=\"structure\"><Type name=\"jstm.core.TransactedList\"/></Field></Fields><Methods/></Structure></Structures></RootPackage></ObjectModelDefinition>";
+    public static final String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ObjectModelDefinition xsi:noNamespaceSchemaLocation=\"http://www.xstm.net/schemas/xstm-0.3.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Name>DispatcherObjectModel</Name><RootPackage name=\"org.epzilla.dispatcher.dispatcherObjectModel\"><Packages/><Structures><Structure name=\"TriggerInfoObject\"><Fields><Field transient=\"false\" name=\"triggerID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"dispatcherId\"><Type name=\"int\"/></Field><Field transient=\"false\" name=\"clientID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"clusterID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"virtualClusterID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"trigger\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"stratumId\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"oldStratumId\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"oldClusterId\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure><Structure name=\"ClientInfoObject\"><Fields><Field transient=\"false\" name=\"clientID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"clientIP\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure><Structure name=\"LeaderInfoObject\"><Fields><Field transient=\"false\" name=\"clusterID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"leaderIP\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure><Structure name=\"TriggerDependencyStructure\"><Fields><Field transient=\"false\" name=\"clientId\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"virtualStrata\"><Type name=\"int\"/></Field><Field transient=\"false\" name=\"structure\"><Type name=\"jstm.core.TransactedList\"/></Field></Fields><Methods/></Structure><Structure name=\"ShareMarker\"><Fields><Field transient=\"false\" name=\"id\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure></Structures></RootPackage></ObjectModelDefinition>";
 
     public DispatcherObjectModel() {
     }
@@ -29,7 +29,7 @@ public final class DispatcherObjectModel extends jstm.core.ObjectModel {
 
     @Override
     public int getClassCount() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -43,6 +43,8 @@ public final class DispatcherObjectModel extends jstm.core.ObjectModel {
                 return new org.epzilla.dispatcher.dispatcherObjectModel.LeaderInfoObject();
             case 3:
                 return new org.epzilla.dispatcher.dispatcherObjectModel.TriggerDependencyStructure();
+            case 4:
+                return new org.epzilla.dispatcher.dispatcherObjectModel.ShareMarker();
         }
 
         throw new IllegalArgumentException("Unknown class id: " + classId);
