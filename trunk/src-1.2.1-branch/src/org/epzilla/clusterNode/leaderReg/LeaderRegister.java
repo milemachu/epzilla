@@ -34,7 +34,7 @@ public class LeaderRegister {
     }
 
     private static void register() throws RemoteException, MalformedURLException, NotBoundException, UnknownHostException {
-        String url = "rmi://" + "10.8.108.175" + "/" + "Dispatcher100008108175";
+        String url = "rmi://" + "127.0.0.1" + "/" + "Dispatcher127000000001";
         DispInterface service;
         service = (DispInterface) Naming.lookup(url);
         InetAddress inetAddress = InetAddress.getLocalHost();

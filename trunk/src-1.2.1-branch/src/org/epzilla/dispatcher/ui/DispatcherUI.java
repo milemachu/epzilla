@@ -1,8 +1,8 @@
 package org.epzilla.dispatcher.ui;
 
 import org.epzilla.dispatcher.DispatcherRegister;
-import org.epzilla.dispatcher.logs.ReadLog;
 import org.epzilla.dispatcher.controlers.DispatcherUIController;
+import org.epzilla.dispatcher.logs.ReadLog;
 import org.epzilla.dispatcher.xml.ServerSettingsReader;
 
 import javax.swing.*;
@@ -622,7 +622,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             }
         } else if (source == btnReplayLogs) {
             boolean status = ReadLog.readLog();
-            if(status){
+            if (status) {
                 btnReplayLogs.setEnabled(false);
             }
 
@@ -633,13 +633,12 @@ public class DispatcherUI extends JFrame implements ActionListener {
                 } else
                     JOptionPane.showMessageDialog(null, "Dispatcher already registered", "Message", JOptionPane.INFORMATION_MESSAGE);
             } catch (MalformedURLException e) {
-                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException e) {
-                DispatcherUIController.appendResults("Name Server not working...");
+                DispatcherUIController.appendResults("Name Service not working...");
             } catch (UnknownHostException e) {
-                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
+//                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
             } catch (NotBoundException e) {
-                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
+//                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
             }
 
         }

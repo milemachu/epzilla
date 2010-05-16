@@ -1,6 +1,5 @@
 package org.epzilla.client.rmi;
 
-import org.epzilla.client.controlers.ClientUIControler;
 import org.epzilla.client.userInterface.SplashScreen;
 
 import java.io.IOException;
@@ -16,12 +15,12 @@ import java.rmi.Naming;
  */
 public class ClientStartup {
     private static String serviceName = "CLIENT";
-    private static String[] arr;
 
     public static void bindClient() {
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new org.epzilla.client.rmi.OpenSecurityManager());
         }
+        startRegistry();
         try {
             InetAddress inetAddress = InetAddress.getLocalHost();
             String ipAddress = inetAddress.getHostAddress();
@@ -48,6 +47,7 @@ public class ClientStartup {
 
     public static void main(String[] args) {
         bindClient();
-        SplashScreen.main(arr);
+        SplashScreen sc = new SplashScreen(3000);
+        sc.showSplashAndExit();
     }
 }

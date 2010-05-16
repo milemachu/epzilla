@@ -70,7 +70,7 @@ public class SplashScreen extends JWindow {
         }
     }
 
-    private void showSplashAndExit() {
+    public void showSplashAndExit() {
         showSplash();
         showMainUI();
     }
