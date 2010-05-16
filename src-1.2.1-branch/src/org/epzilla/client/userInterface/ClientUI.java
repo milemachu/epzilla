@@ -427,13 +427,13 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
                 ClientHandler.registerClient(clientIP, clientID);
                 isRegister = true;
             } catch (RemoteException e) {
-                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
+//                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
             } catch (MalformedURLException e) {
-                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
+//                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
             } catch (NotBoundException e) {
-                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
+//                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
             } catch (UnknownHostException e) {
-                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
+//                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -445,11 +445,11 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             client.unregisterCallback(ip, servicename);
             ClientHandler.unRegisterClient(clientIP, clientID);
         } catch (MalformedURLException e) {
-            JOptionPane.showMessageDialog(null, e, "epZilla", JOptionPane.ERROR_MESSAGE);
+//            JOptionPane.showMessageDialog(null, e, "epZilla", JOptionPane.ERROR_MESSAGE);
         } catch (RemoteException e) {
-            JOptionPane.showMessageDialog(null, e, "epZilla", JOptionPane.ERROR_MESSAGE);
+//            JOptionPane.showMessageDialog(null, e, "epZilla", JOptionPane.ERROR_MESSAGE);
         } catch (NotBoundException e) {
-            JOptionPane.showMessageDialog(null, e, "epZilla", JOptionPane.ERROR_MESSAGE);
+//            JOptionPane.showMessageDialog(null, e, "epZilla", JOptionPane.ERROR_MESSAGE);
         } catch (UnknownHostException e) {
         }
         btnLookup.setEnabled(true);
@@ -521,7 +521,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             } catch (NotBoundException e) {
                 JOptionPane.showMessageDialog(null, "Dispatcher failure.", "Message", JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException e) {
-                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
             }
         } else
             JOptionPane.showMessageDialog(null, "Error in file send process.", "epZilla", JOptionPane.ERROR_MESSAGE);

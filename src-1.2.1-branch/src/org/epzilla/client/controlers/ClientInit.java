@@ -57,7 +57,7 @@ public class ClientInit extends Thread {
                     String response = null;
 
                     ArrayList<String> triggers = new ArrayList<String>();
-                    for (int i = 0; i < 10; i++) {
+                    for (int i = 0; i < 5; i++) {
                         triggers.add(EventTriggerGenerator.getNextTrigger());
                     }
                     try {
