@@ -14,21 +14,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Rajeev
- * Date: May 11, 2010
- * Time: 8:44:14 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class ApproximateDispatcher {
 
     public void assignClusters(ArrayList<TriggerInfoObject> triggerList, String clientId) throws InvalidSyntaxException {
-        assignClusters(triggerList, Integer.parseInt(clientId));
+        assignClusters(triggerList, Long.parseLong(clientId));
     }
 
 
-    public void assignClusters(ArrayList<TriggerInfoObject> triggerList, int clientId) throws InvalidSyntaxException {
+    public void assignClusters(ArrayList<TriggerInfoObject> triggerList, long clientId) throws InvalidSyntaxException {
 
 
         TriggerDependencyStructure tds = DynamicDependencyManager.getInstance().getDependencyStructure(clientId);

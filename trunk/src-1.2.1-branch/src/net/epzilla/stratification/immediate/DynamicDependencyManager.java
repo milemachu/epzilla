@@ -7,16 +7,10 @@ import org.epzilla.dispatcher.dispatcherObjectModel.TriggerDependencyStructure;
 
 import java.util.Hashtable;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Rajeev
- * Date: May 12, 2010
- * Time: 10:21:41 AM
- * To change this template use File | Settings | File Templates.
- */
+
 public class DynamicDependencyManager {
     private static DynamicDependencyManager instance = new DynamicDependencyManager();
-    private Hashtable<Integer, TriggerDependencyStructure> table = new Hashtable();
+    private Hashtable<Long, TriggerDependencyStructure> table = new Hashtable();
     private static Share dependencyShare = null;
 
     private DynamicDependencyManager() {
@@ -35,11 +29,11 @@ public class DynamicDependencyManager {
         return instance;
     }
 
-    public void addTriggerDependencyStructure(int clientId, TriggerDependencyStructure tds) {
+    public void addTriggerDependencyStructure(long clientId, TriggerDependencyStructure tds) {
         this.table.put(clientId, tds);
     }
 
-    public TriggerDependencyStructure getDependencyStructure(int clientId) {
+    public TriggerDependencyStructure getDependencyStructure(long clientId) {
         TriggerDependencyStructure tds = this.table.get(clientId);
         if (tds != null) {
             return tds;
