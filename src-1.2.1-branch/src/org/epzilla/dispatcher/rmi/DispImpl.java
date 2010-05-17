@@ -36,6 +36,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
             return "OK";
         } catch (Exception e) {
             System.err.println("FileServer exception");
+            e.printStackTrace();
         }
         return null;
     }
