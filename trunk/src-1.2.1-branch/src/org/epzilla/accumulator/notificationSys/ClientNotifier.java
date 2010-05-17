@@ -28,7 +28,7 @@ public class ClientNotifier {
 
     }
 
-    private static void getAlerts(ArrayList<String> alerts, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
+    private static void getAlerts(String alerts, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
         if (clientMap.containsKey(clientID)) {
             clientObj = (ClientInterface) clientMap.get(clientID);
             sendNotifications(alerts);
@@ -48,7 +48,7 @@ public class ClientNotifier {
 
     }
 
-    public static void sendNotifications(ArrayList<String> list) throws RemoteException {
+    public static void sendNotifications(String list) throws RemoteException {
         response = clientObj.notifyClient(list);
         if (response != null)
             System.out.println("Notifications send to the client");
