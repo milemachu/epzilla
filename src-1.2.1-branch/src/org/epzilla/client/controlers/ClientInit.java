@@ -95,9 +95,9 @@ public class ClientInit extends Thread {
                     String response = null;
 
                     ArrayList<String> events = new ArrayList<String>();
-                    for (int i = 0; i < 10; i++) {
+//                    for (int i = 0; i < 10; i++) {
                         events.add(EventTriggerGenerator.getNextEvent());
-                    }
+//                    }
 
                     try {
                         response = di.uploadEventsToDispatcher(events, clientID, eventsSeqID);
