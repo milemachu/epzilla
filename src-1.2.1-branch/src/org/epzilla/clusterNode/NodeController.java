@@ -43,6 +43,7 @@ public class NodeController {
             NodeAsLeader.loadTriggers();
             NodeAsLeader.loadIPList();
             NodeAsLeader.loadPerformanceInfoList();
+            NodeAsLeader.checkForOverloading();
         } else {
             NodeAsNonLeader.startClient();
         }
@@ -51,8 +52,16 @@ public class NodeController {
 
     public static void init() {
         NodeUIController.InitializeUI();
-        NodeAsLeader.startServer();
-        NodeAsLeader.loadTriggers();
+        CpuMemAnalyzer.Initialize();
+        if (isLeader) {
+            NodeAsLeader.startServer();
+            NodeAsLeader.loadTriggers();
+            NodeAsLeader.loadIPList();
+            NodeAsLeader.loadPerformanceInfoList();
+            NodeAsLeader.checkForOverloading();
+        } else {
+            NodeAsNonLeader.startClient();
+        }
     }
 
     public static boolean isLeader() {

@@ -32,20 +32,41 @@ public class PerformanceInfoManager {
         }
     }
 
-      public static void removePerformanceObject(String nodeIP) {
+    public static boolean isObjectInList(String ip) {
+        boolean result = false;
+        for (int i = 0; i < performanceList.size(); i++) {
+            if (performanceList.get(i).getnodeIP() == ip)
+                result = true;
+        }
+        return result;
+    }
+
+
+    public static void removePerformanceObject(String nodeIP) {
+        try {
+            int count = performanceList.size();
             if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
                 Site.getLocal().allowThread();
-                Transaction transaction = Site.getLocal().startTransaction();
-                for (int i = 0; i < performanceList.size(); i++) {
+                int removeIndex = -1;
+                for (int i = 0; i < count; i++) {
                     if (performanceList.get(i).getnodeIP().equals(nodeIP)) {
-                        performanceList.remove(i);
+                        removeIndex = i;
                         break;
                     }
                 }
-                transaction.commit();
+                if (removeIndex != -1) {
+                    Transaction transaction = Site.getLocal().startTransaction();
+                    boolean result = getPerformanceList().remove(getPerformanceList().get(removeIndex));
+                    if (result)
+                        transaction.commit();
+                    else
+                        transaction.abort();
+                }
+            }
+        }
+        catch (Exception ex) {
         }
     }
-
 
     public static TransactedList<PerformanceInfoObject> getPerformanceList() {
         return performanceList;
