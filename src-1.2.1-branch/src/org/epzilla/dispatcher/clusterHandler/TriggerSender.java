@@ -20,8 +20,13 @@ public class TriggerSender {
     private static HashMap idMap = new HashMap<String, String>();
     private static ClusterInterface clusterObj;
     private static String response = null;
+    private static TriggerSender instance = new TriggerSender();
 
     public TriggerSender() {
+    }
+
+    public static TriggerSender getInstance() {
+        return instance;
     }
 
     public static void acceptTrigger(String serverIp, String clusterID, ArrayList<String> triggers, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
