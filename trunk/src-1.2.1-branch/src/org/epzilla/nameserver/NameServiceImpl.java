@@ -41,7 +41,7 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
             dispatcherPort.add(dirsize, portNumber);
             dirsize++;
             RBLoadBalancer.insert(ipAdrs);
-            XmlWriter.writeToFile(name, ipAdrs, portNumber);
+//            XmlWriter.writeToFile(name, ipAdrs, portNumber);
             return 1;
         } else
             return 0;
