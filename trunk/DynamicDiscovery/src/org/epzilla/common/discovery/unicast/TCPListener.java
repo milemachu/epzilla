@@ -30,7 +30,8 @@ public class TCPListener {
 			socket.getInputStream().read(receivedData);
 			
 			StringBuilder sb=new StringBuilder();
-			sb.append(new String(receivedData).trim()).append(Constants.TCP_UNICAST_DELIMITER).append(socket.getRemoteSocketAddress().toString());
+			String remoteSocket=socket.getRemoteSocketAddress().toString();
+			sb.append(new String(receivedData).trim()).append(Constants.TCP_UNICAST_DELIMITER).append(remoteSocket.substring(remoteSocket.indexOf("/")+1, remoteSocket.indexOf(":")));
 			
 			receivedData =null;
 			
