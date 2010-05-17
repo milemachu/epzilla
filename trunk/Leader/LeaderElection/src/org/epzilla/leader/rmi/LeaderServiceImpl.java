@@ -19,7 +19,7 @@ public class LeaderServiceImpl extends UnicastRemoteObject implements LeaderInte
 	 */
 	private static final long serialVersionUID = 5270364201519480615L;
 
-	protected LeaderServiceImpl() throws RemoteException {
+	public LeaderServiceImpl() throws RemoteException {
 		super();
 		messageHandler=new RmiMessageHandler();		
 	}
