@@ -82,7 +82,7 @@ public class ClusterLeaderIpListManager {
                         }
                     }
                     transaction.commit();
-                    count--;
+                    count++;
                 }
             } catch (Exception e) {
 
@@ -93,28 +93,28 @@ public class ClusterLeaderIpListManager {
    //add by chathura to get cluster leader ip list
     public static ArrayList<String> getClusterIpList() {
         if (getIpList() != null) {
-            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
-                Site.getLocal().allowThread();
-                Transaction transaction = Site.getLocal().startTransaction();
+//            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+//                Site.getLocal().allowThread();
+//                Transaction transaction = Site.getLocal().startTransaction();
                 for (int i = 0; i < ipList.size(); i++) {
                     ipArr.add(ipList.get(i).getleaderIP());
                 }
-                transaction.commit();
-            }
+//                transaction.commit();
+//            }
         }
         return ipArr;
     }
     //add by chathura to get cluster id list
     public static ArrayList<String> getClusterIdList() {
         if (getIpList() != null) {
-            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
-                Site.getLocal().allowThread();
-                Transaction transaction = Site.getLocal().startTransaction();
+//            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+//                Site.getLocal().allowThread();
+//                Transaction transaction = Site.getLocal().startTransaction();
                 for (int i = 0; i < ipList.size(); i++) {
                     idArr.add(ipList.get(i).getclusterID());
                 }
-                transaction.commit();
-            }
+//                transaction.commit();
+//            }
         }
         return idArr;
     }
