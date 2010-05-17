@@ -17,13 +17,13 @@ public interface DispInterface extends Remote {
 
     public String deleteTriggers(ArrayList<String> list, String cID, int triggerSeqID) throws RemoteException;
 
-    public void acceptNotifications(ArrayList<String> notification,String clientID) throws RemoteException;
+    public void getNotifications(ArrayList<String> notification,String clientID) throws RemoteException;
 
     public void registerCallback(ClientCallbackInterface clientObject) throws RemoteException, MalformedURLException, UnknownHostException, NotBoundException;
 
     public void unregisterCallback(ClientCallbackInterface clientObject) throws RemoteException, MalformedURLException, UnknownHostException, NotBoundException;
 
-    public void acceptLeaderIp(String ip) throws RemoteException;
+    public void getLeaderIp(String ip) throws RemoteException;
 
     public void replayLogs(String clusterID, String leadeIP) throws RemoteException;
 
