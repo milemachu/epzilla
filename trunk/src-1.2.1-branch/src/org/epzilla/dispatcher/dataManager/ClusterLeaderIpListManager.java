@@ -82,7 +82,7 @@ public class ClusterLeaderIpListManager {
                         }
                     }
                     transaction.commit();
-                    count++;
+                    count--;
                 }
             } catch (Exception e) {
 
