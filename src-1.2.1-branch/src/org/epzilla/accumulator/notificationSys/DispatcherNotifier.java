@@ -19,7 +19,7 @@ public class DispatcherNotifier {
     private static DispInterface dispObj;
     private static String response = null;
 
-    public static void getAlerts(String dispIP, String serviceName, ArrayList<String> alerts,String clientID) throws MalformedURLException, NotBoundException, RemoteException {
+    public static void getAlerts(String dispIP, String serviceName, String alerts,String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         initDispatcher(dispIP, serviceName);
         sendAlerts(alerts,clientID);
     }
@@ -31,8 +31,8 @@ public class DispatcherNotifier {
 
     }
 
-    private static void sendAlerts(ArrayList<String> alerts,String clientID) throws RemoteException, MalformedURLException, NotBoundException {
-        dispObj.acceptNotifications(alerts,clientID);
+    private static void sendAlerts(String alerts,String clientID) throws RemoteException, MalformedURLException, NotBoundException {
+        dispObj.getNotifications(alerts,clientID);
         if (response != null)
             System.out.println("Alert message send to the Dispatcher");
         else
