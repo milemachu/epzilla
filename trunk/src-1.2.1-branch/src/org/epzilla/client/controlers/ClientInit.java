@@ -48,7 +48,7 @@ public class ClientInit extends Thread {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -94,13 +94,13 @@ public class ClientInit extends Thread {
                     int eventsSeqID = 1;
                     String response = null;
 
-                    ArrayList<String> events = new ArrayList<String>();
+//                    ArrayList<String> events = new ArrayList<String>();
 //                    for (int i = 0; i < 10; i++) {
-                        events.add(EventTriggerGenerator.getNextEvent());
+                        String event = EventTriggerGenerator.getNextEvent();
 //                    }
 
                     try {
-                        response = di.uploadEventsToDispatcher(events, clientID, eventsSeqID);
+                        response = di.uploadEventsToDispatcher(event, clientID, eventsSeqID);
                     } catch (RemoteException e) {
                     }
 
@@ -111,7 +111,7 @@ public class ClientInit extends Thread {
                         return;
                     }
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
