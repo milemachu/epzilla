@@ -37,10 +37,10 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 
     public String acceptEventStream(ArrayList<String> eList, String clusterID, String clientID) throws RemoteException {
         try {
-
-            EventsManager em = new EventsManager(clientID);
+//            EventsManager em = new EventsManager(clientID);
             for(int i=0;i<eList.size();i++){
-                EventsManager.addEvents(eList.get(i));
+//                EventsManager.addEvents(eList.get(i));
+                System.out.println(eList.get(i).toString());
             }
 
             return "OK";
