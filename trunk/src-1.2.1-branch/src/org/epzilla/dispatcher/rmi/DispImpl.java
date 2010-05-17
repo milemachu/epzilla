@@ -71,7 +71,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     }
 
     @Override
-    public void getNotifications(ArrayList<String> notification, String clientID) throws RemoteException {
+    public void getNotifications(String notification, String clientID) throws RemoteException {
         clientIP = getClientIP(clientID);
 
     }
