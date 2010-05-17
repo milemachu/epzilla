@@ -29,10 +29,10 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     }
 
     @Override
-    public String uploadEventsToDispatcher(ArrayList<String> eList, String clientID, int eventSeqID) throws RemoteException {
+    public String uploadEventsToDispatcher(String event, String clientID, int eventSeqID) throws RemoteException {
         try {
-            EventsCounter.setInEventCount(eList.size());
-            EventManager.sendEventsToClusters(eList, clientID);
+            EventsCounter.setInEventCount(1);
+            EventManager.sendEventsToClusters(event, clientID);
             return "OK";
         } catch (Exception e) {
             System.err.println("FileServer exception");
