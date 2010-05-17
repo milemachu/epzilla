@@ -5,10 +5,17 @@ import jstm.core.Site;
 import jstm.core.Transaction;
 
 
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.TimerTask;
 
+import net.epzilla.stratification.immediate.ApproximateDispatcher;
+import net.epzilla.stratification.query.InvalidSyntaxException;
+import org.epzilla.dispatcher.clusterHandler.TriggerSender;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 import org.epzilla.dispatcher.RandomStringGenerator;
 
@@ -85,8 +92,9 @@ public class TriggerManager {
         return success;
     }
 
-    public static boolean addAllTriggersToList(List<String> triggerList, String clientID) {
+    public static boolean addAllTriggersToList(List<String> triggerList, String clientID) throws InvalidSyntaxException {
         boolean success = false;
+        ApproximateDispatcher ad = new ApproximateDispatcher();
         if (getTriggers() != null) {
             synchronized (triggerIdSyncLock) {
                 int tempCount = count;
@@ -103,13 +111,60 @@ public class TriggerManager {
                         obj.setdispatcherId(NodeVariables.getDispatcherId());
                         tempCount++;
                         tio.add(obj);
+
                         // TODO - modify to do correct structuring...
-                        sendTriggersToclusters(trigger);
 
                     }
+                    ad.assignClusters(tio, clientID);
                     getTriggers().addAll(tio);
-
                     transaction.commit();
+                    
+                    // todo send.
+
+                    ArrayList<String> ips = ClusterLeaderIpListManager.getClusterIpList();
+                    System.out.println("getting ip list size:  "+ips.size());
+                    Hashtable<String, ArrayList<String>> ht = new Hashtable();
+
+                    for (TriggerInfoObject tx : tio) {
+                        String id = tx.getstratumId() + ":" + tx.getclusterID();
+                        ArrayList<String> list = ht.get(id);
+                        if (list == null) {
+                            list = new ArrayList<String>();
+                            ht.put(id, list);
+                        }
+                        list.add(tx.gettrigger());
+                    }
+
+                    for (TriggerInfoObject tx : tio) {
+//                        sendTriggersToclusters(tx.gettrigger());
+                        System.out.println(tx.gettrigger());
+
+                    }
+
+
+                   for (String key: ht.keySet()) {
+                       ArrayList<String> lis = ht.get(key);
+                       if (lis.size() > 0) {
+                            String cl = key.split(":")[1];
+                           // todo assign clusters properly for system variables.
+
+                           try {
+                               String ip =  ips.get(Integer.parseInt(cl));
+                               TriggerSender.acceptTrigger(ip, cl, lis, clientID);
+                           } catch (NumberFormatException e) {
+                               
+                               e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                           } catch (RemoteException e) {
+                               e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                           } catch (MalformedURLException e) {
+                               e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                           } catch (NotBoundException e) {
+                               e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                           }
+                       }
+
+                   }
+
                     success = true;
 //                    System.out.println(new String(trigger));
                 }
