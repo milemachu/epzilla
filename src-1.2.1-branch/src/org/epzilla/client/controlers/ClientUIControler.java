@@ -35,10 +35,10 @@ public class ClientUIControler implements Runnable {
 
     @Override
     public void run() {
-        for (String notification : notifications) {
+
             dateTime = getDateTime();
-            clientInstance.getTxtResults().append(dateTime + ":" + notification + "\n");
-        }
+            clientInstance.getTxtResults().append(dateTime + ":" + message+ "\n");
+
     }
 
     private static String getDateTime() {

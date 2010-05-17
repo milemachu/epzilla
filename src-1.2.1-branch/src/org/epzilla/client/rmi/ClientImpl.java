@@ -19,7 +19,7 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface {
     public ClientImpl() throws RemoteException {
     }
 
-    public String notifyClient(ArrayList<String> notifications) {
+    public String notifyClient(String notifications) {
         try{
         clientCon = new ClientUIControler(notifications);
         Thread t = new Thread(clientCon);
