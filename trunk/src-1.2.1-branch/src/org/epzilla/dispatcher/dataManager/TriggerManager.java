@@ -116,6 +116,8 @@ public class TriggerManager {
 
                     }
                     ad.assignClusters(tio, clientID);
+                    count = count + tio.size();
+                    
                     getTriggers().addAll(tio);
                     transaction.commit();
                     
@@ -138,6 +140,7 @@ public class TriggerManager {
                     for (TriggerInfoObject tx : tio) {
 //                        sendTriggersToclusters(tx.gettrigger());
                         System.out.println(tx.gettrigger());
+                        System.out.println(tx.getclusterID());
 
                     }
 
