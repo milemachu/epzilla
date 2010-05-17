@@ -21,7 +21,7 @@ public class ClientNotifier {
     private static ClientInterface clientObj;
     private static String response = null;
 
-    public static void acceptNotifications(String serverIp, ArrayList<String> notifications) throws MalformedURLException, NotBoundException, RemoteException {
+    public static void acceptNotifications(String serverIp,String notifications) throws MalformedURLException, NotBoundException, RemoteException {
         if (clientMap.containsKey(serverIp)) {
             clientObj= (ClientInterface) clientMap.get(serverIp);
             sendNotifications(notifications);
@@ -39,7 +39,7 @@ public class ClientNotifier {
 
     }
 
-    public static void sendNotifications(ArrayList<String> list) throws RemoteException {
+    public static void sendNotifications(String list) throws RemoteException {
         response = clientObj.notifyClient(list);
         if (response != null)
             System.out.println("Notifications send to the client");
