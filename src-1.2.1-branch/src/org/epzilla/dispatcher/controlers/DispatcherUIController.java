@@ -29,7 +29,9 @@ public class DispatcherUIController {
         instance.setVisible(true);
         appendResults("Dispatcher Successfully deployed");
         try {
+            System.out.println("entering... ");
             instance.register();
+            System.out.println("returning...");
         } catch (MalformedURLException e) {
             appendResults("Setting details are incorrect");
         } catch (RemoteException e) {
