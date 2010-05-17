@@ -67,28 +67,28 @@ public class DispatcherService {
 
             System.out.println("running as server...");
 
-            ApproximateDispatcher ad = new ApproximateDispatcher();
-            ArrayList<TriggerInfoObject> tlist = new ArrayList();
-
-            TriggerInfoObject tio = new TriggerInfoObject();
-            tio.settrigger("SELECT avg(StockTrades.price), min(StockPrices.price) RETAIN 10 EVENTS OUTPUT StkTrades.avgprice, StkTrades.minprice;");
-            tlist.add(tio);
-            tio = new TriggerInfoObject();
-            tio.settrigger("SELECT sum(TDWLTrades.trades) RETAIN 10 MINUTES noSliding OUTPUT TDTrades.sumtrades;");
-            tlist.add(tio);
-
-            tio.settrigger("SELECT avg(MobitelStocks.stockPrice) RETAIN 20 EVENTS OUTPUT MobiStoks.avgprice;");
-            tlist.add(tio);
-            
-            ad.assignClusters(tlist, 8);
-            for (TriggerInfoObject x: tlist) {
-                System.out.println("str:cls:");
-                System.out.println(x.getstratumId());
-                System.out.println(x.getclusterID());
-
-            }
+//            ApproximateDispatcher ad = new ApproximateDispatcher();
+//            ArrayList<TriggerInfoObject> tlist = new ArrayList();
+//
+//            TriggerInfoObject tio = new TriggerInfoObject();
+//            tio.settrigger("SELECT avg(StockTrades.price), min(StockPrices.price) RETAIN 10 EVENTS OUTPUT StkTrades.avgprice, StkTrades.minprice;");
+//            tlist.add(tio);
+//            tio = new TriggerInfoObject();
+//            tio.settrigger("SELECT sum(TDWLTrades.trades) RETAIN 10 MINUTES noSliding OUTPUT TDTrades.sumtrades;");
+//            tlist.add(tio);
+//
+//            tio.settrigger("SELECT avg(MobitelStocks.stockPrice) RETAIN 20 EVENTS OUTPUT MobiStoks.avgprice;");
+//            tlist.add(tio);
+//
+//            ad.assignClusters(tlist, 8);
+//            for (TriggerInfoObject x: tlist) {
+//                System.out.println("str:cls:");
+//                System.out.println(x.getstratumId());
+//                System.out.println(x.getclusterID());
+//
+//            }
             //Dynamic Discovery
-            DispatcherDiscoveryManager ddm=new DispatcherDiscoveryManager();
+//            DispatcherDiscoveryManager ddm=new DispatcherDiscoveryManager();
 
         } catch (Exception e) {
             e.printStackTrace();

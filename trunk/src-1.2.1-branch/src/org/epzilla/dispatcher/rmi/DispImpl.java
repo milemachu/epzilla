@@ -1,5 +1,6 @@
 package org.epzilla.dispatcher.rmi;
 
+import net.epzilla.stratification.immediate.ApproximateDispatcher;
 import org.epzilla.client.rmi.ClientCallbackInterface;
 import org.epzilla.dispatcher.dataManager.*;
 import org.epzilla.dispatcher.logs.ReadLog;
@@ -31,7 +32,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     public String uploadEventsToDispatcher(ArrayList<String> eList, String clientID, int eventSeqID) throws RemoteException {
         try {
             EventsCounter.setInEventCount(eList.size());
-//            EventManager.sendEventsToClusters(eList, clientID);
+            EventManager.sendEventsToClusters(eList, clientID);
             return "OK";
         } catch (Exception e) {
             System.err.println("FileServer exception");
@@ -42,11 +43,16 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     @Override
     public String uploadTriggersToDispatcher(ArrayList<String> tList, String clientID, int triggerSeqID) throws RemoteException {
         String toReturn = null;
-        try {
+        try  {
 //            for (String aTList : tList) {
 //             TriggerManager.addTriggerToList(aTList,clientID);
 //             todo remove if problematic.
             // add to stm all at once.
+            ApproximateDispatcher ad = new ApproximateDispatcher();
+
+           for (String x: tList) {
+               System.out.println(x);
+           }
 
             TriggerManager.addAllTriggersToList(tList, clientID);
 //            }
@@ -55,6 +61,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
         } catch (Exception e) {
             System.err.println("FileServer exception: " + e.getMessage());
+            e.printStackTrace();
         }
         return toReturn;
     }
