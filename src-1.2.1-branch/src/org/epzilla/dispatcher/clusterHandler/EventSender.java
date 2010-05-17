@@ -27,11 +27,11 @@ public class EventSender {
    event stream need to be add to all the Cluster Nodes
     */
     public static void acceptEventStream(ArrayList<String> serverIp, ArrayList<String> clusterID, ArrayList<String> eventStream, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
-//        for (int i = 0; i < clusterID.size(); i++) {
-//            initCluster(serverIp.get(i).toString(), "CLUSTER_NODE");
-//            sendEventStream(eventStream, serverIp.get(i), clusterID.get(i).toString(), clientID);
-//        }
-        System.out.println(eventStream.size());
+        for (int i = 0; i < serverIp.size(); i++) {
+            initCluster(serverIp.get(i).toString(), "CLUSTER_NODE");
+            sendEventStream(eventStream, serverIp.get(i), clusterID.get(i).toString(), clientID);
+        }
+        System.out.println(eventStream);
     }
 
     private static void initCluster(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
