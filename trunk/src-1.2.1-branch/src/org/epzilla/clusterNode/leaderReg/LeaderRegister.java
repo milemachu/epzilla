@@ -39,7 +39,7 @@ public class LeaderRegister {
         service = (DispInterface) Naming.lookup(url);
         InetAddress inetAddress = InetAddress.getLocalHost();
         String ipAddress = inetAddress.getHostAddress();
-        service.acceptLeaderIp(ipAddress);
+        service.getLeaderIp(ipAddress);
     }
 
     private static void loadSettings() {
