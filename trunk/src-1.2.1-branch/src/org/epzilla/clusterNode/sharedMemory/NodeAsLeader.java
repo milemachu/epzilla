@@ -3,7 +3,6 @@ package org.epzilla.clusterNode.sharedMemory;
 import jstm.core.*;
 import jstm.transports.clientserver.Server;
 import jstm.transports.clientserver.socket.SocketServer;
-import jstm.transports.clientserver.socket.SocketClient;
 import org.epzilla.clusterNode.clusterInfoObjectModel.ClusterObjectModel;
 import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
@@ -88,7 +87,7 @@ public class NodeAsLeader {
     }
 
     public static void loadIPList() {
-       NodeUIController.appendTextToStatus("Adding TransactedList for Node IPs...");
+        NodeUIController.appendTextToStatus("Adding TransactedList for Node IPs...");
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
             Site.getLocal().allowThread();
             Transaction transaction = Site.getLocal().startTransaction();
@@ -107,7 +106,7 @@ public class NodeAsLeader {
     }
 
     public static void loadPerformanceInfoList() {
-       NodeUIController.appendTextToStatus("Adding TransactedList for Load Balance Info...");
+        NodeUIController.appendTextToStatus("Adding TransactedList for Load Balance Info...");
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
             Site.getLocal().allowThread();
             Transaction transaction = Site.getLocal().startTransaction();
@@ -120,7 +119,7 @@ public class NodeAsLeader {
         PerformanceInfoManager.getPerformanceList().addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
                 PerformanceInfoObject obj = PerformanceInfoManager.getPerformanceList().get(i);
-              NodeUIController.appendTextToStatus("Load Balancing Info Recieved:: IP:"+ obj.getnodeIP()+" CPU Usage:"+obj.getCPUusageAverage()+ "% Memory Usage:"+obj.getMemUsageAverage()+"%");
+                NodeUIController.appendTextToStatus("Load Balancing Info Recieved:: IP:" + obj.getnodeIP() + " CPU Usage:" + obj.getCPUusageAverage() + "% Memory Usage:" + obj.getMemUsageAverage() + "%");
             }
         });
     }
@@ -140,6 +139,34 @@ public class NodeAsLeader {
             }
         }, 10, 1000);
     }
+
+    //Check if the cluster is over loaded=> needs new nodes.
+    public static void checkForOverloading() {
+        final java.util.Timer timer1 = new java.util.Timer();
+        timer1.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                TransactedList<PerformanceInfoObject> list = PerformanceInfoManager.getPerformanceList();
+                int CPUsum = 0;
+                int MemSum = 0;
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).getnodeIP() != "PPPP") {
+                        CPUsum += Integer.valueOf(list.get(i).getCPUusageAverage());
+                        MemSum += Integer.valueOf(list.get(i).getMemUsageAverage());
+                    }
+                }
+                if(list.size()>1)
+                {
+                NodeUIController.appendTextToStatus("Average CPU usage of the cluster: " + (CPUsum / (list.size() - 1)) + "%");
+                NodeUIController.appendTextToStatus("Average Memory usage of the cluster: " + (MemSum / (list.size() - 1)) + "%");
+               //TO-DO
+                //send PErformance info to the Dispatcher
+                }
+            }
+        }, 120000,200000);
+    }
+
 
 }
 
