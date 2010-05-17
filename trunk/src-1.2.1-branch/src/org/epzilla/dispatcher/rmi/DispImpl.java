@@ -19,13 +19,12 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
     private Vector<ClientCallbackInterface> clientList = new Vector<ClientCallbackInterface>();
     private HashMap clientMap = new HashMap<String, String>();
-    private ArrayList<String> arr = new ArrayList<String>();
     private ArrayList<String> recoverTriggers = new ArrayList<String>();
     private String clientIP;
 
 
     protected DispImpl() throws RemoteException {
-        arr.add("Dispatcher Received the Trigger Stream");
+
     }
 
     @Override
@@ -35,7 +34,6 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
             EventManager.sendEventsToClusters(event, clientID);
             return "OK";
         } catch (Exception e) {
-            System.err.println("FileServer exception");
             e.printStackTrace();
         }
         return null;
@@ -58,10 +56,9 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
             TriggerManager.addAllTriggersToList(tList, clientID);
 //            }
             toReturn = "OK";
-            ClientNotifier.acceptNotifications(getClientIP(clientID), arr);
+            ClientNotifier.getNotifications(getClientIP(clientID),"Dispatcher Received the Trigger Stream");
 
         } catch (Exception e) {
-            System.err.println("FileServer exception: " + e.getMessage());
             e.printStackTrace();
         }
         return toReturn;
@@ -74,7 +71,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     }
 
     @Override
-    public void acceptNotifications(ArrayList<String> notification, String clientID) throws RemoteException {
+    public void getNotifications(ArrayList<String> notification, String clientID) throws RemoteException {
         clientIP = getClientIP(clientID);
 
     }
@@ -84,7 +81,6 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         DispLoadBalance.updateIncLoad();
         if (!(clientList.contains(clientObject))) {
             clientList.addElement(clientObject);
-
             System.out.println("Registered new client " + clientObject);
         }
     }
@@ -123,7 +119,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     }
 
     @Override
-    public void acceptLeaderIp(String ip) throws RemoteException {
+    public void getLeaderIp(String ip) throws RemoteException {
         try {
             String clusterID = ClusterIDGenerator.getClusterID(ip);
             ClusterLeaderIpListManager.addIP(clusterID, ip);
