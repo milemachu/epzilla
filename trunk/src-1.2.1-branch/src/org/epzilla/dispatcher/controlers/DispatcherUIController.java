@@ -79,7 +79,7 @@ public class DispatcherUIController {
     }
 
     public static void appendOutEventCount(String text) {
-
+         instance.getTxtOutEventCount().setText(text);
     }
 
     private static String getDateTime() {
