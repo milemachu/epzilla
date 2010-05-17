@@ -26,12 +26,14 @@ public class EventSender {
     /*
    event stream need to be add to all the Cluster Nodes
     */
-    public static void acceptEventStream(ArrayList<String> serverIp, ArrayList<String> clusterID, ArrayList<String> eventStream, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
+    public static void acceptEventStream(ArrayList<String> serverIp, ArrayList<String> clusterID, String event, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         for (int i = 0; i < serverIp.size(); i++) {
+            if(!"IP".equalsIgnoreCase(serverIp.get(i))){
             initCluster(serverIp.get(i).toString(), "CLUSTER_NODE");
-            sendEventStream(eventStream, serverIp.get(i), clusterID.get(i).toString(), clientID);
+            sendEventStream(event, serverIp.get(i), clusterID.get(i).toString(), clientID);
         }
-        System.out.println(eventStream);
+        }
+        System.out.println(event);
     }
 
     private static void initCluster(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
@@ -41,9 +43,9 @@ public class EventSender {
 
     }
 
-    private static void sendEventStream(ArrayList<String> eList, String leaderIP, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
-        response = clusterObj.acceptEventStream(eList, clusterID, clientID);
-        EventsCounter.setOutEventCount(eList.size());
+    private static void sendEventStream(String event, String leaderIP, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
+        response = clusterObj.acceptEventStream(event, clusterID, clientID);
+        EventsCounter.setOutEventCount(1);
         if (response != null) {
             System.out.println("Event stream send to the Cluster " + clusterID);
         } else {

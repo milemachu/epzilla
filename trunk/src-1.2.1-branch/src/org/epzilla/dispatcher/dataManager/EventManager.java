@@ -20,14 +20,15 @@ public class EventManager {
     private static boolean isLoaded = false;
     private static Thread eventsThread;
 
-    public static void sendEventsToClusters(ArrayList<String> eList, String clientID) {
+    public static void sendEventsToClusters(String event, String clientID) {
         if (!isLoaded) {
             loadClusterDetails();
         }
 //        eventsThread = new Thread(new Runnable() {
 //            public void run() {
                 try {
-                    EventSender.acceptEventStream(ipArr, idArr, eList, clientID);
+                     ArrayList<String> ips = ClusterLeaderIpListManager.getClusterIpList();
+                    EventSender.acceptEventStream(ips, idArr, event, clientID);
                     
                 } catch (MalformedURLException e) {
                     System.err.println(e);
@@ -46,6 +47,7 @@ public class EventManager {
     }
 
     private static void loadClusterDetails() {
+
         ipArr = ClusterLeaderIpListManager.getClusterIpList();
         idArr = ClusterLeaderIpListManager.getClusterIdList();
         isLoaded = true;

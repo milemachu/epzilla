@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public interface DispInterface extends Remote {
 
-    public String uploadEventsToDispatcher(ArrayList<String> eList, String cID, int eventSeqID) throws RemoteException;
+    public String uploadEventsToDispatcher(String event, String cID, int eventSeqID) throws RemoteException;
 
     public String uploadTriggersToDispatcher(ArrayList<String> tList, String cID, int triggerSeqID) throws RemoteException;
 
