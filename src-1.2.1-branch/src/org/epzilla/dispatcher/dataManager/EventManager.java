@@ -20,12 +20,12 @@ public class EventManager {
     private static boolean isLoaded = false;
     private static Thread eventsThread;
 
-    public static void sendEventsToClusters(final ArrayList<String> eList, final String clientID) {
+    public static void sendEventsToClusters(ArrayList<String> eList, String clientID) {
         if (!isLoaded) {
             loadClusterDetails();
         }
-        eventsThread = new Thread(new Runnable() {
-            public void run() {
+//        eventsThread = new Thread(new Runnable() {
+//            public void run() {
                 try {
                     EventSender.acceptEventStream(ipArr, idArr, eList, clientID);
                     
@@ -36,13 +36,13 @@ public class EventManager {
                 } catch (RemoteException e) {
                     System.err.println(e);
                 }
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//                try {
+//                    Thread.sleep(200);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
     }
 
     private static void loadClusterDetails() {
