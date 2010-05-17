@@ -2,6 +2,7 @@ package org.epzilla.leader;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Hashtable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.epzilla.leader.event.IEpzillaEvent;
@@ -10,11 +11,12 @@ import org.epzilla.leader.util.Status;
 public class Epzilla {
 	private static long UID=0; //At init
 	private static int clusterId=0; //At init
-	private static String clusterLeader=null; //While running
+	private static String clusterLeader=""; //While running
 	private static String status=Status.UNKNOWN.name(); //While running
-	private static String defaultLeader=null; //At init
+	private static String defaultLeader=""; //At init
 	private static boolean isLeaderElectionRunning=false; //While running
-	private static String componentType=null; //At init
+	private static String componentType=""; //At init
+	private static Hashtable<Integer, String> componentIpList=new Hashtable<Integer, String>(); //At init
 	private static ConcurrentLinkedQueue<IEpzillaEvent> timerQueue=new ConcurrentLinkedQueue<IEpzillaEvent>(); //While running
 	
 	public static long getUID() {
@@ -129,4 +131,19 @@ public class Epzilla {
 	public static void resetTimerQueue(){
 		timerQueue.clear();
 	}
+
+	public static void setComponentIpList(Hashtable<Integer, String> componentIpList) {
+		synchronized (componentIpList) {
+			Epzilla.componentIpList = componentIpList;
+		}
+		
+	}
+
+	public static Hashtable<Integer, String> getComponentIpList() {
+		synchronized (componentIpList) {
+			return componentIpList;
+		}		
+	}
+
+	
 }
