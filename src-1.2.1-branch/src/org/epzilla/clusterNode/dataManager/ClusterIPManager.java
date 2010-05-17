@@ -52,15 +52,11 @@ public class ClusterIPManager {
     }
 
     //add by chathura
+
     public static ArrayList<String> getNodeIpList() {
         if (getIpList() != null) {
-            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
-                Site.getLocal().allowThread();
-                Transaction transaction = Site.getLocal().startTransaction();
-                for (int i = 0; i < ipList.size(); i++) {
-                    ipArr.add(ipList.get(i).getIP());
-                }
-                transaction.commit();
+            for (int i = 0; i < ipList.size(); i++) {
+                ipArr.add(ipList.get(i).getIP());
             }
         }
         return ipArr;
