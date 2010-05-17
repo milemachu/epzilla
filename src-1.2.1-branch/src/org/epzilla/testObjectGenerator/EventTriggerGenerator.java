@@ -15,6 +15,7 @@ public class EventTriggerGenerator {
     private static final char[] symbols = new char[36];
     private static final Random random = new Random();
     private static char[] buf = new char[20];
+    private static int turn = 0;
 
     static {
         for (int idx = 0; idx < 10; ++idx)
@@ -57,7 +58,7 @@ public class EventTriggerGenerator {
             writer.append(Const.COLOR[random.nextInt(Const.COLOR.length)]);
             writer.append(',');
             writer.append(Const.YEAR[random.nextInt(Const.YEAR.length)]);
-            
+
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -69,40 +70,86 @@ public class EventTriggerGenerator {
 
     public static String getNextTrigger() {
         StringBuilder writer = new StringBuilder();
+
         try {
-            writer.append("SELECT");
-            writer.append(" ");
-            writer.append("CarDetails");
-            writer.append('.');
-            writer.append(Const.PROPERTY[random.nextInt(Const.PROPERTY.length)]);
-            writer.append(" ");
-            writer.append("WHERE");
-            writer.append(" ");
-            writer.append("CarDetails");
-            writer.append('.');
-            int temp = random.nextInt(Const.PROPERTY.length);
-            writer.append(Const.PROPERTY[temp]);
-            writer.append('=');
-            switch (temp) {
-                case 0:
-                    writer.append(Const.WORDS[random.nextInt(Const.WORDS.length)]);
-                    break;
-                case 1:
-                    writer.append(Const.YEAR[random.nextInt(Const.YEAR.length)]);
-                    break;
-                case 2:
-                    writer.append(Const.COLOR[random.nextInt(Const.COLOR.length)]);
-                    break;
+            if (turn == 0)
+            {
+                generateCarDetailsTrigger(writer);
+                turn=1;
             }
-            writer.append(" ");
-            writer.append("OUTPUT AS");
-            writer.append(" ");
-            writer.append("CarDetails");
+            else
+            {
+                generateBikeDetailsTrigger(writer);
+                turn=0;
+            }
+
         }
         catch (Exception e) {
             e.printStackTrace();
         }
         return writer.toString();
+    }
+
+    private static void generateBikeDetailsTrigger(StringBuilder writer) {
+        writer.append("SELECT");
+        writer.append(" ");
+        writer.append("BikeDetails");
+        writer.append('.');
+        writer.append(Const.PROPERTY[random.nextInt(Const.PROPERTY.length)]);
+        writer.append(" ");
+        writer.append("WHERE");
+        writer.append(" ");
+        writer.append("BikeDetails");
+        writer.append('.');
+        int temp = random.nextInt(Const.PROPERTY.length);
+        writer.append(Const.PROPERTY[temp]);
+        writer.append('=');
+        switch (temp) {
+            case 0:
+                writer.append(Const.WORDS[random.nextInt(Const.WORDS.length)]);
+                break;
+            case 1:
+                writer.append(Const.YEAR[random.nextInt(Const.YEAR.length)]);
+                break;
+            case 2:
+                writer.append(Const.COLOR[random.nextInt(Const.COLOR.length)]);
+                break;
+        }
+        writer.append(" ");
+        writer.append("OUTPUT AS");
+        writer.append(" ");
+        writer.append("BikeDetails");
+    }
+
+    private static void generateCarDetailsTrigger(StringBuilder writer) {
+        writer.append("SELECT");
+        writer.append(" ");
+        writer.append("CarDetails");
+        writer.append('.');
+        writer.append(Const.PROPERTY[random.nextInt(Const.PROPERTY.length)]);
+        writer.append(" ");
+        writer.append("WHERE");
+        writer.append(" ");
+        writer.append("CarDetails");
+        writer.append('.');
+        int temp = random.nextInt(Const.PROPERTY.length);
+        writer.append(Const.PROPERTY[temp]);
+        writer.append('=');
+        switch (temp) {
+            case 0:
+                writer.append(Const.WORDS[random.nextInt(Const.WORDS.length)]);
+                break;
+            case 1:
+                writer.append(Const.YEAR[random.nextInt(Const.YEAR.length)]);
+                break;
+            case 2:
+                writer.append(Const.COLOR[random.nextInt(Const.COLOR.length)]);
+                break;
+        }
+        writer.append(" ");
+        writer.append("OUTPUT AS");
+        writer.append(" ");
+        writer.append("CarDetails");
     }
 
 
