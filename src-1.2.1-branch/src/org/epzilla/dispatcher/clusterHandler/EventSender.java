@@ -30,7 +30,8 @@ public class EventSender {
         for (int i = 0; i < serverIp.size(); i++) {
             if(!"IP".equalsIgnoreCase(serverIp.get(i))){
             initCluster(serverIp.get(i).toString(), "CLUSTER_NODE");
-            sendEventStream(event, serverIp.get(i), clusterID.get(i).toString(), clientID);
+                String id = "x";
+            sendEventStream(event, serverIp.get(i), id, clientID);
         }
         }
         System.out.println(event);
