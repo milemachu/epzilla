@@ -29,11 +29,11 @@ public class SystemVariables {
                 while (true) {
                     try {
                         SystemVariables.setClusterLoad(0, 0, 121);
-                        SystemVariables.setClusterLoad(0, 0, 121);
-                        Thread.sleep(10000);
-                        SystemVariables.setClusterLoad(0, 0, 121);
-                        SystemVariables.setClusterLoad(0, 0, 121);
-                        Thread.sleep(10000);
+                        SystemVariables.setClusterLoad(0, 1, 12);
+                        Thread.sleep(40000);
+                        SystemVariables.setClusterLoad(0, 0, 12);
+                        SystemVariables.setClusterLoad(0, 1, 121);
+                        Thread.sleep(40000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
