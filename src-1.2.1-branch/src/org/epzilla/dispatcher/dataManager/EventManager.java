@@ -28,7 +28,7 @@ public class EventManager {
             public void run() {
                 try {
                     EventSender.acceptEventStream(ipArr, idArr, eList, clientID);
-                    EventsCounter.setOutEventCount(eList.size());
+                    
                 } catch (MalformedURLException e) {
                     System.err.println(e);
                 } catch (NotBoundException e) {
