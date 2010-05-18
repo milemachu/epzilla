@@ -19,30 +19,28 @@ import java.net.InetAddress;
  */
 public class MainDispatcherController {
 
-
-    public static void main(String[] args) {
-        try {
-            InetAddress addr = InetAddress.getLocalHost();
-
-            // Get IP Address
-            String ipAddr = addr.getHostAddress();
-            NodeVariables.setNodeIP(ipAddr);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        run();
-    }
+//
+//    public static void main(String[] args) {
+//        try {
+//            InetAddress addr = InetAddress.getLocalHost();
+//
+//            // Get IP Address
+//            String ipAddr = addr.getHostAddress();
+//            NodeVariables.setNodeIP(ipAddr);
+//        } catch (UnknownHostException e) {
+//            e.printStackTrace();
+//        }
+//        run();
+//    }
 
     public static void run() {
         try {
-           
+
             DispatcherUIController.InitializeUI();
-            runAsServer();
+            runAsClient();
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
-
     }
 
     public static void runAsServer() {
@@ -58,7 +56,7 @@ public class MainDispatcherController {
 
     }
 
-    private static void runAsClient() {
+   public static void runAsClient() {
         DispatcherAsClient.startClient();
         DispatcherAsClient.checkServerStatus();
     }
