@@ -20,23 +20,24 @@ public class EventManager {
     private static boolean isLoaded = false;
     private static Thread eventsThread;
 
-    public static void sendEventsToClusters(String event, String clientID) {
-        if (!isLoaded) {
-            loadClusterDetails();
-        }
+    public static void sendEvents(String event, String clientID) {
+//        if (!isLoaded) {
+//            loadClusterDetails();
+//        }
 //        eventsThread = new Thread(new Runnable() {
 //            public void run() {
-                try {
-                     ArrayList<String> ips = ClusterLeaderIpListManager.getClusterIpList();
-                    EventSender.acceptEventStream(ips, idArr, event, clientID);
-                    
-                } catch (MalformedURLException e) {
-                    System.err.println(e);
-                } catch (NotBoundException e) {
-                    System.err.println(e);
-                } catch (RemoteException e) {
-                    System.err.println(e);
-                }
+        try {
+            ArrayList<String> ips = ClusterLeaderIpListManager.getClusterIpList();
+            ArrayList<String> ids = ClusterLeaderIpListManager.getClusterIdList();
+            EventSender.acceptEvent(ips, ids, event, clientID);
+
+        } catch (MalformedURLException e) {
+            System.err.println(e);
+        } catch (NotBoundException e) {
+            System.err.println(e);
+        } catch (RemoteException e) {
+            System.err.println(e);
+        }
 //                try {
 //                    Thread.sleep(200);
 //                } catch (InterruptedException e) {
@@ -46,10 +47,10 @@ public class EventManager {
 //        });
     }
 
-    private static void loadClusterDetails() {
-
-        ipArr = ClusterLeaderIpListManager.getClusterIpList();
-        idArr = ClusterLeaderIpListManager.getClusterIdList();
-        isLoaded = true;
-    }
+//    private static void loadClusterDetails() {
+//
+//        ipArr = ClusterLeaderIpListManager.getClusterIpList();
+//        idArr = ClusterLeaderIpListManager.getClusterIdList();
+//        isLoaded = true;
+//    }
 }

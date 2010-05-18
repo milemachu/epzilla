@@ -23,8 +23,8 @@ public class EventsCounter {
         DispatcherUIController.appendInEventsCount(text);
     }
 
-    public static void setOutEventCount(int j) {
-        countOut = countOut + j;
+    public static void setOutEventCount(int i) {
+        countOut = countOut + i;
         String text = Integer.toString(countOut);
         DispatcherUIController.appendOutEventCount(text);
     }

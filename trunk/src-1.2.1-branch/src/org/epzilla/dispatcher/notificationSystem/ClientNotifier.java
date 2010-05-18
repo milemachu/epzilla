@@ -39,8 +39,8 @@ public class ClientNotifier {
 
     }
 
-    public static void sendNotifications(String list) throws RemoteException {
-        response = clientObj.notifyClient(list);
+    public static void sendNotifications(String msg) throws RemoteException {
+        response = clientObj.notifyClient(msg);
         if (response != null)
             System.out.println("Notifications send to the client");
         else
