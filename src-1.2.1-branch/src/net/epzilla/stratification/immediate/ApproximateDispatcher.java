@@ -37,8 +37,8 @@ public class ApproximateDispatcher {
             String[] ins = q.getInputs();
             String[] outs = q.getOutputs();
 
-            System.out.println(Arrays.toString(ins));
-            System.out.println(Arrays.toString(outs));
+//            System.out.println(Arrays.toString(ins));
+//            System.out.println(Arrays.toString(outs));
 
             // determine
             if (strata.size() == 0) {
@@ -66,7 +66,7 @@ public class ApproximateDispatcher {
 
             outer:
             for (int i = strata.size() - 1; i >= 0; i--) {
-                System.out.println("strata size:" + strata.size());
+//                System.out.println("strata size:" + strata.size());
                 TransactedList clusters = (TransactedList) strata.get(i);
                 boolean found = false;
 
@@ -76,7 +76,7 @@ public class ApproximateDispatcher {
 
                     TransactedSet<String> set = (TransactedSet) clusters.get(j); // todo check validity
 
-                    System.out.println("cluster size: " + clusters.size());
+//                    System.out.println("cluster size: " + clusters.size());
                     for (String event : set) {
                         for (String inputEvent : ins) {
                             if (inputEvent.equals(event)) {
@@ -103,7 +103,7 @@ public class ApproximateDispatcher {
                                 }
                             }
 
-                            System.out.println("target cluster:" + target + " : " + leastCluster);
+//                            System.out.println("target cluster:" + target + " : " + leastCluster);
                             tio.setstratumId(Integer.toString(target));
                             tio.setclusterID(Integer.toString(leastCluster));
 
@@ -141,7 +141,7 @@ public class ApproximateDispatcher {
                             }
                         }
 
-                        System.out.println("target cluster:" + target + " : " + leastCluster);
+//                        System.out.println("target cluster:" + target + " : " + leastCluster);
                         tio.setstratumId(Integer.toString(target));
                         tio.setclusterID(Integer.toString(leastCluster));
 
