@@ -1,6 +1,7 @@
 package org.epzilla.client.rmi;
 
 import org.epzilla.client.userInterface.SplashScreen;
+import org.epzilla.util.Logger;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -27,7 +28,7 @@ public class ClientStartup {
             String url = "rmi://" + ipAddress + "/" + serviceName;
             ClientInterface obj = new ClientImpl();
             Naming.rebind(url, obj);
-            System.out.println("Client successfully deployed");
+            Logger.log("Client successfully deployed");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -21,15 +21,15 @@ public class EventManager {
     private static Thread eventsThread;
 
     public static void sendEvents(byte[] event, String clientID) {
-//        if (!isLoaded) {
-//            loadClusterDetails();
-//        }
+        if (!isLoaded) {
+            loadClusterDetails();
+        }
 //        eventsThread = new Thread(new Runnable() {
 //            public void run() {
         try {
-            ArrayList<String> ips = ClusterLeaderIpListManager.getClusterIpList();
-            ArrayList<String> ids = ClusterLeaderIpListManager.getClusterIdList();
-            EventSender.acceptEvent(ips, ids, event, clientID);
+//            ArrayList<String> ips = ClusterLeaderIpListManager.getClusterIpList();
+//            ArrayList<String> ids = ClusterLeaderIpListManager.getClusterIdList();
+            EventSender.acceptEvent(ipArr, idArr, event, clientID);
 
         } catch (MalformedURLException e) {
             System.err.println(e);
@@ -47,10 +47,10 @@ public class EventManager {
 //        });
     }
 
-//    private static void loadClusterDetails() {
-//
-//        ipArr = ClusterLeaderIpListManager.getClusterIpList();
-//        idArr = ClusterLeaderIpListManager.getClusterIdList();
-//        isLoaded = true;
-//    }
+    private static void loadClusterDetails() {
+
+        ipArr = ClusterLeaderIpListManager.getClusterIpList();
+        idArr = ClusterLeaderIpListManager.getClusterIdList();
+        isLoaded = true;
+    }
 }

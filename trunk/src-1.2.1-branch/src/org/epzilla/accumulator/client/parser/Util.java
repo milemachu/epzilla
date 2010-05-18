@@ -1,5 +1,6 @@
 package org.epzilla.accumulator.client.parser;
 
+import org.epzilla.util.Logger;
 
 
 public class Util {
@@ -18,14 +19,14 @@ public class Util {
         for (int i : x) {
             System.out.print(i + ", ");
         }
-        System.out.println("");
+        Logger.log("");
     }
 
     public static void print(Object[] x) {
         for (Object i : x) {
             System.out.print(i.toString() + ", ");
         }
-        System.out.println("");
+        Logger.log("");
     }
 
     public static int[] getMapping(String[] src, String[] target) {

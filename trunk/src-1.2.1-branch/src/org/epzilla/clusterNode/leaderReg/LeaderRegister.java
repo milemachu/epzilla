@@ -5,6 +5,7 @@ import org.epzilla.clusterNode.rmi.ClusterImpl;
 import org.epzilla.clusterNode.rmi.ClusterInterface;
 import org.epzilla.clusterNode.xml.ClusterSettingsReader;
 import org.epzilla.dispatcher.rmi.DispInterface;
+import org.epzilla.util.Logger;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -30,7 +31,7 @@ public class LeaderRegister {
         String ipAddress = inetAddress.getHostAddress();
         String name = "rmi://" + ipAddress + "/" + serviceName;
         Naming.rebind(name, clusterInt);
-        System.out.println("Cluster Node successfully deployed.....");
+        Logger.log("Cluster Node successfully deployed.....");
     }
 
     private static void register() throws RemoteException, MalformedURLException, NotBoundException, UnknownHostException {

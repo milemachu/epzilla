@@ -6,6 +6,7 @@ import org.epzilla.common.discovery.Constants;
 import org.epzilla.common.discovery.multicast.MulticastReceiver;
 import org.epzilla.common.discovery.unicast.TCPListener;
 import org.epzilla.common.discovery.unicast.TCPSender;
+import org.epzilla.util.Logger;
 
 public class DispatcherDiscoveryManager {
 	
@@ -88,7 +89,7 @@ public class DispatcherDiscoveryManager {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println(DispatcherDiscoveryManager.getDispatcherPublisher().getSubscribers().get(5));
+		Logger.log(DispatcherDiscoveryManager.getDispatcherPublisher().getSubscribers().get(5));
 		
 		TCPSender ts1=new TCPSender("127.0.0.1", 5010);
 		ts1.sendMessage("5"+Constants.DISPATCHER_CLIENT_DELIMITER+"UNSUBSCRIBE_DISPATCHER_SERVICE");
@@ -97,7 +98,7 @@ public class DispatcherDiscoveryManager {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println(DispatcherDiscoveryManager.getDispatcherPublisher().getSubscribers().get(5));
+		Logger.log(DispatcherDiscoveryManager.getDispatcherPublisher().getSubscribers().get(5));
 		
 		TCPSender ts2=new TCPSender("127.0.0.1", 5010);
 		ts2.sendMessage("5"+Constants.DISPATCHER_CLIENT_DELIMITER+"SUBSCRIBE_DISPATCHER_SERVICE");
@@ -106,19 +107,19 @@ public class DispatcherDiscoveryManager {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println(DispatcherDiscoveryManager.getDispatcherPublisher().getSubscribers().get(5));
+		Logger.log(DispatcherDiscoveryManager.getDispatcherPublisher().getSubscribers().get(5));
 		
 		try {
 			Thread.sleep(30000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println(DispatcherDiscoveryManager.getDispatcherPublisher().getDispatchers().isEmpty());
-		System.out.println(DispatcherDiscoveryManager.getDispatcherPublisher().getDispatchers().size());
+		Logger.log(DispatcherDiscoveryManager.getDispatcherPublisher().getDispatchers().isEmpty());
+		Logger.log(DispatcherDiscoveryManager.getDispatcherPublisher().getDispatchers().size());
 
 		for (Iterator iterator = DispatcherDiscoveryManager.getDispatcherPublisher().getDispatchers().iterator(); iterator.hasNext();) {
 			String s = (String) iterator.next();
-			System.out.println(s);
+			Logger.log(s);
 			
 		}
 		

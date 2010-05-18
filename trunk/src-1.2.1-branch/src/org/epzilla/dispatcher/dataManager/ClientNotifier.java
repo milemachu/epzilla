@@ -1,12 +1,12 @@
 package org.epzilla.dispatcher.dataManager;
 
 import org.epzilla.client.rmi.ClientInterface;
+import org.epzilla.util.Logger;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -42,9 +42,9 @@ public class ClientNotifier {
     public static void sendNotifications(String list) throws RemoteException {
         response = clientObj.notifyClient(list);
         if (response != null)
-            System.out.println("Notifications send to the client");
+            Logger.log("Notifications send to the client");
         else
-            System.out.println("Notifications not sent");
+            Logger.log("Notifications not sent");
 
     }
 

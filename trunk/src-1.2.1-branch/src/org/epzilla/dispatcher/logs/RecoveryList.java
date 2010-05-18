@@ -1,5 +1,7 @@
 package org.epzilla.dispatcher.logs;
 
+import org.epzilla.util.Logger;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -63,11 +65,11 @@ public class RecoveryList implements FileScannerInterface{
 			}
 			scanner.close();
 			} catch (FileNotFoundException e) {
-				System.out.println("File not found");
+				Logger.log("File not found");
 			}
-			System.out.println("Redo List:");
+			Logger.log("Redo List:");
 			printArray(redoList);
-			System.out.println("Undo List:");
+			Logger.log("Undo List:");
 			printArray(undoList);
 			recovery(undoList); 
 	}
@@ -78,7 +80,7 @@ public class RecoveryList implements FileScannerInterface{
 	}
 	public void printArray(List<String> array) {
 		for(int i=0; i<array.size();i++){
-			System.out.println(array.get(i));
+			Logger.log(array.get(i));
 		}
 	}
 	

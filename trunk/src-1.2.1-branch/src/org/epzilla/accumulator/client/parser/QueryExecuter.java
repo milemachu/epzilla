@@ -7,6 +7,7 @@ import java.util.HashSet;
 
 import org.epzilla.accumulator.client.query.Query;
 import org.epzilla.accumulator.client.query.QuerySyntaxException;
+import org.epzilla.util.Logger;
 
 
 /**
@@ -113,14 +114,14 @@ public class QueryExecuter {
         for (int i : x) {
             System.out.print(i + ", ");
         }
-        System.out.println("");
+        Logger.log("");
     }
 
     private void print(Object[] x) {
         for (Object i : x) {
             System.out.print(i.toString() + ", ");
         }
-        System.out.println("");
+        Logger.log("");
     }
 
     public int[] getMapping(String[] src, String[] target) {

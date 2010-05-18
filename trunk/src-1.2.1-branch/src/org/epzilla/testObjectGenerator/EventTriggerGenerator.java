@@ -1,5 +1,7 @@
 package org.epzilla.testObjectGenerator;
 
+import org.epzilla.util.Logger;
+
 import java.util.Random;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -35,7 +37,7 @@ public class EventTriggerGenerator {
         String temp;
         for (int i = 0; i < 1000; i++) {
             temp = getNextTrigger();
-            System.out.println(temp);
+            Logger.log(temp);
         }
     }
 

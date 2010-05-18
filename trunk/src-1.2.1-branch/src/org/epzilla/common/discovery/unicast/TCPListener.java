@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import org.epzilla.common.discovery.Constants;
+import org.epzilla.util.Logger;
 
 public class TCPListener {
 	
@@ -55,7 +56,7 @@ public class TCPListener {
 	
 	public static void main(String[] args) {
 		TCPListener tl=new TCPListener(5010);
-		System.out.println(tl.MessageReceived());
+		Logger.log(tl.MessageReceived());
 	}
 
 	public void setTcpPort(int tcpPort) {

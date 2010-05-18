@@ -1,5 +1,7 @@
 package org.epzilla.dispatcher.logs;
 
+import org.epzilla.util.Logger;
+
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -25,7 +27,7 @@ public class RandomStringGenerator {
 
 	public static void main(String[] args) throws IOException {
 		final WriteLog lf = new WriteLog();
-		System.out.println("Generating random strings");
+		Logger.log("Generating random strings");
 	    final Random random = new Random();
        /*
 
@@ -43,7 +45,7 @@ public class RandomStringGenerator {
                      }
                  }
 
-	    System.out.println("Done.");
+	    Logger.log("Done.");
             }
         }, delay, interval);
         /*

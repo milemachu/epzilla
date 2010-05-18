@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 
 import org.epzilla.common.discovery.Constants;
+import org.epzilla.util.Logger;
 
 public class MulticastReceiver {
 	
@@ -55,7 +56,7 @@ public class MulticastReceiver {
 	
 	public static void main(String[] args) {
 		MulticastReceiver rec=new MulticastReceiver("224.0.0.2", 5005);
-		System.out.println(rec.messageReceived());
+		Logger.log(rec.messageReceived());
 	}
 
 	public void setMulticastGroupIp(String multicastGroupIp) {

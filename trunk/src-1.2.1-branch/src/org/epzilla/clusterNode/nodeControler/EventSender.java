@@ -1,6 +1,7 @@
 package org.epzilla.clusterNode.nodeControler;
 
 import org.epzilla.clusterNode.rmi.ClusterInterface;
+import org.epzilla.util.Logger;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -38,9 +39,9 @@ public class EventSender {
             response = clusterObj.addEventStream(events, clientID);
 
             if (response != null) {
-                System.out.println("Events added to the Node " + serverIp.get(i));
+                Logger.log("Events added to the Node " + serverIp.get(i));
             } else {
-                System.err.println("Events adding failure to the Node" + serverIp.get(i));
+                Logger.error("Events adding failure to the Node" + serverIp.get(i), null);
             }
         }
     }

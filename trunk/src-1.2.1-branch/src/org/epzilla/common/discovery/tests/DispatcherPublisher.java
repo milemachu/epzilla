@@ -3,6 +3,7 @@ package org.epzilla.common.discovery.tests;
 import static org.junit.Assert.*;
 
 import org.epzilla.common.discovery.multicast.MulticastReceiver;
+import org.epzilla.util.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +40,7 @@ public class DispatcherPublisher {
 						multicastGroupIp, multicastPort);
 
 				while (!isReceived) {
-					System.out.println(receiver.messageReceived());
+					Logger.error(receiver.messageReceived(), null);
 					isReceived=true;
 				}
 			}

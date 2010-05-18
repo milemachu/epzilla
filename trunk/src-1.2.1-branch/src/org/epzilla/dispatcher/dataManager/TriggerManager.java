@@ -1,9 +1,13 @@
 package org.epzilla.dispatcher.dataManager;
 
-import jstm.core.TransactedList;
 import jstm.core.Site;
+import jstm.core.TransactedList;
 import jstm.core.Transaction;
-
+import net.epzilla.stratification.immediate.ApproximateDispatcher;
+import net.epzilla.stratification.query.InvalidSyntaxException;
+import org.epzilla.dispatcher.RandomStringGenerator;
+import org.epzilla.dispatcher.clusterHandler.TriggerSender;
+import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
@@ -12,12 +16,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.TimerTask;
-
-import net.epzilla.stratification.immediate.ApproximateDispatcher;
-import net.epzilla.stratification.query.InvalidSyntaxException;
-import org.epzilla.dispatcher.clusterHandler.TriggerSender;
-import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
-import org.epzilla.dispatcher.RandomStringGenerator;
+import org.epzilla.util.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -81,7 +80,7 @@ public class TriggerManager {
                     sendTriggersToclusters(trigger);
                     transaction.commit();
                     success = true;
-                    System.out.println(trigger);
+                    Logger.log(trigger);
                 }
 
                 if (success) {
@@ -124,7 +123,7 @@ public class TriggerManager {
                     // todo send.
 
                     ArrayList<String> ips = ClusterLeaderIpListManager.getClusterIpList();
-                    System.out.println("getting ip list size:  "+ips.size());
+                    Logger.log("getting ip list size:  "+ips.size());
                     Hashtable<String, ArrayList<String>> ht = new Hashtable();
 
                     for (TriggerInfoObject tx : tio) {
@@ -139,8 +138,8 @@ public class TriggerManager {
 
                     for (TriggerInfoObject tx : tio) {
 //                        sendTriggersToclusters(tx.gettrigger());
-                        System.out.println(tx.gettrigger());
-                        System.out.println(tx.getclusterID());
+                        Logger.log(tx.gettrigger());
+                        Logger.log(tx.getclusterID());
 
                     }
 
@@ -169,7 +168,7 @@ public class TriggerManager {
                    }
 
                     success = true;
-//                    System.out.println(new String(trigger));
+//                    Logger.log(new String(trigger));
                 }
                 if (success) {
                     count = tempCount;

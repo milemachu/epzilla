@@ -1,6 +1,7 @@
 package org.epzilla.dispatcher.clusterHandler;
 
 import org.epzilla.clusterNode.rmi.ClusterInterface;
+import org.epzilla.util.Logger;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -51,9 +52,9 @@ public class TriggerSender {
     private static void sendTriggers(ArrayList<String> triggers, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
         response = clusterObj.acceptTiggerStream(triggers, clusterID, clientID);
         if (response != null) {
-            System.out.println("Triggers send to the cluster");
+            Logger.log("Triggers send to the cluster");
         } else {
-            System.out.println("Triggers not accepted");
+            Logger.log("Triggers not accepted");
         }
     }
 

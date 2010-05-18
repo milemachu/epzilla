@@ -1,4 +1,4 @@
-package net.epzilla.util;
+package org.epzilla.util;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,12 +21,25 @@ public class Logger {
         }
     }
 
+    public static void log(boolean input) {
+        if (dolog) {
+            System.out.println(input);
+        }
+    }
+
+    public static void log(Object obj) {
+         if (dolog) {
+            System.out.println(obj.toString());
+        }
+    }
+
     public static void error(String s, Exception e) {
         if (doErrorlog) {
             if (s != null) {
                 System.out.println(s);
             }
-            e.printStackTrace();
+            if (e != null)
+                e.printStackTrace();
         }
     }
 

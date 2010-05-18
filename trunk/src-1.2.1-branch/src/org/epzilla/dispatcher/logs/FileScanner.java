@@ -1,6 +1,7 @@
 package org.epzilla.dispatcher.logs;
 
 import org.epzilla.dispatcher.controlers.DispatcherUIController;
+import org.epzilla.util.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -70,11 +71,11 @@ public class FileScanner implements Runnable {
             }
             scanner.close();
         } catch (FileNotFoundException e) {
-            System.out.println("File not found");
+            Logger.log("File not found");
         }
         printArray(recoverArr);
         long end = System.currentTimeMillis();
-        System.out.println("Time: " + (end - start));
+        Logger.log("Time: " + (end - start));
         return recoverArr;
     }
 
@@ -106,17 +107,17 @@ public class FileScanner implements Runnable {
             }
             scanner.close();
         } catch (FileNotFoundException e) {
-            System.out.println("File not found");
+            Logger.log("File not found");
         }
         printArray(recoverArr);
         long end = System.currentTimeMillis();
-        System.out.println("Time: " + (end - start));
+        Logger.log("Time: " + (end - start));
         DispatcherUIController.appendTriggers(recoverArr);
     }
 
     public static void printArray(List<String> array) {
         for (int i = 0; i < array.size(); i++) {
-            System.out.println(array.get(i));
+            Logger.log(array.get(i));
         }
     }
 }
