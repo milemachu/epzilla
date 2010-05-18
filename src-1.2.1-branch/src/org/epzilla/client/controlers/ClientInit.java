@@ -49,7 +49,7 @@ public class ClientInit extends Thread {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -58,7 +58,7 @@ public class ClientInit extends Thread {
                     String response = null;
 
                     ArrayList<String> triggers = new ArrayList<String>();
-                    for (int i = 0; i < 5; i++) {
+                    for (int i = 0; i < 500; i++) {
                         triggers.add(EventTriggerGenerator.getNextTrigger());
                     }
                     try {
@@ -87,7 +87,7 @@ public class ClientInit extends Thread {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -111,7 +111,7 @@ public class ClientInit extends Thread {
                         return;
                     }
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
