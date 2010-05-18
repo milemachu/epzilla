@@ -26,7 +26,7 @@ public class EventSender {
     /*
    event stream need to be add to all the Cluster Nodes
     */
-    public static void acceptEvent(ArrayList<String> serverIp, ArrayList<String> clusterID, String event, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
+    public static void acceptEvent(ArrayList<String> serverIp, ArrayList<String> clusterID, byte[] event, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         for (int i = 0; i < serverIp.size(); i++) {
             if (!"IP".equalsIgnoreCase(serverIp.get(i))) {
                 initCluster(serverIp.get(i).toString(), "CLUSTER_NODE");
@@ -44,7 +44,7 @@ public class EventSender {
 
     }
 
-    private static void sendEvent(String event, String leaderIP, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
+    private static void sendEvent(byte[] event, String leaderIP, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
         response = clusterObj.acceptEventStream(event, clusterID, clientID);
         EventsCounter.setOutEventCount(1);
         if (response != null) {
