@@ -54,36 +54,62 @@ public class ClientInit extends Thread {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                while (isLive) {
-                    int triggerSeqID = 1;
-                    String response = null;
+                int count = 0;
+                String response = null;
+                int triggerSeqID = 1;
+                ArrayList<String> triggers = new ArrayList<String>();
+                for (int i = 0; i < 200; i++) {
+                    triggers.add(EventTriggerGenerator.getNextTrigger());
 
-                    ArrayList<String> triggers = new ArrayList<String>();
-                    for (int i = 0; i < 5; i++) {
-                        triggers.add(EventTriggerGenerator.getNextTrigger());
-                        try {
-                            Thread.sleep(30);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    try {
-                        response = di.uploadTriggersToDispatcher(triggers, clientID, triggerSeqID);
-                    } catch (RemoteException e) {
-                    }
-
-                    if (response != null) {
-                        Logger.log("Dispatcher Recieved the triggrs from the client and the response is " + response);
-                    } else {
-                        ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped" + "\n");
-                        return;
-                    }
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                 }
+                try {
+                    response = di.uploadTriggersToDispatcher(triggers, clientID, triggerSeqID);
+                } catch (RemoteException e) {
+                }
+
+                if (response != null) {
+                    Logger.log("Dispatcher Recieved the triggrs from the client and the response is " + response);
+                } else {
+                    ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped" + "\n");
+                    return;
+                }
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
+//                while (isLive) {
+//
+//                     response = null;
+//
+//                     triggers = new ArrayList<String>();
+//                    for (int i = 0; i < 5; i++) {
+//                        triggers.add(EventTriggerGenerator.getNextTrigger());
+//                        try {
+//                            Thread.sleep(10);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    try {
+//                        response = di.uploadTriggersToDispatcher(triggers, clientID, triggerSeqID);
+//                    } catch (RemoteException e) {
+//                    }
+//
+//                    if (response != null) {
+//                        Logger.log("Dispatcher Recieved the triggrs from the client and the response is " + response);
+//                    } else {
+//                        ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped" + "\n");
+//                        return;
+//                    }
+//                    try {
+//                        Thread.sleep(10000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
             }
         });
     }
@@ -93,7 +119,7 @@ public class ClientInit extends Thread {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -102,12 +128,13 @@ public class ClientInit extends Thread {
                     String response = null;
 
                     String event = EventTriggerGenerator.getNextEvent();
-
+//                     String s = "SS";
                     byte[] buffer = event.getBytes();
 
                     try {
                         response = di.uploadEventsToDispatcher(buffer, clientID, eventsSeqID);
                     } catch (RemoteException e) {
+                        Logger.log(e);
                     }
 
                     if (response != null)
@@ -117,7 +144,7 @@ public class ClientInit extends Thread {
                         return;
                     }
 //                    try {
-//                        Thread.sleep(1);
+//                        Thread.sleep(100);
 //                    } catch (InterruptedException e) {
 //                        e.printStackTrace();
 //                    }
