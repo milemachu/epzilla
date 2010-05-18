@@ -17,14 +17,14 @@ public class EventsCounter {
     public EventsCounter() {
     }
 
-    public static void setInEventCount(int i) {
-        countIn = countIn + i;
+    public static void setInEventCount() {
+        countIn++;
         String text = Integer.toString(countIn);
         DispatcherUIController.appendInEventsCount(text);
     }
 
-    public static void setOutEventCount(int i) {
-        countOut = countOut + i;
+    public static void setOutEventCount() {
+        countOut++;
         String text = Integer.toString(countOut);
         DispatcherUIController.appendOutEventCount(text);
     }
