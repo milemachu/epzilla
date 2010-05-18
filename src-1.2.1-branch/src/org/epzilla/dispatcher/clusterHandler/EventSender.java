@@ -49,7 +49,7 @@ public class EventSender {
 
     private static void sendEvent(byte[] event, String leaderIP, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
         response = clusterObj.acceptEventStream(event, clusterID, clientID);
-        EventsCounter.setOutEventCount(1);
+        
         if (response != null) {
             Logger.log("Event stream send to the Cluster " + clusterID);
         } else {
