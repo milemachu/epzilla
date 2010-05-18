@@ -1,20 +1,16 @@
 package org.epzilla.accumulator.stm;
 
 import jstm.core.*;
-import jstm.transports.clientserver.socket.SocketClient;
 import jstm.transports.clientserver.ConnectionInfo;
-
-import java.io.IOException;
-import java.io.Console;
-import java.util.Set;
-import java.util.Scanner;
-
+import jstm.transports.clientserver.socket.SocketClient;
 import org.epzilla.accumulator.Variables;
 import org.epzilla.accumulator.generated.AccumulatorObjectModel;
-import org.epzilla.accumulator.generated.EventMapMarker;
 import org.epzilla.accumulator.generated.SharedDerivedEvent;
-import org.epzilla.accumulator.generated.StructureMarker;
 import org.epzilla.accumulator.global.DerivedEvent;
+import org.epzilla.util.Logger;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -53,18 +49,18 @@ public class StmClient {
 
                     public void onAdded(Transaction transaction, Object o) {
                         //To change body of implemented methods use File | Settings | File Templates.
-                        System.out.println("client: new event added.");
+                        Logger.log("client: new event added.");
 
                     }
 
                     public void onRemoved(Transaction transaction, Object o) {
                         //To change body of implemented methods use File | Settings | File Templates.
-                        System.out.println("client: event removed.");
+                        Logger.log("client: event removed.");
                     }
                 });
 
             } catch (Exception e) {
-                System.out.println("error adding listener.");
+                Logger.log("error adding listener.");
             }
             TransactedMap<String, TransactedObject> map = null;
             for (Object transactedItem : transactedItems) {
@@ -74,11 +70,11 @@ public class StmClient {
 
 
                         public void onPut(Transaction transaction, Integer integer, TransactedList<SharedDerivedEvent> sharedDerivedEvents) {
-                            System.out.println("client: new event added.");
+                            Logger.log("client: new event added.");
                         }
 
                         public void onRemoved(Transaction transaction, Integer integer) {
-                            System.out.println("client: event removed.");
+                            Logger.log("client: event removed.");
                         }
                     });
                     break;
@@ -87,6 +83,6 @@ public class StmClient {
         } catch (Exception e) {
 
         }
-//        System.out.println("initial map size:" + STMAccess.clientMap.size());
+//        Logger.log("initial map size:" + STMAccess.clientMap.size());
     }
 }

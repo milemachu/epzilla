@@ -1,6 +1,8 @@
 package org.epzilla.nameserver;
 
 
+import org.epzilla.util.Logger;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.rmi.Naming;
@@ -36,9 +38,9 @@ public class NameServiceHandler extends UnicastRemoteObject {
             String url = "rmi://" + ipAddress + "/" + serviceName;
             NameService obj = new NameServiceImpl();
             Naming.rebind(url, obj);
-            System.out.println("NameServer successfully deployed");
+            Logger.log("NameServer successfully deployed");
         } catch (Exception e) {
-            System.out.println("NameService err: " + e.getMessage());
+            Logger.log("NameService err: " + e.getMessage());
         }
 
     }

@@ -2,12 +2,15 @@ package org.epzilla.dispatcher.clusterHandler;
 
 import org.epzilla.clusterNode.rmi.ClusterInterface;
 import org.epzilla.dispatcher.dataManager.EventsCounter;
+import org.epzilla.util.Logger;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
+//import org.epzilla.util.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,7 +37,7 @@ public class EventSender {
                 sendEvent(event, serverIp.get(i), id, clientID);
             }
         }
-        System.out.println(event);
+        Logger.log(Arrays.toString(event));
     }
 
     private static void initCluster(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
@@ -48,7 +51,7 @@ public class EventSender {
         response = clusterObj.acceptEventStream(event, clusterID, clientID);
         EventsCounter.setOutEventCount(1);
         if (response != null) {
-            System.out.println("Event stream send to the Cluster " + clusterID);
+            Logger.log("Event stream send to the Cluster " + clusterID);
         } else {
 //            LeaderDisconnector led = new LeaderDisconnector();
 //            led.leaderRemover(leaderIP);

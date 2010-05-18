@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.epzilla.clusterNode.query.QuerySyntaxException;
 import org.epzilla.clusterNode.parser.QueryExecuter;
+import org.epzilla.util.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,32 +18,32 @@ public class Main {
 
     public static void main(String[] args) throws QuerySyntaxException {
 
-        System.out.println("Triggers:");
-        System.out.println("");
+        Logger.log("Triggers:");
+        Logger.log("");
         for (int i = 0; i < 100; i++) {
             String tr = EventTriggerGenerator.getNextTrigger();
-            System.out.println(tr);
+            Logger.log(tr);
             qe.addQuery(tr);
         }
 
-        System.out.println("");
-        System.out.println("......................");
+        Logger.log("");
+        Logger.log("......................");
 
 
         ArrayList<String> events = new ArrayList<String>();
-        System.out.println("Events:");
-        System.out.println("");
+        Logger.log("Events:");
+        Logger.log("");
         for (int i = 0; i < 10; i++) {
             String x = EventTriggerGenerator.getNextEvent();
             events.add(x);
-            System.out.println(x);
+            Logger.log(x);
         }
 
-        System.out.println("...................");
-        System.out.println("");
-        System.out.println("");
-        System.out.println("Results");
-        System.out.println("");
+        Logger.log("...................");
+        Logger.log("");
+        Logger.log("");
+        Logger.log("Results");
+        Logger.log("");
 
 
         // not needed.
@@ -51,7 +52,7 @@ public class Main {
                 for (int i = 0; i < 30; i++) {
                     try {
                         String tr = EventTriggerGenerator.getNextTrigger();
-                        System.out.println(tr);
+                        Logger.log(tr);
                         qe.addQuery(tr);
                     } catch (Exception e) {
 
@@ -61,7 +62,7 @@ public class Main {
         };
         t.start();
         for (String str : events) {
-            System.out.println("processed:\n" + qe.processEvents(str));
+            Logger.log("processed:\n" + qe.processEvents(str));
 
 
         }

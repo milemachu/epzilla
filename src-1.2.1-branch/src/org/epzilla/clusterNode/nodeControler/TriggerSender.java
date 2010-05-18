@@ -1,6 +1,7 @@
 package org.epzilla.clusterNode.nodeControler;
 
 import org.epzilla.clusterNode.rmi.ClusterInterface;
+import org.epzilla.util.Logger;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -43,9 +44,9 @@ public class TriggerSender {
 
         response = clusterObj.addTriggerStream(triggers, clientID);
         if (response != null) {
-            System.out.println("Triggers send to the Node:" + nodeIP);
+            Logger.log("Triggers send to the Node:" + nodeIP);
         } else {
-            System.out.println("Triggers not accepted");
+            Logger.log("Triggers not accepted");
         }
     }
 

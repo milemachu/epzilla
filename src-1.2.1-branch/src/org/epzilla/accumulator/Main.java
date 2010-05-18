@@ -1,21 +1,15 @@
 package org.epzilla.accumulator;
 
 
-import java.rmi.RemoteException;
-import java.rmi.Naming;
-import java.net.MalformedURLException;
-import java.io.IOException;
-import java.io.Serializable;
-
-import org.epzilla.accumulator.global.Event;
-import org.epzilla.accumulator.global.SourceEvent;
-import org.epzilla.accumulator.service.AccumulatorService;
-import org.epzilla.accumulator.service.AccumulatorServiceImpl;
 import org.epzilla.accumulator.service.ServiceLoader;
 import org.epzilla.accumulator.stm.StmClient;
 import org.epzilla.accumulator.stm.StmServer;
-import org.epzilla.accumulator.util.ConfigFileScanner;
 import org.epzilla.accumulator.util.OpenSecurityManager;
+import org.epzilla.util.Logger;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.rmi.RemoteException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -44,9 +38,9 @@ public class Main {
 
             ServiceLoader sl = new ServiceLoader();
             sl.autodeploy();
-            System.out.println("accumulator service deployed.");
-
-
+//            Logger.log("accumulator service deployed.");
+//              org.epzilla.util.
+              Logger.log("Accumulator service deployed");
 
         } catch (RemoteException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

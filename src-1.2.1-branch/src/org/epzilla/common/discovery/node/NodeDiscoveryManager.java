@@ -9,6 +9,7 @@ import org.epzilla.common.discovery.node.MulticastMessageDecoder;
 import org.epzilla.common.discovery.node.TCPMessageDecoder;
 import org.epzilla.common.discovery.multicast.MulticastReceiver;
 import org.epzilla.common.discovery.unicast.TCPListener;
+import org.epzilla.util.Logger;
 
 public class NodeDiscoveryManager {
 	
@@ -141,7 +142,7 @@ public class NodeDiscoveryManager {
 		
 		for (Iterator iterator = (nodeMan.getNodePublisher().getNodes().iterator()); iterator.hasNext();) {
 			String str = (String) iterator.next();
-			System.out.println(str);
+			Logger.log(str);
 		}
 		
 		nodeMan.setLeader(true);
@@ -158,7 +159,7 @@ public class NodeDiscoveryManager {
 		
 		for (Iterator iterator = nodeMan.getLeaderPublisher().getSubscribers().iterator(); iterator.hasNext();) {
 			String str = (String) iterator.next();
-			System.out.println(str);
+			Logger.log(str);
 		}
 	}
 }

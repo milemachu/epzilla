@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import org.epzilla.common.discovery.dispatcher.DispatcherDiscoveryManager;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
+import org.epzilla.util.Logger;
 
 public class DispatcherService {
 
@@ -34,6 +35,8 @@ public class DispatcherService {
         DispInterface dispInt = new DispImpl();
         InetAddress inetAddress;
         inetAddress = InetAddress.getLocalHost();
+        Logger.log("inet addreass:" + inetAddress);
+        
         String ipAddress = inetAddress.getHostAddress();
         String id = dispIdGen(ipAddress);
         String disServiceName = serviceName + id;
@@ -65,7 +68,7 @@ public class DispatcherService {
             service.bindDispatcher(serviceName);
             run();
 
-            System.out.println("running as server...");
+            Logger.log("running as server...");
 
 //            ApproximateDispatcher ad = new ApproximateDispatcher();
 //            ArrayList<TriggerInfoObject> tlist = new ArrayList();
@@ -82,9 +85,9 @@ public class DispatcherService {
 //
 //            ad.assignClusters(tlist, 8);
 //            for (TriggerInfoObject x: tlist) {
-//                System.out.println("str:cls:");
-//                System.out.println(x.getstratumId());
-//                System.out.println(x.getclusterID());
+//                Logger.log("str:cls:");
+//                Logger.log(x.getstratumId());
+//                Logger.log(x.getclusterID());
 //
 //            }
             //Dynamic Discovery

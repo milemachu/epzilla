@@ -4,6 +4,7 @@ import org.epzilla.client.rmi.ClientCallbackImpl;
 import org.epzilla.client.rmi.ClientCallbackInterface;
 import org.epzilla.dispatcher.rmi.DispInterface;
 import org.epzilla.nameserver.NameService;
+import org.epzilla.util.Logger;
 
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
@@ -39,7 +40,7 @@ public class ClientHandler {
 //			dispServiceName = service.getNames(i);
 //			dispDetails=ip+" "+dispServiceName;
 //			dispIP.add(dispDetails);
-        System.out.println(dispIP);
+        Logger.log(dispIP);
         return dispIP;
     }
 

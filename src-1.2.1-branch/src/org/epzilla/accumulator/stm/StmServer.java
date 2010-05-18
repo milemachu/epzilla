@@ -3,20 +3,16 @@ package org.epzilla.accumulator.stm;
 import jstm.core.*;
 import jstm.transports.clientserver.Server;
 import jstm.transports.clientserver.socket.SocketServer;
-import static org.epzilla.accumulator.stm.STMAccess.*;
-
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Set;
-
 import org.epzilla.accumulator.Variables;
 import org.epzilla.accumulator.generated.AccumulatorObjectModel;
-import org.epzilla.accumulator.generated.EventMapMarker;
 import org.epzilla.accumulator.generated.SharedDerivedEvent;
-import org.epzilla.accumulator.generated.StructureMarker;
 import org.epzilla.accumulator.global.DerivedEvent;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Set;
+import org.epzilla.util.Logger;
 //import com.sun.corba.se.spi.activation.Server;
 
 /**
@@ -49,7 +45,7 @@ public class StmServer {
         Server server = new SocketServer(Variables.port);
         server.start();
 
-        System.out.println("server started.");
+        Logger.log("server started.");
         share = new Share();
         TransactedMap<Integer, TransactedList<SharedDerivedEvent>> map = null;
         if (server.getServerAndClients().getOpenShares().size() == 0) {
@@ -80,14 +76,14 @@ public class StmServer {
 
                     public void onAdded(Transaction transaction,
                                         TransactedObject object) {
-                        System.out.println("New event added.");
+                        Logger.log("New event added.");
 
 
                     }
 
                     public void onRemoved(Transaction transaction,
                                           TransactedObject object) {
-                        System.out.println("event removed.");
+                        Logger.log("event removed.");
                     }
                 });
     }

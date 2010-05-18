@@ -1,5 +1,7 @@
 package org.epzilla.nameserver.loadbalance;
 
+import org.epzilla.util.Logger;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -42,7 +44,7 @@ public class LoadBalancer {
             System.err.println(ipAddress);
             search(clientID, dirsize, ipAddrs);
         }
-        System.out.println(ipAddress);
+        Logger.log(ipAddress);
         return ipAddress;
     }
 

@@ -5,6 +5,7 @@ import org.epzilla.client.rmi.ClientCallbackInterface;
 import org.epzilla.dispatcher.dataManager.*;
 import org.epzilla.dispatcher.logs.ReadLog;
 import org.epzilla.dispatcher.notificationSystem.ClientNotifier;
+import org.epzilla.util.Logger;
 
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
@@ -50,7 +51,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
             ApproximateDispatcher ad = new ApproximateDispatcher();
 
            for (String x: tList) {
-               System.out.println(x);
+               Logger.log(x);
            }
 
             TriggerManager.addAllTriggersToList(tList, clientID);
@@ -81,7 +82,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         DispLoadBalance.updateIncLoad();
         if (!(clientList.contains(clientObject))) {
             clientList.addElement(clientObject);
-            System.out.println("Registered new client " + clientObject);
+            Logger.log("Registered new client " + clientObject);
         }
     }
 
@@ -89,9 +90,9 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     public void unregisterCallback(ClientCallbackInterface clientObject) throws RemoteException, MalformedURLException, UnknownHostException, NotBoundException {
         DispLoadBalance.updateDecLoad();
         if (clientList.removeElement(clientObject)) {
-            System.out.println("Unregistered the client ");
+            Logger.log("Unregistered the client ");
         } else {
-            System.out.println(
+            Logger.log(
                     "unregister: clientwasn't registered." + clientObject);
         }
     }

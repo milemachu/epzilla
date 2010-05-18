@@ -2,6 +2,7 @@ package org.epzilla.client.controlers;
 
 import org.epzilla.dispatcher.rmi.DispInterface;
 import org.epzilla.testObjectGenerator.EventTriggerGenerator;
+import org.epzilla.util.Logger;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -66,7 +67,7 @@ public class ClientInit extends Thread {
                     }
 
                     if (response != null) {
-                        System.out.println("Dispatcher Recieved the triggrs from the client and the response is " + response);
+                        Logger.log("Dispatcher Recieved the triggrs from the client and the response is " + response);
                     } else {
                         ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped" + "\n");
                         return;
@@ -104,7 +105,7 @@ public class ClientInit extends Thread {
                     }
 
                     if (response != null)
-                        System.out.println("Dispatcher Recieved the events from the client and the response is " + response);
+                        Logger.log("Dispatcher Recieved the events from the client and the response is " + response);
                     else {
                         ClientUIControler.appendResults("Connection to the Dispatcher service failed, events sending stoped" + "\n");
                         return;

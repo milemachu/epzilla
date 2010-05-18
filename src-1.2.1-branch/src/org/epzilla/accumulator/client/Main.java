@@ -9,6 +9,7 @@ import org.epzilla.accumulator.client.query.QuerySyntaxException;
 import org.epzilla.accumulator.global.DerivedEvent;
 import org.epzilla.accumulator.service.AccumulatorService;
 import org.epzilla.accumulator.util.OpenSecurityManager;
+import org.epzilla.util.Logger;
 
 
 /**
@@ -32,33 +33,33 @@ public class Main {
         }
 
 
-        System.out.println("Triggers:");
-        System.out.println("");
+        Logger.log("Triggers:");
+        Logger.log("");
         for (int i = 0; i < 100; i++) {
             String tr = EventTriggerGenerator.getNextTrigger();
             tr = tr + ".xy";
-            System.out.println(tr);
+            Logger.log(tr);
             qe.addQuery(tr);
         }
 
-        System.out.println("");
-        System.out.println("......................");
+        Logger.log("");
+        Logger.log("......................");
 
 
         ArrayList<String> events = new ArrayList<String>();
-        System.out.println("Events:");
-        System.out.println("");
+        Logger.log("Events:");
+        Logger.log("");
         for (int i = 0; i < 10; i++) {
             String x = EventTriggerGenerator.getNextEvent();
             events.add(x);
-            System.out.println(x);
+            Logger.log(x);
         }
 
-        System.out.println("...................");
-        System.out.println("");
-        System.out.println("");
-        System.out.println("Results");
-        System.out.println("");
+        Logger.log("...................");
+        Logger.log("");
+        Logger.log("");
+        Logger.log("Results");
+        Logger.log("");
 
 
         // not needed.
@@ -67,7 +68,7 @@ public class Main {
                 for (int i = 0; i < 30; i++) {
                     try {
                         String tr = EventTriggerGenerator.getNextTrigger();
-                        System.out.println(tr);
+                        Logger.log(tr);
                         qe.addQuery(tr);
                     } catch (Exception e) {
 
@@ -81,7 +82,7 @@ public class Main {
         for (String str : events) {
             try {
                 derivedEventString = qe.processEvents(str);
-                System.out.println("processed:\n" + derivedEventString);
+                Logger.log("processed:\n" + derivedEventString);
 
                 AccumulatorService serv = (AccumulatorService) Naming.lookup("rmi://127.0.0.1:1099/AccumulatorService");
                 DerivedEvent de = new DerivedEvent();

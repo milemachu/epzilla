@@ -1,6 +1,7 @@
 package org.epzilla.accumulator.notificationSys;
 
 import org.epzilla.dispatcher.rmi.DispInterface;
+import org.epzilla.util.Logger;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -34,9 +35,9 @@ public class DispatcherNotifier {
     private static void sendAlerts(String alerts,String clientID) throws RemoteException, MalformedURLException, NotBoundException {
         dispObj.getNotifications(alerts,clientID);
         if (response != null)
-            System.out.println("Alert message send to the Dispatcher");
+            Logger.log("Alert message send to the Dispatcher");
         else
-            System.out.println("Alert message sending failed");
+            Logger.log("Alert message sending failed");
     }
 
     private static void setDispatcherObject(Object obj) {

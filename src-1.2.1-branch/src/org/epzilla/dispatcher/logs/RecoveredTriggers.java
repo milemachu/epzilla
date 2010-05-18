@@ -1,5 +1,7 @@
 package org.epzilla.dispatcher.logs;
 
+import org.epzilla.util.Logger;
+
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ public class RecoveredTriggers {
     }
     public static void printArray(List<String> array) {
         for(int i=0; i<array.size();i++){
-            System.out.println(array.get(i));
+            Logger.log(array.get(i));
         }
     }
     

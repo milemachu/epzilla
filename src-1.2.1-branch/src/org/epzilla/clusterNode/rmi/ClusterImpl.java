@@ -2,6 +2,7 @@ package org.epzilla.clusterNode.rmi;
 
 import org.epzilla.clusterNode.dataManager.EventsManager;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
+import org.epzilla.util.Logger;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -40,12 +41,12 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
             EventsManager em = new EventsManager(clientID);
             String eventS = new String(event);
             EventsManager.addEvents(eventS);
-            System.out.println(eventS);
+            Logger.log(eventS);
 
 
             return "OK";
         } catch (Exception e) {
-            System.out.println("Events adding failure");
+            Logger.log("Events adding failure");
         }
         return null;
     }

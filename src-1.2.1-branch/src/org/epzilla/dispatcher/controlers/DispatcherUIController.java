@@ -1,6 +1,7 @@
 package org.epzilla.dispatcher.controlers;
 
 import org.epzilla.dispatcher.ui.DispatcherUI;
+import org.epzilla.util.Logger;
 
 import javax.swing.*;
 import java.net.MalformedURLException;
@@ -29,9 +30,9 @@ public class DispatcherUIController {
         instance.setVisible(true);
         appendResults("Dispatcher Successfully deployed");
         try {
-            System.out.println("entering... ");
+            Logger.log("entering... ");
             instance.register();
-            System.out.println("returning...");
+            Logger.log("returning...");
         } catch (MalformedURLException e) {
             appendResults("Setting details are incorrect");
         } catch (RemoteException e) {
