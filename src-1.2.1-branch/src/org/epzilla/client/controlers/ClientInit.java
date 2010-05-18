@@ -58,8 +58,13 @@ public class ClientInit extends Thread {
                     String response = null;
 
                     ArrayList<String> triggers = new ArrayList<String>();
-                    for (int i = 0; i < 500; i++) {
+                    for (int i = 0; i < 100; i++) {
                         triggers.add(EventTriggerGenerator.getNextTrigger());
+                                            try {
+                        Thread.sleep(30);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     }
                     try {
                         response = di.uploadTriggersToDispatcher(triggers, clientID, triggerSeqID);
@@ -111,7 +116,7 @@ public class ClientInit extends Thread {
                         return;
                     }
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
