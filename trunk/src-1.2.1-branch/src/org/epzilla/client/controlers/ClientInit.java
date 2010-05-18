@@ -94,13 +94,12 @@ public class ClientInit extends Thread {
                     int eventsSeqID = 1;
                     String response = null;
 
-//                    ArrayList<String> events = new ArrayList<String>();
-//                    for (int i = 0; i < 10; i++) {
                         String event = EventTriggerGenerator.getNextEvent();
-//                    }
+
+                    byte []buffer =  event.getBytes();
 
                     try {
-                        response = di.uploadEventsToDispatcher(event, clientID, eventsSeqID);
+                        response = di.uploadEventsToDispatcher(buffer, clientID, eventsSeqID);
                     } catch (RemoteException e) {
                     }
 
