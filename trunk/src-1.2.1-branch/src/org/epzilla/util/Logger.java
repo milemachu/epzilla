@@ -8,7 +8,7 @@ package org.epzilla.util;
  * To change this template use File | Settings | File Templates.
  */
 public class Logger {
-    private static boolean dolog = true;
+    private static boolean dolog = false;
     private static boolean doErrorlog = true;
 
     public static void setLogging(boolean enableLogging) {
