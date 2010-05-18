@@ -70,10 +70,14 @@ public class DispatcherService {
             DispatcherService service = new DispatcherService();
             service.bindDispatcher(serviceName);
             NodeVariables.setCurrentServerIP(STMserverIP);
+
+            //To run as Dispatcher as STM server
             MainDispatcherController.runAsServer();
             Logger.log("running as server...");
-//            MainDispatcherController.runAsClient();
-//            Logger.log("running as client...");
+
+            //To run dispatcher as STM client
+            //MainDispatcherController.runAsClient();
+            //Logger.log("running as client...");
 
 //            ApproximateDispatcher ad = new ApproximateDispatcher();
 //            ArrayList<TriggerInfoObject> tlist = new ArrayList();
