@@ -9,6 +9,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,27 +19,30 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public class ClientInit extends Thread {
-    private static Object lock = new Object();
-    private static String cID = "";
     private static String clientID;
     private static DispInterface di;
     private static Thread trigger;
     private static Thread events;
-    private static volatile boolean isLive = false;
+    private static HashMap<String, Object> dispMap = new HashMap<String, Object>();
+    private static volatile boolean isLive = true;
+    static int count = 0;
 
     public ClientInit() {
     }
 
     public static void lookUp(String ip, String name) throws MalformedURLException, NotBoundException, RemoteException {
-        String url = "rmi://" + ip + "/" + name;
-        DispInterface di = (DispInterface) Naming.lookup(url);
-        setDispatcherObj(di);
+        if (!dispMap.containsKey(ip)) {
+            String url = "rmi://" + ip + "/" + name;
+            DispInterface di = (DispInterface) Naming.lookup(url);
+            setDispatcherObj(di);
+            dispMap.put(ip, getDispatcherObj());
+            count++;
+        }
     }
 
     public static void initProcess(String ip, String name, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         lookUp(ip, name);
         ClientInit.clientID = clientID;
-        isLive = true;
         initSendTriggerStream();
         initSendEventsStream();
         trigger.start();
@@ -54,13 +58,12 @@ public class ClientInit extends Thread {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                int count = 0;
+
                 String response = null;
                 int triggerSeqID = 1;
                 ArrayList<String> triggers = new ArrayList<String>();
                 for (int i = 0; i < 200; i++) {
                     triggers.add(EventTriggerGenerator.getNextTrigger());
-
                 }
                 try {
                     response = di.uploadTriggersToDispatcher(triggers, clientID, triggerSeqID);
@@ -159,5 +162,9 @@ public class ClientInit extends Thread {
 
     private static void setDispatcherObj(Object obj) {
         di = (DispInterface) obj;
+    }
+
+    private static Object getDispatcherObj() {
+        return di;
     }
 }
