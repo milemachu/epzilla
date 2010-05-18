@@ -11,6 +11,10 @@ public interface NameService extends Remote {
 
     public String getDispatcherIP() throws RemoteException;
 
+    public String getHostName(int i) throws RemoteException;
+
+    public String getName(int i) throws RemoteException;
+
     public String getClientID(String ipAdrs) throws RemoteException;
 
     public void updateIncLoad(String ip) throws RemoteException;

@@ -2,7 +2,6 @@ package org.epzilla.nameserver;
 
 import org.epzilla.nameserver.loadbalance.RBLoadBalancer;
 import org.epzilla.nameserver.xmlLog.XmlReader;
-import org.epzilla.nameserver.xmlLog.XmlWriter;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -41,7 +40,6 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
             dispatcherPort.add(dirsize, portNumber);
             dirsize++;
             RBLoadBalancer.insert(ipAdrs);
-//            XmlWriter.writeToFile(name, ipAdrs, portNumber);
             return 1;
         } else
             return 0;
@@ -56,6 +54,14 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
         int dispID = searchDisp(dispIP);
         String toReturn = dispIP + " " + dispatcherName.elementAt(dispID);
         return toReturn;
+    }
+
+    public String getHostName(int i) throws RemoteException {
+        return dispatcherIPAdrs.get(i);
+    }
+
+    public String getName(int i) throws RemoteException {
+        return dispatcherName.get(i);
     }
 
     public String getClientID(String ipAdrs) throws RemoteException {
