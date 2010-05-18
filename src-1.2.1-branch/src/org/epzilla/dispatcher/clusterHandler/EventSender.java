@@ -30,11 +30,11 @@ public class EventSender {
    event stream need to be add to all the Cluster Nodes
     */
     public static void acceptEvent(ArrayList<String> serverIp, ArrayList<String> clusterID, byte[] event, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
-        for (int i = 0; i < serverIp.size(); i++) {
-            if (!"IP".equalsIgnoreCase(serverIp.get(i))) {
-                initCluster(serverIp.get(i).toString(), "CLUSTER_NODE");
+        for (String aServerIp : serverIp) {
+            if (!"IP".equalsIgnoreCase(aServerIp)) {
+                initCluster(aServerIp, "CLUSTER_NODE");
                 String id = "x";
-                sendEvent(event, serverIp.get(i), id, clientID);
+                sendEvent(event, aServerIp, id, clientID);
             }
         }
         Logger.log(Arrays.toString(event));
@@ -53,8 +53,6 @@ public class EventSender {
         if (response != null) {
             Logger.log("Event stream send to the Cluster " + clusterID);
         } else {
-//            LeaderDisconnector led = new LeaderDisconnector();
-//            led.leaderRemover(leaderIP);
         }
     }
 
