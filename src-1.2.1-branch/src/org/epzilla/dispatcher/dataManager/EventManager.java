@@ -30,7 +30,7 @@ public class EventManager {
 //            ArrayList<String> ips = ClusterLeaderIpListManager.getClusterIpList();
 //            ArrayList<String> ids = ClusterLeaderIpListManager.getClusterIdList();
             EventSender.acceptEvent(ipArr, idArr, event, clientID);
-            EventsCounter.setOutEventCount(1);
+            EventsCounter.setOutEventCount();
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (NotBoundException e) {
