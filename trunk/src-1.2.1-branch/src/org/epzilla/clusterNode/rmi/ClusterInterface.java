@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public interface ClusterInterface extends Remote {
     public String acceptTiggerStream(ArrayList<String> tList, String clusterID, String clientID) throws RemoteException;
 
-    public String acceptEventStream(String event, String clusterID, String clientID) throws RemoteException;
+    public String acceptEventStream(byte[] event, String clusterID, String clientID) throws RemoteException;
 
     public String addEventStream(ArrayList<String> eList, String clientID) throws RemoteException;
 
