@@ -21,6 +21,8 @@ public class ClientHandler {
     private static ClientCallbackInterface obj;
     private static NameService service;
     private static DispInterface disObj;
+    private static String ip="";
+    private static String dispServiceName="";
     private boolean isDispatcherInit = false;
 
     public static Vector<String> getServiceIp(String serverIp, String serviceName, String clientIp) throws MalformedURLException, RemoteException, NotBoundException {
@@ -33,14 +35,20 @@ public class ClientHandler {
             }
         } catch (Exception e) {
         }
-
-//		int size = service.getDirectorySize();
-//		for(int i=0; i<size;i++){
-//			ip = service.getHostName(i);
-//			dispServiceName = service.getNames(i);
-//			dispDetails=ip+" "+dispServiceName;
-//			dispIP.add(dispDetails);
         Logger.log(dispIP);
+        return dispIP;
+    }
+
+    public static Vector<String> getAllDispatches(String serverIp, String serviceName, String clientIp) throws MalformedURLException, NotBoundException, RemoteException {
+        dispIP.removeAllElements();
+        initNameService(serverIp, serviceName);
+        int size = service.getDirectorySize();
+        for (int i = 0; i < size; i++) {
+            ip = service.getHostName(i);
+            dispServiceName = service.getName(i);
+            dispDetails = ip + " " + dispServiceName;
+            dispIP.add(dispDetails);
+        }
         return dispIP;
     }
 
