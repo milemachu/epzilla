@@ -9,6 +9,7 @@ package net.epzilla.util;
  */
 public class Logger {
     private static boolean dolog = true;
+    private static boolean doErrorlog = true;
 
     public static void setLogging(boolean enableLogging) {
         dolog = enableLogging;
@@ -21,8 +22,10 @@ public class Logger {
     }
 
     public static void error(String s, Exception e) {
-        if (dolog) {
-            System.out.println(s);
+        if (doErrorlog) {
+            if (s != null) {
+                System.out.println(s);
+            }
             e.printStackTrace();
         }
     }
