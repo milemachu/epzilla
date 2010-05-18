@@ -25,6 +25,8 @@ public class EventHandler {
 		if(event instanceof ProcessStatusChangedEvent){
 			System.out.println("Process status changed to:"+Epzilla.getStatus());
 			Epzilla.resetTimerQueue();
+			//Added later
+			EpzillaLeaderPubSub.resetPubSub();
 		}else if(event instanceof PulseIntervalTimeoutEvent){
 			if(Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
 				if(Epzilla.getStatus().equalsIgnoreCase(Status.LEADER.name())){

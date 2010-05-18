@@ -50,7 +50,7 @@ public class ConfigurationLoader {
 			itemList.put(el.getIntAttribute("uid"), el.getContent());
 			if(el.getAttribute("default")!=null){
 				Epzilla.setDefaultLeader(el.getContent());
-				Epzilla.setClusterLeader(el.getContent());
+//				Epzilla.setClusterLeader(el.getContent()); //Cannot tell like this
 			}
 		}
 	}
