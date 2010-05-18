@@ -16,9 +16,11 @@ public class ClientUIControler implements Runnable {
 
     public ClientUIControler() {
     }
-       public ClientUIControler(String msg) {
-           this.message = msg;
+
+    public ClientUIControler(String msg) {
+        this.message = msg;
     }
+
     public ClientUIControler(ArrayList<String> notifics) {
         this.notifications = notifics;
     }
@@ -35,9 +37,8 @@ public class ClientUIControler implements Runnable {
 
     @Override
     public void run() {
-
-            dateTime = getDateTime();
-            clientInstance.getTxtResults().append(dateTime + ":" + message+ "\n");
+        dateTime = getDateTime();
+        clientInstance.getTxtResults().append(dateTime + ":" + message + "\n");
 
     }
 
