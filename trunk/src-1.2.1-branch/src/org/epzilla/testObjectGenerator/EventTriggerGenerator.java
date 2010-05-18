@@ -33,8 +33,9 @@ public class EventTriggerGenerator {
     //For testing only-Dishan
     public static void main(String[] args) {
         String temp;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
             temp = getNextTrigger();
+            System.out.println(temp);
         }
     }
 
@@ -70,17 +71,14 @@ public class EventTriggerGenerator {
 
     public static String getNextTrigger() {
         StringBuilder writer = new StringBuilder();
-
+        Random random = new Random();
+        turn = random.nextInt(2);
         try {
-            if (turn == 0)
-            {
+            if (turn == 0) {
                 generateCarDetailsTrigger(writer);
-                turn=1;
-            }
-            else
-            {
+
+            } else {
                 generateBikeDetailsTrigger(writer);
-                turn=0;
             }
 
         }
@@ -95,18 +93,18 @@ public class EventTriggerGenerator {
         writer.append(" ");
         writer.append("BikeDetails");
         writer.append('.');
-        writer.append(Const.PROPERTY[random.nextInt(Const.PROPERTY.length)]);
+        writer.append(Const.BIKEROPERTY[random.nextInt(Const.BIKEROPERTY.length)]);
         writer.append(" ");
         writer.append("WHERE");
         writer.append(" ");
         writer.append("BikeDetails");
         writer.append('.');
-        int temp = random.nextInt(Const.PROPERTY.length);
-        writer.append(Const.PROPERTY[temp]);
+        int temp = random.nextInt(Const.BIKEROPERTY.length);
+        writer.append(Const.BIKEROPERTY[temp]);
         writer.append('=');
         switch (temp) {
             case 0:
-                writer.append(Const.WORDS[random.nextInt(Const.WORDS.length)]);
+                writer.append(Const.BIKETYPES[random.nextInt(Const.BIKETYPES.length)]);
                 break;
             case 1:
                 writer.append(Const.YEAR[random.nextInt(Const.YEAR.length)]);
@@ -152,5 +150,35 @@ public class EventTriggerGenerator {
         writer.append("CarDetails");
     }
 
+    private static void generateTrigger(StringBuilder writer) {
+        writer.append("SELECT");
+        writer.append(" ");
+        writer.append("CarDetails");
+        writer.append('.');
+        writer.append(Const.PROPERTY[random.nextInt(Const.PROPERTY.length)]);
+        writer.append(" ");
+        writer.append("WHERE");
+        writer.append(" ");
+        writer.append("CarDetails");
+        writer.append('.');
+        int temp = random.nextInt(Const.PROPERTY.length);
+        writer.append(Const.PROPERTY[temp]);
+        writer.append('=');
+        switch (temp) {
+            case 0:
+                writer.append(Const.WORDS[random.nextInt(Const.WORDS.length)]);
+                break;
+            case 1:
+                writer.append(Const.YEAR[random.nextInt(Const.YEAR.length)]);
+                break;
+            case 2:
+                writer.append(Const.COLOR[random.nextInt(Const.COLOR.length)]);
+                break;
+        }
+        writer.append(" ");
+        writer.append("OUTPUT AS");
+        writer.append(" ");
+        writer.append("CarDetails");
+    }
 
 }
