@@ -20,7 +20,7 @@ public class EventManager {
     private static boolean isLoaded = false;
     private static Thread eventsThread;
 
-    public static void sendEvents(String event, String clientID) {
+    public static void sendEvents(byte[] event, String clientID) {
 //        if (!isLoaded) {
 //            loadClusterDetails();
 //        }
