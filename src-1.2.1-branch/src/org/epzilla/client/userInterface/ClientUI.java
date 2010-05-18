@@ -387,8 +387,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
                 ips = client.getServiceIp(ip, serverName, clientIp);
                 listLookup.setListData(ips);
                 if (!ips.isEmpty()) {
-                    btnLookup.setEnabled(false);
-                    btnClear.setEnabled(true);
+//                    btnLookup.setEnabled(false);
+//                    btnClear.setEnabled(true);
                 }
             } catch (MalformedURLException e) {
                 JOptionPane.showMessageDialog(null, "NameService IP Address incorrect", "Message", JOptionPane.ERROR_MESSAGE);
