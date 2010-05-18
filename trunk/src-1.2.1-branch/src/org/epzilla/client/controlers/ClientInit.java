@@ -34,6 +34,7 @@ public class ClientInit extends Thread {
         DispInterface di = (DispInterface) Naming.lookup(url);
         setDispatcherObj(di);
     }
+
     public static void initProcess(String ip, String name, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         lookUp(ip, name);
         ClientInit.clientID = clientID;
@@ -58,13 +59,13 @@ public class ClientInit extends Thread {
                     String response = null;
 
                     ArrayList<String> triggers = new ArrayList<String>();
-                    for (int i = 0; i < 100; i++) {
+                    for (int i = 0; i < 5; i++) {
                         triggers.add(EventTriggerGenerator.getNextTrigger());
-                                            try {
-                        Thread.sleep(30);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                        try {
+                            Thread.sleep(30);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                     try {
                         response = di.uploadTriggersToDispatcher(triggers, clientID, triggerSeqID);
@@ -78,7 +79,7 @@ public class ClientInit extends Thread {
                         return;
                     }
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -100,9 +101,9 @@ public class ClientInit extends Thread {
                     int eventsSeqID = 1;
                     String response = null;
 
-                        String event = EventTriggerGenerator.getNextEvent();
+                    String event = EventTriggerGenerator.getNextEvent();
 
-                    byte []buffer =  event.getBytes();
+                    byte[] buffer = event.getBytes();
 
                     try {
                         response = di.uploadEventsToDispatcher(buffer, clientID, eventsSeqID);
@@ -115,11 +116,11 @@ public class ClientInit extends Thread {
                         ClientUIControler.appendResults("Connection to the Dispatcher service failed, events sending stoped" + "\n");
                         return;
                     }
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        Thread.sleep(1);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
                 }
             }
         });
