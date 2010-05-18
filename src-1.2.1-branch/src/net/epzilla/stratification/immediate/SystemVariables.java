@@ -8,6 +8,7 @@ public class SystemVariables {
     private static int numStrata;
     private static Hashtable<Integer, Integer> strataClusters = new Hashtable<Integer, Integer>();
     private static Hashtable<Integer, Hashtable<Integer, Integer>> loadMap = new Hashtable();
+    public static int count = 0;
 
     public static int getNumStrata() {
         return numStrata;
@@ -28,12 +29,15 @@ public class SystemVariables {
 //                SystemVariables
                 while (true) {
                     try {
-                        SystemVariables.setClusterLoad(0, 0, 121);
-                        SystemVariables.setClusterLoad(0, 1, 12);
-                        Thread.sleep(40000);
-                        SystemVariables.setClusterLoad(0, 0, 12);
-                        SystemVariables.setClusterLoad(0, 1, 121);
-                        Thread.sleep(40000);
+                        if (count < 45) {
+                            SystemVariables.setClusterLoad(0, 0, 121);
+                            SystemVariables.setClusterLoad(0, 1, 12);
+                            Thread.sleep(400);
+                        } else {
+                            SystemVariables.setClusterLoad(0, 0, 12);
+                            SystemVariables.setClusterLoad(0, 1, 121);
+                            Thread.sleep(400);
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
