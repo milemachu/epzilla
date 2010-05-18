@@ -4,6 +4,7 @@ import static org.epzilla.dispatcher.controlers.MainDispatcherController.run;
 
 import net.epzilla.stratification.immediate.ApproximateDispatcher;
 import org.epzilla.dispatcher.controlers.DispatcherUIController;
+import org.epzilla.dispatcher.controlers.MainDispatcherController;
 
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -14,11 +15,13 @@ import java.util.ArrayList;
 
 import org.epzilla.common.discovery.dispatcher.DispatcherDiscoveryManager;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
+import org.epzilla.dispatcher.dataManager.NodeVariables;
 import org.epzilla.util.Logger;
 
 public class DispatcherService {
 
     private static String serviceName = "DISPATCHER_SERVICE";
+    private static String STMserverIP = "127.0.0.1";
 
     public DispatcherService() {
 
@@ -36,7 +39,7 @@ public class DispatcherService {
         InetAddress inetAddress;
         inetAddress = InetAddress.getLocalHost();
         Logger.log("inet addreass:" + inetAddress);
-        
+
         String ipAddress = inetAddress.getHostAddress();
         String id = dispIdGen(ipAddress);
         String disServiceName = serviceName + id;
@@ -66,9 +69,11 @@ public class DispatcherService {
         try {
             DispatcherService service = new DispatcherService();
             service.bindDispatcher(serviceName);
-            run();
-
+            NodeVariables.setCurrentServerIP(STMserverIP);
+            MainDispatcherController.runAsServer();
             Logger.log("running as server...");
+//            MainDispatcherController.runAsClient();
+//            Logger.log("running as client...");
 
 //            ApproximateDispatcher ad = new ApproximateDispatcher();
 //            ArrayList<TriggerInfoObject> tlist = new ArrayList();
