@@ -2,6 +2,10 @@ package org.epzilla.dispatcher.dataManager;
 
 import org.epzilla.dispatcher.controlers.DispatcherUIController;
 
+import java.util.TimerTask;
+
+import jstm.transports.clientserver.socket.SocketClient;
+
 /**
  * Created by IntelliJ IDEA.
  * User: chathura
@@ -11,21 +15,41 @@ import org.epzilla.dispatcher.controlers.DispatcherUIController;
  */
 public class EventsCounter {
 
-    private static int countIn = 0;
-    private static int countOut = 0;
+    public static int countIn = 0;
+    public static int countOut = 0;
+    static TimerTaskC timer = new TimerTaskC();
 
     public EventsCounter() {
     }
 
     public static void setInEventCount() {
         countIn++;
-        String text = Integer.toString(countIn);
-        DispatcherUIController.appendInEventsCount(text);
+
     }
 
     public static void setOutEventCount() {
         countOut++;
-        String text = Integer.toString(countOut);
-        DispatcherUIController.appendOutEventCount(text);
+
+
     }
+}
+
+class TimerTaskC {
+
+    public TimerTaskC() {
+        final java.util.Timer timer1 = new java.util.Timer();
+        timer1.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                String text = Integer.toString(EventsCounter.countOut);
+                DispatcherUIController.appendOutEventCount(text);
+                text = Integer.toString(EventsCounter.countIn);
+                DispatcherUIController.appendInEventsCount(text);
+                System.gc();
+            }
+        }, 10, 10000);
+
+
+    }
+
 }

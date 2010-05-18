@@ -12,7 +12,7 @@ import org.epzilla.dispatcher.ui.*;
 public class NodeVariables {
     private static int port = 4444;
     private static String nodeIP = "localhost";
-    private static String currentServerIP = "10.8.108.30";
+    private static String currentServerIP = "192.168.1.1";
     private static DispatcherUI mainUI;
     private static int dispatcherId = 0;
 
