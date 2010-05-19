@@ -25,6 +25,7 @@ public class ClientInit extends Thread {
     private static Thread events;
     private static HashMap<String, Object> dispMap = new HashMap<String, Object>();
     private static volatile boolean isLive = true;
+    private static int eventsSeqID = 1;
 
     public ClientInit() {
     }
@@ -122,7 +123,7 @@ public class ClientInit extends Thread {
 
     public static void initSendEventsStream(final String ip) {
         events = new Thread(new Runnable() {
-            int eventsSeqID = 1;
+
             String response = null;
 
             @Override
@@ -138,11 +139,12 @@ public class ClientInit extends Thread {
                 while (isLive) {
 
 
-                    String event = EventTriggerGenerator.getNextEvent();
+                    String event = EventTriggerGenerator.getNextEvent()+","+clientID+","+eventsSeqID;
                     byte[] buffer = event.getBytes();
 
                     try {
                         response = di.uploadEventsToDispatcher(buffer, clientID, eventsSeqID);
+                        eventsSeqID++;
                     } catch (RemoteException e) {
                         Logger.log(e);
                     }
