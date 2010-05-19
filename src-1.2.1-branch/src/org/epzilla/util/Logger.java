@@ -10,6 +10,11 @@ package org.epzilla.util;
 public class Logger {
     private static boolean dolog = false;
     private static boolean doErrorlog = true;
+    private static boolean[] keyMap = new boolean[10];
+
+    public static void enableLoggingFor(int key) {
+        keyMap[key] = true;
+    }
 
     public static void setLogging(boolean enableLogging) {
         dolog = enableLogging;
@@ -23,6 +28,14 @@ public class Logger {
 
     public static void log(boolean input) {
         if (dolog) {
+            System.out.println(input);
+        }
+    }
+
+
+    
+    public static void log(String input, int key) {
+        if (keyMap[key]) {
             System.out.println(input);
         }
     }
@@ -42,6 +55,4 @@ public class Logger {
                 e.printStackTrace();
         }
     }
-
-
 }
