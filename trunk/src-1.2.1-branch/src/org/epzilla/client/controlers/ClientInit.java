@@ -25,7 +25,6 @@ public class ClientInit extends Thread {
     private static Thread events;
     private static HashMap<String, Object> dispMap = new HashMap<String, Object>();
     private static volatile boolean isLive = true;
-    static int count = 0;
 
     public ClientInit() {
     }
@@ -36,21 +35,25 @@ public class ClientInit extends Thread {
             DispInterface di = (DispInterface) Naming.lookup(url);
             setDispatcherObj(di);
             dispMap.put(ip, getDispatcherObj());
-            count++;
         }
     }
 
     public static void initProcess(String ip, String name, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         lookUp(ip, name);
         ClientInit.clientID = clientID;
-        initSendTriggerStream();
-        initSendEventsStream();
+
+        initSendTriggerStream(ip);
+        initSendEventsStream(ip);
         trigger.start();
         events.start();
+
     }
 
-    public static void initSendTriggerStream() {
+    public static void initSendTriggerStream(final String ip) {
         trigger = new Thread(new Runnable() {
+            String response = null;
+            int triggerSeqID = 1;
+
             @Override
             public void run() {
                 try {
@@ -58,9 +61,9 @@ public class ClientInit extends Thread {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                di = (DispInterface) dispMap.get(ip);
 
-                String response = null;
-                int triggerSeqID = 1;
+
                 ArrayList<String> triggers = new ArrayList<String>();
                 for (int i = 0; i < 200; i++) {
                     triggers.add(EventTriggerGenerator.getNextTrigger());
@@ -117,8 +120,11 @@ public class ClientInit extends Thread {
         });
     }
 
-    public static void initSendEventsStream() {
+    public static void initSendEventsStream(final String ip) {
         events = new Thread(new Runnable() {
+            int eventsSeqID = 1;
+            String response = null;
+
             @Override
             public void run() {
                 try {
@@ -126,12 +132,13 @@ public class ClientInit extends Thread {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                di = (DispInterface) dispMap.get(ip);
+
                 while (isLive) {
-                    int eventsSeqID = 1;
-                    String response = null;
+
 
                     String event = EventTriggerGenerator.getNextEvent();
-//                     String s = "SS";
                     byte[] buffer = event.getBytes();
 
                     try {

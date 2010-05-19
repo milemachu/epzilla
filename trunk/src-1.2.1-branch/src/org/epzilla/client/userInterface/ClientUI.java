@@ -421,7 +421,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         String servicename = st.nextToken();
         txtDispIP.setText(ip);
         txtDispName.setText(servicename);
-        if (isRegister == false) {
+        if (!isRegister) {
             try {
                 client.regForCallback(ip, servicename);
                 ClientHandler.registerClient(clientIP, clientID);
@@ -508,7 +508,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         String dispIP = txtDispIP.getText();
         String dispName = txtDispName.getText().toString();
         String clientIp = getIpAddress();
-        btnCancelSend.setEnabled(true);
+
         if ((dispIP.length() == 0) && (dispName.length() == 0)) {
             JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Message", JOptionPane.ERROR_MESSAGE);
             return;
@@ -516,6 +516,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         if ((dispIP.length() != 0) && (dispName.length() != 0)) {
             try {
                 ClientInit.initProcess(dispIP, dispName, clientID);
+                btnCancelSend.setEnabled(true);
             } catch (MalformedURLException e) {
                 JOptionPane.showMessageDialog(null, "Error in file send process.", "Message", JOptionPane.ERROR_MESSAGE);
             } catch (NotBoundException e) {
