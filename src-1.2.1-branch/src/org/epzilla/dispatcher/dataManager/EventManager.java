@@ -18,19 +18,17 @@ public class EventManager {
     private static ArrayList<String> ipArr = new ArrayList<String>();
     private static ArrayList<String> idArr = new ArrayList<String>();
     private static boolean isLoaded = false;
-    private static Thread eventsThread;
 
     public static void sendEvents(byte[] event, String clientID) {
         if (!isLoaded) {
             loadClusterDetails();
         }
-//        eventsThread = new Thread(new Runnable() {
-//            public void run() {
         try {
-//            ArrayList<String> ips = ClusterLeaderIpListManager.getClusterIpList();
-//            ArrayList<String> ids = ClusterLeaderIpListManager.getClusterIdList();
-            EventSender.acceptEvent(ipArr, idArr, event, clientID);
+            for (int i = 1; i < ipArr.size(); i++) {
+                EventSender.sendEvent(event, ipArr.get(i), idArr.get(i), clientID);
+            }
             EventsCounter.setOutEventCount();
+
         } catch (MalformedURLException e) {
             System.err.println(e);
         } catch (NotBoundException e) {
@@ -38,13 +36,7 @@ public class EventManager {
         } catch (RemoteException e) {
             System.err.println(e);
         }
-//                try {
-//                    Thread.sleep(200);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
+
     }
 
     private static void loadClusterDetails() {
