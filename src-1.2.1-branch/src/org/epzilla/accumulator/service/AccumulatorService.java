@@ -1,10 +1,10 @@
 package org.epzilla.accumulator.service;
 
 
+import org.epzilla.accumulator.global.DerivedEvent;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-
-import org.epzilla.accumulator.global.DerivedEvent;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,8 +15,10 @@ import org.epzilla.accumulator.global.DerivedEvent;
  */
 public interface AccumulatorService extends Remote {
 
-        public boolean receiveDerivedEvent(DerivedEvent event) throws RemoteException;
+    public boolean receiveDerivedEvent(DerivedEvent event) throws RemoteException;
 
-        public boolean isEventAvailable(long srcId, int clientId) throws RemoteException;
+    public boolean isEventAvailable(long srcId, int clientId) throws RemoteException;
+
+    public void receiveDeriveEvent(byte[] deriveEvent) throws RemoteException;
 
 }
