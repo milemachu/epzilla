@@ -18,7 +18,7 @@ public interface ClusterInterface extends Remote {
 
     public String acceptEventStream(byte[] event, String clusterID, String clientID) throws RemoteException;
 
-    public String addEventStream(ArrayList<String> eList, String clientID) throws RemoteException;
+    public String addEventStream(String event, String clientID) throws RemoteException;
 
     public String addTriggerStream(ArrayList<String> tlist, String clientID) throws RemoteException;
 

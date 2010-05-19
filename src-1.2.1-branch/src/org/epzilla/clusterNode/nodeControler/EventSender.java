@@ -7,7 +7,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
+import java.util.Hashtable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,29 +19,31 @@ import java.util.ArrayList;
 public class EventSender {
     private static ClusterInterface clusterObj;
     private static String response = null;
-    private static String clientID;
-    private static ArrayList<String> events;
-    static ArrayList<String> serverIp;
+    private static Hashtable<String, Object> nodesList = new Hashtable<String, Object>();
+
 
     public EventSender() {
     }
 
-    public EventSender(ArrayList<String> serverIp, String clientID, ArrayList<String> eventStream) {
-        this.serverIp = serverIp;
-        this.clientID = clientID;
-        this.events = eventStream;
+    public static void sendEvents(String serverIp, String event, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
+        if (!nodesList.containsKey(serverIp)) {
+            initNode(serverIp, "CLUSTER_NODE");
 
-    }
-
-    public static void sendEvents() throws RemoteException, MalformedURLException, NotBoundException {
-        for (int i = 0; i < serverIp.size(); i++) {
-            initNode(serverIp.get(i), "CLUSTER_NODE");
-            response = clusterObj.addEventStream(events, clientID);
+            response = clusterObj.addEventStream(event, clientID);
 
             if (response != null) {
-                Logger.log("Events added to the Node " + serverIp.get(i));
+                Logger.log("Events added to the Node " + serverIp);
             } else {
-                Logger.error("Events adding failure to the Node" + serverIp.get(i), null);
+                Logger.error("Events adding failure to the Node" + serverIp, null);
+            }
+        } else {
+            clusterObj = (ClusterInterface) nodesList.get(serverIp);
+            response = clusterObj.addEventStream(event, clientID);
+
+            if (response != null) {
+                Logger.log("Events added to the Node " + serverIp);
+            } else {
+                Logger.error("Events adding failure to the Node" + serverIp, null);
             }
         }
     }
@@ -50,6 +52,7 @@ public class EventSender {
         String url = "rmi://" + serverIp + "/" + serviceName;
         ClusterInterface obj = (ClusterInterface) Naming.lookup(url);
         setClusterObject(obj);
+        nodesList.put(serverIp, clusterObj);
 
     }
 
