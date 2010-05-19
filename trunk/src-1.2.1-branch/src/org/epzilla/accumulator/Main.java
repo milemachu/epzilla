@@ -1,15 +1,14 @@
 package org.epzilla.accumulator;
 
 
-import org.epzilla.accumulator.service.ServiceLoader;
-import org.epzilla.accumulator.stm.StmClient;
-import org.epzilla.accumulator.stm.StmServer;
+import org.epzilla.accumulator.service.AccumulatorService;
+import org.epzilla.accumulator.service.AccumulatorServiceImpl;
 import org.epzilla.accumulator.util.OpenSecurityManager;
 import org.epzilla.util.Logger;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.rmi.RemoteException;
+import java.net.InetAddress;
+import java.rmi.Naming;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,41 +18,34 @@ import java.rmi.RemoteException;
  * To change this template use File | Settings | File Templates.
  */
 public class Main {
+    private static void startRegistry() {
+        Process rmiProcess = null;
+        try {
+            rmiProcess = Runtime.getRuntime().exec("rmiregistry");
+            Thread.sleep(1000);
+        }
+        catch (IOException ex) {
+        }
+        catch (InterruptedException exc) {
+        }
+    }
 
     public static void main(String[] args) {
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new OpenSecurityManager());
         }
 
-
+        startRegistry();
+        
         try {
-//            AccumulatorService accService = new AccumulatorServiceImpl();
-//            ConfigFileScanner cfp = new ConfigFileScanner("./src/rmiconfig.config");
-//            Naming.rebind(cfp.getParameter("AccumulatorService"), accService);
-            if (Variables.isLeader) {
-                StmServer.start();
-            }   else {
-                StmClient.start();
-            }
-
-            ServiceLoader sl = new ServiceLoader();
-            sl.autodeploy();
-//            Logger.log("accumulator service deployed.");
-//              org.epzilla.util.
-              Logger.log("Accumulator service deployed");
-
-        } catch (RemoteException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MalformedURLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (InstantiationException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            InetAddress inetAddress = InetAddress.getLocalHost();
+            String ipAddress = inetAddress.getHostAddress();
+            String url = "rmi://" + ipAddress + "/" + "ACCUMULATOR_SERVICE";
+            AccumulatorService obj = new AccumulatorServiceImpl();
+            Naming.rebind(url, obj);
+            Logger.log("Accumulator Service successfully deployed");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
