@@ -42,8 +42,6 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
             String eventS = new String(event);
             EventsManager.addEvents(eventS);
             Logger.log(eventS);
-
-
             return "OK";
         } catch (Exception e) {
             Logger.log("Events adding failure");
@@ -51,7 +49,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         return null;
     }
 
-    public String addEventStream(ArrayList<String> eList, String clientID) throws RemoteException {
+    public String addEventStream(String event, String clientID) throws RemoteException {
         return null;
     }
 
