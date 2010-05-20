@@ -133,7 +133,7 @@ public class NodeAsLeader {
                 Group set = server.getServerAndClients();
 
 //                if (client.getStatus() == SocketClient.Status.DISCONNECTED) {
-////                     DispatcherUIController.appendTextToStatus("Server Status..." + client.getStatus().toString());
+////                     DispatcherUIController.appendAccumulatorStatus("Server Status..." + client.getStatus().toString());
 //                    this.cancel();
 //                }
             }
