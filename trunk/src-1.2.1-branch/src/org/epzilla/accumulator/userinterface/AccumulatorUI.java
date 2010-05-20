@@ -22,10 +22,10 @@ public class AccumulatorUI extends JFrame {
 	private JLabel lblEventCount = null;
 	private JLabel lblStatus = null;
 	private JTextArea txtAccStatus = null;
-	private JTextArea txtEventCount = null;
+	private JTextArea txtDeriveEventCount = null;
 	private JScrollPane resultScrollPane = null;
 	private JLabel lblTrigger = null;
-	private JTextArea txtTriggersPro = null;
+	private JTextArea txtEventPro = null;
 	private JLabel lblResults = null;
 	/**
 	 * This is the default constructor
@@ -87,16 +87,16 @@ public class AccumulatorUI extends JFrame {
 		return txtAccStatus;
 	}
 
-	public JTextArea getTxtEventCount() {
-		if (txtEventCount == null) {
-			txtEventCount = new JTextArea();
-			txtEventCount.setEditable(false);
-			txtEventCount.setForeground(Color.green);
-			txtEventCount.setSize(new Dimension(140, 20));
-			txtEventCount.setLocation(new Point(810, 120));
-			txtEventCount.setBackground(Color.black);
+	public JTextArea getTxtDeriveEventCount() {
+		if (txtDeriveEventCount == null) {
+			txtDeriveEventCount = new JTextArea();
+			txtDeriveEventCount.setEditable(false);
+			txtDeriveEventCount.setForeground(Color.green);
+			txtDeriveEventCount.setSize(new Dimension(140, 20));
+			txtDeriveEventCount.setLocation(new Point(810, 120));
+			txtDeriveEventCount.setBackground(Color.black);
 		}
-		return txtEventCount;
+		return txtDeriveEventCount;
 	}
 	private JScrollPane getResultScrollPane() {
 		if (resultScrollPane == null) {
@@ -109,10 +109,11 @@ public class AccumulatorUI extends JFrame {
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
 			lblResults = new JLabel();
-			lblResults.setBounds(new Rectangle(29, 56, 77, 27));
+			lblResults.setBounds(new Rectangle(29, 17, 77, 27));
+			lblResults.setBounds(new Rectangle(29, 48, 77, 27));
 			lblResults.setText("Results:");
 			lblTrigger = new JLabel();
-			lblTrigger.setText("Triggers processed: ");
+			lblTrigger.setText("Events processed: ");
 			lblTrigger.setLocation(new Point(690, 150));
 			lblTrigger.setSize(new Dimension(129, 20));
 			lblStatus = new JLabel();
@@ -120,31 +121,31 @@ public class AccumulatorUI extends JFrame {
 			lblStatus.setSize(new Dimension(128, 20));
 			lblStatus.setLocation(new Point(690, 90));
 			lblEventCount = new JLabel();
-			lblEventCount.setText("Event Count:");
+			lblEventCount.setText("Derive Event Count:");
 			lblEventCount.setLocation(new Point(690, 120));
-			lblEventCount.setSize(new Dimension(80, 20));
+			lblEventCount.setSize(new Dimension(117, 20));
 			jContentPane = new JPanel();
 			jContentPane.setLayout(null);
 			jContentPane.add(lblEventCount, null);
 			jContentPane.add(lblStatus, null);
 			jContentPane.add(getTxtAccStatus(), null);
-			jContentPane.add(getTxtEventCount(), null);
+			jContentPane.add(getTxtDeriveEventCount(), null);
 			jContentPane.add(getResultScrollPane(), null);
 			jContentPane.add(lblTrigger, null);
-			jContentPane.add(getTxtTriggersPro(), null);
+			jContentPane.add(getTxtEventPro(), null);
 			jContentPane.add(lblResults, null);
 		}
 		return jContentPane;
 	}
-	public JTextArea getTxtTriggersPro() {
-		if (txtTriggersPro == null) {
-			txtTriggersPro = new JTextArea();
-			txtTriggersPro.setBackground(Color.black);
-			txtTriggersPro.setForeground(Color.green);
-			txtTriggersPro.setLocation(new Point(810, 150));
-			txtTriggersPro.setSize(new Dimension(140, 20));
+	public JTextArea getTxtEventPro() {
+		if (txtEventPro == null) {
+			txtEventPro = new JTextArea();
+			txtEventPro.setBackground(Color.black);
+			txtEventPro.setForeground(Color.green);
+			txtEventPro.setLocation(new Point(810, 150));
+			txtEventPro.setSize(new Dimension(140, 20));
 		}
-		return txtTriggersPro;
+		return txtEventPro;
 	}
 	
 

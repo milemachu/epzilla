@@ -13,14 +13,14 @@ public class AccumulatorUIControler {
 	public static void appendTextToStatus(String text){
 		instance.getTxtAccStatus().append(text + "\n");
 	}
-	public static void appendEventCount(String text){
-		instance.getTxtEventCount().append(text + "\n");
+	public static void appendDeriveEventCount(String text){
+		instance.getTxtDeriveEventCount().append(text + "\n");
 	}
 	public static void appendEventResults(String text){
 		instance.getTxtEventResults().append(text + "\n");
 	}
-	public static void appendTriggerprocessed(String text){
-		instance.getTxtTriggersPro().append(text);
+	public static void appendEventprocessed(String text){
+		instance.getTxtEventPro().append(text+ "\n");
 	}
 	/*
 	 * main method is just for testing
