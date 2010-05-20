@@ -3,6 +3,7 @@ package org.epzilla.accumulator;
 
 import org.epzilla.accumulator.service.AccumulatorService;
 import org.epzilla.accumulator.service.AccumulatorServiceImpl;
+import org.epzilla.accumulator.userinterface.AccumulatorUIControler;
 import org.epzilla.accumulator.util.OpenSecurityManager;
 import org.epzilla.util.Logger;
 
@@ -19,9 +20,8 @@ import java.rmi.Naming;
  */
 public class Main {
     private static void startRegistry() {
-        Process rmiProcess = null;
         try {
-            rmiProcess = Runtime.getRuntime().exec("rmiregistry");
+            Runtime.getRuntime().exec("rmiregistry");
             Thread.sleep(1000);
         }
         catch (IOException ex) {
@@ -36,7 +36,6 @@ public class Main {
         }
 
         startRegistry();
-        
         try {
             InetAddress inetAddress = InetAddress.getLocalHost();
             String ipAddress = inetAddress.getHostAddress();
@@ -47,5 +46,7 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        AccumulatorUIControler.InitializeUI();
     }
 }

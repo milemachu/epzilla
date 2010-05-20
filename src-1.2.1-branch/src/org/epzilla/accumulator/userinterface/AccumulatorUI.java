@@ -1,6 +1,5 @@
 package org.epzilla.accumulator.userinterface;
 
-import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 
@@ -22,12 +21,13 @@ public class AccumulatorUI extends JFrame {
 	private JLabel lblEventCount = null;
 	private JLabel lblStatus = null;
 	private JTextArea txtAccStatus = null;
-	private JTextArea txtDeriveEventCount = null;
+	private JTextArea txtDeriveEvent = null;
 	private JScrollPane resultScrollPane = null;
 	private JLabel lblTrigger = null;
-	private JTextArea txtEventPro = null;
+	private JTextArea txtEvPro = null;
 	private JLabel lblResults = null;
-	/**
+
+    /**
 	 * This is the default constructor
 	 */
 	public AccumulatorUI() {
@@ -67,7 +67,7 @@ public class AccumulatorUI extends JFrame {
     });
 	}
 
-	public JTextArea getTxtEventResults() {
+	public JTextArea getEventResults() {
 		if (txtEventResults == null) {
 			txtEventResults = new JTextArea();
 			txtEventResults.setBackground(Color.black);
@@ -75,34 +75,34 @@ public class AccumulatorUI extends JFrame {
 		}
 		return txtEventResults;
 	}
-	public JTextArea getTxtAccStatus() {
+	public JTextArea getAccumulatorStatus() {
 		if (txtAccStatus == null) {
 			txtAccStatus = new JTextArea();
 			txtAccStatus.setEditable(false);
 			txtAccStatus.setForeground(Color.green);
-			txtAccStatus.setSize(new Dimension(140, 20));
-			txtAccStatus.setLocation(new Point(810, 90));
+			txtAccStatus.setSize(new Dimension(220, 25));
+			txtAccStatus.setLocation(new Point(790, 90));
 			txtAccStatus.setBackground(Color.black);
 		}
 		return txtAccStatus;
 	}
 
-	public JTextArea getTxtDeriveEventCount() {
-		if (txtDeriveEventCount == null) {
-			txtDeriveEventCount = new JTextArea();
-			txtDeriveEventCount.setEditable(false);
-			txtDeriveEventCount.setForeground(Color.green);
-			txtDeriveEventCount.setSize(new Dimension(140, 20));
-			txtDeriveEventCount.setLocation(new Point(810, 120));
-			txtDeriveEventCount.setBackground(Color.black);
+	public JTextArea getDeriveEventCount() {
+		if (txtDeriveEvent == null) {
+			txtDeriveEvent = new JTextArea();
+			txtDeriveEvent.setEditable(false);
+			txtDeriveEvent.setForeground(Color.green);
+			txtDeriveEvent.setSize(new Dimension(220, 25));
+			txtDeriveEvent.setLocation(new Point(790, 130));
+			txtDeriveEvent.setBackground(Color.black);
 		}
-		return txtDeriveEventCount;
+		return txtDeriveEvent;
 	}
 	private JScrollPane getResultScrollPane() {
 		if (resultScrollPane == null) {
 			resultScrollPane = new JScrollPane();
 			resultScrollPane.setBounds(new Rectangle(30, 90, 572, 500));
-			resultScrollPane.setViewportView(getTxtEventResults());
+			resultScrollPane.setViewportView(getEventResults());
 		}
 		return resultScrollPane;
 	}
@@ -114,39 +114,39 @@ public class AccumulatorUI extends JFrame {
 			lblResults.setText("Results:");
 			lblTrigger = new JLabel();
 			lblTrigger.setText("Events processed: ");
-			lblTrigger.setLocation(new Point(690, 150));
+			lblTrigger.setLocation(new Point(690, 170));
 			lblTrigger.setSize(new Dimension(129, 20));
 			lblStatus = new JLabel();
 			lblStatus.setText("Accumulator Status:");
-			lblStatus.setSize(new Dimension(128, 20));
+			lblStatus.setSize(new Dimension(128, 25));
 			lblStatus.setLocation(new Point(690, 90));
 			lblEventCount = new JLabel();
 			lblEventCount.setText("Derive Event Count:");
-			lblEventCount.setLocation(new Point(690, 120));
-			lblEventCount.setSize(new Dimension(117, 20));
+			lblEventCount.setLocation(new Point(690, 130));
+			lblEventCount.setSize(new Dimension(117, 25));
 			jContentPane = new JPanel();
 			jContentPane.setLayout(null);
 			jContentPane.add(lblEventCount, null);
 			jContentPane.add(lblStatus, null);
-			jContentPane.add(getTxtAccStatus(), null);
-			jContentPane.add(getTxtDeriveEventCount(), null);
+			jContentPane.add(getAccumulatorStatus(), null);
+			jContentPane.add(getDeriveEventCount(), null);
 			jContentPane.add(getResultScrollPane(), null);
 			jContentPane.add(lblTrigger, null);
-			jContentPane.add(getTxtEventPro(), null);
+			jContentPane.add(getEventProcessed(), null);
 			jContentPane.add(lblResults, null);
 		}
 		return jContentPane;
 	}
-	public JTextArea getTxtEventPro() {
-		if (txtEventPro == null) {
-			txtEventPro = new JTextArea();
-			txtEventPro.setBackground(Color.black);
-			txtEventPro.setForeground(Color.green);
-			txtEventPro.setLocation(new Point(810, 150));
-			txtEventPro.setSize(new Dimension(140, 20));
+	public JTextArea getEventProcessed() {
+		if (txtEvPro == null) {
+			txtEvPro = new JTextArea();
+			txtEvPro.setBackground(Color.black);
+			txtEvPro.setForeground(Color.green);
+			txtEvPro.setLocation(new Point(790, 170));
+			txtEvPro.setSize(new Dimension(220, 25));
 		}
-		return txtEventPro;
+		return txtEvPro;
 	}
-	
+
 
 }
