@@ -13,6 +13,6 @@ import java.util.ArrayList;
  */
 public interface ClientInterface extends Remote {
 
-    public String notifyClient(String notifications) throws RemoteException;
+    public String notifyClient(byte[] notifications) throws RemoteException;
 
 }
