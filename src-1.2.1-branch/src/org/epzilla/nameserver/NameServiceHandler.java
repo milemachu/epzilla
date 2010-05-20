@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 public class NameServiceHandler extends UnicastRemoteObject {
@@ -16,9 +15,8 @@ public class NameServiceHandler extends UnicastRemoteObject {
     }
 
     private static void startRegistry() {
-        Process rmiProcess = null;
         try {
-            rmiProcess = Runtime.getRuntime().exec("rmiregistry");
+            Runtime.getRuntime().exec("rmiregistry");
             Thread.sleep(1000);
         }
         catch (IOException ex) {
