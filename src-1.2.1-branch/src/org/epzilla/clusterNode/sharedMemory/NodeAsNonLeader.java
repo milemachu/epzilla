@@ -148,7 +148,7 @@ public class NodeAsNonLeader {
             @Override
             public void run() {
                 if (client.getStatus() == SocketClient.Status.DISCONNECTED) {
-//                     DispatcherUIController.appendTextToStatus("Server Status..." + client.getStatus().toString());
+//                     DispatcherUIController.appendAccumulatorStatus("Server Status..." + client.getStatus().toString());
                     this.cancel();
                 }
             }
