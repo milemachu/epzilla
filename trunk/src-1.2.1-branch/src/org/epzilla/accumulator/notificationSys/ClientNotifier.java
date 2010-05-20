@@ -7,7 +7,6 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -52,10 +51,12 @@ public class ClientNotifier {
     public static void sendNotifications(String message) throws RemoteException {
         byte[] alert = message.getBytes();
         response = clientObj.notifyClient(alert);
-        if (response != null)
+        if (response != null) {
             Logger.log("Notifications send to the client");
-        else
+            NotificationManager.setAlertCount();
+        } else {
             Logger.log("Notifications not sent");
+        }
 
     }
 
