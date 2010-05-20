@@ -70,6 +70,7 @@ public class DispatcherService {
             DispatcherService service = new DispatcherService();
             service.bindDispatcher(serviceName);
             NodeVariables.setCurrentServerIP(STMserverIP);
+             DispatcherUIController.InitializeUI();
 
             //To run as Dispatcher as STM server
             MainDispatcherController.runAsServer();
@@ -100,7 +101,7 @@ public class DispatcherService {
 //
 //            }
             //Dynamic Discovery
-//            DispatcherDiscoveryManager ddm=new DispatcherDiscoveryManager();
+            DispatcherDiscoveryManager ddm=new DispatcherDiscoveryManager();
 
         } catch (Exception e) {
             e.printStackTrace();
