@@ -1,7 +1,6 @@
 package net.epzilla.stratification.immediate;
 
 import java.util.Hashtable;
-import java.util.Vector;
 
 
 public class SystemVariables {
@@ -9,6 +8,14 @@ public class SystemVariables {
     private static Hashtable<Integer, Integer> strataClusters = new Hashtable<Integer, Integer>();
     private static Hashtable<Integer, Hashtable<Integer, Integer>> loadMap = new Hashtable();
     public static int count = 0;
+
+    public static volatile int triggerCount = 0;
+    public static int roundRobinLimit = 1000;
+
+    //    public static int[] queryLoads = new int[1];
+    public static Hashtable<Integer, int[]> triggerLoadMap = new Hashtable();
+    public static Hashtable<Integer, Integer> leastLoadClusterMap = new Hashtable();
+
 
     public static int getNumStrata() {
         return numStrata;
@@ -24,6 +31,7 @@ public class SystemVariables {
         SystemVariables.setClusterLoad(0, 0, 121);
         SystemVariables.setClusterLoad(0, 1, 14);
 
+        /*
         Thread t = new Thread() {
             public void run() {
 //                SystemVariables
@@ -47,7 +55,7 @@ public class SystemVariables {
 
             }
         };
-        t.start();
+        t.start();      */
 //        SystemVariables.setClusterLoad(1,0,24);
 //        SystemVariables.setClusterLoad(1,1,14);
 //        SystemVariables.setClusterLoad(1,2,14);
@@ -65,10 +73,27 @@ public class SystemVariables {
             loadMap.put(stratum, map);
         }
         map.put(cluster, load);
+        Integer x = leastLoadClusterMap.get(stratum);
+        if (x == null) {
+            leastLoadClusterMap.put(stratum, load);
+        } else if (x > load) {
+            leastLoadClusterMap.put(stratum, load);
+        }
     }
 
     public static void setClusterLoads(int stratum, Hashtable<Integer, Integer> loads) {
         loadMap.put(stratum, loads);
+        triggerLoadMap.put(stratum, new int[loads.size()]);
+        int min = 0;
+        int minVal = Integer.MAX_VALUE;
+        for (Integer key : loads.keySet()) {
+            int x = loads.get(key);
+            if (x < minVal) {
+                min = key;
+            }
+        }
+
+        leastLoadClusterMap.put(stratum, min);
     }
 
     public static void setNumStrata(int numStrata) {
@@ -82,6 +107,18 @@ public class SystemVariables {
     public static void setClusters(int stratum, int clusters) {
         strataClusters.put(stratum, clusters);
 
+        int[] temp = triggerLoadMap.get(stratum);
+
+        if (temp == null) {
+            triggerLoadMap.put(stratum, new int[clusters]);
+
+        } else if ((clusters != temp.length)) {
+            int[] temp2 = new int[clusters];
+            for (int i = 0; i < temp.length && i < temp2.length; i++) {
+                temp2[i] = temp[i];
+            }
+            triggerLoadMap.put(stratum, temp2);
+        }
     }
 
 }
