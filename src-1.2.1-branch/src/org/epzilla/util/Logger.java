@@ -12,6 +12,17 @@ public class Logger {
     private static boolean doErrorlog = true;
     private static boolean[] keyMap = new boolean[10];
 
+    // values for conditional logging.
+    public static int strat = 1;
+
+    // set conditions here
+    static {
+        keyMap[strat] = true;
+
+    }
+
+
+
     public static void enableLoggingFor(int key) {
         keyMap[key] = true;
     }
@@ -35,6 +46,12 @@ public class Logger {
 
     
     public static void log(String input, int key) {
+        if (keyMap[key]) {
+            System.out.println(input);
+        }
+    }
+
+    public static void log(Object input, int key) {
         if (keyMap[key]) {
             System.out.println(input);
         }
