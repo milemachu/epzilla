@@ -23,7 +23,7 @@ public interface DispInterface extends Remote {
 
     public void unregisterCallback(ClientCallbackInterface clientObject) throws RemoteException, MalformedURLException, UnknownHostException, NotBoundException;
 
-    public void getLeaderIp(String ip) throws RemoteException;
+    public void getLeaderIp(int id,String ip) throws RemoteException;
 
     public void replayLogs(String clusterID, String leadeIP) throws RemoteException;
 
