@@ -26,14 +26,14 @@ public class ImmediateUnitTester {
         SystemVariables.setClusters(2, 1);
 
         TriggerDependencyStructure t = DynamicDependencyManager.getInstance().getDependencyStructure(10);
-        System.out.println(t.getstructure().size());
-        for (Object tl : t.getstructure()) {
-            TransactedList tlist = (TransactedList) tl;
-            System.out.println("tl size:" + tlist.size());
-        }
-
-        TriggerInfoObject tt = new TriggerInfoObject();
-        tt.settrigger("");
+//        System.out.println(t.getstructure().size());
+//        for (Object tl : t.getstructure()) {
+//            TransactedList tlist = (TransactedList) tl;
+//            System.out.println("tl size:" + tlist.size());
+//        }
+//
+//        TriggerInfoObject tt = new TriggerInfoObject();
+//        tt.settrigger("");
 
     }
 

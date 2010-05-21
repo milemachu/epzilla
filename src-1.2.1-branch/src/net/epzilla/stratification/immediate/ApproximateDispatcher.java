@@ -8,14 +8,17 @@ import net.epzilla.stratification.query.Query;
 import net.epzilla.stratification.query.QueryParser;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerDependencyStructure;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
-import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
 
 
 public class ApproximateDispatcher {
+
+    private static ApproximateDispatcher instance = new ApproximateDispatcher();
+
+    public static ApproximateDispatcher getInstance() {
+        return instance;
+    }
 
     public void assignClusters(ArrayList<TriggerInfoObject> triggerList, String clientId) throws InvalidSyntaxException {
         assignClusters(triggerList, Long.parseLong(clientId));
@@ -24,24 +27,28 @@ public class ApproximateDispatcher {
 
     public void assignClusters(ArrayList<TriggerInfoObject> triggerList, long clientId) throws InvalidSyntaxException {
 
-
         TriggerDependencyStructure tds = DynamicDependencyManager.getInstance().getDependencyStructure(clientId);
 
+        // input output both.
         // TList<TList<TSet<String>>>
-        TransactedList strata = tds.getstructure();
 //        TransactedList str = new TransactedList();
+        TransactedList inputStrata = tds.getInputStructure();
+        TransactedList outputStrata = tds.getOutputStructure();
+
 
         for (TriggerInfoObject tio : triggerList) {
             QueryParser parser = new BasicQueryParser();
             Query q = parser.parseString(tio.gettrigger());
             String[] ins = q.getInputs();
             String[] outs = q.getOutputs();
+            SystemVariables.triggerCount++;
 
 //            System.out.println(Arrays.toString(ins));
 //            System.out.println(Arrays.toString(outs));
 
+
             // determine
-            if (strata.size() == 0) {
+            if (inputStrata.size() == 0) {
 //                TransactedList list = new TransactedList();
                 int nstrata = SystemVariables.getNumStrata();
                 for (int i = 0; i < nstrata; i++) {
@@ -52,22 +59,35 @@ public class ApproximateDispatcher {
                         clusterList.add(new TransactedSet());
                     }
 
-                    strata.add(clusterList);
+                    inputStrata.add(clusterList);
 
                 }
-//                list.add(new TransactedList());
-//                strata.add(list);
-
             }
+
+            if (outputStrata.size() == 0) {
+                int nstrata = SystemVariables.getNumStrata();
+                for (int i = 0; i < nstrata; i++) {
+
+                    TransactedList clusterList = new TransactedList();
+                    int nclusters = SystemVariables.getClusters(i);
+                    for (int j = 0; j < nclusters; j++) {
+                        clusterList.add(new TransactedSet());
+                    }
+
+                    outputStrata.add(clusterList);
+
+                }
+            }
+
 
             int leastCluster = 0;
             int leastLoad = Integer.MAX_VALUE;
             int current = 0;
 
             outer:
-            for (int i = strata.size() - 1; i >= 0; i--) {
-//                System.out.println("strata size:" + strata.size());
-                TransactedList clusters = (TransactedList) strata.get(i);
+            for (int i = outputStrata.size() - 1; i >= 0; i--) {
+//                System.out.println("strataList size:" + strataList.size());
+                TransactedList clusters = (TransactedList) outputStrata.get(i);
                 boolean found = false;
 
 
@@ -87,78 +107,98 @@ public class ApproximateDispatcher {
                     }
 
                     if (found) {
+                        int target = 0;
                         if (i < (SystemVariables.getNumStrata() - 1)) {
-                            int target = i + 1;
+                            target = i + 1;
 
                             tio.setstratumId(String.valueOf(target));
 
-                            Hashtable<Integer, Integer> loadMap = SystemVariables.getClusterLoads(target);
-                            leastLoad = Integer.MAX_VALUE;
-
-                            for (Integer key : loadMap.keySet()) {
-                                current = loadMap.get(key);
-                                if (current < leastLoad) {
-                                    leastLoad = current;
-                                    leastCluster = key;
-                                }
-                            }
-
-//                            System.out.println("target cluster:" + target + " : " + leastCluster);
-                            tio.setstratumId(Integer.toString(target));
-                            tio.setclusterID(Integer.toString(leastCluster));
-
-                            TransactedList sList = (TransactedList) strata.get(target);
-                            TransactedSet tset = (TransactedSet) sList.get(leastCluster);
-
-                            for (String event : ins) {
-//                            set.add(event);
-                                tset.add(event);
-
-                            }
-                            break outer;
                         } else {
+                            // last stratum.
+                            target = i;
                             tio.setstratumId(String.valueOf(i));
-                            tio.setclusterID(String.valueOf(j));
-                            for (String event : ins) {
-                                set.add(event);
-                            }
-                            break outer;
+
                         }
+
+
+                        TransactedList inputDependencyList = (TransactedList) inputStrata.get(Integer.parseInt(tio.getstratumId()));
+                        int cluster = getCluster(target, inputDependencyList, ins);
+                        tio.setclusterID(String.valueOf(cluster));
+
+                        addDependencies((TransactedSet) ((TransactedList) inputStrata.get(target)).get(cluster), ins);
+                        addDependencies((TransactedSet) ((TransactedList) outputStrata.get(target)).get(cluster), outs);
+
+                        SystemVariables.triggerLoadMap.get(target)[cluster]++;
+
+                        break outer;
+
+                        // dependencies not found.
                     } else {
 
                         if (i > 0) {
                             continue outer;
                         }
-                        int target = 0;
-                        Hashtable<Integer, Integer> loadMap = SystemVariables.getClusterLoads(target);
-                        leastLoad = Integer.MAX_VALUE;
 
-                        for (Integer key : loadMap.keySet()) {
-                            current = loadMap.get(key);
-                            if (current < leastLoad) {
-                                leastLoad = current;
-                                leastCluster = key;
-                            }
-                        }
+                        int stratum = i;
+                        String stringStratum = String.valueOf(stratum);
+                        int cluster = getCluster(stratum, inputStrata, ins);
 
-//                        System.out.println("target cluster:" + target + " : " + leastCluster);
-                        tio.setstratumId(Integer.toString(target));
-                        tio.setclusterID(Integer.toString(leastCluster));
+                        tio.setstratumId(stringStratum);
+                        tio.setclusterID(String.valueOf(cluster));
+                        addDependencies((TransactedSet) ((TransactedList) inputStrata.get(stratum)).get(cluster), ins);
+                        addDependencies((TransactedSet) ((TransactedList) outputStrata.get(stratum)).get(cluster), outs);
 
-                        TransactedList sList = (TransactedList) strata.get(target);
-                        TransactedSet tset = (TransactedSet) sList.get(leastCluster);
-
-                        for (String event : ins) {
-//                            set.add(event);
-                            tset.add(event);
-
-                        }
+                        SystemVariables.triggerLoadMap.get(stratum)[cluster]++;
+//
                         break outer;
                     }
-
-
                 }
             }
+
+        }
+    }
+
+
+    public static void addDependencies(TransactedSet cluster, String[] entries) {
+        for (String entry : entries) {
+            cluster.add(entry);
+        }
+    }
+
+
+    public static int getCluster(int stratum, TransactedList<TransactedSet<String>> inputStrata, String[] inputs) {
+
+        int cluster = 0;
+        for (TransactedSet<String> set : inputStrata) {
+            for (String dependency : set) {
+                for (String entry : inputs) {
+                    if (entry.equals(dependency)) {
+                        return cluster;
+                    }
+                }
+            }
+            cluster++;
+        }
+
+
+        // no dependencies.
+        if (SystemVariables.triggerCount > SystemVariables.roundRobinLimit) {
+            // do round robin
+            int[] clusters = SystemVariables.triggerLoadMap.get(stratum);
+            int least = 0;
+            for (int i = 0; i < clusters.length; i++) {
+                if (clusters[least] < clusters[i]) {
+                    least = i;
+                }
+            }
+            return least;
+        } else {
+            // no round robin
+            Integer least = SystemVariables.leastLoadClusterMap.get(stratum);
+            if (least != null) {
+                return least;
+            }
+            return 0;
 
         }
     }
