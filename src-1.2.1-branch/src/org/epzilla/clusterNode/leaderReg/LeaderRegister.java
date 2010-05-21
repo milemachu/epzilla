@@ -46,8 +46,8 @@ public class LeaderRegister {
 
         //DD for Client
         org.epzilla.common.discovery.node.NodeDiscoveryManager nodeDiscMgr=new NodeDiscoveryManager(2);
-        NodeDiscoveryManager.setLeader(true);
-        NodeDiscoveryManager.setClusterLeader(InetAddress.getLocalHost().getHostAddress());
+//        NodeDiscoveryManager.setLeader(true);
+//        NodeDiscoveryManager.setClusterLeader(InetAddress.getLocalHost().getHostAddress());
     }
 
     private static void loadSettings() {
