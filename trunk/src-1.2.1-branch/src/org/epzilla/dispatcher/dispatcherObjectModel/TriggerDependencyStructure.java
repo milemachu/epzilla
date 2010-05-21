@@ -35,12 +35,20 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
         setField(1, new java.lang.Integer(value));
     }
 
-    public TransactedList getstructure() {
+    public TransactedList getOutputStructure() {
         return (TransactedList) getField(2);
     }
 
-    public void setstructure(TransactedList value) {
+    public void setOutputStructure(TransactedList value) {
         setField(2, value);
+    }
+
+    public TransactedList getInputStructure() {
+        return (TransactedList) getField(3);
+    }
+
+    public void setInputStructure(TransactedList value) {
+        setField(3, value);
     }
 
     public static final int CLIENTID_INDEX = 0;
@@ -51,11 +59,15 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
 
     public static final String VIRTUALSTRATA_NAME = "virtualStrata";
 
-    public static final int STRUCTURE_INDEX = 2;
+    public static final int OUTPUTSTRUCTURE_INDEX = 2;
 
-    public static final String STRUCTURE_NAME = "structure";
+    public static final String OUTPUTSTRUCTURE_NAME = "OutputStructure";
 
-    public static final int FIELD_COUNT = 3;
+    public static final int INPUTSTRUCTURE_INDEX = 3;
+
+    public static final String INPUTSTRUCTURE_NAME = "InputStructure";
+
+    public static final int FIELD_COUNT = 4;
 
     @Override
     public String getFieldName(int index) {
@@ -69,7 +81,9 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
             case 1:
                 return "virtualStrata";
             case 2:
-                return "structure";
+                return "OutputStructure";
+            case 3:
+                return "InputStructure";
             default:
                 throw new java.lang.IllegalArgumentException();
         }
@@ -84,10 +98,10 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
 
     @Override
     public String getObjectModelUID() {
-        return "/s6uj5nH2R6mCK3e/qSnFQ";
+        return "j3Cph1yHjsw4ndyc4ueOuA";
     }
 
-    private static final int[] NON_TRANSIENT_FIELDS = new int[] { 2 };
+    private static final int[] NON_TRANSIENT_FIELDS = new int[] { 2, 3 };
 
     @Override
     protected int[] getNonTransientFields() {
@@ -102,7 +116,7 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
         if (reads != null) {
             writer.writeShort(Short.MAX_VALUE);
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
                 writer.writeBoolean(reads[i]);
         }
 
@@ -133,6 +147,15 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
                     writer.writeTransactedObject((TransactedObject) values[2]);
                 }
             }
+
+            if (values[3] != null) {
+                if (values[3] == Removal.Instance)
+                    writer.writeShort((short) -4);
+                else {
+                    writer.writeShort((short) 4);
+                    writer.writeTransactedObject((TransactedObject) values[3]);
+                }
+            }
         }
 
         writer.writeShort((short) 0);
@@ -147,9 +170,9 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
         short index = reader.readShort();
 
         if (index == Short.MAX_VALUE) {
-            reads = new boolean[3];
+            reads = new boolean[4];
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
                 reads[i] = reader.readBoolean();
 
             index = reader.readShort();
@@ -157,13 +180,13 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
 
         if (index == 1) {
             if (values == null)
-                values = new Object[3];
+                values = new Object[4];
 
             values[0] = reader.readString();
             index = reader.readShort();
         } else if (index == -1) {
             if (values == null)
-                values = new Object[3];
+                values = new Object[4];
 
             values[0] = Removal.Instance;
             index = reader.readShort();
@@ -171,13 +194,13 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
 
         if (index == 2) {
             if (values == null)
-                values = new Object[3];
+                values = new Object[4];
 
             values[1] = new java.lang.Integer(reader.readInteger());
             index = reader.readShort();
         } else if (index == -2) {
             if (values == null)
-                values = new Object[3];
+                values = new Object[4];
 
             values[1] = Removal.Instance;
             index = reader.readShort();
@@ -185,15 +208,29 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
 
         if (index == 3) {
             if (values == null)
-                values = new Object[3];
+                values = new Object[4];
 
             values[2] = reader.readTransactedObject();
             index = reader.readShort();
         } else if (index == -3) {
             if (values == null)
-                values = new Object[3];
+                values = new Object[4];
 
             values[2] = Removal.Instance;
+            index = reader.readShort();
+        }
+
+        if (index == 4) {
+            if (values == null)
+                values = new Object[4];
+
+            values[3] = reader.readTransactedObject();
+            index = reader.readShort();
+        } else if (index == -4) {
+            if (values == null)
+                values = new Object[4];
+
+            values[3] = Removal.Instance;
             index = reader.readShort();
         }
 

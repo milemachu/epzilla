@@ -51,7 +51,7 @@ public class ShareMarker extends jstm.core.TransactedStructure {
 
     @Override
     public String getObjectModelUID() {
-        return "/s6uj5nH2R6mCK3e/qSnFQ";
+        return "j3Cph1yHjsw4ndyc4ueOuA";
     }
 
     private static final int[] NON_TRANSIENT_FIELDS = new int[] {  };

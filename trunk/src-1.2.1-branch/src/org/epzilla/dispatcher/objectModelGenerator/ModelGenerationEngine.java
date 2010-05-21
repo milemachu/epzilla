@@ -41,7 +41,8 @@ public class ModelGenerationEngine {
         Structure clientTriggerStructure = new Structure("TriggerDependencyStructure");
         clientTriggerStructure.Fields.add(new Field(String.class, "clientId"));
         clientTriggerStructure.Fields.add(new Field(int.class, "virtualStrata"));
-        clientTriggerStructure.Fields.add(new Field(TransactedList.class, "structure"));
+        clientTriggerStructure.Fields.add(new Field(TransactedList.class, "OutputStructure"));
+        clientTriggerStructure.Fields.add(new Field(TransactedList.class, "InputStructure"));
 
         Structure marker = new Structure("ShareMarker");
         marker.Fields.add(new Field(String.class, "id"));
