@@ -98,8 +98,8 @@ public class TriggerManager {
             synchronized (triggerIdSyncLock) {
                 int tempCount = count;
                 if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
-                    Site.getLocal().allowThread();
-                    Transaction transaction = Site.getLocal().startTransaction();
+//                    Site.getLocal().allowThread();
+//                    Transaction transaction = Site.getLocal().startTransaction();
                     ArrayList<TriggerInfoObject> tio = new ArrayList();
                     for (String trigger : triggerList) {
                         TriggerInfoObject obj = new TriggerInfoObject();
@@ -114,10 +114,16 @@ public class TriggerManager {
                         // TODO - modify to do correct structuring...
 
                     }
+
+
+
 //                    ad.assignClusters(tio, clientID);
+                    long start = System.currentTimeMillis();
                     ApproximateDispatcher.getInstance().assignClusters(tio, clientID);
+                    System.out.println("assigning clusters time: " + (System.currentTimeMillis() - start));
                     count = count + tio.size();
-                    
+                    Site.getLocal().allowThread();
+                    Transaction transaction = Site.getLocal().startTransaction();
                     getTriggers().addAll(tio);
                     transaction.commit();
                     
@@ -153,7 +159,7 @@ public class TriggerManager {
 
                            try {
                                String ip =  ips.get(Integer.parseInt(cl));
-                               TriggerSender.acceptTrigger(ip, cl, lis, clientID);
+                               TriggerSender.acceptTrigger("192.168.1.2", "x", lis, clientID);
                            } catch (NumberFormatException e) {
                                
                                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

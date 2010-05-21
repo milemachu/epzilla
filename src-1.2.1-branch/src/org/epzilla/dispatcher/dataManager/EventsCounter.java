@@ -45,6 +45,7 @@ class TimerTaskC {
                 DispatcherUIController.appendOutEventCount(text);
                 text = Integer.toString(EventsCounter.countIn);
                 DispatcherUIController.appendInEventsCount(text);
+                System.out.println("count:" + text);
                 System.gc();
             }
         }, 10, 10000);
