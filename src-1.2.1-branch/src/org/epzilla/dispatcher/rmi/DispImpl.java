@@ -120,10 +120,10 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     }
 
     @Override
-    public void getLeaderIp(String ip) throws RemoteException {
+    public void getLeaderIp(int id, String ip) throws RemoteException {
         try {
-            String clusterID = ClusterIDGenerator.getClusterID(ip);
-            ClusterLeaderIpListManager.addIP(clusterID, ip);
+           
+            ClusterLeaderIpListManager.addIP(""+id, ip);
         } catch (Exception e) {
             e.printStackTrace();
         }

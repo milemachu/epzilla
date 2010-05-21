@@ -12,6 +12,9 @@ import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Set;
+import java.util.Iterator;
 
 import org.epzilla.common.discovery.dispatcher.DispatcherDiscoveryManager;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
@@ -103,6 +106,12 @@ public class DispatcherService {
             //Dynamic Discovery
             DispatcherDiscoveryManager ddm=new DispatcherDiscoveryManager();
 
+            Thread.sleep(30000);
+            Hashtable<Integer,String> leaders=DispatcherDiscoveryManager.getDispatcherPublisher().getSubscribers();
+            DispImpl di = new DispImpl();
+            for(int key: leaders.keySet()){
+                di.getLeaderIp(key, leaders.get(key));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
