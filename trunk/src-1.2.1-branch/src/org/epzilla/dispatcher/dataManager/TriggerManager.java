@@ -93,7 +93,7 @@ public class TriggerManager {
 
     public static boolean addAllTriggersToList(List<String> triggerList, String clientID) throws InvalidSyntaxException {
         boolean success = false;
-        ApproximateDispatcher ad = new ApproximateDispatcher();
+//        ApproximateDispatcher ad = new ApproximateDispatcher();
         if (getTriggers() != null) {
             synchronized (triggerIdSyncLock) {
                 int tempCount = count;
@@ -114,7 +114,8 @@ public class TriggerManager {
                         // TODO - modify to do correct structuring...
 
                     }
-                    ad.assignClusters(tio, clientID);
+//                    ad.assignClusters(tio, clientID);
+                    ApproximateDispatcher.getInstance().assignClusters(tio, clientID);
                     count = count + tio.size();
                     
                     getTriggers().addAll(tio);
