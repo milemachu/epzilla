@@ -48,7 +48,6 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 //             TriggerManager.addTriggerToList(aTList,clientID);
 //             todo remove if problematic.
             // add to stm all at once.
-            ApproximateDispatcher ad = new ApproximateDispatcher();
 
            for (String x: tList) {
                Logger.log(x);
