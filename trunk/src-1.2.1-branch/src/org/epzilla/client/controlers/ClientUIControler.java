@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Vector;
 
 public class ClientUIControler implements Runnable {
     private static ClientUI clientInstance;
@@ -33,6 +34,18 @@ public class ClientUIControler implements Runnable {
 
     public static void appendResults(String message) {
         clientInstance.getTxtResults().append(message + "\n");
+    }
+
+    public static void setListLookup(Vector<String> list) {
+        clientInstance.getListLookup().setListData(list);
+    }
+
+    public static void setDispatcherData(String str) {
+        clientInstance.setDispValues(str);
+    }
+
+    public static void initSend() {
+        clientInstance.initProcess();
     }
 
     @Override
