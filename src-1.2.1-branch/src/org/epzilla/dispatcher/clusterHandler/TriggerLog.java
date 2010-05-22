@@ -22,7 +22,7 @@ public class TriggerLog {
     private static int interval = 1000;
     private static Timer timer = new Timer();
 
-     public static synchronized void writeTolog(String serverIp, final String clusterID, final ArrayList<String> triggers){
+     public static synchronized void writeTolog(final String clusterID, final ArrayList<String> triggers){
          timer.scheduleAtFixedRate(new TimerTask()
         {
             public void run()
