@@ -33,7 +33,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private JLabel labelIP = null;
     private JLabel labelPort = null;
     private JLabel labelName = null;
-    private Vector<String> ips = new Vector<String>();
+    public Vector<String> ips = new Vector<String>();
     private JMenuBar menuBar = null;
     private JMenuItem about = null;
     private JMenuItem adminSettings = null;
@@ -302,7 +302,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         return btnCancelSend;
     }
 
-    private JList getListLookup() {
+    public JList getListLookup() {
         if (listLookup == null) {
             listLookup = new JList(ips);
             listLookup.setSize(new Dimension(325, 72));
@@ -379,14 +379,15 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     private void getDispatchers() {
         String ip = txtIP.getText();
-        String serverName = txtName.getText().toString();
+        String serverName = txtName.getText();
         String port = txtPort.getText();
         String clientIp = getIpAddress();
-        if ((isValidIp(ip) == true) && (serverName.length() != 0)) {
+        if ((isValidIp(ip)) && (serverName.length() != 0)) {
             try {
                 ips = client.getServiceIp(ip, serverName, clientIp);
-                listLookup.setListData(ips);
+
                 if (!ips.isEmpty()) {
+                    listLookup.setListData(ips);
 //                    btnLookup.setEnabled(false);
 //                    btnClear.setEnabled(true);
                 }
@@ -415,7 +416,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     }
 
-    private void setDispValues(String str) {
+    public void setDispValues(String str) {
         StringTokenizer st = new StringTokenizer(str);
         String ip = st.nextToken();
         String servicename = st.nextToken();
@@ -440,16 +441,16 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     private void unregisterCallbackLocal() {
         String ip = txtDispIP.getText();
-        String servicename = txtDispName.getText().toString();
+        String servicename = txtDispName.getText();
         try {
             client.unregisterCallback(ip, servicename);
             ClientHandler.unRegisterClient(clientIP, clientID);
         } catch (MalformedURLException e) {
-//            JOptionPane.showMessageDialog(null, e, "epZilla", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
         } catch (RemoteException e) {
-//            JOptionPane.showMessageDialog(null, e, "epZilla", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
         } catch (NotBoundException e) {
-//            JOptionPane.showMessageDialog(null, e, "epZilla", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
         } catch (UnknownHostException e) {
         }
         btnLookup.setEnabled(true);
@@ -504,10 +505,9 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     }
 
-    private void initProcess() {
+    public void initProcess() {
         String dispIP = txtDispIP.getText();
-        String dispName = txtDispName.getText().toString();
-        String clientIp = getIpAddress();
+        String dispName = txtDispName.getText();
 
         if ((dispIP.length() == 0) && (dispName.length() == 0)) {
             JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Message", JOptionPane.ERROR_MESSAGE);
@@ -515,13 +515,13 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         }
         if ((dispIP.length() != 0) && (dispName.length() != 0)) {
             try {
-                ClientInit.initProcess(dispIP, dispName, clientID);
+                ClientInit.initSend(dispIP, dispName, clientID);
                 btnCancelSend.setEnabled(true);
             } catch (MalformedURLException e) {
                 JOptionPane.showMessageDialog(null, "Error in file send process.", "Message", JOptionPane.ERROR_MESSAGE);
             } catch (NotBoundException e) {
                 JOptionPane.showMessageDialog(null, "Dispatcher failure.", "Message", JOptionPane.ERROR_MESSAGE);
-            } catch (RemoteException e) {
+            } catch (RemoteException ignored) {
             }
         } else
             JOptionPane.showMessageDialog(null, "Error in file send process.", "epZilla", JOptionPane.ERROR_MESSAGE);
@@ -555,6 +555,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         } catch (java.net.UnknownHostException e) {
             e.printStackTrace();
         }
+        assert inetAddress != null;
         clientIP = inetAddress.getHostAddress();
         return clientIP;
     }
@@ -573,11 +574,14 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         Object source = event.getSource();
         if (source == listLookup) {
             int i = listLookup.getSelectedIndex();
-            String s = i >= 0 ? ips.get(i) : "";
+            if(i < 0){
+                i=0;
+            }
+//            String s = i >= 0 ? ips.get(i) : "";
+            String s = listLookup.getSelectedValue().toString();
             if (s != null) {
                 setDispValues(s);
-            } else
-                return;
+            }
         }
     }
 
