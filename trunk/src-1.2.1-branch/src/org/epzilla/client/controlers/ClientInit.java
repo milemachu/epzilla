@@ -26,6 +26,7 @@ public class ClientInit extends Thread {
     private static HashMap<String, Object> dispMap = new HashMap<String, Object>();
     private static volatile boolean isLive = true;
     private static int eventsSeqID = 1;
+    private static boolean dynamicLookup = false;
 
     public ClientInit() {
     }
@@ -74,13 +75,16 @@ public class ClientInit extends Thread {
                     } catch (RemoteException e) {
                         ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
                         isLive = false;
-//                        DynamicLookup.dynamicLookup();
+                        if (!dynamicLookup) {
+                            dynamicLookup = true;
+                            initDLookup();
+                        }
+
                     }
 
                     if (response != null) {
                         Logger.log("Dispatcher Recieved the triggrs from the client and the response is " + response);
                     } else {
-
                     }
                     try {
                         Thread.sleep(10000);
@@ -117,17 +121,25 @@ public class ClientInit extends Thread {
                     } catch (RemoteException e) {
                         isLive = false;
                         ClientUIControler.appendResults("Connection to the Dispatcher service failed, events sending stoped, Perform Lookup operation.." + "\n");
-//                        DynamicLookup.dynamicLookup();
+                        if (!dynamicLookup) {
+                            dynamicLookup = true;
+                            initDLookup();
+                        }
                     }
 
                     if (response != null) {
                         Logger.log("Dispatcher Recieved the events from the client and the response is " + response);
                     } else {
-
                     }
                 }
             }
         });
+    }
+
+    private static void initDLookup() {
+        if (dynamicLookup) {
+            DynamicLookup.dynamicLookup();
+        }
     }
 
     public static void stopEventTriggerStream() {

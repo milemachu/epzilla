@@ -17,26 +17,20 @@ import java.util.Vector;
  * To change this template use File | Settings | File Templates.
  */
 public class DynamicLookup {
-    private static int timeOut = 3000;
-    private static Vector<String> dispIP = new Vector<String>();
-
+    private static final int timeOut = 3000;
 
     public static void dynamicLookup() {
         try {
             NameService service = (NameService) ClientHandler.getNameSerObj();
             int size = service.getDirectorySize();
             for (int i = 0; i < size; i++) {
-                dispIP.removeAllElements();
                 String dispData = service.getDispatcherIP();
                 StringTokenizer st = new StringTokenizer(dispData);
                 String ip = st.nextToken();
                 if (validate(ip)) {
-                    dispIP.add(dispData);
-                    ClientUIControler.setListLookup(dispIP);
-                    ClientUIControler.setDispatcherData(dispData);
+                    ClientUIControler.setListLookup(dispData);
                     break;
                 }
-
             }
         } catch (RemoteException e) {
             e.printStackTrace();
