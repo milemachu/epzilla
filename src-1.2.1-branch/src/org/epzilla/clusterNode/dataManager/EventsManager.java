@@ -1,6 +1,7 @@
 package org.epzilla.clusterNode.dataManager;
 
 import org.epzilla.clusterNode.nodeControler.EventSender;
+import org.epzilla.util.CircularList;
 
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
@@ -23,6 +24,7 @@ public class EventsManager {
     private static ConcurrentLinkedQueue<String> eventQueue;
     private static boolean isInit = false;
     private static int count;
+    private static CircularList<String> lis = new CircularList();
 
     public EventsManager(String id) {
         this.clientId = id;
@@ -32,20 +34,19 @@ public class EventsManager {
     public static void dispatchEvents() {
         isInit = true;
         count = 0;
-        
+
         eventsThread = new Thread(new Runnable() {
             public void run() {
                 String event;
                 try {
-                    for (int i = 1; i < ipArr.size(); i++) {
-                        event = eventQueue.poll();
-                        removeEvents(event);
-                        count++;
-                        EventSender.sendEvents(ipArr.get(i), event, clientId);
-                    }
-                    if (count >= 1000) {
+                    event = eventQueue.poll();
+                    EventSender.sendEvents(lis.next(), event, clientId);
+                    removeEvents(event);
+                    count++;
+
+                    if (count >= 20000) {
+                        isInit = false;
                         loadNodesDetails();
-                        count = 0;
                     }
 
                 } catch (MalformedURLException e) {
@@ -80,7 +81,12 @@ public class EventsManager {
     }
 
     private static void loadNodesDetails() {
+        count = 0;
         ipArr = ClusterIPManager.getNodeIpList();
+
+        for (String ips : ipArr) {
+            lis.add(ips);
+        }
         isLoaded = true;
     }
 }
