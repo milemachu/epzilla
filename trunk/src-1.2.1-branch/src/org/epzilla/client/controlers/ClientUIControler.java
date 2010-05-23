@@ -37,11 +37,14 @@ public class ClientUIControler implements Runnable {
     }
 
     public static void setListLookup(Vector<String> list) {
+        clientInstance.isRegister = false;
+        clientInstance.ips.removeAllElements();
         clientInstance.getListLookup().setListData(list);
     }
 
     public static void setDispatcherData(String str) {
-        clientInstance.setDispValues(str);
+//        clientInstance.setDispValues(str);
+        initSend();
     }
 
     public static void initSend() {

@@ -26,7 +26,6 @@ public class ClientInit extends Thread {
     private static HashMap<String, Object> dispMap = new HashMap<String, Object>();
     private static volatile boolean isLive = true;
     private static int eventsSeqID = 1;
-    private static boolean initDynamicLookup = false;
 
     public ClientInit() {
     }
@@ -43,7 +42,7 @@ public class ClientInit extends Thread {
     public static void initSend(String ip, String name, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         lookUp(ip, name);
         ClientInit.clientID = clientID;
-
+        isLive = true;
         initSendTriggerStream(ip);
         initSendEventsStream(ip);
         trigger.start();
@@ -65,28 +64,29 @@ public class ClientInit extends Thread {
                 }
                 di = (DispInterface) dispMap.get(ip);
 
+                while (isLive) {
+                    ArrayList<String> triggers = new ArrayList<String>();
+                    for (int i = 0; i < 200; i++) {
+                        triggers.add(EventTriggerGenerator.getNextTrigger());
+                    }
+                    try {
+                        response = di.uploadTriggersToDispatcher(triggers, clientID, triggerSeqID);
+                    } catch (RemoteException e) {
+                        ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
+                        isLive = false;
+//                        DynamicLookup.dynamicLookup();
+                    }
 
-                ArrayList<String> triggers = new ArrayList<String>();
-                for (int i = 0; i < 200; i++) {
-                    triggers.add(EventTriggerGenerator.getNextTrigger());
-                }
-                try {
-                    response = di.uploadTriggersToDispatcher(triggers, clientID, triggerSeqID);
-                } catch (RemoteException e) {
-                    isLive = false;
-                        DynamicLookup.dynamicLookup();
-                }
+                    if (response != null) {
+                        Logger.log("Dispatcher Recieved the triggrs from the client and the response is " + response);
+                    } else {
 
-                if (response != null) {
-                    Logger.log("Dispatcher Recieved the triggrs from the client and the response is " + response);
-                } else {
-                    ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped" + "\n");
-                    isLive = false;
-                }
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    }
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -115,18 +115,15 @@ public class ClientInit extends Thread {
                         response = di.uploadEventsToDispatcher(buffer, clientID, eventsSeqID);
                         eventsSeqID++;
                     } catch (RemoteException e) {
-                        Logger.log(e);
-                        ClientUIControler.appendResults("Connection to the Dispatcher service failed, events sending stoped" + "\n");
                         isLive = false;
-                        DynamicLookup.dynamicLookup();
+                        ClientUIControler.appendResults("Connection to the Dispatcher service failed, events sending stoped, Perform Lookup operation.." + "\n");
+//                        DynamicLookup.dynamicLookup();
                     }
 
                     if (response != null) {
                         Logger.log("Dispatcher Recieved the events from the client and the response is " + response);
                     } else {
-                        ClientUIControler.appendResults("Connection to the Dispatcher service failed, events sending stoped" + "\n");
-                        isLive = false;
-                        DynamicLookup.dynamicLookup();
+
                     }
                 }
             }
