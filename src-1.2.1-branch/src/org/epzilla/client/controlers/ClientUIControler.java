@@ -14,6 +14,7 @@ public class ClientUIControler implements Runnable {
     private ArrayList<String> notifications;
     private static String dateTime;
     private String message;
+    private static Vector<String> list = new Vector<String>();
 
     public ClientUIControler() {
     }
@@ -36,14 +37,16 @@ public class ClientUIControler implements Runnable {
         clientInstance.getTxtResults().append(message + "\n");
     }
 
-    public static void setListLookup(Vector<String> list) {
+    public static void setListLookup(String dispData) {
+        list.removeAllElements();
+        list.add(dispData);
         clientInstance.isRegister = false;
-        clientInstance.ips.removeAllElements();
         clientInstance.getListLookup().setListData(list);
+        setDispatcherData(dispData);
     }
 
     public static void setDispatcherData(String str) {
-//        clientInstance.setDispValues(str);
+        clientInstance.setDispValues(str);
         initSend();
     }
 
