@@ -15,7 +15,7 @@ public class CircularList<E> {
     private int size = 0;
 
     private class Node<E> {
-        Node next = null;
+        Node<E> next = null;
         E content = null;
     }
 
@@ -79,7 +79,7 @@ public class CircularList<E> {
      * @param item
      */
     public synchronized void add(E item) {
-        Node<E> n = new Node();
+        Node<E> n = new Node<E>();
         n.content = item;
         if (size == 0) {
             start = n;
@@ -152,8 +152,14 @@ public class CircularList<E> {
             System.out.println(lis.remove(i));
 //           lis.add(i);
         }
-
+        lis.add(11);
+        lis.add(11);
+        lis.add(11);
+        lis.add(11);
         System.out.println(lis.toString());
+                  lis.removeAll(11);
+        System.out.println(lis.toString());
+
     }
 
 
