@@ -56,7 +56,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private JTextField txtDispName = null;
     private static ClientHandler client;
     private static ClientInit clientTest;
-    private boolean isRegister = false;
+    public boolean isRegister = false;
     private boolean isLookup = false;
     private static String clientID = "";
     private static String clientIP = "";
@@ -578,7 +578,9 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
                 i=0;
             }
 //            String s = i >= 0 ? ips.get(i) : "";
-            String s = listLookup.getSelectedValue().toString();
+            ListModel model = listLookup.getModel();
+
+            String s = (String) model.getElementAt(0);
             if (s != null) {
                 setDispValues(s);
             }
