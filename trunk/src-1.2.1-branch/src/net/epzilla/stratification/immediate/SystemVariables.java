@@ -75,9 +75,9 @@ public class SystemVariables {
         map.put(cluster, load);
         Integer x = leastLoadClusterMap.get(stratum);
         if (x == null) {
-            leastLoadClusterMap.put(stratum, load);
+            leastLoadClusterMap.put(stratum, cluster);
         } else if (x > load) {
-            leastLoadClusterMap.put(stratum, load);
+            leastLoadClusterMap.put(stratum, cluster);
         }
     }
 

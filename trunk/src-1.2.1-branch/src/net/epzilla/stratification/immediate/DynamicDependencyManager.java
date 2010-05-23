@@ -81,21 +81,22 @@ public class DynamicDependencyManager {
 
             this.table.put(clientId, tds);
             int attempts = 0;
-            
-            do {
+
+//            loop:
+//            do {
                 try {
                     if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
                         Site.getLocal().allowThread();
                         Transaction transaction = Site.getLocal().startTransaction();
                         DynamicDependencyManager.dependencyShare.add(tds);
                         transaction.commit();
-                        break;
+//                        break loop;
                     }
-                    Thread.sleep(500);
+//                    Thread.sleep(500);
                 } catch (Exception e) {
                     Logger.error("can't commit dependency object.", e);
                 }
-            } while (attempts < 5);
+//            } while (attempts < 5);
             return tds;
         }
     }

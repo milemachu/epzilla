@@ -166,10 +166,10 @@ public class ApproximateDispatcher {
     }
 
 
-    public static int getCluster(int stratum, TransactedList<TransactedSet<String>> inputStrata, String[] inputs) {
-
+    public static int getCluster(int stratum, TransactedList<TransactedList<TransactedSet<String>>> inputStrata, String[] inputs) {
+        TransactedList<TransactedSet<String>> is = inputStrata.get(stratum);
         int cluster = 0;
-        for (TransactedSet<String> set : inputStrata) {
+        for (TransactedSet<String> set : is) {
             for (String dependency : set) {
                 for (String entry : inputs) {
                     if (entry.equals(dependency)) {
