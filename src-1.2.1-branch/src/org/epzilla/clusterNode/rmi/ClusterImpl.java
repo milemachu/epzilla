@@ -3,6 +3,7 @@ package org.epzilla.clusterNode.rmi;
 import org.epzilla.clusterNode.accConnector.DeriveEventSender;
 import org.epzilla.clusterNode.dataManager.EventsManager;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
+import org.epzilla.clusterNode.dataManager.EventsCounter;
 import org.epzilla.clusterNode.processor.EventProcessor;
 import org.epzilla.util.Logger;
 
@@ -46,6 +47,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
             EventsManager em = new EventsManager(clientID);
             String eventS = new String(event);
             EventsManager.addEvents(eventS);
+            EventsCounter.setInEventCount();
             Logger.log(eventS);
             return "OK";
         } catch (Exception e) {
