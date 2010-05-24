@@ -44,8 +44,6 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     public String uploadTriggersToDispatcher(ArrayList<String> tList, String clientID, int triggerSeqID) throws RemoteException {
         String toReturn = null;
         try  {
-//            for (String aTList : tList) {
-//             TriggerManager.addTriggerToList(aTList,clientID);
 //             todo remove if problematic.
             // add to stm all at once.
 
@@ -56,7 +54,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
             TriggerManager.addAllTriggersToList(tList, clientID);
 //            }
             toReturn = "OK";
-            ClientNotifier.getNotifications(getClientIP(clientID),"Dispatcher Received the Trigger Stream");
+//            ClientNotifier.getNotifications(getClientIP(clientID),"Dispatcher Received the Trigger Stream");
 
         } catch (Exception e) {
             e.printStackTrace();
