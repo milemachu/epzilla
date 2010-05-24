@@ -175,7 +175,7 @@ public class ApproximateDispatcher {
         TransactedList<TransactedSet<String>> is = inputStrata.get(stratum);
         int cluster = 0;
 
-        if (SystemVariables.triggerCount > SystemVariables.roundRobinLimit) {
+        if (SystemVariables.triggerCount < SystemVariables.roundRobinLimit) {
             for (TransactedSet<String> set : is) {
                 for (String dependency : set) {
                     for (String entry : inputs) {
@@ -190,7 +190,7 @@ public class ApproximateDispatcher {
 
 
         // no dependencies.
-        if (SystemVariables.triggerCount > SystemVariables.roundRobinLimit) {
+        if (SystemVariables.triggerCount < SystemVariables.roundRobinLimit) {
             // do round robin
             int[] clusters = SystemVariables.triggerLoadMap.get(stratum);
             int least = 0;
