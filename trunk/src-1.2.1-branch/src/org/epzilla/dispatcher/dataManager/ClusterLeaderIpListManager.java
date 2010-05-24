@@ -64,7 +64,6 @@ public class ClusterLeaderIpListManager {
                 obj.setleaderIP(ip);
                 getIpList().add(obj);
                 transaction.commit();
-                count++;
             }
         }
     }
@@ -82,7 +81,6 @@ public class ClusterLeaderIpListManager {
                         }
                     }
                     transaction.commit();
-                    count++;
                 }
             } catch (Exception e) {
 
