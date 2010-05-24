@@ -11,6 +11,7 @@ import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.dataManager.ClusterIPManager;
 import org.epzilla.clusterNode.dataManager.PerformanceInfoManager;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
+import org.epzilla.clusterNode.processor.EventProcessor;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
 
 import java.io.IOException;
@@ -81,7 +82,18 @@ public class NodeAsLeader {
         }
         TriggerManager.getTriggers().addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-                NodeUIController.appendTextToTriggerList(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
+//                NodeUIController.appendTextToTriggerList(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
+                try {
+                    TriggerObject trig = TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1);
+                    if ("OOOO".equals(trig.gettrigger())) {
+                        return;
+                    }
+
+                    NodeUIController.appendTextToTriggerList(trig.gettrigger());
+                    EventProcessor.getInstance().addTrigger(trig.gettrigger(), trig.getclientID());
+                } catch (Exception e) {
+                    org.epzilla.util.Logger.error("stm err", e);
+                }
             }
         });
 
@@ -150,6 +162,7 @@ public class NodeAsLeader {
     }
 
     //Check if the cluster is over loaded=> needs new nodes.
+
     public static void checkForOverloading() {
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {

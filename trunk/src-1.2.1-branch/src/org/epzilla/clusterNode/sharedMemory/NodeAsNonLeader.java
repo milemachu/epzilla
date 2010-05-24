@@ -8,11 +8,13 @@ import jstm.transports.clientserver.ConnectionInfo;
 import java.util.Set;
 import java.util.TimerTask;
 
+import net.epzilla.node.query.QuerySyntaxException;
 import org.epzilla.clusterNode.clusterInfoObjectModel.ClusterObjectModel;
 import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
 import org.epzilla.clusterNode.clusterInfoObjectModel.PerformanceInfoObject;
 import org.epzilla.clusterNode.NodeController;
+import org.epzilla.clusterNode.processor.EventProcessor;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
 import org.epzilla.clusterNode.dataManager.ClusterIPManager;
@@ -110,9 +112,25 @@ public class NodeAsNonLeader {
         TriggerManager.setTriggers(info);
         info.addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-                NodeUIController.appendTextToTriggerList(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
+                try {
+
+                    TriggerObject trig = TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1);
+                    if ("OOOO".equals(trig.gettrigger())) {
+                        return;
+                    }
+
+                    NodeUIController.appendTextToTriggerList(trig.gettrigger());
+                    EventProcessor.getInstance().addTrigger(trig.gettrigger(), trig.getclientID());
+                } catch (Exception e) {
+//                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    org.epzilla.util.Logger.error("stm err:", e);
+                }
+
+
             }
         });
+
+
     }
 
 
@@ -128,7 +146,7 @@ public class NodeAsNonLeader {
 
     }
 
-        private static void addPerformanceInfoList(final TransactedList<PerformanceInfoObject> info) {
+    private static void addPerformanceInfoList(final TransactedList<PerformanceInfoObject> info) {
 
         NodeUIController.appendTextToStatus("Performance Info List added...");
         PerformanceInfoManager.setPerformanceList(info);
@@ -139,7 +157,6 @@ public class NodeAsNonLeader {
         });
 
     }
-
 
 
     public static void checkServerStatus() {

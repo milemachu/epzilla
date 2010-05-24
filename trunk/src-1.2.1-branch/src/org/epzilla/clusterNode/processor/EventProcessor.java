@@ -1,11 +1,13 @@
 package org.epzilla.clusterNode.processor;
 
+import net.epzilla.node.parser.BlankProcessor;
 import net.epzilla.node.parser.QueryExecutor;
 import net.epzilla.node.parser.QueryParser;
 import net.epzilla.node.query.QuerySyntaxException;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -17,13 +19,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * To change this template use File | Settings | File Templates.
  */
 public class EventProcessor {
-  private  ConcurrentLinkedQueue cq = new ConcurrentLinkedQueue();
-  private Hashtable<String, QueryExecutor> clientExecutors = new Hashtable();
+    private ConcurrentLinkedQueue cq = new ConcurrentLinkedQueue();
+    private Hashtable<String, QueryExecutor> clientExecutors = new Hashtable();
 
 
     private static EventProcessor instance = new EventProcessor();
 
-   static boolean mt = false;
+    static boolean mt = false;
 
     public static EventProcessor getInstance() {
 
@@ -31,22 +33,36 @@ public class EventProcessor {
     }
 
     public void addTrigger(String trigger, String clientId) throws QuerySyntaxException {
+        System.out.println("adding trigger" + clientId);
         QueryExecutor q = clientExecutors.get(clientId);
         if (q == null) {
-            q = new QueryExecutor();
+            q = new BlankProcessor();
             clientExecutors.put(clientId, q);
         }
         q.addQuery(new QueryParser().parseQuery(trigger));
     }
 
+    
+
+
+    public void reloadTriggers(List<String> triggers, String clientId) throws QuerySyntaxException {
+        QueryExecutor q = new BlankProcessor();
+        clientExecutors.put(clientId, q);
+
+        for (String t : triggers) {
+            q.addQuery(new QueryParser().parseQuery(t));
+        }
+    }
+
+
     public void addTriggers(ArrayList<String> triggers, String clientId) throws QuerySyntaxException {
-           QueryExecutor q = clientExecutors.get(clientId);
+        QueryExecutor q = clientExecutors.get(clientId);
         if (q == null) {
             q = new QueryExecutor();
             clientExecutors.put(clientId, q);
         }
 
-        for (String t: triggers) {
+        for (String t : triggers) {
             q.addQuery(new QueryParser().parseQuery(t));
         }
     }
@@ -54,9 +70,11 @@ public class EventProcessor {
     public String processEvent(String event) {
         // content, client id, event id
         StringTokenizer tok = new StringTokenizer(event, ":");
-        String cont =                                    tok.nextToken();
+        String cont = tok.nextToken();
         String clientId = tok.nextToken();
         String eventId = tok.nextToken();
+        System.out.println("processing event: " +  clientId + " : " + eventId);
+
         QueryExecutor q = this.clientExecutors.get(clientId);
         if (q != null) {
             String res = q.processEvents(cont);
@@ -66,13 +84,12 @@ public class EventProcessor {
             sb.append(clientId);
             sb.append(":");
             sb.append(eventId);
-            
+
             return sb.toString();
         }
 
-        return ":"+ clientId + ":" + eventId;
+        return ":" + clientId + ":" + eventId;
     }
 
-    
 
 }
