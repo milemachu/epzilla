@@ -36,6 +36,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         return null;
     }
 
+
     public String acceptEventStream(byte[] event, String clusterID, String clientID) throws RemoteException {
         try {
             EventsManager em = new EventsManager(clientID);
@@ -49,6 +50,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         return null;
     }
 
+    // todo - add executor.
     public String addEventStream(String event, String clientID) throws RemoteException {
         return null;
     }
