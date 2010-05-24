@@ -112,7 +112,7 @@ public class ClientInit extends Thread {
                 di = (DispInterface) dispMap.get(ip);
 
                 while (isLive) {
-                    String event = EventTriggerGenerator.getNextEvent() + "," + clientID + "," + eventsSeqID;
+                    String event = EventTriggerGenerator.getNextEvent() + ":" + clientID + ":" + eventsSeqID;
                     byte[] buffer = event.getBytes();
 
                     try {
