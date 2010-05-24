@@ -11,7 +11,7 @@ import org.epzilla.leader.util.Status;
 
 public class EpzillaLeaderPubSub {
 	
-	private static HashSet<String> clientList;
+	private static HashSet<String> clientList=new HashSet<String>();
 	
 	private	static HashSet<IEpzillaEventListner> clientListenerList =new HashSet<IEpzillaEventListner>();
 	
@@ -33,7 +33,7 @@ public class EpzillaLeaderPubSub {
 	
 	public static void resetPubSub(){
 		synchronized (clientList) {
-			clientList=null;
+			clientList.clear();
 		}
 		synchronized (clientListenerList) {
 			clientListenerList.clear();
