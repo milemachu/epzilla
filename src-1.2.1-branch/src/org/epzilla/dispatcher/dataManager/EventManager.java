@@ -24,7 +24,7 @@ public class EventManager {
             loadClusterDetails();
         }
         try {
-            for (int i = 1; i < ipArr.size(); i++) {
+            for (int i = 0; i < ipArr.size(); i++) {
                 EventSender.sendEvent(event, ipArr.get(i), idArr.get(i), clientID);
             }
             EventsCounter.setOutEventCount();
