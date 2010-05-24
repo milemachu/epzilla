@@ -37,29 +37,31 @@ public class EventsManager {
 
         eventsThread = new Thread(new Runnable() {
             public void run() {
-                String event;
-                try {
-                    event = eventQueue.poll();
-                    EventSender.sendEvents(lis.next(), event, clientId);
-                    removeEvents(event);
-                    count++;
+                while (true) {
+                    String event;
+                    try {
+                        event = eventQueue.poll();
+                        EventSender.sendEvents(lis.next(), event, clientId);
+                        removeEvents(event);
+                        count++;
 
-                    if (count >= 20000) {
-                        isInit = false;
-                        loadNodesDetails();
+                        if (count >= 20000) {
+                            isInit = false;
+                            loadNodesDetails();
+                        }
+
+                    } catch (MalformedURLException e) {
+                        System.err.println(e);
+                    } catch (NotBoundException e) {
+                        System.err.println(e);
+                    } catch (RemoteException e) {
+                        System.err.println(e);
                     }
-
-                } catch (MalformedURLException e) {
-                    System.err.println(e);
-                } catch (NotBoundException e) {
-                    System.err.println(e);
-                } catch (RemoteException e) {
-                    System.err.println(e);
-                }
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    try {
+                        Thread.sleep(30);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
