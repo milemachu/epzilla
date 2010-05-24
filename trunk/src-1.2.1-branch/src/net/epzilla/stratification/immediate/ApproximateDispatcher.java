@@ -129,7 +129,7 @@ public class ApproximateDispatcher {
                         }
                         addDependencies((TransactedSet) ((TransactedList) outputStrata.get(target)).get(cluster), outs);
 
-                        SystemVariables.triggerLoadMap.get(target)[cluster]++;
+//                        SystemVariables.triggerLoadMap.get(target)[cluster]++;
                         System.out.println("SV internal: " + SystemVariables.triggerLoadMap.get(target)[cluster]);
 
                         break outer;
@@ -153,7 +153,6 @@ public class ApproximateDispatcher {
                         }
                         addDependencies((TransactedSet) ((TransactedList) outputStrata.get(stratum)).get(cluster), outs);
 
-                        SystemVariables.triggerLoadMap.get(stratum)[cluster]++;
                         System.out.println("SV internal: " + SystemVariables.triggerLoadMap.get(stratum)[cluster]);
                         break outer;
                     }
@@ -175,7 +174,7 @@ public class ApproximateDispatcher {
         TransactedList<TransactedSet<String>> is = inputStrata.get(stratum);
         int cluster = 0;
 
-        if (SystemVariables.triggerCount < SystemVariables.roundRobinLimit) {
+        if (SystemVariables.triggerCount > SystemVariables.roundRobinLimit) {
             for (TransactedSet<String> set : is) {
                 for (String dependency : set) {
                     for (String entry : inputs) {
@@ -193,12 +192,15 @@ public class ApproximateDispatcher {
         if (SystemVariables.triggerCount < SystemVariables.roundRobinLimit) {
             // do round robin
             int[] clusters = SystemVariables.triggerLoadMap.get(stratum);
+            
             int least = 0;
             for (int i = 0; i < clusters.length; i++) {
-                if (clusters[least] < clusters[i]) {
+                if (clusters[least] > clusters[i]) {
                     least = i;
                 }
             }
+            SystemVariables.triggerLoadMap.get(stratum)[least]++;
+
             return least;
         } else {
             // no round robin
