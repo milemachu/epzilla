@@ -15,6 +15,7 @@ public class ClientUIControler implements Runnable {
     private static String dateTime;
     private String message;
     private static Vector<String> list = new Vector<String>();
+    private static int alertCount;
 
     public ClientUIControler() {
     }
@@ -58,7 +59,20 @@ public class ClientUIControler implements Runnable {
     public void run() {
         dateTime = getDateTime();
         clientInstance.getNotifications().append(dateTime + ":" + message + "\n");
+        String text = Integer.toString(getAlertCount());
+        appendAlertCount(text);
+    }
 
+    private static void appendAlertCount(String text) {
+        clientInstance.getTxtNotiCount().setText(text);
+    }
+
+    public void setAlertCount() {
+        alertCount++;
+    }
+
+    private static int getAlertCount() {
+        return alertCount;
     }
 
     private static String getDateTime() {

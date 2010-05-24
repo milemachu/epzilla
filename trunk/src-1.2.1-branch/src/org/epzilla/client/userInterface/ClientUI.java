@@ -384,6 +384,9 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 		if (txtNotifications == null) {
 			txtNotifications = new JTextArea();
 			txtNotifications.setBounds(new Rectangle(600, 90, 500, 535));
+            txtNotifications.setEditable(false);
+            txtNotifications.setLineWrap(true);
+            txtNotifications.setWrapStyleWord(true);
 			txtNotifications.setForeground(Color.GREEN);
 			txtNotifications.setBackground(Color.BLACK);
 		}
