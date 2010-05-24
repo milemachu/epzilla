@@ -2,12 +2,8 @@ package org.epzilla.dispatcher.clusterHandler;
 
 import org.epzilla.dispatcher.logs.WriteLog;
 
-import java.util.TimerTask;
-import java.util.Timer;
-import java.util.Vector;
-import java.util.ArrayList;
-import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,21 +14,12 @@ import java.io.IOException;
  */
 public class TriggerLog {
 
-    private static int delay = 0;
-    private static int interval = 1000;
-    private static Timer timer = new Timer();
+    public static synchronized void writeTolog(String clusterID, ArrayList<String> triggers) {
 
-     public static synchronized void writeTolog(final String clusterID, final ArrayList<String> triggers){
-         timer.scheduleAtFixedRate(new TimerTask()
-        {
-            public void run()
-            {
-                try {
-                    WriteLog.writeInit(triggers,clusterID);
-                } catch (IOException e) {
-                }
-                timer.cancel();
-            }
-        }, delay, interval);
+        try {
+            WriteLog.writeInit(triggers, clusterID);
+        } catch (IOException e) {
+        }
+
     }
 }
