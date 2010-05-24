@@ -121,6 +121,7 @@ public class RmiMessageClient {
 		LeaderInterface li;
 		try {
 			li = getLeaderInterface(remoteIp);
+			System.out.println("Recived UID is higher or same order. This UID sent to:"+ remoteIp);
 			li.receiveMessage(MessageGenerator.getUidMessage());
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -129,9 +130,7 @@ public class RmiMessageClient {
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}
-		System.out
-				.println("Recived UID is higher or same order. This UID sent to:"
-						+ remoteIp);
+		
 	}
 
 	/**

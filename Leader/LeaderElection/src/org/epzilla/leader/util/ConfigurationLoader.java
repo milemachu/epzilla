@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Hashtable;
 
 import org.epzilla.leader.Epzilla;
@@ -51,6 +53,15 @@ public class ConfigurationLoader {
 			if(el.getAttribute("default")!=null){
 				Epzilla.setDefaultLeader(el.getContent());
 //				Epzilla.setClusterLeader(el.getContent()); //Cannot tell like this
+			}
+			try {
+				if(el.getContent().equalsIgnoreCase(InetAddress.getLocalHost().getHostAddress())){
+					Epzilla.setUID(Long.parseLong(el.getAttribute("uid")));
+				}
+			} catch (NumberFormatException e1) {
+				e1.printStackTrace();
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
 			}
 		}
 	}
