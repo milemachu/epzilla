@@ -3,18 +3,19 @@ package org.epzilla.clusterNode.sharedMemory;
 import jstm.core.*;
 import jstm.transports.clientserver.Server;
 import jstm.transports.clientserver.socket.SocketServer;
+import org.epzilla.clusterNode.NodeController;
 import org.epzilla.clusterNode.clusterInfoObjectModel.ClusterObjectModel;
-import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
 import org.epzilla.clusterNode.clusterInfoObjectModel.PerformanceInfoObject;
-import org.epzilla.clusterNode.NodeController;
-import org.epzilla.clusterNode.userInterface.NodeUIController;
-import org.epzilla.clusterNode.dataManager.TriggerManager;
+import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.dataManager.ClusterIPManager;
 import org.epzilla.clusterNode.dataManager.PerformanceInfoManager;
-
+import org.epzilla.clusterNode.dataManager.TriggerManager;
+import org.epzilla.clusterNode.userInterface.NodeUIController;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.TimerTask;
 
 /**
@@ -92,10 +93,18 @@ public class NodeAsLeader {
             Site.getLocal().allowThread();
             Transaction transaction = Site.getLocal().startTransaction();
             NodeIPObject obj = new NodeIPObject();
-            obj.setIP("IP");
-            ClusterIPManager.getIpList().add(obj);
-            share.add(ClusterIPManager.getIpList());
-            transaction.commit();
+            InetAddress inetAddress;
+            try {
+                inetAddress = InetAddress.getLocalHost();
+                String ipAddress = inetAddress.getHostAddress();
+                obj.setIP(ipAddress);
+                ClusterIPManager.getIpList().add(obj);
+                share.add(ClusterIPManager.getIpList());
+                transaction.commit();
+            } catch (UnknownHostException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+
         }
         ClusterIPManager.getIpList().addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
@@ -156,15 +165,14 @@ public class NodeAsLeader {
                         MemSum += Integer.valueOf(list.get(i).getMemUsageAverage());
                     }
                 }
-                if(list.size()>1)
-                {
-                NodeUIController.appendTextToStatus("Average CPU usage of the cluster: " + (CPUsum / (list.size() - 1)) + "%");
-                NodeUIController.appendTextToStatus("Average Memory usage of the cluster: " + (MemSum / (list.size() - 1)) + "%");
-               //TO-DO
-                //send PErformance info to the Dispatcher
+                if (list.size() > 1) {
+                    NodeUIController.appendTextToStatus("Average CPU usage of the cluster: " + (CPUsum / (list.size() - 1)) + "%");
+                    NodeUIController.appendTextToStatus("Average Memory usage of the cluster: " + (MemSum / (list.size() - 1)) + "%");
+                    //TO-DO
+                    //send PErformance info to the Dispatcher
                 }
             }
-        }, 120000,200000);
+        }, 120000, 200000);
     }
 
 
