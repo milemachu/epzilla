@@ -57,7 +57,7 @@ public class ClientUIControler implements Runnable {
     @Override
     public void run() {
         dateTime = getDateTime();
-        clientInstance.getTxtResults().append(dateTime + ":" + message + "\n");
+        clientInstance.getNotifications().append(dateTime + ":" + message + "\n");
 
     }
 
