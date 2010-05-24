@@ -44,18 +44,20 @@ public class NodeUIController {
         instance.getjTextAreaMachineInfo().append(text + "\n");
     }
 
-      public static void appendTextToPerformanceInfo(String text) {
+    public static void appendTextToPerformanceInfo(String text) {
         instance.getjTextAreaPerformance().append(text + "\n");
     }
 
-    public static void clearPerformanceInfo()
-    {
+    public static void clearPerformanceInfo() {
         instance.getjTextAreaPerformance().setText("");
     }
 
-    public static void setLeaderStatus(String text)
-    {
+    public static void setLeaderStatus(String text) {
         instance.getJTextAreaLeader().setText(text);
+    }
+
+    public static void setEventCount(String text) {
+        instance.getJTextAreaEventCount().setText(text);
     }
 
 }
