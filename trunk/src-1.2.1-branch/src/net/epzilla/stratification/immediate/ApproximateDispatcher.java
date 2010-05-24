@@ -124,8 +124,9 @@ public class ApproximateDispatcher {
                         TransactedList inputDependencyList = (TransactedList) inputStrata.get(Integer.parseInt(tio.getstratumId()));
                         int cluster = getCluster(target, inputDependencyList, ins);
                         tio.setclusterID(String.valueOf(cluster));
-
-                        addDependencies((TransactedSet) ((TransactedList) inputStrata.get(target)).get(cluster), ins);
+                        if (SystemVariables.triggerCount > SystemVariables.roundRobinLimit) {
+                            addDependencies((TransactedSet) ((TransactedList) inputStrata.get(target)).get(cluster), ins);
+                        }
                         addDependencies((TransactedSet) ((TransactedList) outputStrata.get(target)).get(cluster), outs);
 
                         SystemVariables.triggerLoadMap.get(target)[cluster]++;
@@ -145,7 +146,10 @@ public class ApproximateDispatcher {
 
                         tio.setstratumId(stringStratum);
                         tio.setclusterID(String.valueOf(cluster));
-                        addDependencies((TransactedSet) ((TransactedList) inputStrata.get(stratum)).get(cluster), ins);
+                        if (SystemVariables.triggerCount > SystemVariables.roundRobinLimit) {
+
+                            addDependencies((TransactedSet) ((TransactedList) inputStrata.get(stratum)).get(cluster), ins);
+                        }
                         addDependencies((TransactedSet) ((TransactedList) outputStrata.get(stratum)).get(cluster), outs);
 
                         SystemVariables.triggerLoadMap.get(stratum)[cluster]++;
@@ -169,15 +173,18 @@ public class ApproximateDispatcher {
     public static int getCluster(int stratum, TransactedList<TransactedList<TransactedSet<String>>> inputStrata, String[] inputs) {
         TransactedList<TransactedSet<String>> is = inputStrata.get(stratum);
         int cluster = 0;
-        for (TransactedSet<String> set : is) {
-            for (String dependency : set) {
-                for (String entry : inputs) {
-                    if (entry.equals(dependency)) {
-                        return cluster;
+
+        if (SystemVariables.triggerCount > SystemVariables.roundRobinLimit) {
+            for (TransactedSet<String> set : is) {
+                for (String dependency : set) {
+                    for (String entry : inputs) {
+                        if (entry.equals(dependency)) {
+                            return cluster;
+                        }
                     }
                 }
+                cluster++;
             }
-            cluster++;
         }
 
 
