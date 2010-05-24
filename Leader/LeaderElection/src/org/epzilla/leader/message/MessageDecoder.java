@@ -23,6 +23,7 @@ public class MessageDecoder {
 	
 	public MessageDecoder() {
 		eventHandler=new EventHandler();
+		lcrAlgorithm=new LCRAlgoImpl();
 	}
 
 	public boolean decodeMessage(final String message){

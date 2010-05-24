@@ -268,14 +268,22 @@ public class RmiMessageClient {
 	 * @throws NotBoundException
 	 * @throws UnknownHostException
 	 */
-	public static String getClusterLeaderFromRemote(String remoteIp)
-			throws MalformedURLException, RemoteException, NotBoundException,
-			UnknownHostException {
-		LeaderInterface li = getLeaderInterface(remoteIp);
+	public static String getClusterLeaderFromRemote(String remoteIp){
+		LeaderInterface li;
+		try {
+			li = getLeaderInterface(remoteIp);
+			System.out.println("get cluster leader sent to:" + remoteIp);
 
-		System.out.println("get cluster leader sent to:" + remoteIp);
+			return li.getClusterLeader();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			e.printStackTrace();
+		}
 
-		return li.getClusterLeader();
+		return null;
 	}
 
 	/**
