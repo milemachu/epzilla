@@ -60,8 +60,10 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
     // todo - add acc. ip
     public void addEventStream(String event, String clientID) throws RemoteException {
         String derivedEvent = EventProcessor.getInstance().processEvent(event);
+        System.out.println("addeventstream called.");
         try {
             DeriveEventSender.sendDeriveEvent("192.168.1.2", derivedEvent.getBytes());
+            System.out.println("sending derived event...");
         } catch (Exception e) {
             Logger.error("error adding event in cluster node", e);
         }
