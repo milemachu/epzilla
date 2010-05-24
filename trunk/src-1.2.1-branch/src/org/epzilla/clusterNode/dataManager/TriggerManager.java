@@ -6,6 +6,7 @@ import jstm.core.Transaction;
 import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.dispatcher.RandomStringGenerator;
 
+import java.util.StringTokenizer;
 import java.util.TimerTask;
 
 /**
@@ -56,7 +57,9 @@ public class TriggerManager {
                 TriggerObject obj = new TriggerObject();
                 // ID is the sequential number of the trigger
                 obj.settriggerID("TID:" + String.valueOf(count));
+
                 obj.settrigger(new String(trigger));
+                obj.setclientID(clientID);
                 triggers.add(obj);
                 transaction.commit();
                 success = true;
