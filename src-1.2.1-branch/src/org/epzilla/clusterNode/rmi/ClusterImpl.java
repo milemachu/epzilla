@@ -1,12 +1,15 @@
 package org.epzilla.clusterNode.rmi;
 
+import org.epzilla.clusterNode.accConnector.DeriveEventSender;
 import org.epzilla.clusterNode.dataManager.EventsManager;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
+import org.epzilla.clusterNode.processor.EventProcessor;
 import org.epzilla.util.Logger;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,6 +27,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
     /*
    Accept trigger stream by Leader node
     */
+
     public String acceptTiggerStream(ArrayList<String> tList, String clusterID, String clientID) throws RemoteException {
         try {
             for (int i = 0; i < tList.size(); i++) {
@@ -50,14 +54,22 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         return null;
     }
 
-    // todo - add executor.
-    public String addEventStream(String event, String clientID) throws RemoteException {
-        return null;
+    
+    // todo - add acc. ip
+    public void addEventStream(String event, String clientID) throws RemoteException {
+        String derivedEvent = EventProcessor.getInstance().processEvent(event);
+        try {
+            DeriveEventSender.sendDeriveEvent("192.168.1.2", derivedEvent.getBytes());
+        } catch (Exception e) {
+            Logger.error("error adding event in cluster node", e);
+        }
+
     }
 
     /*
    Accept trigger stream by Processing Node
     */
+
     public String addTriggerStream(ArrayList<String> tlist, String clientID) throws RemoteException {
         return null;
     }

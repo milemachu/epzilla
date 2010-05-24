@@ -72,7 +72,6 @@ public class EventsManager {
             dispatchEvents();
             eventsThread.start();
         }
-
     }
 
     public static void removeEvents(String events) {
