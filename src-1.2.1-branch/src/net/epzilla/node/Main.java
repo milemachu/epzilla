@@ -1,9 +1,9 @@
 package net.epzilla.node;
 
+import net.epzilla.node.parser.QueryExecutor;
 import net.epzilla.node.query.Query;
 import net.epzilla.node.query.QuerySyntaxException;
 import net.epzilla.node.parser.QueryParser;
-import net.epzilla.node.parser.QueryExecuter;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,7 +21,7 @@ public class Main {
         System.out.println(query);
         QueryParser qp = new QueryParser();
         Query q = qp.parseQuery(query);
-        QueryExecuter qe = new QueryExecuter();
+        QueryExecutor qe = new QueryExecutor();
         qe.addQuery(q);
         qe.addQuery(qp.parseQuery(query2));
         String x  = qe.processEvents("Title,Model,Year\nCarDetails,Civic,1994\nCarDetails,Corolla,1994\nBusses,Tata,1994\nCarDetails,Corona,1994");

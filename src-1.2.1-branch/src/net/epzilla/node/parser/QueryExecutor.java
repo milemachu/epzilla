@@ -11,7 +11,7 @@ import java.util.Vector;
  * Time: 9:37:52 AM
  * To change this template use File | Settings | File Templates.
  */
-public class QueryExecuter {
+public class QueryExecutor {
     Vector<Query> queries = new Vector<Query>();
 
     public void addQuery(Query q) {
