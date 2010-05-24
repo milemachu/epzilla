@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
 public class EventManager {
 
     private static HashMap<String, Event> eventList = new HashMap<String, Event>();
-    private static int numberofClusters = 1;
+    private static int numberofClusters = 2;
     private static int processed=0;
 
 
