@@ -18,6 +18,7 @@ import org.epzilla.leader.util.Component;
 import org.epzilla.leader.util.Status;
 
 public class MessageDecoder {
+	private static String EMPTY_STRING=""; 
 	private EventHandler eventHandler;
 	private LCRAlgoImpl lcrAlgorithm;
 	
@@ -77,7 +78,7 @@ public class MessageDecoder {
 			}
 		}else if(Integer.parseInt(strItems[0])==MessageMeta.UID){
 			//LE has started
-			Epzilla.setClusterLeader(null);
+			Epzilla.setClusterLeader(EMPTY_STRING);
 			Epzilla.setStatus(Status.UNKNOWN.name());
 			Epzilla.setLeaderElectionRunning(true);
 			eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
@@ -89,12 +90,12 @@ public class MessageDecoder {
 			//Only 3 outcomes. 1=LEADER, if UID is same. 2=NON_LEADER, if received UID is small. 3=UNKNOWN, if received UID is large.
 			if(result.equalsIgnoreCase(Status.LEADER.name())){
 				//Received UID is this node's UID
-				Epzilla.setClusterLeader(strItems[1]);
+				Epzilla.setClusterLeader(strItems[2]);
 				Epzilla.setStatus(Status.LEADER.name());
 				Epzilla.setLeaderElectionRunning(false);
 				eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
 				if(Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
-					NodeClientManager.setClusterLeader(strItems[1]);
+					NodeClientManager.setClusterLeader(strItems[2]);
 				}
 				EpzillaLeaderPubSub.initializePubSub();
 				//Starting Sender Thread

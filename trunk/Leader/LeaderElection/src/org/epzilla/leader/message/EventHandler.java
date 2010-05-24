@@ -20,6 +20,7 @@ import org.epzilla.leader.util.Component;
 import org.epzilla.leader.util.Status;
 
 public class EventHandler {
+	private static String EMPTY_STRING=""; 
 	
 	public boolean fireEpzillaEvent(final IEpzillaEvent event){
 		if(event instanceof ProcessStatusChangedEvent){
@@ -65,7 +66,7 @@ public class EventHandler {
 					Epzilla.addToTimerQueue(new ErrorOccurredEvent());
 				}else{
 					//Server not available. Initiate LE.
-					Epzilla.setClusterLeader(null);
+					Epzilla.setClusterLeader(EMPTY_STRING);
 					Epzilla.setStatus(Status.UNKNOWN.name());
 					Epzilla.setLeaderElectionRunning(true);
 					fireEpzillaEvent(new ProcessStatusChangedEvent());					
