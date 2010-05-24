@@ -9,6 +9,7 @@ import org.epzilla.accumulator.global.DerivedEvent;
 import org.epzilla.accumulator.service.AccumulatorService;
 import org.epzilla.accumulator.stm.EventConverter;
 import org.epzilla.accumulator.stm.STMAccess;
+import org.epzilla.accumulator.dataManager.EventManager;
 
 import jstm.core.TransactedList;
 
@@ -31,12 +32,14 @@ public class AccumulatorServiceImpl extends UnicastRemoteObject implements Accum
 
         // todo -
         // add to stm
-        TransactedList<SharedDerivedEvent> list = STMAccess.clientMap.get(event.getClientId());
-        if (list == null) {
-            list = new TransactedList<SharedDerivedEvent>();
-            STMAccess.clientMap.put(event.getClientId(), list);
-        }
-        list.add(EventConverter.toSharedDerivedEvent(event));
+//        TransactedList<SharedDerivedEvent> list = STMAccess.clientMap.get(event.getClientId());
+//        if (list == null) {
+//            list = new TransactedList<SharedDerivedEvent>();
+//            STMAccess.clientMap.put(event.getClientId(), list);
+//        }
+//        list.add(EventConverter.toSharedDerivedEvent(event));
+
+
         return true;
         // notify dispatcher
         // notify client. - done by dispatcher.
@@ -58,6 +61,7 @@ public class AccumulatorServiceImpl extends UnicastRemoteObject implements Accum
     }
 
     public void receiveDeriveEvent(byte[] deriveEvent) throws RemoteException {
-         String eventS = new String(deriveEvent);
+        String eventS = new String(deriveEvent);
+        EventManager.setEventSegement(eventS);
     }
 }
