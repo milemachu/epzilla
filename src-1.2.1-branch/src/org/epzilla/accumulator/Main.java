@@ -5,6 +5,7 @@ import org.epzilla.accumulator.service.AccumulatorService;
 import org.epzilla.accumulator.service.AccumulatorServiceImpl;
 import org.epzilla.accumulator.userinterface.AccumulatorUIControler;
 import org.epzilla.accumulator.util.OpenSecurityManager;
+import org.epzilla.accumulator.stm.AccumulatorAsServer;
 import org.epzilla.util.Logger;
 
 import java.io.IOException;
@@ -19,6 +20,8 @@ import java.rmi.Naming;
  * To change this template use File | Settings | File Templates.
  */
 public class Main {
+    private static boolean isServer=true;
+
     private static void startRegistry() {
         try {
             Runtime.getRuntime().exec("rmiregistry");
@@ -48,5 +51,11 @@ public class Main {
         }
 
         AccumulatorUIControler.InitializeUI();
+        if(isServer)
+        {
+        AccumulatorAsServer.startServer();
+        AccumulatorAsServer.loadIPList();
+        }
+
     }
 }

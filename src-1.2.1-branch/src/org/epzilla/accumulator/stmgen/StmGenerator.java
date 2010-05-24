@@ -1,7 +1,5 @@
 package org.epzilla.accumulator.stmgen;
 
-import org.epzilla.accumulator.global.Event;
-
 import jstm.generator.*;
 import jstm.generator.Package;
 
@@ -17,27 +15,34 @@ public class StmGenerator {
 
     public static void main(String[] args) {
         ObjectModelDefinition model = new ObjectModelDefinition("AccumulatorObjectModel");
-        jstm.generator.Package pack = new Package("net.epzilla.accumulator.generated");
+        jstm.generator.Package pack = new Package("generated");
         model.RootPackage = pack;
 
-        Structure simple = new Structure("SharedDerivedEvent");
+//        Structure simple = new Structure("SharedDerivedEvent");
+//
+//        simple.Fields.add(new Field(Long.class, "srcId"));
+//        simple.Fields.add(new Field(Long.class, "id"));
+//        simple.Fields.add(new Field(Integer.class, "clientId"));
+//        simple.Fields.add(new Field(String.class, "content"));
+//
+//        pack.Structures.add(simple);
+//
+//        Structure marker = new Structure("StructureMarker");
+//        marker.Parent = simple;
+//        marker.Fields.add(new Field(String.class, "structureType"));
+//        marker.Fields.add(new Field(String.class, "structureId"));
+//
+//        pack.Structures.add(marker);
+//
 
-        simple.Fields.add(new Field(Long.class, "srcId"));
-        simple.Fields.add(new Field(Long.class, "id"));
-        simple.Fields.add(new Field(Integer.class, "clientId"));
-        simple.Fields.add(new Field(String.class, "content"));
-           
-        pack.Structures.add(simple);
 
-        Structure marker = new Structure("StructureMarker");
-        marker.Parent = simple;
-        marker.Fields.add(new Field(String.class, "structureType"));
-        marker.Fields.add(new Field(String.class, "structureId"));
-
-        pack.Structures.add(marker);
+        Structure client = new Structure("ClientInfoObject");
+        client.Fields.add(new Field(String.class, "clientID"));
+        client.Fields.add(new Field(String.class, "clientIP"));
+        pack.Structures.add(client);
 
         Generator generator = new Generator(model);
-        generator.writeFiles("./src/", Generator.Target.Java5, false);
+        generator.writeFiles("./src/org/epzilla/accumulator/", Generator.Target.Java5, false);
 
 
     }
