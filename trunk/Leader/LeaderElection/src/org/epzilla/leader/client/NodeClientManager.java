@@ -2,6 +2,7 @@ package org.epzilla.leader.client;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import org.epzilla.common.discovery.node.NodeDiscoveryManager;
@@ -53,8 +54,26 @@ public class NodeClientManager {
 	}
 	
 	public static String getNextNode(){
-		return null;
-		//TODO: Complete this.
+		HashSet<String> discoveredSet=new HashSet<String>(getNodeList());
+		ArrayList<String> staticIpList=new ArrayList<String>(Epzilla.getComponentIpList().values());
+//		Hashtable<Integer,String> staticHT=new Hashtable<Integer, String>(Epzilla.getComponentIpList());
+		String myIp=null;
+		try {
+			myIp=InetAddress.getLocalHost().getHostAddress();
+			discoveredSet.add(myIp);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		staticIpList.retainAll(discoveredSet);
+//		ArrayList<String> liveIpList=new ArrayList<String>(staticHT.values());
+		int myIndex=staticIpList.indexOf(myIp);
+	
+		if(myIndex==staticIpList.size()-1){
+		//Last index
+			return staticIpList.get(0);
+		}else{
+			return staticIpList.get(myIndex+1);
+		}
 	}
 	
 }
