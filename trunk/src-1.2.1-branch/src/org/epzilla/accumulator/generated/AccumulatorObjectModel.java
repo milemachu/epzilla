@@ -10,9 +10,9 @@ import jstm.core.*;
 
 public final class AccumulatorObjectModel extends jstm.core.ObjectModel {
 
-    public static final String UID = "0/SwADiJJjRNSFUVBZKy4w";
+    public static final String UID = "4QPjCsBfGaufoVI+bv5syg";
 
-    public static final String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ObjectModelDefinition xsi:noNamespaceSchemaLocation=\"http://www.xstm.net/schemas/xstm-0.3.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Name>AccumulatorObjectModel</Name><RootPackage name=\"net.epzilla.accumulator.generated\"><Packages/><Structures><Structure name=\"SharedDerivedEvent\"><Fields><Field transient=\"false\" name=\"srcId\"><Type name=\"java.lang.Long\"/></Field><Field transient=\"false\" name=\"id\"><Type name=\"java.lang.Long\"/></Field><Field transient=\"false\" name=\"clientId\"><Type name=\"java.lang.Integer\"/></Field><Field transient=\"false\" name=\"content\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure><Structure name=\"StructureMarker\"><Parent name=\"SharedDerivedEvent\"><Fields><Field transient=\"false\" name=\"srcId\"><Type name=\"java.lang.Long\"/></Field><Field transient=\"false\" name=\"id\"><Type name=\"java.lang.Long\"/></Field><Field transient=\"false\" name=\"clientId\"><Type name=\"java.lang.Integer\"/></Field><Field transient=\"false\" name=\"content\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Parent><Fields><Field transient=\"false\" name=\"structureType\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"structureId\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure></Structures></RootPackage></ObjectModelDefinition>";
+    public static final String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ObjectModelDefinition xsi:noNamespaceSchemaLocation=\"http://www.xstm.net/schemas/xstm-0.3.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Name>AccumulatorObjectModel</Name><RootPackage name=\"generated\"><Packages/><Structures><Structure name=\"ClientInfoObject\"><Fields><Field transient=\"false\" name=\"clientID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"clientIP\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure></Structures></RootPackage></ObjectModelDefinition>";
 
     public AccumulatorObjectModel() {
     }
@@ -29,16 +29,14 @@ public final class AccumulatorObjectModel extends jstm.core.ObjectModel {
 
     @Override
     public int getClassCount() {
-        return 2;
+        return 1;
     }
 
     @Override
     public TransactedObject createInstance(int classId, Connection route) {
         switch (classId) {
             case 0:
-                return new org.epzilla.accumulator.generated.SharedDerivedEvent();
-            case 1:
-                return new org.epzilla.accumulator.generated.StructureMarker();
+                return new ClientInfoObject();
         }
 
         throw new IllegalArgumentException("Unknown class id: " + classId);
