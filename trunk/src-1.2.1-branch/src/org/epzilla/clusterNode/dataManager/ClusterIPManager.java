@@ -56,7 +56,8 @@ public class ClusterIPManager {
     public static ArrayList<String> getNodeIpList() {
         if (getIpList() != null) {
             for (int i = 0; i < ipList.size(); i++) {
-                ipArr.add(ipList.get(i).getIP());
+                if (!"IP".equalsIgnoreCase(ipList.get(i).getIP()))
+                    ipArr.add(ipList.get(i).getIP());
             }
         }
         return ipArr;
