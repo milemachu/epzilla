@@ -22,6 +22,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.Vector;
+import java.awt.Rectangle;
+import javax.swing.JTextArea;
+import javax.swing.JLabel;
 
 
 public class ClientUI extends JFrame implements ActionListener, ListSelectionListener {
@@ -51,6 +54,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private JTextField txtDispIP = null;
     private JLabel lblSettings = null;
     private JScrollPane resultsScrollPane = null;
+    private JScrollPane notificationSP = null;
     public JTextArea txtResults = null;
     private JLabel lblDispatcherServiceName = null;
     private JTextField txtDispName = null;
@@ -64,6 +68,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private JLabel lblSummary = null;
     private JLabel lblCount = null;
     private JTextField txtNotiCount = null;
+	private JTextArea txtNotifications = null;
+	private JLabel jLabel = null;
 
     public ClientUI() {
         super();
@@ -101,12 +107,15 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     private JTabbedPane getMyTabbedPane() {
         if (tabbedPane == null) {
+            jLabel = new JLabel();
+            jLabel.setBounds(new Rectangle(600, 63, 154, 22));
+            jLabel.setText("Notification messages:");
             ImageIcon settingsIcon = new ImageIcon("images//settings.jpg");
             ImageIcon summaryIcon = new ImageIcon("images//summary.jpg");
             ImageIcon serviceIcon = new ImageIcon("images//service.jpg");
 
             lblCount = new JLabel();
-            lblCount.setBounds(new Rectangle(705, 28, 120, 25));
+            lblCount.setBounds(new Rectangle(600, 18, 120, 25));
             lblCount.setText("Notifications count:");
             lblSummary = new JLabel();
             lblSummary.setBounds(new Rectangle(26, 5, 69, 24));
@@ -170,6 +179,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             results.add(lblCount, null);
             results.add(getTxtNotiCount(), null);
 
+            results.add(getNotificationScrollpane(), null);
+            results.add(jLabel, null);
             tabbedPane.addTab("Service", serviceIcon, upload);
             tabbedPane.addTab("Summary", summaryIcon, results);
             tabbedPane.addTab("Settings", settingsIcon, mainSettings);
@@ -270,7 +281,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     public JTextField getTxtNotiCount() {
         if (txtNotiCount == null) {
             txtNotiCount = new JTextField();
-            txtNotiCount.setBounds(new Rectangle(820, 30, 122, 20));
+            txtNotiCount.setBounds(new Rectangle(707, 19, 122, 20));
             txtNotiCount.setForeground(Color.green);
             txtNotiCount.setEditable(false);
             txtNotiCount.setBackground(Color.black);
@@ -350,8 +361,9 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private JScrollPane getResultsScrollPane() {
         if (resultsScrollPane == null) {
             resultsScrollPane = new JScrollPane();
-            resultsScrollPane.setBounds(new Rectangle(25, 30, 600, 600));
+            resultsScrollPane.setBounds(new Rectangle(25, 30, 500, 600));
             resultsScrollPane.setViewportView(getTxtResults());
+            resultsScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         }
         return resultsScrollPane;
     }
@@ -359,14 +371,33 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     public JTextArea getTxtResults() {
         if (txtResults == null) {
             txtResults = new JTextArea();
-            txtResults.setBounds(new Rectangle(0, 0, 600, 600));
+            txtResults.setBounds(new Rectangle(0, 0, 500, 600));
             txtResults.setEditable(false);
+            txtResults.setLineWrap(true);
+            txtResults.setWrapStyleWord(true);
             txtResults.setForeground(Color.green);
             txtResults.setBackground(Color.black);
         }
         return txtResults;
     }
-
+    public JTextArea getNotifications() {
+		if (txtNotifications == null) {
+			txtNotifications = new JTextArea();
+			txtNotifications.setBounds(new Rectangle(600, 90, 500, 535));
+			txtNotifications.setForeground(Color.GREEN);
+			txtNotifications.setBackground(Color.BLACK);
+		}
+		return txtNotifications;
+	}
+    private JScrollPane getNotificationScrollpane(){
+    	if(notificationSP==null){
+    		notificationSP = new JScrollPane();
+            notificationSP.setBounds(new Rectangle(600, 90, 500, 535));
+            notificationSP.setViewportView(getNotifications());
+            notificationSP.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    	}
+    	return notificationSP;
+    }
     private JTextField getTxtDispName() {
         if (txtDispName == null) {
             txtDispName = new JTextField();
@@ -377,30 +408,22 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         return txtDispName;
     }
 
-    private void getDispatchers() {
+    private void getDispatchers() throws MalformedURLException, RemoteException, NotBoundException {
         String ip = txtIP.getText();
         String serverName = txtName.getText();
         String port = txtPort.getText();
         String clientIp = getIpAddress();
         if ((isValidIp(ip)) && (serverName.length() != 0)) {
-            try {
                 ips = client.getServiceIp(ip, serverName, clientIp);
-
                 if (!ips.isEmpty()) {
                     listLookup.setListData(ips);
 //                    btnLookup.setEnabled(false);
 //                    btnClear.setEnabled(true);
                 }
-            } catch (MalformedURLException e) {
-                JOptionPane.showMessageDialog(null, "NameService IP Address incorrect", "Message", JOptionPane.ERROR_MESSAGE);
-            } catch (RemoteException e) {
-                JOptionPane.showMessageDialog(null, "Remote Server not working", "Message", JOptionPane.ERROR_MESSAGE);
-            } catch (NotBoundException e) {
-                JOptionPane.showMessageDialog(null, "Invalid NameService name", "Message", JOptionPane.ERROR_MESSAGE);
-            }
 
-        } else
-            JOptionPane.showMessageDialog(null, "Make sure setting details correct.", "Message", JOptionPane.ERROR_MESSAGE);
+        } 
+//        else
+//            JOptionPane.showMessageDialog(null, "Make sure setting details correct.", "Message", JOptionPane.ERROR_MESSAGE);
     }
 
     public void setResults(String str) {
@@ -561,12 +584,9 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     }
 
 
-    private void getClientID() {
+    private void getClientID() throws RemoteException {
         String clientIP = getIpAddress();
-        try {
             clientID = ClientHandler.getClientsID(clientIP);
-        } catch (RemoteException e) {
-        }
     }
 
     @Override
@@ -597,8 +617,16 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         } else if (source == btnClear) {
             unregisterCallbackLocal();
         } else if (source == btnLookup) {
-            getDispatchers();
+            try {
+        	getDispatchers();
             getClientID();
+            } catch (MalformedURLException e) {
+                JOptionPane.showMessageDialog(null, "NameService IP Address incorrect", "Message", JOptionPane.ERROR_MESSAGE);
+            } catch (RemoteException e) {
+                JOptionPane.showMessageDialog(null, "Name Server not working, make sure settings details are correct", "Message", JOptionPane.ERROR_MESSAGE);
+            } catch (NotBoundException e) {
+                JOptionPane.showMessageDialog(null, "Invalid NameService name", "Message", JOptionPane.ERROR_MESSAGE);
+            }
         } else if (source == adminSettings) {
             tabbedPane.setVisible(true);
         } else if (source == closetabs) {
@@ -609,6 +637,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             showAbout();
         }
     }
+
+	
 
 
 }
