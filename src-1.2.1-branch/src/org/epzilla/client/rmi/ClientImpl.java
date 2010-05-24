@@ -4,7 +4,6 @@ import org.epzilla.client.controlers.ClientUIControler;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,18 +15,21 @@ import java.util.ArrayList;
 public class ClientImpl extends UnicastRemoteObject implements ClientInterface {
     private static ClientUIControler clientCon;
 
+
     public ClientImpl() throws RemoteException {
     }
 
+
     public String notifyClient(byte[] notifications) {
-        try{
+        try {
             String alert = new String(notifications);
-        clientCon = new ClientUIControler(alert);
-        Thread t = new Thread(clientCon);
-        t.start();
-        return "OK";
-        }catch(Exception ex){
-            
+            clientCon = new ClientUIControler(alert);
+            clientCon.setAlertCount();
+            Thread t = new Thread(clientCon);
+            t.start();
+            return "OK";
+        } catch (Exception ex) {
+
         }
         return null;
     }

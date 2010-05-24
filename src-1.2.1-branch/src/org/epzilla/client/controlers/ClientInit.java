@@ -75,16 +75,15 @@ public class ClientInit extends Thread {
                     } catch (RemoteException e) {
                         ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
                         isLive = false;
-                        if (!dynamicLookup) {
-                            dynamicLookup = true;
-                            initDLookup();
-                        }
+//                        if (!dynamicLookup) {
+//                            dynamicLookup = true;
+//                            initDLookup();
+//                        }
 
                     }
 
                     if (response != null) {
-                        Logger.log("Dispatcher Recieved the triggrs from the client and the response is " + response);
-                    } else {
+                      ClientUIControler.appendResults("Dispatcher Received the Trigger Stream" + "\n");
                     }
                     try {
                         Thread.sleep(10000);
@@ -121,16 +120,15 @@ public class ClientInit extends Thread {
                     } catch (RemoteException e) {
                         isLive = false;
                         ClientUIControler.appendResults("Connection to the Dispatcher service failed, events sending stoped, Perform Lookup operation.." + "\n");
-                        if (!dynamicLookup) {
-                            dynamicLookup = true;
-                            initDLookup();
-                        }
+//                        if (!dynamicLookup) {
+//                            dynamicLookup = true;
+//                            initDLookup();
+//                        }
                     }
 
                     if (response != null) {
                         Logger.log("Dispatcher Recieved the events from the client and the response is " + response);
-                    } else {
-                    }
+                    } 
                 }
             }
         });
