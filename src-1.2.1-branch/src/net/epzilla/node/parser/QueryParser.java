@@ -22,7 +22,7 @@ public class QueryParser {
             q.setType(QueryType.select);
         }
         // todo other types.
-
+        System.out.println("trigger:" + query);
         int whereIndex = query.indexOf("WHERE");
         int retainIndex = query.indexOf("RETAIN");
         int outputIndex = query.indexOf("OUTPUT");
@@ -32,7 +32,9 @@ public class QueryParser {
 //        if (query.contains("RETAIN")) {
 //
 //        }
-        
+                                       if (retainIndex < 0) {
+                                           retainIndex = outputIndex;
+                                       }
         String where = query.substring(whereIndex + 6, retainIndex);
         String output = query.substring(outputIndex + 10, query.length());
 
