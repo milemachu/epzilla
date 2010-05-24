@@ -36,18 +36,18 @@ public class LeaderRegister {
     }
 
     private static void register() throws RemoteException, MalformedURLException, NotBoundException, UnknownHostException {
-//        String url = "rmi://" + "127.0.0.1" + "/" + "Dispatcher127000000001";
-//        DispInterface service;
-//        service = (DispInterface) Naming.lookup(url);
-//        InetAddress inetAddress = InetAddress.getLocalHost();
-//        String ipAddress = inetAddress.getHostAddress();
-//        service.getLeaderIp(ipAddress);
+        String url = "rmi://" + "192.168.1.4" + "/" + "DISPATCHER_SERVICE192168001004";
+        DispInterface service;
+        service = (DispInterface) Naming.lookup(url);
+        InetAddress inetAddress = InetAddress.getLocalHost();
+        String ipAddress = inetAddress.getHostAddress();
+        service.getLeaderIp(1, ipAddress);
 
 
         //DD for Client
-        org.epzilla.common.discovery.node.NodeDiscoveryManager nodeDiscMgr=new NodeDiscoveryManager(2);
-        NodeDiscoveryManager.setLeader(true);
-        NodeDiscoveryManager.setClusterLeader(InetAddress.getLocalHost().getHostAddress());
+//        org.epzilla.common.discovery.node.NodeDiscoveryManager nodeDiscMgr=new NodeDiscoveryManager(2);
+//        NodeDiscoveryManager.setLeader(true);
+//        NodeDiscoveryManager.setClusterLeader(InetAddress.getLocalHost().getHostAddress());
     }
 
     private static void loadSettings() {

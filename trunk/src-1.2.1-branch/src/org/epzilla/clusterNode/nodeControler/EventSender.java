@@ -29,22 +29,22 @@ public class EventSender {
         if (!nodesList.containsKey(serverIp)) {
             initNode(serverIp, "CLUSTER_NODE");
 
-            response = clusterObj.addEventStream(event, clientID);
+            clusterObj.addEventStream(event, clientID);
 
-            if (response != null) {
-                Logger.log("Events added to the Node " + serverIp);
-            } else {
-                Logger.error("Events adding failure to the Node" + serverIp, null);
-            }
+//            if (response != null) {
+//                Logger.log("Events added to the Node " + serverIp);
+//            } else {
+//                Logger.error("Events adding failure to the Node" + serverIp, null);
+//            }
         } else {
             clusterObj = (ClusterInterface) nodesList.get(serverIp);
-            response = clusterObj.addEventStream(event, clientID);
+             clusterObj.addEventStream(event, clientID);
 
-            if (response != null) {
-                Logger.log("Events added to the Node " + serverIp);
-            } else {
-                Logger.error("Events adding failure to the Node" + serverIp, null);
-            }
+//            if (response != null) {
+//                Logger.log("Events added to the Node " + serverIp);
+//            } else {
+//                Logger.error("Events adding failure to the Node" + serverIp, null);
+//            }
         }
     }
 
