@@ -130,6 +130,7 @@ public class ApproximateDispatcher {
                         addDependencies((TransactedSet) ((TransactedList) outputStrata.get(target)).get(cluster), outs);
 
                         SystemVariables.triggerLoadMap.get(target)[cluster]++;
+                        System.out.println("SV internal: " + SystemVariables.triggerLoadMap.get(target)[cluster]);
 
                         break outer;
 
@@ -153,7 +154,7 @@ public class ApproximateDispatcher {
                         addDependencies((TransactedSet) ((TransactedList) outputStrata.get(stratum)).get(cluster), outs);
 
                         SystemVariables.triggerLoadMap.get(stratum)[cluster]++;
-//
+                        System.out.println("SV internal: " + SystemVariables.triggerLoadMap.get(stratum)[cluster]);
                         break outer;
                     }
                 }
