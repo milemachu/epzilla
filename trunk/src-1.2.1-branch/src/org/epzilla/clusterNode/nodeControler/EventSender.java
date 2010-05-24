@@ -30,7 +30,7 @@ public class EventSender {
             initNode(serverIp, "CLUSTER_NODE");
 
             clusterObj.addEventStream(event, clientID);
-
+            System.out.println("calling add event stream.");
 //            if (response != null) {
 //                Logger.log("Events added to the Node " + serverIp);
 //            } else {
@@ -39,6 +39,7 @@ public class EventSender {
         } else {
             clusterObj = (ClusterInterface) nodesList.get(serverIp);
              clusterObj.addEventStream(event, clientID);
+            System.out.println("else part working.");
 
 //            if (response != null) {
 //                Logger.log("Events added to the Node " + serverIp);
