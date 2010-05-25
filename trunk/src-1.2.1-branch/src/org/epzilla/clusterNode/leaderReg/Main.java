@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class Main {
     private static ClusterSettingsReader reader = new ClusterSettingsReader();
-    private static String clusterID = "";
+    private static int clusterID;
     private static String serviceName = "CLUSTER_NODE";
     private static DispInterface disObj;
 
@@ -41,7 +41,7 @@ public class Main {
         service = (DispInterface) Naming.lookup(url);
         InetAddress inetAddress = InetAddress.getLocalHost();
         String ipAddress = inetAddress.getHostAddress();
-        service.getLeaderIp(1, ipAddress);      //cluster ID HC
+        service.getLeaderIp(clusterID, ipAddress);      //cluster ID taken from the setting file clusterID_settings
         setDispObject(service);
 
 
@@ -62,7 +62,7 @@ public class Main {
     //method to send performance info
     public static void sendInfo(int cpuUsg, int mmUsg) {
         try {
-            disObj.performanceInfo(1,cpuUsg,mmUsg);   //cluster ID HC
+            disObj.performanceInfo(clusterID,cpuUsg,mmUsg);   //cluster ID taken from the setting file clusterID_settings
         } catch (RemoteException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -72,7 +72,8 @@ public class Main {
         try {
             ArrayList<String[]> data = reader.getServerIPSettings("./src/settings/clusterID_settings.xml");
             String[] ar = data.get(0);
-            clusterID = ar[0];
+            String ID = ar[0];
+            clusterID = Integer.parseInt(ID);
         } catch (IOException e) {
             e.printStackTrace();
         }
