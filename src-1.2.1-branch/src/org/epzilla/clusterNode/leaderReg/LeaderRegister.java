@@ -6,7 +6,6 @@ import org.epzilla.clusterNode.rmi.ClusterInterface;
 import org.epzilla.clusterNode.xml.ClusterSettingsReader;
 import org.epzilla.dispatcher.rmi.DispInterface;
 import org.epzilla.util.Logger;
-import org.epzilla.common.discovery.node.NodeDiscoveryManager;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -21,6 +20,7 @@ public class LeaderRegister {
     private static ClusterSettingsReader reader = new ClusterSettingsReader();
     private static String clusterID = "";
     private static String serviceName = "CLUSTER_NODE";
+    private static DispInterface disObj;
 
     public static void bindClusterNode(String serviceName) throws UnknownHostException, MalformedURLException, RemoteException {
         if (System.getSecurityManager() == null) {
@@ -42,12 +42,30 @@ public class LeaderRegister {
         InetAddress inetAddress = InetAddress.getLocalHost();
         String ipAddress = inetAddress.getHostAddress();
         service.getLeaderIp(1, ipAddress);
+        setDispObject(service);
 
 
         //DD for Client
 //        org.epzilla.common.discovery.node.NodeDiscoveryManager nodeDiscMgr=new NodeDiscoveryManager(2);
 //        NodeDiscoveryManager.setLeader(true);
 //        NodeDiscoveryManager.setClusterLeader(InetAddress.getLocalHost().getHostAddress());
+    }
+
+    public static void setDispObject(Object obj) {
+        disObj = (DispInterface) obj;
+    }
+
+    public static Object getDispObject() {
+        return disObj;
+    }
+
+    //method to send performance info
+    public static void sendInfo(int cpuUsg, int mmUsg) {
+        try {
+            disObj.performancceInfo(cpuUsg,mmUsg);
+        } catch (RemoteException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 
     private static void loadSettings() {
