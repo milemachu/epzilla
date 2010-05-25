@@ -1,5 +1,6 @@
 package net.epzilla.stratification.restruct;
 
+import net.epzilla.stratification.immediate.SystemVariables;
 import net.epzilla.stratification.query.BasicQueryParser;
 import net.epzilla.stratification.query.InvalidSyntaxException;
 import net.epzilla.stratification.query.Query;
@@ -10,13 +11,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.*;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Rajeev
- * Date: May 24, 2010
- * Time: 10:01:35 AM
- * To change this template use File | Settings | File Templates.
- */
 public class TriggerStrcutureManager {
 
     LinkedList<Query> qlist = new LinkedList<Query>();
@@ -24,6 +18,17 @@ public class TriggerStrcutureManager {
     boolean[] present = null;
     HashMap<String, HashSet<Integer>> outMap = null;
     LinkedList<LinkedList<Integer>> strata = null;
+    String clientId;
+    LinkedList<LinkedList<Cluster>> mapping = null;
+    List<TriggerInfoObject> trList = null;
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
 
     public synchronized void addQuery(Query q) {
         qlist.add(q);
@@ -31,6 +36,65 @@ public class TriggerStrcutureManager {
 
     public synchronized void addQueries(List<Query> list) {
         qlist.addAll(list);
+    }
+
+    public void restructure() {
+        HashMap<Integer, HashMap<Integer, Cluster>> m = new HashMap();
+        System.out.println("mapping size:" + mapping.size());
+        for (LinkedList<Cluster> cl : mapping) {
+            System.out.println("sz:" + cl.size());
+            for (Cluster c : cl) {
+                HashMap<Integer, Cluster> hm = m.get(c.getStratum());
+                System.out.println("getst:" + c.getStratum());
+                if (hm == null) {
+                    hm = new HashMap();
+                    m.put(c.getStratum(), hm);
+                }
+                hm.put(c.getCluster(), c);
+//                System.out.println(c.getCluster());
+            }
+        }
+
+        for (Query q : qlist) {
+            Cluster c = m.get(q.getStratum()).get(q.getCluster());
+//            System.out.println("cdata:" + q.getStratum() + ":" + q.getCluster());
+//            if (c == null) {
+//                System.out.println("cnull" + q.getStratum());
+//                System.out.println("cnull" + q.getCluster());
+//            }
+            q.setStratum(c.getRealStratum());
+            q.setCluster(c.getRealCluster());
+        }
+
+        Iterator<TriggerInfoObject> i = trList.iterator();
+        Iterator<Query> j = this.getQueryList().iterator();
+
+        int[] s = new int[SystemVariables.getNumStrata()];
+
+        int[] lim = new int[s.length];
+        for (int ii =0;ii<lim.length; ii++) {
+            lim[ii] = SystemVariables.getClusters(ii) - 1;
+        }
+
+        while (i.hasNext()) {
+            TriggerInfoObject obj = i.next();
+            Query qo = j.next();
+            obj.setoldClusterId(obj.getclusterID());
+            obj.setoldStratumId(obj.getstratumId());
+            int st = qo.getStratum();
+            if (qo.isIndependent()) {
+                 if (s[st] > lim[st]) {
+                     s[st] = 0;
+                 }
+                obj.setclusterID(String.valueOf(s[qo.getStratum()]));
+                s[st]++;
+            } else {
+                obj.setclusterID(String.valueOf(qo.getCluster()));
+                s[st]++;
+            }
+            obj.setstratumId(String.valueOf(qo.getStratum()));
+        }
+
     }
 
     public LinkedList<LinkedList<Integer>> markStrata() {
@@ -56,27 +120,14 @@ public class TriggerStrcutureManager {
         return strata;
     }
 
-    public void markClusters() {
-        LinkedList<Query> stratum = null;
-        for (int i = 0; i <= strata.size(); i++) {
-            stratum = new LinkedList<Query>();
-            for (Query q : qlist) {
-                if (q.getStratum() == i) {
-                    stratum.add(q);
-                }
-            }
-
-
-
-        }
-    }
-
     public LinkedList<Query> getQueryList() {
         return this.qlist;
     }
 
-    public void restructure(List<TriggerInfoObject> triggerList) throws InvalidSyntaxException {
+
+    public LinkedList<LinkedList<Cluster>> getVirtualStructure(List<TriggerInfoObject> triggerList) throws InvalidSyntaxException {
         LinkedList<Query> list = new LinkedList();
+        trList = triggerList;
         QueryParser qp = new BasicQueryParser();
         Query q = null;
         for (TriggerInfoObject tio : triggerList) {
@@ -88,27 +139,39 @@ public class TriggerStrcutureManager {
         this.addQueries(list);
         this.buildGraph();
         List<LinkedList<Integer>> lx = this.markStrata();
+        LinkedList<LinkedList<Cluster>> clist = new LinkedList();
 
         // mark clusters.
         Clusterizer c = null;
-        for (LinkedList<Integer> st: lx) {
+        int i = 0;
+        for (LinkedList<Integer> st : lx) {
             c = new Clusterizer();
-            c.clusterize(st, this.getQueryList());
+            c.clusterize(st, this.getQueryList(), clientId, i);
+            i++;
+            clist.add(c.getVirtualClusterInfo());
+//            for (Cluster ccx: c.getVirtualClusterInfo()) {
+//                System.out.println("vcluster:" + ccx.getCluster());
+//            }
+
         }
+        mapping = clist;
+        return clist;
 
-        Iterator<TriggerInfoObject> i = triggerList.iterator();
-        Iterator<Query> j = this.getQueryList().iterator();
 
-        while (i.hasNext()) {
-            TriggerInfoObject obj = i.next();
-            Query qo = j.next();
-            obj.setoldClusterId(obj.getclusterID());
-            obj.setoldStratumId(obj.getoldStratumId());
-            obj.setclusterID(String.valueOf(qo.getCluster()));
-            obj.setstratumId(String.valueOf(qo.getStratum()));
-        }
+        /*
+      Iterator<TriggerInfoObject> i = triggerList.iterator();
+      Iterator<Query> j = this.getQueryList().iterator();
 
-        
+      while (i.hasNext()) {
+          TriggerInfoObject obj = i.next();
+          Query qo = j.next();
+          obj.setoldClusterId(obj.getclusterID());
+          obj.setoldStratumId(obj.getoldStratumId());
+          obj.setclusterID(String.valueOf(qo.getCluster()));
+          obj.setstratumId(String.valueOf(qo.getStratum()));
+      }
+        */
+
     }
 
 
@@ -137,7 +200,7 @@ public class TriggerStrcutureManager {
             int queryId = 0;
             int x = 0;
             List<TriggerInfoObject> ll = new LinkedList();
-            TriggerInfoObject tx  = null;
+            TriggerInfoObject tx = null;
             for (String item : list) {
                 tx = new TriggerInfoObject();
 //                q = qp.parseString(item);
@@ -149,7 +212,13 @@ public class TriggerStrcutureManager {
                 queryId++;
             }
 
-                             new TriggerStrcutureManager().restructure(ll);
+            LinkedList<LinkedList<Cluster>> res = new TriggerStrcutureManager().getVirtualStructure(ll);
+            for (LinkedList<Cluster> cx : res) {
+                for (Cluster cc : cx) {
+                    System.out.println("LOAD:" + cc.getLoad());
+                    System.out.println("cluster: " + cc.getCluster());
+                }
+            }
 
             /*
             System.out.println("parsed: " + (System.currentTimeMillis() - stat));
