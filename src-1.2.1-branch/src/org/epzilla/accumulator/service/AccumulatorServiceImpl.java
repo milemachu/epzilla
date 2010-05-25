@@ -10,6 +10,7 @@ import org.epzilla.accumulator.service.AccumulatorService;
 import org.epzilla.accumulator.stm.EventConverter;
 import org.epzilla.accumulator.stm.STMAccess;
 import org.epzilla.accumulator.dataManager.EventManager;
+import org.epzilla.accumulator.userinterface.AccumulatorUIControler;
 
 import jstm.core.TransactedList;
 
@@ -63,5 +64,6 @@ public class AccumulatorServiceImpl extends UnicastRemoteObject implements Accum
     public void receiveDeriveEvent(byte[] deriveEvent) throws RemoteException {
         String eventS = new String(deriveEvent);
         EventManager.setEventSegement(eventS);
+        AccumulatorUIControler.appendEventResults(eventS);
     }
 }
