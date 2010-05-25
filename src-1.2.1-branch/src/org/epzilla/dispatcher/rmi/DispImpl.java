@@ -6,6 +6,7 @@ import org.epzilla.dispatcher.dataManager.*;
 import org.epzilla.dispatcher.logs.ReadLog;
 import org.epzilla.util.Logger;
 
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
@@ -21,17 +22,25 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     private HashMap clientMap = new HashMap<String, String>();
     private ArrayList<String> recoverTriggers = new ArrayList<String>();
     private String clientIP;
-
+    private static boolean isIDGen = false;
+    private static int eventsSeqID = 1;
+    private static String dispID = "";
 
     protected DispImpl() throws RemoteException {
 
     }
 
     @Override
-    public String uploadEventsToDispatcher(byte[] event, String clientID, int eventSeqID) throws RemoteException {
+    public String uploadEventsToDispatcher(String event, String clientID, int eventSeqID) throws RemoteException {
+        if (!isIDGen) {
+            setDispatcherID();
+        }
         try {
             EventsCounter.setInEventCount();
-            EventManager.sendEvents(event, clientID);
+            String eventIn = event + ":" + clientID + ":" + eventsSeqID + getDispatcherID();
+            byte[] eventBuff = eventIn.getBytes();
+            EventManager.sendEvents(eventBuff, clientID);
+            eventsSeqID++;
             return "OK";
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,18 +52,12 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     public String uploadTriggersToDispatcher(ArrayList<String> tList, String clientID, int triggerSeqID) throws RemoteException {
         String toReturn = null;
         try {
-//             todo remove if problematic.
-            // add to stm all at once.
-
             for (String x : tList) {
                 Logger.log(x);
             }
 
             TriggerManager.addAllTriggersToList(tList, clientID);
-//            }
             toReturn = "OK";
-//            ClientNotifier.getNotifications(getClientIP(clientID),"Dispatcher Received the Trigger Stream");
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -131,11 +134,40 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         }
     }
 
+    public static void setDispatcherID() {
+        try {
+            InetAddress inetAddress;
+
+            inetAddress = InetAddress.getLocalHost();
+            String ipAddress = inetAddress.getHostAddress();
+            String dispatcherID = idGenerator(ipAddress);
+            dispID = dispatcherID;
+            isIDGen = true;
+        } catch (UnknownHostException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+    }
+
+    public String getDispatcherID() {
+        return dispID;
+    }
+
+    public static String idGenerator(String ipAddress) {
+        String[] addrArray = ipAddress.split("\\.");
+        String temp = "";
+        String value = "";
+        for (int i = 0; i < addrArray.length; i++) {
+            temp = addrArray[i].toString();
+            while (temp.length() != 3) {
+                temp = '0' + temp;
+            }
+            value += temp;
+        }
+        return value;
+    }
+
     public synchronized void callBacks(String clientID) throws RemoteException {
-//        for (int i = 0; i < clientList.size(); i++) {
-//            ClientCallbackInterface nextClient = clientList.elementAt(i);
-//            nextClient.notifyClient("No. of registered clients=" + clientList.size());
-//        }
     }
 
 

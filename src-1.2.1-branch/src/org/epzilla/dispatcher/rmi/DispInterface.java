@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public interface DispInterface extends Remote {
 
-    public String uploadEventsToDispatcher(byte[] event, String cID, int eventSeqID) throws RemoteException;
+    public String uploadEventsToDispatcher(String event, String cID, int eventSeqID) throws RemoteException;
 
     public String uploadTriggersToDispatcher(ArrayList<String> tList, String cID, int triggerSeqID) throws RemoteException;
 
@@ -25,7 +25,7 @@ public interface DispInterface extends Remote {
 
     public void getLeaderIp(int id,String ip) throws RemoteException;
 
-    public void replayLogs(String clusterID, String leadeIP) throws RemoteException;
+    public void replayLogs(String clusterID, String leaderIP) throws RemoteException;
 
     public void registerClients(String ip, String id) throws RemoteException;
 
