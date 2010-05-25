@@ -2,6 +2,7 @@ package org.epzilla.dispatcher.rmi;
 
 import net.epzilla.stratification.immediate.SystemVariables;
 import org.epzilla.client.rmi.ClientCallbackInterface;
+import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.dispatcher.dataManager.*;
 import org.epzilla.dispatcher.logs.ReadLog;
 import org.epzilla.util.Logger;
@@ -122,6 +123,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     public void performanceInfo(int clusterID, int cpuUsg, int mmUsg) throws RemoteException {
         int load = (cpuUsg + mmUsg) / 2;
         SystemVariables.setClusterLoad(0, clusterID, load);
+        DispatcherUIController.appendClusterData(""+clusterID,""+cpuUsg,""+mmUsg);
     }
 
     @Override

@@ -59,7 +59,6 @@ public class DispatcherUIController {
     }
 
     public static void appendIP(String text) {
-        instance.getClusterIPs().append(text + "\n"); //cluster IPs are displayed under the Cluster Details tab
         instance.getTxtIPSet().append(text + "\n");
     }
 
@@ -86,7 +85,7 @@ public class DispatcherUIController {
     }
 
     public static void appendClusterData(String cluster, String cpuUsg, String mmUsg) {
-        instance.getTxtClusterPerformance().setText("Cluster ID: " + cluster + "\n" + "CPU Usage: " + cpuUsg +" %"+ "\n" + "Memory Usage" + mmUsg+" %");
+        instance.getTxtClusterPerformance().setText("Cluster ID: " + cluster + "\n" + "CPU Usage: " + cpuUsg + "%" + "\n" + "Memory Usage: " + mmUsg + "MB" + "\n");
     }
 
     private static String getDateTime() {

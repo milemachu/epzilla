@@ -78,7 +78,7 @@ public class DispatcherService {
             //To run as Dispatcher as STM server
             MainDispatcherController.runAsServer();
             Logger.log("running as server...");
-
+            
             //To run dispatcher as STM client
             //MainDispatcherController.runAsClient();
             //Logger.log("running as client...");

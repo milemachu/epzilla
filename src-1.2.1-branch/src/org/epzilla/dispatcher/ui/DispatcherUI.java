@@ -71,9 +71,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JTextField txtOutEventCount = null;
     private JLabel lblDiscoveryStatus = null;
     private JTextArea txtDiscoveryStatus = null;
-    private JLabel lblClusterIPs = null;
-    private JTextArea txtClusterIPs = null;
-    private JCheckBox chkLogs = null;
+      private JCheckBox chkLogs = null;
     private JButton btnReplayLogs = null;
 	private JLabel lblClusterPer = null;
 	private JTextArea txtClusterPerformance = null;
@@ -232,16 +230,10 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblDiscoveryStatus.setBounds(new Rectangle(10, 10, 200, 25));
             lblDiscoveryStatus.setText("Dispatcher Discovery Status :");
 
-            lblClusterIPs = new JLabel();
-            lblClusterIPs.setBounds(new Rectangle(650, 10, 150, 25));
-            lblClusterIPs.setText("Cluster IPs :");
-
             clusterDe = new JPanel();
             clusterDe.setLayout(null);
             clusterDe.add(lblDiscoveryStatus, null);
             clusterDe.add(getDiscoveryStaPane(), null);
-            clusterDe.add(lblClusterIPs, null);
-            clusterDe.add(getClusterIPs(), null);
         }
         return clusterDe;
     }
@@ -500,7 +492,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     public JTextArea getTxtDiscoveryStatus() {
         if (txtDiscoveryStatus == null) {
             txtDiscoveryStatus = new JTextArea();
-            txtDiscoveryStatus.setBounds(new Rectangle(10, 35, 400, 500));
+            txtDiscoveryStatus.setBounds(new Rectangle(10, 35, 600, 500));
             txtDiscoveryStatus.setForeground(Color.green);
             txtDiscoveryStatus.setBackground(Color.black);
         }
@@ -510,22 +502,12 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JScrollPane getDiscoveryStaPane() {
         if (discoveryStatusPane == null) {
             discoveryStatusPane = new JScrollPane();
-            discoveryStatusPane.setBounds(new Rectangle(10, 35, 400, 500));
+            discoveryStatusPane.setBounds(new Rectangle(10, 35, 600, 500));
             discoveryStatusPane.setViewportView(getTxtDiscoveryStatus());
         }
         return discoveryStatusPane;
     }
 
-    public JTextArea getClusterIPs() {
-        if (txtClusterIPs == null) {
-            txtClusterIPs = new JTextArea();
-            txtClusterIPs.setBounds(new Rectangle(650, 35, 200, 500));
-            txtClusterIPs.setBackground(Color.black);
-            txtClusterIPs.setForeground(Color.green);
-            txtClusterIPs.setEditable(false);
-        }
-        return txtClusterIPs;
-    }
 
     private JCheckBox getChkLogs() {
         if (chkLogs == null) {
