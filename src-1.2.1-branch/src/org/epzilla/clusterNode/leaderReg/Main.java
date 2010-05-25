@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class Main {
     private static ClusterSettingsReader reader = new ClusterSettingsReader();
     private static int clusterID;
+    private static String nodeStatus;
     private static String serviceName = "CLUSTER_NODE";
     private static DispInterface disObj;
 
@@ -73,6 +74,7 @@ public class Main {
             ArrayList<String[]> data = reader.getServerIPSettings("./src/settings/clusterID_settings.xml");
             String[] ar = data.get(0);
             String ID = ar[0];
+            nodeStatus = ar[1];
             clusterID = Integer.parseInt(ID);
         } catch (IOException e) {
             e.printStackTrace();
@@ -87,7 +89,9 @@ public class Main {
         try {
             bindClusterNode(serviceName);
             loadSettings();
-            initSTM();
+            if (nodeStatus == "default") {
+                initSTM();
+            }
             register();
         } catch (UnknownHostException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
