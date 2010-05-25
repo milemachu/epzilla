@@ -11,7 +11,7 @@ import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.dataManager.ClusterIPManager;
 import org.epzilla.clusterNode.dataManager.PerformanceInfoManager;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
-import org.epzilla.clusterNode.leaderReg.LeaderRegister;
+import org.epzilla.clusterNode.leaderReg.Main;
 import org.epzilla.clusterNode.processor.EventProcessor;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
 
@@ -186,7 +186,7 @@ public class NodeAsLeader {
                     NodeUIController.appendTextToStatus("Average Memory usage of the cluster: " + memResult + "%");
 
                     //send perfomance info
-                    LeaderRegister.sendInfo(cpuresult,memResult);
+                    Main.sendInfo(cpuresult,memResult);
                     NodeUIController.appendTextToStatus("Performance Info Sent to Dispatcher...");
                 }
             }
