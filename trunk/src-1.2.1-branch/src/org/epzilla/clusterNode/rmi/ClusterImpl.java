@@ -4,6 +4,7 @@ import org.epzilla.clusterNode.accConnector.DeriveEventSender;
 import org.epzilla.clusterNode.dataManager.EventsManager;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
 import org.epzilla.clusterNode.dataManager.EventsCounter;
+import org.epzilla.clusterNode.leaderReg.Main;
 import org.epzilla.clusterNode.processor.EventProcessor;
 import org.epzilla.util.Logger;
 
@@ -84,7 +85,8 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
     }
 
     @Override
-    public void initProcess() throws RemoteException {
-        
+    public void initNodeProcess() throws RemoteException {
+       // init UI of the processing node
+        Main. initSTM();
     }
 }
