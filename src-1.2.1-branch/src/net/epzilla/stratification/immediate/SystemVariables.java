@@ -25,7 +25,6 @@ public class SystemVariables {
 
         SystemVariables.setNumStrata(1);
         SystemVariables.setClusters(0, 2);
-//        SystemVariables.setClusters(1, 3);
 //        SystemVariables.setClusters(2, 1);
 
         SystemVariables.setClusterLoad(0, 0, 121);

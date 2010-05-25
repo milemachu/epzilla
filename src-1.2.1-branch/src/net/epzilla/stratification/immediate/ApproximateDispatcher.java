@@ -1,15 +1,21 @@
 package net.epzilla.stratification.immediate;
 
+import jstm.core.Site;
 import jstm.core.TransactedList;
 import jstm.core.TransactedSet;
+import jstm.core.Transaction;
 import net.epzilla.stratification.query.BasicQueryParser;
 import net.epzilla.stratification.query.InvalidSyntaxException;
 import net.epzilla.stratification.query.Query;
 import net.epzilla.stratification.query.QueryParser;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerDependencyStructure;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
+import org.epzilla.util.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 
 public class ApproximateDispatcher {
@@ -164,8 +170,18 @@ public class ApproximateDispatcher {
 
 
     public static void addDependencies(TransactedSet cluster, String[] entries) {
-        for (String entry : entries) {
-            cluster.add(entry);
+        try {
+            List list = Arrays.asList(entries);
+            if (!cluster.containsAll(list)) {
+                if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                    Site.getLocal().allowThread();
+                    Transaction transaction = Site.getLocal().startTransaction();
+                    cluster.addAll(list);
+                    transaction.commit();
+                }
+            }
+        } catch (Exception e) {
+            Logger.error("Error while committing dependencies:", e);
         }
     }
 
@@ -192,7 +208,7 @@ public class ApproximateDispatcher {
         if (SystemVariables.triggerCount < SystemVariables.roundRobinLimit) {
             // do round robin
             int[] clusters = SystemVariables.triggerLoadMap.get(stratum);
-            
+
             int least = 0;
             for (int i = 0; i < clusters.length; i++) {
                 if (clusters[least] > clusters[i]) {
