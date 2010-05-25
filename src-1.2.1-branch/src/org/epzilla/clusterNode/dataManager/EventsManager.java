@@ -5,7 +5,6 @@ import org.epzilla.util.CircularList;
 
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -41,24 +40,23 @@ public class EventsManager {
                     String event;
                     try {
                         event = eventQueue.poll();
-                        EventSender.sendEvents(lis.next(), event, clientId);
-                        removeEvents(event);
-                        count++;
-
-                        if (count >= 20000) {
-                            isInit = false;
-                            loadNodesDetails();
+                        if (event != null) {
+                            EventSender.sendEvents(lis.next(), event, clientId);
+                            removeEvents(event);
+                            count++;
+                            
                         }
+
 
                     } catch (MalformedURLException e) {
                         System.err.println(e);
                     } catch (NotBoundException e) {
                         System.err.println(e);
-                    } catch (RemoteException e) {
-                        System.err.println(e);
+                    } catch (Exception e) {
+                        org.epzilla.util.Logger.error("queue poll returns null", e);
                     }
                     try {
-                        Thread.sleep(30);
+                        Thread.sleep(1);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
