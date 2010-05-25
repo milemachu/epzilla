@@ -23,4 +23,6 @@ public interface ClusterInterface extends Remote {
     public String addTriggerStream(ArrayList<String> tlist, String clientID) throws RemoteException;
 
     public String deleteTriggers(ArrayList<String> list, String clusterID, String clientID) throws RemoteException;
+
+    public void initProcess() throws RemoteException;
 }

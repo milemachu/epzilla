@@ -82,4 +82,9 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         // trigger deleting logic here
         return null;
     }
+
+    @Override
+    public void initProcess() throws RemoteException {
+        
+    }
 }
