@@ -82,7 +82,15 @@ public class DispatcherUIController {
     }
 
     public static void appendOutEventCount(String text) {
-         instance.getTxtOutEventCount().setText(text);
+        instance.getTxtOutEventCount().setText(text);
+    }
+
+    public static void appendCpuUsage(String text) {
+        instance.getTxtCpuInfo().setText(text);
+    }
+
+    public static void appendMemUsage(String text) {
+        instance.getTxtMemInfo().setText(text);
     }
 
     private static String getDateTime() {
