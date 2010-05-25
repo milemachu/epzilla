@@ -7,7 +7,13 @@ import java.util.*;
 
 public class Clusterizer {
 
-    public void clusterize(List<Integer> stratum, List<Query> queries) {
+    LinkedList<Cluster> clusterMeta = new LinkedList<Cluster>();
+
+    public LinkedList<Cluster> getVirtualClusterInfo() {
+        return this.clusterMeta;
+    }
+
+    public void clusterize(List<Integer> stratum, List<Query> queries, String clientId, int stratumId) {
         HashSet<TreeSet<String>> disjointSets = new HashSet<TreeSet<String>>();
 
         for (Query q : queries) {
@@ -74,6 +80,7 @@ public class Clusterizer {
                 } else {
                     independent.add(q.getId());
                     q.setCluster(0);
+                    q.setIndependent(true);
                 }
             }
         }
@@ -86,10 +93,35 @@ public class Clusterizer {
 //            System.out.println("");
 //        }
 //        System.out.println("disjoint keyword sets:" + disjointSets.size());
-        System.out.println("clusters:" + clusters.length);
-        System.out.println(Arrays.toString(clusters));
-        if (independent.size() > 0)
-            System.out.println(independent.toString());
+        LinkedList<Cluster> clist = new LinkedList();
+        Cluster c = null;
+        int i = 1;
+        for (ArrayList clust : clusters) {
+            c = new Cluster();
+            c.setClientId(clientId);
+            c.setLoad(clust.size());
+            c.setStratum(stratumId);
+            clist.add(c);
+            c.setCluster(i);
+            i++;
+        }
+
+        c = new Cluster();
+        c.setClientId(clientId);
+        c.setLoad(independent.size());
+        c.setIndependent(true);
+        c.setStratum(stratumId);
+        clist.add(c);
+        c.setCluster(0);
+        this.clusterMeta = clist;
+
+//       for (Cluster ccc:  clusterMeta) {
+//           System.out.println("cmeta: "+ ccc.getCluster());
+//       }
+//        System.out.println("clusters:" + clusters.length);
+//        System.out.println(Arrays.toString(clusters));
+//        if (independent.size() > 0)
+//            System.out.println(independent.toString());
 
     }
 }

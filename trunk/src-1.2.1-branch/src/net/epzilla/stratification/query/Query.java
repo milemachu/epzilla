@@ -12,6 +12,16 @@ public class Query {
     private String queryString;
      private int stratum;
      private int cluster;
+
+    public boolean isIndependent() {
+        return independent;
+    }
+
+    public void setIndependent(boolean independent) {
+        this.independent = independent;
+    }
+
+    private boolean independent;
 //    private String clientId;
 
     public int getStratum() {
