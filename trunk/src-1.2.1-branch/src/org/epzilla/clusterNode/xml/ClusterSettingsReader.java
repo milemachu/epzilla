@@ -30,8 +30,9 @@ public class ClusterSettingsReader {
         String[] items = new String[3];
 
         for (XMLElement child : xe.getChildren()) {
-            items = new String[1];
+            items = new String[2];
             items[0] = child.getAttribute("id");
+            items[1] = child.getAttribute("nodeStatus");
             lis.add(items);
         }
 
