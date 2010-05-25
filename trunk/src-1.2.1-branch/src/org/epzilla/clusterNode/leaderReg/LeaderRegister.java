@@ -41,7 +41,7 @@ public class LeaderRegister {
         service = (DispInterface) Naming.lookup(url);
         InetAddress inetAddress = InetAddress.getLocalHost();
         String ipAddress = inetAddress.getHostAddress();
-        service.getLeaderIp(1, ipAddress);
+        service.getLeaderIp(1, ipAddress);      //cluster ID HC
         setDispObject(service);
 
 
@@ -62,7 +62,7 @@ public class LeaderRegister {
     //method to send performance info
     public static void sendInfo(int cpuUsg, int mmUsg) {
         try {
-            disObj.performanceInfo(1,cpuUsg,mmUsg);
+            disObj.performanceInfo(1,cpuUsg,mmUsg);   //cluster ID HC
         } catch (RemoteException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
