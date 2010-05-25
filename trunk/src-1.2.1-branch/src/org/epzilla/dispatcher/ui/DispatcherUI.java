@@ -17,6 +17,11 @@ import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.awt.Rectangle;
+import java.awt.Point;
+import java.awt.Dimension;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
 
 public class DispatcherUI extends JFrame implements ActionListener {
     private JTabbedPane tabbedPane = null;
@@ -67,6 +72,10 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JTextArea txtClusterIPs = null;
     private JCheckBox chkLogs = null;
     private JButton btnReplayLogs = null;
+	private JTextField txtCpuInfo = null;
+	private JTextField txtMemInfo = null;
+	private JLabel lblcpu = null;
+	private JLabel lblMem = null;
 
     public DispatcherUI() {
         initialize();
@@ -180,6 +189,12 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     private JPanel getSummeryTab() {
         if (summary == null) {
+            lblMem = new JLabel();
+            lblMem.setBounds(new Rectangle(720, 375, 100, 16));
+            lblMem.setText("Memory Usage (%) :");
+            lblcpu = new JLabel();
+            lblcpu.setBounds(new Rectangle(720, 337, 100, 16));
+            lblcpu.setText("CPU Usage (%) :");
             lblOutEC = new JLabel();
             lblOutEC.setBounds(new Rectangle(220, 553, 138, 22));
             lblOutEC.setText("Outgoing Event Count :");
@@ -187,8 +202,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblInEC.setBounds(new Rectangle(15, 553, 140, 22));
             lblInEC.setText("Incoming Event Count :");
             lblIPs = new JLabel();
-            lblIPs.setBounds(new Rectangle(720, 17, 38, 16));
-            lblIPs.setText("IP :");
+            lblIPs.setBounds(new Rectangle(720, 17, 103, 16));
+            lblIPs.setText("Leader IP List :");
             lblEvents = new JLabel();
             lblEvents.setBounds(new Rectangle(15, 21, 117, 16));
             lblEvents.setText("Status :");
@@ -207,6 +222,10 @@ public class DispatcherUI extends JFrame implements ActionListener {
             summary.add(getTxtInEventCount(), null);
             summary.add(lblOutEC, null);
             summary.add(getTxtOutEventCount(), null);
+            summary.add(getTxtCpuInfo(), null);
+            summary.add(getTxtMemInfo(), null);
+            summary.add(lblcpu, null);
+            summary.add(lblMem, null);
         }
         return summary;
     }
@@ -393,6 +412,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
             txtStatus.setBounds(new Rectangle(15, 47, 587, 177));
             txtStatus.setForeground(Color.green);
             txtStatus.setEditable(false);
+            txtStatus.setLocation(new Point(15, 47));
+            txtStatus.setSize(new Dimension(584, 175));
             txtStatus.setBackground(Color.black);
         }
         return txtStatus;
@@ -401,7 +422,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JScrollPane getIpScrollPane() {
         if (ipScrollPane == null) {
             ipScrollPane = new JScrollPane();
-            ipScrollPane.setBounds(new Rectangle(720, 44, 270, 465));
+            ipScrollPane.setBounds(new Rectangle(720, 44, 270, 175));
             ipScrollPane.setViewportView(getTxtIPSet());
         }
         return ipScrollPane;
@@ -410,7 +431,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     public JTextArea getTxtIPSet() {
         if (txtIPs == null) {
             txtIPs = new JTextArea();
-            txtIPs.setBounds(new Rectangle(720, 44, 270, 400));
+            txtIPs.setBounds(new Rectangle(720, 44, 270, 175));
             txtIPs.setForeground(Color.green);
             txtIPs.setEditable(false);
             txtIPs.setBackground(Color.black);
@@ -513,6 +534,30 @@ public class DispatcherUI extends JFrame implements ActionListener {
         }
         return btnReplayLogs;
     }
+    public JTextField getTxtCpuInfo() {
+		if (txtCpuInfo == null) {
+			txtCpuInfo = new JTextField();
+			txtCpuInfo.setBounds(new Rectangle(825, 335, 100, 20));
+			txtCpuInfo.setLocation(new Point(840, 335));
+			txtCpuInfo.setSize(new Dimension(100, 20));
+			txtCpuInfo.setForeground(Color.GREEN);
+			txtCpuInfo.setBackground(Color.BLACK);
+			
+		}
+		return txtCpuInfo;
+	}
+
+	public JTextField getTxtMemInfo() {
+		if (txtMemInfo == null) {
+			txtMemInfo = new JTextField();
+			txtMemInfo.setBounds(new Rectangle(825, 373, 100, 20));
+			txtMemInfo.setLocation(new Point(840, 373));
+			txtMemInfo.setSize(new Dimension(100, 20));
+			txtMemInfo.setForeground(Color.GREEN);
+			txtMemInfo.setBackground(Color.BLACK);
+		}
+		return txtMemInfo;
+	}
 
     public void register() throws MalformedURLException, RemoteException, UnknownHostException, NotBoundException {
         String ip = txtIP.getText().toString();
@@ -644,5 +689,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
         }
     }
 
+	
 
 }
