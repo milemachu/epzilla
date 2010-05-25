@@ -1,8 +1,10 @@
 package net.epzilla.stratification.restruct;
 
 import net.epzilla.stratification.query.BasicQueryParser;
+import net.epzilla.stratification.query.InvalidSyntaxException;
 import net.epzilla.stratification.query.Query;
 import net.epzilla.stratification.query.QueryParser;
+import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,7 +17,7 @@ import java.util.*;
  * Time: 10:01:35 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Restructuring {
+public class TriggerStrcutureManager {
 
     LinkedList<Query> qlist = new LinkedList<Query>();
     HashSet<Integer>[] map = null;
@@ -28,12 +30,10 @@ public class Restructuring {
     }
 
     public synchronized void addQueries(List<Query> list) {
-        for (Query q : list) {
-            qlist.add(q);
-        }
+        qlist.addAll(list);
     }
 
-    public int[] markStrata() {
+    public LinkedList<LinkedList<Integer>> markStrata() {
         int[] st = new int[qlist.size()];
         int i = 0;
         for (LinkedList<Integer> list : strata) {
@@ -46,14 +46,71 @@ public class Restructuring {
         for (Query q : qlist) {
             q.setStratum(st[i]);
         }
-        return st;
+//        ArrayList<ArrayList<Integer>> tempList = new ArrayList();
+//        for (LinkedList<Integer> lis: strata) {
+//            ArrayList<Integer> t = new ArrayList();
+//            t.addAll(lis);
+//            tempList.add(t);
+//        }
+
+        return strata;
+    }
+
+    public void markClusters() {
+        LinkedList<Query> stratum = null;
+        for (int i = 0; i <= strata.size(); i++) {
+            stratum = new LinkedList<Query>();
+            for (Query q : qlist) {
+                if (q.getStratum() == i) {
+                    stratum.add(q);
+                }
+            }
+
+
+
+        }
     }
 
     public LinkedList<Query> getQueryList() {
         return this.qlist;
     }
 
-    
+    public void restructure(List<TriggerInfoObject> triggerList) throws InvalidSyntaxException {
+        LinkedList<Query> list = new LinkedList();
+        QueryParser qp = new BasicQueryParser();
+        Query q = null;
+        for (TriggerInfoObject tio : triggerList) {
+            q = qp.parseString(tio.gettrigger());
+            q.setId(Integer.parseInt(tio.gettriggerID()));
+            list.add(q);
+        }
+
+        this.addQueries(list);
+        this.buildGraph();
+        List<LinkedList<Integer>> lx = this.markStrata();
+
+        // mark clusters.
+        Clusterizer c = null;
+        for (LinkedList<Integer> st: lx) {
+            c = new Clusterizer();
+            c.clusterize(st, this.getQueryList());
+        }
+
+        Iterator<TriggerInfoObject> i = triggerList.iterator();
+        Iterator<Query> j = this.getQueryList().iterator();
+
+        while (i.hasNext()) {
+            TriggerInfoObject obj = i.next();
+            Query qo = j.next();
+            obj.setoldClusterId(obj.getclusterID());
+            obj.setoldStratumId(obj.getoldStratumId());
+            obj.setclusterID(String.valueOf(qo.getCluster()));
+            obj.setstratumId(String.valueOf(qo.getStratum()));
+        }
+
+        
+    }
+
 
     public static void main(String[] args) throws Exception {
         try {
@@ -63,36 +120,54 @@ public class Restructuring {
             while ((line = br.readLine()) != null) {
                 line = line.trim();
                 if (line.length() > 0) {
-                    list.add(line);
+                    for (int i = 0; i < 100; i++) {
+                        list.add(line);
+                    }
                 }
             }
 
-            // parse queries
-            // add each query to stratifier
-            // then call stratify method.
 
-            Restructuring s = new Restructuring();
+            TriggerStrcutureManager s = new TriggerStrcutureManager();
 //            DependencyInjector di = new DependencyInjector("./src/impl.ioc");  // todo - remove unnecessary IoC stuff.
 //            QueryParser qp = (QueryParser) di.createInstance("Parser");
             QueryParser qp = new BasicQueryParser();
-
+            long stat = System.currentTimeMillis();
 
             Query q = null;
             int queryId = 0;
+            int x = 0;
+            List<TriggerInfoObject> ll = new LinkedList();
+            TriggerInfoObject tx  = null;
             for (String item : list) {
-                q = qp.parseString(item);
-                q.setId(queryId);
-                s.addQuery(q);
+                tx = new TriggerInfoObject();
+//                q = qp.parseString(item);
+                tx.settrigger(item);
+                tx.settriggerID(String.valueOf(queryId));
+//                q.setId(queryId);
+                ll.add(tx);
+//                s.addQuery(q);
                 queryId++;
             }
 
-            System.out.println("parsed: ");
+                             new TriggerStrcutureManager().restructure(ll);
+
+            /*
+            System.out.println("parsed: " + (System.currentTimeMillis() - stat));
             // by default the client id in each query is '0'
+            stat = System.currentTimeMillis();
             s.buildGraph();
+            System.out.println("built: " + (System.currentTimeMillis() - stat));
+            stat = System.currentTimeMillis();
 
-            int m[] = s.markStrata();
-            System.out.println(Arrays.toString(m));
+            List<LinkedList<Integer>> lx = s.markStrata();
+            System.out.println("marked: " + (System.currentTimeMillis() - stat));
+            Clusterizer c = new Clusterizer();
 
+//        ArrayList   lis =  new ArrayList(s.getQueryList());
+//                  Collections.copy(lis, s.getQueryList());
+            c.clusterize(lx.get(0), s.getQueryList());
+//            System.out.println(Arrays.toString(m));
+              */
 
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -150,6 +225,8 @@ public class Restructuring {
     }
 
     private void buildDependencyMap() {
+        long st = System.currentTimeMillis();
+
         int i = 0;
         for (Query q : qlist) {
             String[] in = q.getInputs();
@@ -159,11 +236,15 @@ public class Restructuring {
                 temp = outMap.get(item);
                 if (temp != null) {
                     set.addAll(temp);
+
+//                    Collections.addAll(set, temp);
                 }
             }
             this.map[i] = set;
             i++;
         }
+        System.out.println("depend built: " + (System.currentTimeMillis() - st));
+
     }
 
     private void buildOutMap() {
