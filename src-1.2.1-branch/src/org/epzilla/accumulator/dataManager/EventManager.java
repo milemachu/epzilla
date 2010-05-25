@@ -48,10 +48,15 @@ public class EventManager {
 
     public static String getEventID(String event) {
         String eventID = "";
+        try{
         StringTokenizer st = new StringTokenizer(event, ":");
         st.nextToken();  //Event
         st.nextToken(); //ClientID
         eventID = st.nextToken(); //EventID
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         return eventID;
     }
 
