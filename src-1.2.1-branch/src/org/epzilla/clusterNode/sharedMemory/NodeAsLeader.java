@@ -11,6 +11,7 @@ import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.dataManager.ClusterIPManager;
 import org.epzilla.clusterNode.dataManager.PerformanceInfoManager;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
+import org.epzilla.clusterNode.leaderReg.LeaderRegister;
 import org.epzilla.clusterNode.processor.EventProcessor;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
 
@@ -181,6 +182,11 @@ public class NodeAsLeader {
                 if (list.size() > 1) {
                     NodeUIController.appendTextToStatus("Average CPU usage of the cluster: " + (CPUsum / (list.size() - 1)) + "%");
                     NodeUIController.appendTextToStatus("Average Memory usage of the cluster: " + (MemSum / (list.size() - 1)) + "%");
+
+                    //send perfomance info
+                    LeaderRegister.sendInfo(CPUsum,MemSum);
+
+
                     //TO-DO
                     //send PErformance info to the Dispatcher
                 }
