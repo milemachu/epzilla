@@ -62,7 +62,7 @@ public class Main {
     //method to send performance info
     public static void sendInfo(int cpuUsg, int mmUsg) {
         try {
-            disObj.performanceInfo(clusterID,cpuUsg,mmUsg);   //cluster ID taken from the setting file clusterID_settings
+            disObj.performanceInfo(clusterID, cpuUsg, mmUsg);   //cluster ID taken from the setting file clusterID_settings
         } catch (RemoteException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -79,11 +79,15 @@ public class Main {
         }
     }
 
+    public static void initSTM() {
+        NodeController.init();
+    }
+
     public static void main(String[] args) {
         try {
-            NodeController.init();
             bindClusterNode(serviceName);
             loadSettings();
+            initSTM();
             register();
         } catch (UnknownHostException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
