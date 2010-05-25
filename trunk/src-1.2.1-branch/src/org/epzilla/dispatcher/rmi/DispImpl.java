@@ -117,6 +117,11 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     }
 
     @Override
+    public void performancceInfo(int cpuUsg, int mmUsg) throws RemoteException {
+        
+    }
+
+    @Override
     public void getLeaderIp(int id, String ip) throws RemoteException {
         try {
            
