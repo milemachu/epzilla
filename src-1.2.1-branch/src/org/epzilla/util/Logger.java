@@ -8,7 +8,7 @@ package org.epzilla.util;
  * To change this template use File | Settings | File Templates.
  */
 public class Logger {
-    private static boolean dolog = false;
+    private static boolean dolog = true;
     private static boolean doErrorlog = true;
     private static boolean[] keyMap = new boolean[10];
 
@@ -18,6 +18,7 @@ public class Logger {
     // set conditions here
     static {
         keyMap[strat] = true;
+        keyMap[5] = true;
 
     }
 
