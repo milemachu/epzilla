@@ -40,12 +40,12 @@ public class TriggerStrcutureManager {
 
     public void restructure() {
         HashMap<Integer, HashMap<Integer, Cluster>> m = new HashMap();
-        System.out.println("mapping size:" + mapping.size());
+//        System.out.println("mapping size:" + mapping.size());
         for (LinkedList<Cluster> cl : mapping) {
-            System.out.println("sz:" + cl.size());
+//            System.out.println("sz:" + cl.size());
             for (Cluster c : cl) {
                 HashMap<Integer, Cluster> hm = m.get(c.getStratum());
-                System.out.println("getst:" + c.getStratum());
+//                System.out.println("getst:" + c.getStratum());
                 if (hm == null) {
                     hm = new HashMap();
                     m.put(c.getStratum(), hm);
