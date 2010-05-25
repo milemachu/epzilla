@@ -85,12 +85,8 @@ public class DispatcherUIController {
         instance.getTxtOutEventCount().setText(text);
     }
 
-    public static void appendCpuUsage(String text) {
-        instance.getTxtCpuInfo().setText(text);
-    }
-
-    public static void appendMemUsage(String text) {
-        instance.getTxtMemInfo().setText(text);
+    public static void appendClusterData(String cluster, String cpuUsg, String mmUsg) {
+        instance.getTxtClusterPerformance().setText("Cluster ID: " + cluster + "\n" + "CPU Usage: " + cpuUsg +" %"+ "\n" + "Memory Usage" + mmUsg+" %");
     }
 
     private static String getDateTime() {

@@ -22,6 +22,8 @@ import java.awt.Point;
 import java.awt.Dimension;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 
 public class DispatcherUI extends JFrame implements ActionListener {
     private JTabbedPane tabbedPane = null;
@@ -59,6 +61,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JScrollPane ipScrollPane = null;
     private JScrollPane resultScrollPane = null;
     private JScrollPane discoveryStatusPane = null;
+    private JScrollPane clusterPerformancePane = null;
     private JLabel lblInEC = null;
     private JTextField txtInEventCount = null;
     private JLabel lblStatus = null;
@@ -72,12 +75,10 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JTextArea txtClusterIPs = null;
     private JCheckBox chkLogs = null;
     private JButton btnReplayLogs = null;
-	private JTextField txtCpuInfo = null;
-	private JTextField txtMemInfo = null;
-	private JLabel lblcpu = null;
-	private JLabel lblMem = null;
-
-    public DispatcherUI() {
+	private JLabel lblClusterPer = null;
+	private JTextArea txtClusterPerformance = null;
+    
+	public DispatcherUI() {
         initialize();
     }
 
@@ -189,12 +190,9 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     private JPanel getSummeryTab() {
         if (summary == null) {
-            lblMem = new JLabel();
-            lblMem.setBounds(new Rectangle(720, 375, 100, 16));
-            lblMem.setText("Memory Usage (%) :");
-            lblcpu = new JLabel();
-            lblcpu.setBounds(new Rectangle(720, 337, 100, 16));
-            lblcpu.setText("CPU Usage (%) :");
+            lblClusterPer = new JLabel();
+            lblClusterPer.setBounds(new Rectangle(713, 313, 151, 16));
+            lblClusterPer.setText("Cluster Performance:");
             lblOutEC = new JLabel();
             lblOutEC.setBounds(new Rectangle(220, 553, 138, 22));
             lblOutEC.setText("Outgoing Event Count :");
@@ -222,10 +220,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
             summary.add(getTxtInEventCount(), null);
             summary.add(lblOutEC, null);
             summary.add(getTxtOutEventCount(), null);
-            summary.add(getTxtCpuInfo(), null);
-            summary.add(getTxtMemInfo(), null);
-            summary.add(lblcpu, null);
-            summary.add(lblMem, null);
+            summary.add(lblClusterPer, null);
+            summary.add(getTxtClusterPerformance(), null);
         }
         return summary;
     }
@@ -480,7 +476,27 @@ public class DispatcherUI extends JFrame implements ActionListener {
         }
         return txtResult;
     }
-
+	public JTextArea getTxtClusterPerformance() {
+		if (txtClusterPerformance == null) {
+			txtClusterPerformance = new JTextArea();
+			txtClusterPerformance.setBounds(new Rectangle(713, 340, 281, 170));
+			txtClusterPerformance.setForeground(Color.GREEN);
+			txtClusterPerformance.setBackground(Color.BLACK);
+			txtClusterPerformance.setEditable(false);
+			
+		}
+		return txtClusterPerformance;
+	}
+	
+	private JScrollPane getClusterPerformancePane() {
+        if (clusterPerformancePane == null) {
+        	clusterPerformancePane = new JScrollPane();
+        	clusterPerformancePane.setBounds(new Rectangle(713, 340, 281, 170));
+        	clusterPerformancePane.setViewportView(getTxtClusterPerformance());
+       
+        }
+        return resultScrollPane;
+    }
     public JTextArea getTxtDiscoveryStatus() {
         if (txtDiscoveryStatus == null) {
             txtDiscoveryStatus = new JTextArea();
@@ -534,31 +550,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
         }
         return btnReplayLogs;
     }
-    public JTextField getTxtCpuInfo() {
-		if (txtCpuInfo == null) {
-			txtCpuInfo = new JTextField();
-			txtCpuInfo.setBounds(new Rectangle(825, 335, 100, 20));
-			txtCpuInfo.setLocation(new Point(840, 335));
-			txtCpuInfo.setSize(new Dimension(100, 20));
-			txtCpuInfo.setForeground(Color.GREEN);
-			txtCpuInfo.setBackground(Color.BLACK);
-			
-		}
-		return txtCpuInfo;
-	}
-
-	public JTextField getTxtMemInfo() {
-		if (txtMemInfo == null) {
-			txtMemInfo = new JTextField();
-			txtMemInfo.setBounds(new Rectangle(825, 373, 100, 20));
-			txtMemInfo.setLocation(new Point(840, 373));
-			txtMemInfo.setSize(new Dimension(100, 20));
-			txtMemInfo.setForeground(Color.GREEN);
-			txtMemInfo.setBackground(Color.BLACK);
-		}
-		return txtMemInfo;
-	}
-
     public void register() throws MalformedURLException, RemoteException, UnknownHostException, NotBoundException {
         String ip = txtIP.getText().toString();
         String nameService = txtNameServer.getText().toString();
@@ -688,6 +679,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
         }
     }
+
+
 
 	
 
