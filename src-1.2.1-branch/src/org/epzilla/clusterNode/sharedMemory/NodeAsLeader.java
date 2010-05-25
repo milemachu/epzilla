@@ -180,15 +180,14 @@ public class NodeAsLeader {
                     }
                 }
                 if (list.size() > 1) {
-                    NodeUIController.appendTextToStatus("Average CPU usage of the cluster: " + (CPUsum / (list.size() - 1)) + "%");
-                    NodeUIController.appendTextToStatus("Average Memory usage of the cluster: " + (MemSum / (list.size() - 1)) + "%");
+                    int cpuresult= (int)(CPUsum / (list.size() - 1)) ;
+                    int memResult = (int)  (MemSum / (list.size() - 1));
+                    NodeUIController.appendTextToStatus("Average CPU usage of the cluster: " + cpuresult+ "%");
+                    NodeUIController.appendTextToStatus("Average Memory usage of the cluster: " + memResult + "%");
 
                     //send perfomance info
-                    LeaderRegister.sendInfo(CPUsum,MemSum);
-
-
-                    //TO-DO
-                    //send PErformance info to the Dispatcher
+                    LeaderRegister.sendInfo(cpuresult,memResult);
+                    NodeUIController.appendTextToStatus("Performance Info Sent to Dispatcher...");
                 }
             }
         }, 120000, 200000);
