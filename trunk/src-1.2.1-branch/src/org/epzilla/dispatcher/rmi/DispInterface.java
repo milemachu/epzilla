@@ -33,6 +33,6 @@ public interface DispInterface extends Remote {
 
     public String getClientIP(String clientID) throws RemoteException;
 
-    public void performancceInfo(int cpuUsg, int mmUsg) throws RemoteException;
+    public void performanceInfo(int clusterID,int cpuUsg, int mmUsg) throws RemoteException;
 
 }

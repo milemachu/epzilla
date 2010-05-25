@@ -1,10 +1,9 @@
 package org.epzilla.dispatcher.rmi;
 
-import net.epzilla.stratification.immediate.ApproximateDispatcher;
+import net.epzilla.stratification.immediate.SystemVariables;
 import org.epzilla.client.rmi.ClientCallbackInterface;
 import org.epzilla.dispatcher.dataManager.*;
 import org.epzilla.dispatcher.logs.ReadLog;
-import org.epzilla.dispatcher.notificationSystem.ClientNotifier;
 import org.epzilla.util.Logger;
 
 import java.net.MalformedURLException;
@@ -39,17 +38,17 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         }
         return null;
     }
-             
+
     @Override
     public String uploadTriggersToDispatcher(ArrayList<String> tList, String clientID, int triggerSeqID) throws RemoteException {
         String toReturn = null;
-        try  {
+        try {
 //             todo remove if problematic.
             // add to stm all at once.
 
-           for (String x: tList) {
-               Logger.log(x);
-           }
+            for (String x : tList) {
+                Logger.log(x);
+            }
 
             TriggerManager.addAllTriggersToList(tList, clientID);
 //            }
@@ -117,15 +116,16 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     }
 
     @Override
-    public void performancceInfo(int cpuUsg, int mmUsg) throws RemoteException {
-        
+    public void performanceInfo(int clusterID, int cpuUsg, int mmUsg) throws RemoteException {
+        int load = (cpuUsg + mmUsg) / 2;
+        SystemVariables.setClusterLoad(0, clusterID, load);
     }
 
     @Override
     public void getLeaderIp(int id, String ip) throws RemoteException {
         try {
-           
-            ClusterLeaderIpListManager.addIP(""+id, ip);
+
+            ClusterLeaderIpListManager.addIP("" + id, ip);
         } catch (Exception e) {
             e.printStackTrace();
         }
