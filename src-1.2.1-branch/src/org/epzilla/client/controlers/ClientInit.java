@@ -65,9 +65,29 @@ public class ClientInit extends Thread {
                 }
                 di = (DispInterface) dispMap.get(ip);
 
+                ArrayList<String> triggers = new ArrayList<String>();
+                for (int i = 0; i < 200; i++) {
+                    triggers.add(EventTriggerGenerator.getNextTrigger());
+                }
+                try {
+                    response = di.uploadTriggersToDispatcher(triggers, clientID, triggerSeqID);
+                } catch (RemoteException e) {
+                    ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
+                    isLive = false;
+                }
+
+                if (response != null) {
+                    ClientUIControler.appendResults("Dispatcher Received the Trigger Stream" + "\n");
+                }
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
                 while (isLive) {
-                    ArrayList<String> triggers = new ArrayList<String>();
-                    for (int i = 0; i < 200; i++) {
+                    for (int i = 0; i < 20; i++) {
                         triggers.add(EventTriggerGenerator.getNextTrigger());
                     }
                     try {
@@ -75,18 +95,13 @@ public class ClientInit extends Thread {
                     } catch (RemoteException e) {
                         ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
                         isLive = false;
-//                        if (!dynamicLookup) {
-//                            dynamicLookup = true;
-//                            initDLookup();
-//                        }
-
                     }
 
                     if (response != null) {
-                      ClientUIControler.appendResults("Dispatcher Received the Trigger Stream" + "\n");
+                        ClientUIControler.appendResults("Dispatcher Received the Trigger Stream" + "\n");
                     }
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(30000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -111,11 +126,9 @@ public class ClientInit extends Thread {
                 di = (DispInterface) dispMap.get(ip);
 
                 while (isLive) {
-                    String event = EventTriggerGenerator.getNextEvent() + ":" + clientID + ":" + eventsSeqID;
-                    byte[] buffer = event.getBytes();
-
+                    String event = EventTriggerGenerator.getNextEvent();
                     try {
-                        response = di.uploadEventsToDispatcher(buffer, clientID, eventsSeqID);
+                        response = di.uploadEventsToDispatcher(event, clientID, eventsSeqID);
                         eventsSeqID++;
                     } catch (RemoteException e) {
                         isLive = false;
@@ -128,7 +141,7 @@ public class ClientInit extends Thread {
 
                     if (response != null) {
                         Logger.log("Dispatcher Recieved the events from the client and the response is " + response);
-                    } 
+                    }
                 }
             }
         });
