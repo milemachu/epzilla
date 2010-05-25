@@ -62,7 +62,7 @@ public class LeaderRegister {
     //method to send performance info
     public static void sendInfo(int cpuUsg, int mmUsg) {
         try {
-            disObj.performancceInfo(cpuUsg,mmUsg);
+            disObj.performanceInfo(1,cpuUsg,mmUsg);
         } catch (RemoteException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
