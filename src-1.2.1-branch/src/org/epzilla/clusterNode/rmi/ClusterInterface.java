@@ -24,5 +24,5 @@ public interface ClusterInterface extends Remote {
 
     public String deleteTriggers(ArrayList<String> list, String clusterID, String clientID) throws RemoteException;
 
-    public void initProcess() throws RemoteException;
+    public void initNodeProcess() throws RemoteException;
 }
