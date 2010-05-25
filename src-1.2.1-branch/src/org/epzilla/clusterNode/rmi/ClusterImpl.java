@@ -71,14 +71,6 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 
     }
 
-    /*
-   Accept trigger stream by Processing Node
-    */
-
-    public String addTriggerStream(ArrayList<String> tlist, String clientID) throws RemoteException {
-        return null;
-    }
-
     public String deleteTriggers(ArrayList<String> list, String clusterID, String clientID) throws RemoteException {
         // trigger deleting logic here
         return null;
