@@ -11,6 +11,7 @@ import org.epzilla.clusterNode.dataManager.ClusterIPManager;
 import org.epzilla.dispatcher.clusterHandler.TriggerSender;
 import org.epzilla.dispatcher.dataManager.TriggerManager;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
+import org.epzilla.dispatcher.rmi.TriggerRepresentation;
 import org.epzilla.util.Logger;
 
 import java.io.BufferedReader;
@@ -86,14 +87,14 @@ public class SystemRestructure {
         try {
             TransactedList<TriggerInfoObject> trList = TriggerManager.getTriggers();
 
-            HashMap<String, HashMap<String, HashMap<String, ArrayList<String>>>> remList = new HashMap();
-            HashMap<String, HashMap<String, HashMap<String, ArrayList<String>>>> addList = new HashMap();
+            HashMap<String, HashMap<String, HashMap<String, ArrayList<TriggerRepresentation>>>> remList = new HashMap();
+            HashMap<String, HashMap<String, HashMap<String, ArrayList<TriggerRepresentation>>>> addList = new HashMap();
 
             for (TriggerInfoObject tio : trList) {
 
                 if ((!tio.getclusterID().equals(tio.getoldClusterId())) || (!tio.getstratumId().equals(tio.getoldStratumId()))) {
-                    HashMap<String, HashMap<String, ArrayList<String>>> remStratum = remList.get(tio.getoldStratumId());
-                    HashMap<String, HashMap<String, ArrayList<String>>> addStratum = addList.get(tio.getstratumId());
+                    HashMap<String, HashMap<String, ArrayList<TriggerRepresentation>>> remStratum = remList.get(tio.getoldStratumId());
+                    HashMap<String, HashMap<String, ArrayList<TriggerRepresentation>>> addStratum = addList.get(tio.getstratumId());
 
                     if (remStratum == null) {
                         remStratum = new HashMap();
@@ -106,8 +107,8 @@ public class SystemRestructure {
                     }
 
 
-                    HashMap<String, ArrayList<String>> remCluster = remStratum.get(tio.getoldClusterId());
-                    HashMap<String, ArrayList<String>> addCluster = addStratum.get(tio.getclusterID());
+                    HashMap<String, ArrayList<TriggerRepresentation>> remCluster = remStratum.get(tio.getoldClusterId());
+                    HashMap<String, ArrayList<TriggerRepresentation>> addCluster = addStratum.get(tio.getclusterID());
 
                     if (remCluster == null) {
                         remCluster = new HashMap();
@@ -120,22 +121,30 @@ public class SystemRestructure {
                     }
 
 
-                    ArrayList<String> rem = remCluster.get(tio.getclientID());
-                    ArrayList<String> add = addCluster.get(tio.getclientID());
+                    ArrayList<TriggerRepresentation> rem = remCluster.get(tio.getclientID());
+                    ArrayList<TriggerRepresentation> add = addCluster.get(tio.getclientID());
 
                     if (rem == null) {
-                        rem = new ArrayList<String>();
+                        rem = new ArrayList<TriggerRepresentation>();
 //                        rem.setClientId(tio.getclientID());
                         remCluster.put(tio.getclientID(), rem);
                     }
 
                     if (add == null) {
-                        add = new ArrayList<String>();
+                        add = new ArrayList<TriggerRepresentation>();
                         addCluster.put(tio.getclientID(), add);
                     }
-
-                    add.add(tio.gettrigger());
-                    rem.add(tio.gettrigger());
+                            TriggerRepresentation at = new TriggerRepresentation();
+                            TriggerRepresentation rt = new TriggerRepresentation();
+                    at.setClientId(tio.getclientID());
+                    at.setTriggerId(tio.gettriggerID());
+                    at.setTrigger(tio.gettrigger());
+                    
+                    rt.setClientId(tio.getclientID());
+                    rt.setTriggerId(tio.gettriggerID());
+                    
+                    add.add(at);
+                    rem.add(rt);
 //                    rem.addTriggerIds(tio.gettriggerID());
                 }
             }
@@ -150,9 +159,9 @@ public class SystemRestructure {
                 for (NodeIPObject no : tl) {
                     String id = no.getclusterID();
                     if (remList.get(stratum).containsKey(id)) {
-                        HashMap<String, ArrayList<String>> m = remList.get(stratum).get(id);
+                        HashMap<String, ArrayList<TriggerRepresentation>> m = remList.get(stratum).get(id);
                         for (String user : m.keySet()) {
-                            ArrayList<String> al = m.get(user);
+                            ArrayList<TriggerRepresentation> al = m.get(user);
                             TriggerSender.requestTriggerDeletion(no.getIP(), id, al, user);
                         }
                     }
@@ -164,9 +173,9 @@ public class SystemRestructure {
                 for (NodeIPObject no : tl) {
                     String id = no.getclusterID();
                     if (addList.get(stratum).containsKey(id)) {
-                        HashMap<String, ArrayList<String>> m = addList.get(stratum).get(id);
+                        HashMap<String, ArrayList<TriggerRepresentation>> m = addList.get(stratum).get(id);
                         for (String user : m.keySet()) {
-                            ArrayList<String> al = m.get(user);
+                            ArrayList<TriggerRepresentation> al = m.get(user);
                             TriggerSender.acceptTrigger(no.getIP(), id, al, user);
                         }
                     }
