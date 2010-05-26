@@ -104,14 +104,14 @@ public class DispatcherService {
 //
 //            }
             //Dynamic Discovery
-            DispatcherDiscoveryManager ddm=new DispatcherDiscoveryManager();
-
-            Thread.sleep(30000);
-            Hashtable<Integer,String> leaders=DispatcherDiscoveryManager.getDispatcherPublisher().getSubscribers();
-            DispImpl di = new DispImpl();
-            for(int key: leaders.keySet()){
-                di.getLeaderIp(key, leaders.get(key));
-            }
+//            DispatcherDiscoveryManager ddm=new DispatcherDiscoveryManager();
+//
+//            Thread.sleep(30000);
+//            Hashtable<Integer,String> leaders=DispatcherDiscoveryManager.getDispatcherPublisher().getSubscribers();
+//            DispImpl di = new DispImpl();
+//            for(int key: leaders.keySet()){
+//                di.getLeaderIp(key, leaders.get(key));
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
