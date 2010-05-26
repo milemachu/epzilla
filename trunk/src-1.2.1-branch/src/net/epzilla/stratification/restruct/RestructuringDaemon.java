@@ -14,6 +14,7 @@ public class RestructuringDaemon {
         return restructuring;
     }
 
+    
     public static void setRestructuring(boolean restructuring) {
         RestructuringDaemon.restructuring = restructuring;
     }

@@ -22,6 +22,7 @@ public class TriggerStrcutureManager {
     LinkedList<LinkedList<Cluster>> mapping = null;
     List<TriggerInfoObject> trList = null;
 
+    
     public String getClientId() {
         return clientId;
     }

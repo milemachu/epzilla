@@ -168,6 +168,7 @@ public class SystemRestructure {
                 }
             }
 
+            
             for (String stratum : addList.keySet()) {
                 TransactedList<NodeIPObject> tl = ClusterIPManager.getIpList();
                 for (NodeIPObject no : tl) {
