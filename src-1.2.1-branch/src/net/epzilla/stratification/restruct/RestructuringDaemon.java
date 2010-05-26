@@ -7,6 +7,7 @@ import org.epzilla.util.Logger;
 public class RestructuringDaemon {
     private static boolean alive = false;
     private static boolean restructuring = false;
+    public static int RESTRUCTURING_WAITING_TIME = 60000;
 
 
     public static boolean isRestructuring() {
@@ -24,16 +25,14 @@ public class RestructuringDaemon {
                 while (alive) {
 
                     try {
-                        if (alive) {
-                            SystemRestructure.getInstance().restructureSystem();
-                            SystemRestructure.getInstance().sendRestructureCommands();
-                        }
+                        SystemRestructure.getInstance().restructureSystem();
+                        SystemRestructure.getInstance().sendRestructureCommands();
                     } catch (InvalidSyntaxException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
 
                     try {
-                        Thread.sleep(100000);
+                        Thread.sleep(RestructuringDaemon.RESTRUCTURING_WAITING_TIME);
                     } catch (InterruptedException e) {
                         Logger.error("", e);
                     }
