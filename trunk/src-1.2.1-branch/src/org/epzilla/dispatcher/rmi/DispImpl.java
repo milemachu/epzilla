@@ -1,6 +1,6 @@
 package org.epzilla.dispatcher.rmi;
 
-import net.epzilla.stratification.immediate.SystemVariables;
+import net.epzilla.stratification.dynamic.SystemVariables;
 import org.epzilla.client.rmi.ClientCallbackInterface;
 import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.dispatcher.dataManager.*;
