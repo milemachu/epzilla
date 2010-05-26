@@ -2,10 +2,6 @@ package org.epzilla.clusterNode.userInterface;
 
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
-import java.awt.Rectangle;
-import java.awt.Font;
 
 public class NodeUI extends JFrame {
 
@@ -93,7 +89,16 @@ public class NodeUI extends JFrame {
             label.setBounds(new Rectangle(50, 62, 86, 17));
             label.setFont(new Font("Dialog", Font.PLAIN, 12));
             label.setText("Node Status:");
-            jContentPane = new JPanel();
+            jContentPane = new JPanel() {
+                public void paintComponent(Graphics g) {
+                    Graphics2D g2d = (Graphics2D) g;
+                    int w = getWidth();
+                    int h = getHeight();
+                    GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
+                    g2d.setPaint(gp);
+                    g2d.fillRect(0, 0, w, h);
+                }
+            };
             jContentPane.setLayout(null);
             jContentPane.add(getJScrollPane(), null);
             jContentPane.add(getJScrollPane1(), null);
