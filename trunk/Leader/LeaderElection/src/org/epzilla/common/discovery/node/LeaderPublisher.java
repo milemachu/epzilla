@@ -15,9 +15,9 @@ public class LeaderPublisher implements IServicePublisher {
 
 	public boolean addSubscription(String serviceClient, String serviceName) {
 		if (serviceName.equalsIgnoreCase("SUBSCRIBE_" + this.serviceName)) {
-			synchronized (clusterNodeIp) {
-				
+			synchronized (clusterNodeIp) {				
 				clusterNodeIp.add(serviceClient);
+				System.out.println("New Cluster Node Discovered: "+serviceClient);
 				return true;
 			}
 		}
@@ -25,15 +25,13 @@ public class LeaderPublisher implements IServicePublisher {
 	}
 
 	public boolean publishService() {
-		MulticastSender broadcaster = new MulticastSender(multicastGroupIp,
-				multicastPort);
+		MulticastSender broadcaster = new MulticastSender(multicastGroupIp,multicastPort);
 		broadcaster.broadcastMessage(serviceName);
 		return true;
 	}
 	
 	public boolean publishService(int clusterId){
-		MulticastSender broadcaster = new MulticastSender(multicastGroupIp,
-				multicastPort);
+		MulticastSender broadcaster = new MulticastSender(multicastGroupIp,multicastPort);
 		broadcaster.broadcastMessage(serviceName+Constants.CLUSTER_ID_DELIMITER+clusterId);
 		return true;
 	}
@@ -45,13 +43,13 @@ public class LeaderPublisher implements IServicePublisher {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
 	public boolean updateDispatcherList(String dispatcherIpToInsert) {
 		synchronized (dispatcherIp) {
 			dispatcherIp.add(dispatcherIpToInsert);
+			System.out.println("New Dispatcher Discovered: "+dispatcherIpToInsert);
 			return true;
 		}
 	}

@@ -6,6 +6,7 @@ import org.epzilla.common.discovery.Constants;
 import org.epzilla.common.discovery.multicast.MulticastReceiver;
 import org.epzilla.common.discovery.unicast.TCPListener;
 import org.epzilla.common.discovery.unicast.TCPSender;
+import org.epzilla.leader.util.SystemConstants;
 
 public class DispatcherDiscoveryManager {
 	
@@ -60,7 +61,7 @@ public class DispatcherDiscoveryManager {
 			public void run() {
 				while (true) {
 					try {
-						Thread.sleep(10000);
+						Thread.sleep(SystemConstants.DISCOVERY_MULTICAST_TIME);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

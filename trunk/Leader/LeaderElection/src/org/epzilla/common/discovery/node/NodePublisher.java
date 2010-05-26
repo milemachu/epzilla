@@ -15,9 +15,9 @@ public class NodePublisher implements IServicePublisher {
 	
 	public boolean addSubscription(String serviceClient, String serviceName) {
 		if (serviceName.equalsIgnoreCase("SUBSCRIBE_" + this.serviceName)) {
-			synchronized (nodeList) {
-			
+			synchronized (nodeList) {			
 				nodeList.add(serviceClient);
+				System.out.println("New Cluster Node Discovered: "+serviceClient);
 				return true;
 			}
 		}

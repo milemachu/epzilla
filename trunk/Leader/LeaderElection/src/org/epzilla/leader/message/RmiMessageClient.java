@@ -45,12 +45,8 @@ public class RmiMessageClient {
 		try {
 			li = getLeaderInterface(remoteIp);
 			li.receiveMessage(MessageGenerator.getLeaderPublishMessage());
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.err.println(e.getCause());
 		}
 	}
 
@@ -70,12 +66,8 @@ public class RmiMessageClient {
 		try {
 			li = getLeaderInterface(remoteIp);
 			li.receiveMessage(message);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.err.println(e.getCause());
 		}
 	}
 
@@ -96,15 +88,12 @@ public class RmiMessageClient {
 		LeaderInterface li;
 		try {
 			li = getLeaderInterface(remoteIp);
+			System.out.println("The UID of lower order forwarded to:" + remoteIp);
 			li.receiveMessage(receivedMessage);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.err.println(e.getCause());
 		}
-		System.out.println("The UID of lower order forwarded to:" + remoteIp);
+		
 	}
 
 	/**
@@ -123,12 +112,8 @@ public class RmiMessageClient {
 			li = getLeaderInterface(remoteIp);
 			System.out.println("Recived UID is higher or same order. This UID sent to:"+ remoteIp);
 			li.receiveMessage(MessageGenerator.getUidMessage());
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.err.println(e.getCause());
 		}
 		
 	}
@@ -147,18 +132,11 @@ public class RmiMessageClient {
 		LeaderInterface li;
 		try {
 			li = getLeaderInterface(remoteIp);
+			System.out.println("Pulse sent to the non leader client:" + remoteIp);
 			li.receiveMessage(MessageGenerator.getPulse());
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.err.println(e.getCause());
 		}
-
-		
-
-		System.out.println("Pulse sent to the non leader client:" + remoteIp);
 	}
 
 	/**
@@ -178,14 +156,10 @@ public class RmiMessageClient {
 			li = getLeaderInterface(remoteIp);
 			li.addListener(listener);
 			System.out
-			.println("Listner registered with the Leader and ready to listen to pulse.");
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-		}		
+			.println("Listner registered with the Leader "+remoteIp+" and ready to listen to pulse.");
+		} catch (Exception e) {
+			System.err.println(e.getCause());
+		}	
 	}
 
 	/**
@@ -199,11 +173,14 @@ public class RmiMessageClient {
 	 * @throws NotBoundException
 	 */
 	public static void unregisterListenerWithLeader(String remoteIp,
-			IEpzillaEventListner listener) throws RemoteException,
-			MalformedURLException, NotBoundException {
-		LeaderInterface li = getLeaderInterface(remoteIp);
-
-		li.removeListener(listener);
+			IEpzillaEventListner listener){
+		LeaderInterface li;
+		try {
+			li = getLeaderInterface(remoteIp);
+			li.removeListener(listener);
+		} catch (Exception e) {
+			System.err.println(e.getCause());
+		}
 	}
 
 	/**
@@ -220,16 +197,11 @@ public class RmiMessageClient {
 		LeaderInterface li;
 		try {
 			li = getLeaderInterface(remoteIp);			
-			li.receiveMessage(MessageGenerator.getRequestNotAccepted()
-					+ errorCode + MessageMeta.SEPARATOR);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			e.printStackTrace();
+			li.receiveMessage(MessageGenerator.getRequestNotAccepted()+ errorCode + MessageMeta.SEPARATOR);
+			System.out.println("Request not accepted sent to:" + remoteIp);
+		}  catch (Exception e) {
+			System.err.println(e.getCause());
 		}
-		System.out.println("Request not accepted sent to:" + remoteIp);
 	}
 
 	/**
@@ -246,14 +218,10 @@ public class RmiMessageClient {
 		try {
 			li = getLeaderInterface(remoteIp);
 			li.receiveMessage(MessageGenerator.getPing());
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			e.printStackTrace();
+			System.out.println("Ping sent to:" + remoteIp);
+		} catch (Exception e) {
+			System.err.println(e.getCause());
 		}
-		System.out.println("Ping sent to:" + remoteIp);
 	}
 
 	/**
@@ -272,14 +240,9 @@ public class RmiMessageClient {
 		try {
 			li = getLeaderInterface(remoteIp);
 			System.out.println("get cluster leader sent to:" + remoteIp);
-
 			return li.getClusterLeader();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.err.println(e.getCause());
 		}
 
 		return null;
@@ -300,13 +263,9 @@ public class RmiMessageClient {
 			li = getLeaderInterface(remoteIp);
 			System.out.println("get cluster leader sent to:" + remoteIp);
 			return li.getStatus();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-		}		
+		} catch (Exception e) {
+			System.err.println(e.getCause());
+		}	
 		return null;		
 	}
 
@@ -323,20 +282,12 @@ public class RmiMessageClient {
 		LeaderInterface li;
 		try {
 			li = getLeaderInterface(remoteIp);
+			System.out.println("get is Leader running in remote sent to:"+ remoteIp);
 			return li.isLeaderElectionRunning();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.err.println(e.getCause());
 		}
-
-		System.out.println("get is Leader running in remote sent to:"
-				+ remoteIp);
-		return false;
-
-		
+		return false;		
 	}
 
 }
