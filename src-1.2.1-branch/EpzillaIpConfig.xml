@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cluster id="1" component="Node">
+<ip uid="1" default="true">10.8.108.130</ip>
+<ip uid="2">10.8.108.253</ip>
+<ip uid="3">10.8.108.252</ip>
+<ip uid="4">10.8.108.175</ip>
+<ip uid="5">10.8.108.63</ip>
+</cluster>
