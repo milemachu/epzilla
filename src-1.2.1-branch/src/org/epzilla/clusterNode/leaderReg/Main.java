@@ -5,16 +5,15 @@ import org.epzilla.clusterNode.rmi.ClusterImpl;
 import org.epzilla.clusterNode.rmi.ClusterInterface;
 import org.epzilla.clusterNode.xml.ClusterSettingsReader;
 import org.epzilla.dispatcher.rmi.DispInterface;
+import org.epzilla.leader.LeaderElectionInitiator;
 import org.epzilla.util.Logger;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 public class Main {
     private static ClusterSettingsReader reader = new ClusterSettingsReader();
@@ -22,6 +21,7 @@ public class Main {
     private static String nodeStatus;
     private static String serviceName = "CLUSTER_NODE";
     private static DispInterface disObj;
+    private static String ipAddress;
 
     public static void bindClusterNode(String serviceName) throws UnknownHostException, MalformedURLException, RemoteException {
         if (System.getSecurityManager() == null) {
@@ -70,15 +70,23 @@ public class Main {
     }
 
     private static void loadSettings() {
+        InetAddress inetAddress = null;
         try {
-            ArrayList<String[]> data = reader.getServerIPSettings("./src/settings/clusterID_settings.xml");
-            String[] ar = data.get(0);
-            String ID = ar[0];
-            nodeStatus = ar[1];
-            clusterID = Integer.parseInt(ID);
-        } catch (IOException e) {
-            e.printStackTrace();
+            inetAddress = InetAddress.getLocalHost();
+            ipAddress = inetAddress.getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+       
+//        try {
+//            ArrayList<String[]> data = reader.getServerIPSettings("./src/settings/clusterID_settings.xml");
+//            String[] ar = data.get(0);
+//            String ID = ar[0];
+//            nodeStatus = ar[1];
+//            clusterID = Integer.parseInt(ID);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public static void initSTM() {
@@ -86,22 +94,32 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        try {
-            bindClusterNode(serviceName);
+//        try {
+//            bindClusterNode(serviceName);
             loadSettings();
-            if (nodeStatus == "default") {
+//            if (nodeStatus == "default") {
+//                initSTM();
+//            }
+
+            LeaderElectionInitiator.mainMethod();
+            String leader = null;
+            while (leader == null) {
+                leader = LeaderElectionInitiator.getLeader();
+            }
+            if (leader.equalsIgnoreCase(ipAddress)) {
                 initSTM();
             }
-            register();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MalformedURLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (RemoteException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (NotBoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+
+//            register();
+//        } catch (UnknownHostException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        } catch (RemoteException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        } catch (NotBoundException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        }
     }
 
 }
