@@ -109,6 +109,52 @@ public class LeaderElectionInitiator {
 					}
 				}
 			}else{//NOT_NODE
+				
+				//TODO:TEST ONLY 
+				//WARN
+				final String clusterLeader=NodeClientManager.getClusterLeader();
+				if(clusterLeader!=null){
+					//No LE required. Leader Exist. Join the STM. Set the Epzilla variables.
+					Epzilla.setClusterLeader(clusterLeader);
+					Epzilla.setStatus(Status.NON_LEADER.name());
+					Epzilla.setLeaderElectionRunning(false);
+					eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
+					
+					Thread registrar=new Thread(new Runnable() {
+						public void run() {
+							RmiMessageClient.registerListenerWithLeader(clusterLeader, new EpZillaListener());
+						}
+					});
+					registrar.start();
+					eventHandler.fireEpzillaEvent(new PulseReceivedEvent(clusterLeader));
+				}else{
+					System.out.println("No Leader Exist.");
+					boolean isDefaultLeaderNode=Epzilla.isDefaultLeader();
+					
+					if(isDefaultLeaderNode){
+						//There is no other leader present and This is the default leader.
+						Epzilla.setLeaderElectionRunning(true);
+						Epzilla.setStatus(Status.UNKNOWN.name());
+						eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());						
+						final String nextNode=NodeClientManager.getNextNode();
+						
+						Thread starter=new Thread(new Runnable() {
+							public void run() {
+								RmiMessageClient.sendUidMessage(nextNode);
+							}
+						});
+						starter.start();
+						
+					}else{//NOT_DEFAULT_NODE
+						//Node type, No leader present, not the default leader
+						final String defaultLeaderNode=Epzilla.getDefaultLeader();
+						String defaultLeaderNodeStatus=null;
+						boolean defaultLeaderRunningLE=true;
+						
+						//TEST ONLY TODO:TEST
+						doExecuteIfLeaderDoesNotExist(defaultLeaderNode, defaultLeaderNodeStatus, defaultLeaderRunningLE);								
+					}
+				}
 			}
 			
 			@SuppressWarnings("unused")
