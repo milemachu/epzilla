@@ -1,4 +1,4 @@
-package net.epzilla.stratification.immediate;
+package net.epzilla.stratification.dynamic;
 
 import java.util.Hashtable;
 
