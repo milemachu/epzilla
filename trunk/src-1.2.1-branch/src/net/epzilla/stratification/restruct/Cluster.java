@@ -2,13 +2,8 @@ package net.epzilla.stratification.restruct;
 
 import java.util.Comparator;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Rajeev
- * Date: May 25, 2010
- * Time: 1:37:03 PM
- * To change this template use File | Settings | File Templates.
- */
+
+
 public class Cluster {
 
     public static class ClusterComparator implements Comparator {

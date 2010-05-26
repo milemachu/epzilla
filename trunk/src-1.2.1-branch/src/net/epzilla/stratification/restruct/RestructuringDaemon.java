@@ -6,6 +6,16 @@ import org.epzilla.util.Logger;
 
 public class RestructuringDaemon {
     private static boolean alive = false;
+    private static boolean restructuring = false;
+
+
+    public static boolean isRestructuring() {
+        return restructuring;
+    }
+
+    public static void setRestructuring(boolean restructuring) {
+        RestructuringDaemon.restructuring = restructuring;
+    }
 
     public static void start() {
         alive = true;
@@ -16,6 +26,7 @@ public class RestructuringDaemon {
                     try {
                         if (alive) {
                             SystemRestructure.getInstance().restructureSystem();
+                            SystemRestructure.getInstance().sendRestructureCommands();
                         }
                     } catch (InvalidSyntaxException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

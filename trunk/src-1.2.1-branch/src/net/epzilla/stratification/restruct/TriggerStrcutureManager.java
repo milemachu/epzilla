@@ -40,7 +40,12 @@ public class TriggerStrcutureManager {
 
     public void restructure() {
         HashMap<Integer, HashMap<Integer, Cluster>> m = new HashMap();
-//        System.out.println("mapping size:" + mapping.size());
+
+        int[][] lmap = new int[SystemVariables.getNumStrata()][];
+        for (int i = 0; i < lmap.length; i++) {
+            lmap[i] = new int[SystemVariables.getClusters(i)];
+        }
+
         for (LinkedList<Cluster> cl : mapping) {
 //            System.out.println("sz:" + cl.size());
             for (Cluster c : cl) {
@@ -51,17 +56,15 @@ public class TriggerStrcutureManager {
                     m.put(c.getStratum(), hm);
                 }
                 hm.put(c.getCluster(), c);
-//                System.out.println(c.getCluster());
+                if (!c.isIndependent()) {
+                    lmap[c.getRealStratum()][c.getRealCluster()] += c.getLoad();
+                }
             }
         }
 
         for (Query q : qlist) {
             Cluster c = m.get(q.getStratum()).get(q.getCluster());
-//            System.out.println("cdata:" + q.getStratum() + ":" + q.getCluster());
-//            if (c == null) {
-//                System.out.println("cnull" + q.getStratum());
-//                System.out.println("cnull" + q.getCluster());
-//            }
+//            System.out.println("gettin:" + q.getCluster());
             q.setStratum(c.getRealStratum());
             q.setCluster(c.getRealCluster());
         }
@@ -72,7 +75,7 @@ public class TriggerStrcutureManager {
         int[] s = new int[SystemVariables.getNumStrata()];
 
         int[] lim = new int[s.length];
-        for (int ii =0;ii<lim.length; ii++) {
+        for (int ii = 0; ii < lim.length; ii++) {
             lim[ii] = SystemVariables.getClusters(ii) - 1;
         }
 
@@ -83,18 +86,32 @@ public class TriggerStrcutureManager {
             obj.setoldStratumId(obj.getstratumId());
             int st = qo.getStratum();
             if (qo.isIndependent()) {
-                 if (s[st] > lim[st]) {
-                     s[st] = 0;
-                 }
-                obj.setclusterID(String.valueOf(s[qo.getStratum()]));
-                s[st]++;
+                int ts = getMin(lmap[qo.getStratum()]);
+//                System.out.println("min:" + ts);
+                if (s[st] > lim[st]) {
+                    s[st] = 0;
+                }
+                obj.setclusterID(String.valueOf(ts));
+                lmap[qo.getStratum()][ts]++;
+
             } else {
                 obj.setclusterID(String.valueOf(qo.getCluster()));
-                s[st]++;
             }
             obj.setstratumId(String.valueOf(qo.getStratum()));
         }
 
+    }
+
+    private int getMin(int[] ar) {
+        int m = 0;
+        int i = 0;
+        for (int x: ar) {
+            if (x < ar[m]) {
+               m = i;
+            }
+            i++;
+        }
+        return m;
     }
 
     public LinkedList<LinkedList<Integer>> markStrata() {
@@ -109,13 +126,8 @@ public class TriggerStrcutureManager {
         i = 0;
         for (Query q : qlist) {
             q.setStratum(st[i]);
+            i++;
         }
-//        ArrayList<ArrayList<Integer>> tempList = new ArrayList();
-//        for (LinkedList<Integer> lis: strata) {
-//            ArrayList<Integer> t = new ArrayList();
-//            t.addAll(lis);
-//            tempList.add(t);
-//        }
 
         return strata;
     }
