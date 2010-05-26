@@ -169,7 +169,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
                     Graphics2D g2d = (Graphics2D) g;
                     int w = getWidth();
                     int h = getHeight();
-                    GradientPaint gp = new GradientPaint(100, 100, Color.white, w, h, Color.gray);
+                    GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
                     g2d.setPaint(gp);
                     g2d.fillRect(0, 0, w, h);
                 }
@@ -216,11 +216,11 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblTriggers.setBounds(new Rectangle(15, 313, 116, 16));
             lblTriggers.setText("Trigger List :");
             summary = new JPanel(){
-                 public void paintComponent(Graphics g) {
+                                 public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
                     int w = getWidth();
                     int h = getHeight();
-                    GradientPaint gp = new GradientPaint(100, 100, Color.white, w, h, Color.gray);
+                    GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
                     g2d.setPaint(gp);
                     g2d.fillRect(0, 0, w, h);
                 }
@@ -249,11 +249,11 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblDiscoveryStatus.setText("Dispatcher Discovery Status :");
 
             clusterDe = new JPanel() {
-                public void paintComponent(Graphics g) {
+                                 public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
                     int w = getWidth();
                     int h = getHeight();
-                    GradientPaint gp = new GradientPaint(100, 100, Color.white, w, h, Color.gray);
+                    GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
                     g2d.setPaint(gp);
                     g2d.fillRect(0, 0, w, h);
                 }
