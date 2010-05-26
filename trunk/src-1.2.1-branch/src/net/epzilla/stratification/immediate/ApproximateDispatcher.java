@@ -1,4 +1,4 @@
-package net.epzilla.stratification.immediate;
+package net.epzilla.stratification.dynamic;
 
 import jstm.core.Site;
 import jstm.core.TransactedList;
@@ -14,7 +14,6 @@ import org.epzilla.util.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 

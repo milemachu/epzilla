@@ -1,9 +1,7 @@
-package net.epzilla.stratification.immediate;
+package net.epzilla.stratification.dynamic;
 
 import jstm.core.*;
-import org.epzilla.dispatcher.dataManager.TriggerManager;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerDependencyStructure;
-import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 import org.epzilla.util.Logger;
 
 import java.util.Hashtable;
