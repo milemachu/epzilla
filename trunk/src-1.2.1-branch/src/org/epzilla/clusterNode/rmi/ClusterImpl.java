@@ -8,9 +8,8 @@ import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.dataManager.EventsManager;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
 import org.epzilla.clusterNode.dataManager.EventsCounter;
+import org.epzilla.clusterNode.leaderReg.Main;
 import org.epzilla.clusterNode.processor.EventProcessor;
-import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
-import org.epzilla.dispatcher.rmi.TriggerRepresentation;
 import org.epzilla.util.Logger;
 
 import java.rmi.RemoteException;
@@ -61,9 +60,8 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         return null;
     }
 
-
+    
     // todo - add acc. ip
-
     public void addEventStream(String event, String clientID) throws RemoteException {
         String derivedEvent = EventProcessor.getInstance().processEvent(event);
         System.out.println("addeventstream called.");
@@ -76,18 +74,17 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 
     }
 
-    /*
-   Accept trigger stream by Processing Node
-    */
-
-    public String addTriggerStream(ArrayList<String> tlist, String clientID) throws RemoteException {
-        return null;
-    }
-
     public String deleteTriggers(ArrayList<String> list, String clusterID, String clientID) throws RemoteException {
         // trigger deleting logic here
         return null;
     }
+
+    @Override
+    public void initNodeProcess() throws RemoteException {
+       // init UI of the processing node
+        Main. initSTM();
+    }
+
 
     @Override
     public boolean deleteTriggers(HashMap<String, ArrayList<String>> rep) throws RemoteException {
@@ -120,4 +117,5 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         }
         return true;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
 }
