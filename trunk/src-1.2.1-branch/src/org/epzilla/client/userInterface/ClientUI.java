@@ -340,19 +340,11 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     public JList getListLookup() {
         if (listLookup == null) {
-            listLookup = new JList(ips){
-                 public void paintComponent(Graphics g) {
-                    Graphics2D g2d = (Graphics2D) g;
-                    int w = getWidth();
-                    int h = getHeight();
-                    GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.lightGray);
-                    g2d.setPaint(gp);
-                    g2d.fillRect(0, 0, w, h);
-                }
-            };
+            listLookup = new JList(ips);
             listLookup.setSize(new Dimension(325, 72));
             listLookup.setLocation(new Point(165, 46));
             listLookup.addListSelectionListener(this);
+            listLookup.setBackground(new Color(210,210,210));
         }
         return listLookup;
     }
