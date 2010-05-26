@@ -22,6 +22,11 @@ public class RestructuringDaemon {
         alive = true;
         Thread t = new Thread() {
             public void run() {
+                try {
+                    Thread.sleep(RestructuringDaemon.RESTRUCTURING_WAITING_TIME);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
                 while (alive) {
 
                     try {
