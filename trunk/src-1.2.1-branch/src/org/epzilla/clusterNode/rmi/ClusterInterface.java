@@ -1,8 +1,13 @@
 package org.epzilla.clusterNode.rmi;
 
+import org.epzilla.dispatcher.rmi.TriggerRepresentation;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 
 /**
@@ -23,4 +28,6 @@ public interface ClusterInterface extends Remote {
     public String deleteTriggers(ArrayList<String> list, String clusterID, String clientID) throws RemoteException;
 
     public void initNodeProcess() throws RemoteException;
+
+    public boolean deleteTriggers(HashMap<String, ArrayList<String>> rep) throws RemoteException;
 }
