@@ -4,10 +4,12 @@ import java.net.InetAddress;
 import java.rmi.Naming;
 import java.rmi.RMISecurityManager;
 import java.util.HashSet;
+import java.util.Hashtable;
 
 import org.epzilla.leader.client.DispatcherClientManager;
 import org.epzilla.leader.client.NodeClientManager;
 import org.epzilla.leader.event.ProcessStatusChangedEvent;
+import org.epzilla.leader.event.PulseNotReceivedTimeoutEvent;
 import org.epzilla.leader.event.PulseReceivedEvent;
 import org.epzilla.leader.event.listner.EpZillaListener;
 import org.epzilla.leader.message.EventHandler;
@@ -16,6 +18,7 @@ import org.epzilla.leader.rmi.LeaderInterface;
 import org.epzilla.leader.rmi.LeaderServiceImpl;
 import org.epzilla.leader.util.Component;
 import org.epzilla.leader.util.ConfigurationLoader;
+import org.epzilla.leader.util.SystemConstants;
 import org.epzilla.leader.util.Status;
 
 public class LeaderElectionInitiator {
@@ -25,17 +28,22 @@ public class LeaderElectionInitiator {
 	public LeaderElectionInitiator() {
 		eventHandler=new EventHandler();
 	}
+	
+	public static void main(String[] args) {
+		mainMethod();
+	}
 
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void mainMethod() {
 		LeaderElectionInitiator LE=new LeaderElectionInitiator();
 		
 		boolean isServiceDeployed=LE.deployLeaderRmiService();
 		if(isServiceDeployed){
 			ConfigurationLoader config=new ConfigurationLoader();
 			config.loadConfig();
+			config.loadConstants();
 			
 			//Starting Dynamic Discovery
 			final String comType=Epzilla.getComponentType();
@@ -50,7 +58,7 @@ public class LeaderElectionInitiator {
 			
 			//Waiting till the dynamic Discovery discovers the other nodes,Leader and dispatchers.
 			try {
-				Thread.sleep(30000);
+				Thread.sleep(SystemConstants.COMPONENT_DISCOVERY_TIME);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -200,7 +208,7 @@ public class LeaderElectionInitiator {
 				if(!defaultLeaderRunningLE){
 					//Default Server just started. Wait 30 seconds and try again.
 					try {
-						Thread.sleep(30000);
+						Thread.sleep(SystemConstants.COMPONENT_DISCOVERY_TIME);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -221,6 +229,64 @@ public class LeaderElectionInitiator {
 			});
 			starter.start();			
 		}
+	}
+	
+	/**
+	 * This is used to initiate a leader election from out side.
+	 * When method fired, it checks whether this is the Server and start work.
+	 * So no effect on trying to call it in a useless manner.
+	 * @return result of it
+	 */
+	public static boolean initiateLeaderElection(){
+		return eventHandler.fireEpzillaEvent(new PulseNotReceivedTimeoutEvent());
+	}
+	
+	/**
+	 * This method is used to get the Dispatchers List.
+	 * Both Nodes and Dispatchers keep track of Dispatchers. So without any effect
+	 * both component will work.
+	 * @return HashSet<Dispatchers>
+	 */
+	public static HashSet<String> getDispatchers() {
+		if(Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
+			return NodeClientManager.getDispatcherList();
+		}else if(Epzilla.getComponentType().equalsIgnoreCase(Component.DISPATCHER.name())){
+			return DispatcherClientManager.getDispatcherList();
+		}		
+		return null;
+	}
+	
+	public static HashSet<String> getNodes() {
+		if(Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
+			return NodeClientManager.getNodeList();
+		}		
+		return null;	
+	}
+	
+	public static Hashtable<Integer,String> getSubscribedClusterLeadersFromDispatcher() {
+		if(Epzilla.isLeader() && Epzilla.getComponentType().equalsIgnoreCase(Component.DISPATCHER.name())){
+			return DispatcherClientManager.getClusterLeaderList();
+		}
+		return null;
+	}
+	
+	public static HashSet<String> getSubscribedNodeList(){
+		if(Epzilla.isLeader() && Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
+			return NodeClientManager.getSubscribedNodeList();
+		}
+		return null;
+	}
+	
+	public static String getLeader() {
+		return Epzilla.getClusterLeader();		
+	}
+	
+	public static int getClusterId() {
+		return Epzilla.getClusterId();		
+	}
+	
+	public static long	getUid(){
+		return Epzilla.getUID();
 	}
 
 }

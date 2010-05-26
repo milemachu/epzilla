@@ -9,6 +9,7 @@ import org.epzilla.common.discovery.node.MulticastMessageDecoder;
 import org.epzilla.common.discovery.node.TCPMessageDecoder;
 import org.epzilla.common.discovery.multicast.MulticastReceiver;
 import org.epzilla.common.discovery.unicast.TCPListener;
+import org.epzilla.leader.util.SystemConstants;
 
 public class NodeDiscoveryManager {
 	
@@ -73,7 +74,7 @@ public class NodeDiscoveryManager {
 			public void run() {
 				while (true) {
 					try {
-						Thread.sleep(10000);
+						Thread.sleep(SystemConstants.DISCOVERY_MULTICAST_TIME);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

@@ -65,10 +65,55 @@ public class ConfigurationLoader {
 			}
 		}
 	}
+	
+	public void loadConstants(){
+		StringBuilder sb = new StringBuilder("");
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader("Constants.xml"));
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+			br.close();
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		Element e = new Element();
+		e.parseString(sb.toString()); // now the root is 'e'.
+		System.out.println(e.getName());
+		
+		for (Element el : e.getChildren()) {			
+			System.out.println(el.getName() + " " + el.getContent());
+			String name=el.getName();
+			if(name.equalsIgnoreCase("ComponentDiscovery"))
+				SystemConstants.COMPONENT_DISCOVERY_TIME=Integer.parseInt(el.getContent());
+			else if(name.equalsIgnoreCase("DiscoveryMulticast"))
+				SystemConstants.DISCOVERY_MULTICAST_TIME=Integer.parseInt(el.getContent());
+		}
+		
+		System.out.print("Done loading Constants.");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		System.out.print(".");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		System.out.println(".");
+	}
 
 	
 public static void main(String[] args) {
 	new ConfigurationLoader().loadConfig();
+	new ConfigurationLoader().loadConstants();
 }
 	
 
