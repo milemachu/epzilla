@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.TimerTask;
 
 
-import net.epzilla.stratification.immediate.DynamicDependencyManager;
+import net.epzilla.stratification.dynamic.DynamicDependencyManager;
 import org.epzilla.dispatcher.dataManager.ClientManager;
 import org.epzilla.dispatcher.dataManager.ClusterLeaderIpListManager;
 import org.epzilla.dispatcher.dataManager.NodeVariables;

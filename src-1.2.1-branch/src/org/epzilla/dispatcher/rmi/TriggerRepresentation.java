@@ -8,7 +8,24 @@ import java.util.HashSet;
 public class TriggerRepresentation implements Serializable {
     private String trigger;
     private String clientId;
-    private int triggerId;
+             private String triggerId;
+    private String dispatcherId;
+
+    public String getTriggerId() {
+        return triggerId;
+    }
+
+    public void setTriggerId(String triggerId) {
+        this.triggerId = triggerId;
+    }
+
+    public String getDispatcherId() {
+        return dispatcherId;
+    }
+
+    public void setDispatcherId(String dispatcherId) {
+        this.dispatcherId = dispatcherId;
+    }
 
     public String getTrigger() {
         return trigger;

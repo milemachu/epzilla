@@ -10,6 +10,7 @@ import org.epzilla.clusterNode.dataManager.TriggerManager;
 import org.epzilla.clusterNode.dataManager.EventsCounter;
 import org.epzilla.clusterNode.leaderReg.Main;
 import org.epzilla.clusterNode.processor.EventProcessor;
+import org.epzilla.dispatcher.rmi.TriggerRepresentation;
 import org.epzilla.util.Logger;
 
 import java.rmi.RemoteException;
@@ -33,16 +34,31 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
    Accept trigger stream by Leader node
     */
 
-    public String acceptTiggerStream(ArrayList<String> tList, String clusterID, String clientID) throws RemoteException {
+//    public String acceptTiggerStream(ArrayList<TriggerRepresentation> tList, String clusterID, String clientID) throws RemoteException {
+//        try {
+//            for (int i = 0; i < tList.size(); i++) {
+//                TriggerManager.addTriggerToList(tList.get(i), clientID, "0");
+//            }
+//            return "OK";
+//        } catch (Exception e) {
+//            System.err.println("Trigger adding failure");
+//        }
+//        return null;
+//    }
+
+    @Override
+    public String acceptTiggerStream(List<TriggerRepresentation> tList) throws RemoteException {
         try {
-            for (int i = 0; i < tList.size(); i++) {
-                TriggerManager.addTriggerToList(tList.get(i), clientID);
+            for (TriggerRepresentation tr : tList) {
+                TriggerManager.addTriggerToList(tr);
             }
             return "OK";
         } catch (Exception e) {
             System.err.println("Trigger adding failure");
         }
         return null;
+
+
     }
 
 
@@ -60,8 +76,9 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         return null;
     }
 
-    
+
     // todo - add acc. ip
+
     public void addEventStream(String event, String clientID) throws RemoteException {
         String derivedEvent = EventProcessor.getInstance().processEvent(event);
         System.out.println("addeventstream called.");
@@ -74,31 +91,27 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 
     }
 
-    public String deleteTriggers(ArrayList<String> list, String clusterID, String clientID) throws RemoteException {
+    public boolean deleteTriggers(ArrayList<TriggerRepresentation> list, String clusterID, String clientID) throws RemoteException {
         // trigger deleting logic here
-        return null;
-    }
 
-    @Override
-    public void initNodeProcess() throws RemoteException {
-       // init UI of the processing node
-        Main. initSTM();
-    }
-
-
-    @Override
-    public boolean deleteTriggers(HashMap<String, ArrayList<String>> rep) throws RemoteException {
         try {
 //        TriggerManager.getTriggers().get(1)
             List<TriggerObject> toRemoveList = new LinkedList();
             TransactedList<TriggerObject> tlist = TriggerManager.getTriggers();
 
             for (TriggerObject to : tlist) {
-                ArrayList<String> tr = rep.get(to.getclientID());
-                if (tr != null) {
-                    if (tr.contains(to.gettrigger())) {
-                        toRemoveList.add(to);
+
+
+                boolean del = false;
+                for (TriggerRepresentation t : list) {
+                    if (t.getClientId().equals(to.getclientID()) && t.getTriggerId().equals(to.gettriggerID())) {
+                        del = true;
+                        break;
                     }
+                }
+
+                if (del) {
+                    toRemoveList.add(to);
                 }
             }
 
@@ -107,7 +120,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
                 Transaction transaction = Site.getLocal().startTransaction();
                 TriggerManager.getTriggers().removeAll(toRemoveList);
                 transaction.commit();
-            }  else {
+            } else {
                 return false;
             }
 
@@ -115,7 +128,48 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         } catch (Exception e) {
             return false;
         }
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
+
+
+        return true;
     }
+
+    @Override
+    public void initNodeProcess() throws RemoteException {
+        // init UI of the processing node
+        Main.initSTM();
+    }
+
+//
+//    @Override
+//    public boolean deleteTriggers(HashMap<String, ArrayList<String>> rep) throws RemoteException {
+//        try {
+////        TriggerManager.getTriggers().get(1)
+//            List<TriggerObject> toRemoveList = new LinkedList();
+//            TransactedList<TriggerObject> tlist = TriggerManager.getTriggers();
+//
+//            for (TriggerObject to : tlist) {
+//                ArrayList<String> tr = rep.get(to.getclientID());
+//                if (tr != null) {
+//                    if (tr.contains(to.gettrigger())) {
+//                        toRemoveList.add(to);
+//                    }
+//                }
+//            }
+//
+//            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+//                Site.getLocal().allowThread();
+//                Transaction transaction = Site.getLocal().startTransaction();
+//                TriggerManager.getTriggers().removeAll(toRemoveList);
+//                transaction.commit();
+//            } else {
+//                return false;
+//            }
+//
+//
+//        } catch (Exception e) {
+//            return false;
+//        }
+//        return true;  //To change body of implemented methods use File | Settings | File Templates.
+//    }
 
 }

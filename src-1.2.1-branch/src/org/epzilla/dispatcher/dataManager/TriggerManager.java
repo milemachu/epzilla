@@ -3,7 +3,7 @@ package org.epzilla.dispatcher.dataManager;
 import jstm.core.Site;
 import jstm.core.TransactedList;
 import jstm.core.Transaction;
-import net.epzilla.stratification.immediate.ApproximateDispatcher;
+import net.epzilla.stratification.dynamic.ApproximateDispatcher;
 import net.epzilla.stratification.query.InvalidSyntaxException;
 import org.epzilla.dispatcher.RandomStringGenerator;
 import org.epzilla.dispatcher.clusterHandler.TriggerSender;
@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.TimerTask;
+
+import org.epzilla.dispatcher.rmi.TriggerRepresentation;
 import org.epzilla.util.Logger;
 
 /**
@@ -131,16 +133,20 @@ public class TriggerManager {
 
                     ArrayList<String> ips = ClusterLeaderIpListManager.getClusterIpList();
                     Logger.log("getting ip list size:  "+ips.size());
-                    Hashtable<String, ArrayList<String>> ht = new Hashtable();
+                    Hashtable<String, ArrayList<TriggerRepresentation>> ht = new Hashtable();
 
                     for (TriggerInfoObject tx : tio) {
                         String id = tx.getstratumId() + ":" + tx.getclusterID();
-                        ArrayList<String> list = ht.get(id);
+                        ArrayList<TriggerRepresentation> list = ht.get(id);
                         if (list == null) {
-                            list = new ArrayList<String>();
+                            list = new ArrayList<TriggerRepresentation>();
                             ht.put(id, list);
                         }
-                        list.add(tx.gettrigger());
+                        TriggerRepresentation tr = new TriggerRepresentation();
+                        tr.setTrigger(tx.gettrigger());
+                        tr.setTriggerId(tx.gettriggerID());
+                        tr.setClientId(tx.getclientID());
+                        list.add(tr);
                     }
 
                     for (TriggerInfoObject tx : tio) {
@@ -152,7 +158,7 @@ public class TriggerManager {
 
 
                    for (String key: ht.keySet()) {
-                       ArrayList<String> lis = ht.get(key);
+                       ArrayList<TriggerRepresentation> lis = ht.get(key);
                        if (lis.size() > 0) {
                             String cl = key.split(":")[1];
                            // todo assign clusters properly for system variables.
