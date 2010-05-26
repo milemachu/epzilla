@@ -64,6 +64,8 @@ public class NodeUI extends JFrame {
         this.setLocation(new Point(0, 0));
         this.setContentPane(getJContentPane());
         this.setTitle("epZilla Cluster Node ");
+        Image img = Toolkit.getDefaultToolkit().getImage("images//logo.jpg");
+        this.setIconImage(img);
     }
 
     /**
