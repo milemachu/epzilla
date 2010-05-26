@@ -1,0 +1,1 @@
+-Djava.rmi.server.codebase=file:///C:/EpzillaCode/bin/ -Djava.rmi.server.codebase=file:///C:/EpzillaCode/lib/LeaderElection-1.0.0.jar  -Djava.security.policy=file:C:\EpzillaCode/lib/Policy.txt
