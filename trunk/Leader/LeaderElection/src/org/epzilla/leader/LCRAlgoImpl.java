@@ -13,6 +13,7 @@ import org.epzilla.leader.util.Status;
  */
 public class LCRAlgoImpl {
 	// This is the LCR logic
+	private static String EMPTY_STRING=""; 
 	public String runAlgorithm(String message) {
 		String[] strArray = message.split(Character.toString(MessageMeta.SEPARATOR));
 		if (strArray != null && Integer.parseInt(strArray[1]) >= 1) {
@@ -25,6 +26,7 @@ public class LCRAlgoImpl {
 				return Status.UNKNOWN.name();
 			}
 		}	
-		return null;	
+		System.out.println("strArr 0:"+strArray[0]+ " Strarr1: "+strArray[1]);
+		return EMPTY_STRING;	
 	}
 }
