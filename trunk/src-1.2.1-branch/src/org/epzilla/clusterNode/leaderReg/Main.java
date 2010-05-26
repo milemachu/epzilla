@@ -102,8 +102,8 @@ public class Main {
 //            }
 
         LeaderElectionInitiator.mainMethod();
-        String leader = null;
-        while (leader == null) {
+        String leader = "";
+        while (leader.equalsIgnoreCase("")) {
             leader = LeaderElectionInitiator.getLeader();
         }
         if (leader.equalsIgnoreCase(ipAddress)) {
