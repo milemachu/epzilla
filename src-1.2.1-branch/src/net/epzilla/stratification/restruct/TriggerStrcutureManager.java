@@ -1,6 +1,6 @@
 package net.epzilla.stratification.restruct;
 
-import net.epzilla.stratification.immediate.SystemVariables;
+import net.epzilla.stratification.dynamic.SystemVariables;
 import net.epzilla.stratification.query.BasicQueryParser;
 import net.epzilla.stratification.query.InvalidSyntaxException;
 import net.epzilla.stratification.query.Query;
