@@ -11,7 +11,6 @@ import org.epzilla.clusterNode.dataManager.ClusterIPManager;
 import org.epzilla.dispatcher.clusterHandler.TriggerSender;
 import org.epzilla.dispatcher.dataManager.TriggerManager;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
-import org.epzilla.dispatcher.rmi.TriggerRepresentation;
 import org.epzilla.util.Logger;
 
 import java.io.BufferedReader;
