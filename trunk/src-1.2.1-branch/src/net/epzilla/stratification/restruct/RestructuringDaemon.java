@@ -27,14 +27,18 @@ public class RestructuringDaemon {
                 } catch (InterruptedException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
-                while (alive) {
 
+                while (alive) {
+                    System.out.println("SystemRestructure....");
+                    long st = System.currentTimeMillis();
                     try {
                         SystemRestructure.getInstance().restructureSystem();
                         SystemRestructure.getInstance().sendRestructureCommands();
                     } catch (InvalidSyntaxException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
+                    System.out.println("SystemRestructure ended....." + (System.currentTimeMillis()  - st) + " ms");
+
 
                     try {
                         Thread.sleep(RestructuringDaemon.RESTRUCTURING_WAITING_TIME);
