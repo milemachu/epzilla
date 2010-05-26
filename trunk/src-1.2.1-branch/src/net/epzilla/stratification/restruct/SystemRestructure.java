@@ -1,7 +1,7 @@
 package net.epzilla.stratification.restruct;
 
 import jstm.core.TransactedList;
-import net.epzilla.stratification.immediate.SystemVariables;
+import net.epzilla.stratification.dynamic.SystemVariables;
 import net.epzilla.stratification.query.BasicQueryParser;
 import net.epzilla.stratification.query.InvalidSyntaxException;
 import net.epzilla.stratification.query.Query;
@@ -18,13 +18,6 @@ import java.io.FileReader;
 import java.net.InetAddress;
 import java.util.*;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Rajeev
- * Date: May 25, 2010
- * Time: 12:52:25 PM
- * To change this template use File | Settings | File Templates.
- */
 public class SystemRestructure {
 
     private static SystemRestructure instance = new SystemRestructure();
