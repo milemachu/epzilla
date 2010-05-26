@@ -25,10 +25,19 @@ public class SystemVariables {
 
         SystemVariables.setNumStrata(1);
         SystemVariables.setClusters(0, 2);
-//        SystemVariables.setClusters(2, 1);
 
         SystemVariables.setClusterLoad(0, 0, 121);
         SystemVariables.setClusterLoad(0, 1, 14);
+
+
+//SystemVariables.setNumStrata(2);
+//        SystemVariables.setClusters(0, 2);
+//        SystemVariables.setClusters(1, 1);
+//
+//        SystemVariables.setClusterLoad(0, 0, 121);
+//        SystemVariables.setClusterLoad(0, 1, 14);
+//        SystemVariables.setClusterLoad(1, 0, 14);
+
 
         /*
         Thread t = new Thread() {
