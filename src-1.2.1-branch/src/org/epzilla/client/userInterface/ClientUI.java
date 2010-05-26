@@ -22,9 +22,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.Vector;
-import java.awt.Rectangle;
-import javax.swing.JTextArea;
-import javax.swing.JLabel;
 
 
 public class ClientUI extends JFrame implements ActionListener, ListSelectionListener {
@@ -68,8 +65,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private JLabel lblSummary = null;
     private JLabel lblCount = null;
     private JTextField txtNotiCount = null;
-	private JTextArea txtNotifications = null;
-	private JLabel jLabel = null;
+    private JTextArea txtNotifications = null;
+    private JLabel jLabel = null;
 
     public ClientUI() {
         super();
@@ -149,7 +146,16 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
             tabbedPane = new JTabbedPane();
 
-            JPanel mainSettings = new JPanel();
+            JPanel mainSettings = new JPanel() {
+                public void paintComponent(Graphics g) {
+                    Graphics2D g2d = (Graphics2D) g;
+                    int w = getWidth();
+                    int h = getHeight();
+                    GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
+                    g2d.setPaint(gp);
+                    g2d.fillRect(0, 0, w, h);
+                }
+            };
             mainSettings.setLayout(null);
             mainSettings.add(getIpTextField(), null);
             mainSettings.add(getTbPort(), null);
@@ -159,7 +165,16 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             mainSettings.add(labelName, null);
             mainSettings.add(lblSettings, null);
 
-            JPanel upload = new JPanel();
+            JPanel upload = new JPanel() {
+                public void paintComponent(Graphics g) {
+                    Graphics2D g2d = (Graphics2D) g;
+                    int w = getWidth();
+                    int h = getHeight();
+                    GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
+                    g2d.setPaint(gp);
+                    g2d.fillRect(0, 0, w, h);
+                }
+            };
             upload.setLayout(null);
             upload.add(getBtnSend(), null);
             upload.add(getBtnCancelSend(), null);
@@ -172,7 +187,16 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             upload.add(lblDispatcherServiceName, null);
             upload.add(getTxtDispName(), null);
 
-            JPanel results = new JPanel();
+            JPanel results = new JPanel() {
+                public void paintComponent(Graphics g) {
+                    Graphics2D g2d = (Graphics2D) g;
+                    int w = getWidth();
+                    int h = getHeight();
+                    GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
+                    g2d.setPaint(gp);
+                    g2d.fillRect(0, 0, w, h);
+                }
+            };
             results.setLayout(null);
             results.add(getResultsScrollPane(), null);
             results.add(lblSummary, null);
@@ -380,27 +404,30 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         }
         return txtResults;
     }
+
     public JTextArea getNotifications() {
-		if (txtNotifications == null) {
-			txtNotifications = new JTextArea();
-			txtNotifications.setBounds(new Rectangle(600, 90, 500, 535));
+        if (txtNotifications == null) {
+            txtNotifications = new JTextArea();
+            txtNotifications.setBounds(new Rectangle(600, 90, 500, 535));
             txtNotifications.setEditable(false);
             txtNotifications.setLineWrap(true);
             txtNotifications.setWrapStyleWord(true);
-			txtNotifications.setForeground(Color.GREEN);
-			txtNotifications.setBackground(Color.BLACK);
-		}
-		return txtNotifications;
-	}
-    private JScrollPane getNotificationScrollpane(){
-    	if(notificationSP==null){
-    		notificationSP = new JScrollPane();
+            txtNotifications.setForeground(Color.GREEN);
+            txtNotifications.setBackground(Color.BLACK);
+        }
+        return txtNotifications;
+    }
+
+    private JScrollPane getNotificationScrollpane() {
+        if (notificationSP == null) {
+            notificationSP = new JScrollPane();
             notificationSP.setBounds(new Rectangle(600, 90, 500, 535));
             notificationSP.setViewportView(getNotifications());
             notificationSP.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    	}
-    	return notificationSP;
+        }
+        return notificationSP;
     }
+
     private JTextField getTxtDispName() {
         if (txtDispName == null) {
             txtDispName = new JTextField();
@@ -417,14 +444,14 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         String port = txtPort.getText();
         String clientIp = getIpAddress();
         if ((isValidIp(ip)) && (serverName.length() != 0)) {
-                ips = client.getServiceIp(ip, serverName, clientIp);
-                if (!ips.isEmpty()) {
-                    listLookup.setListData(ips);
+            ips = client.getServiceIp(ip, serverName, clientIp);
+            if (!ips.isEmpty()) {
+                listLookup.setListData(ips);
 //                    btnLookup.setEnabled(false);
 //                    btnClear.setEnabled(true);
-                }
+            }
 
-        } 
+        }
 //        else
 //            JOptionPane.showMessageDialog(null, "Make sure setting details correct.", "Message", JOptionPane.ERROR_MESSAGE);
     }
@@ -472,11 +499,11 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             client.unregisterCallback(ip, servicename);
             ClientHandler.unRegisterClient(clientIP, clientID);
         } catch (MalformedURLException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         } catch (RemoteException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         } catch (NotBoundException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         } catch (UnknownHostException e) {
         }
         btnLookup.setEnabled(true);
@@ -589,7 +616,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     private void getClientID() throws RemoteException {
         String clientIP = getIpAddress();
-            clientID = ClientHandler.getClientsID(clientIP);
+        clientID = ClientHandler.getClientsID(clientIP);
     }
 
     @Override
@@ -597,8 +624,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         Object source = event.getSource();
         if (source == listLookup) {
             int i = listLookup.getSelectedIndex();
-            if(i < 0){
-                i=0;
+            if (i < 0) {
+                i = 0;
             }
 //            String s = i >= 0 ? ips.get(i) : "";
             ListModel model = listLookup.getModel();
@@ -621,8 +648,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             unregisterCallbackLocal();
         } else if (source == btnLookup) {
             try {
-        	getDispatchers();
-            getClientID();
+                getDispatchers();
+                getClientID();
             } catch (MalformedURLException e) {
                 JOptionPane.showMessageDialog(null, "NameService IP Address incorrect", "Message", JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException e) {
@@ -640,8 +667,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             showAbout();
         }
     }
-
-	
 
 
 }
