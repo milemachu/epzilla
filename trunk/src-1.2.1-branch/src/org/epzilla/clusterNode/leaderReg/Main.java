@@ -77,7 +77,7 @@ public class Main {
         } catch (UnknownHostException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-       
+
 //        try {
 //            ArrayList<String[]> data = reader.getServerIPSettings("./src/settings/clusterID_settings.xml");
 //            String[] ar = data.get(0);
@@ -96,19 +96,24 @@ public class Main {
     public static void main(String[] args) {
 //        try {
 //            bindClusterNode(serviceName);
-            loadSettings();
+        loadSettings();
 //            if (nodeStatus == "default") {
 //                initSTM();
 //            }
 
-            LeaderElectionInitiator.mainMethod();
-            String leader = null;
-            while (leader == null) {
-                leader = LeaderElectionInitiator.getLeader();
-            }
-            if (leader.equalsIgnoreCase(ipAddress)) {
-                initSTM();
-            }
+        LeaderElectionInitiator.mainMethod();
+        String leader = null;
+        while (leader == null) {
+            leader = LeaderElectionInitiator.getLeader();
+        }
+        if (leader.equalsIgnoreCase(ipAddress)) {
+            NodeController.setLeader(true);
+            initSTM();
+        } else {
+            NodeController.setLeader(false);
+            NodeController.setLeaderIP(leader);
+            initSTM();
+        }
 
 //            register();
 //        } catch (UnknownHostException e) {
