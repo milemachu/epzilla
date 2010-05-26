@@ -1,17 +1,21 @@
 package org.epzilla.clusterNode.rmi;
 
+import jstm.core.Site;
+import jstm.core.TransactedList;
+import jstm.core.Transaction;
 import org.epzilla.clusterNode.accConnector.DeriveEventSender;
+import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.dataManager.EventsManager;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
 import org.epzilla.clusterNode.dataManager.EventsCounter;
-import org.epzilla.clusterNode.leaderReg.Main;
 import org.epzilla.clusterNode.processor.EventProcessor;
+import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
+import org.epzilla.dispatcher.rmi.TriggerRepresentation;
 import org.epzilla.util.Logger;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -57,8 +61,9 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         return null;
     }
 
-    
+
     // todo - add acc. ip
+
     public void addEventStream(String event, String clientID) throws RemoteException {
         String derivedEvent = EventProcessor.getInstance().processEvent(event);
         System.out.println("addeventstream called.");
@@ -71,14 +76,48 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 
     }
 
+    /*
+   Accept trigger stream by Processing Node
+    */
+
+    public String addTriggerStream(ArrayList<String> tlist, String clientID) throws RemoteException {
+        return null;
+    }
+
     public String deleteTriggers(ArrayList<String> list, String clusterID, String clientID) throws RemoteException {
         // trigger deleting logic here
         return null;
     }
 
     @Override
-    public void initNodeProcess() throws RemoteException {
-       // init UI of the processing node
-        Main. initSTM();
+    public boolean deleteTriggers(HashMap<String, ArrayList<String>> rep) throws RemoteException {
+        try {
+//        TriggerManager.getTriggers().get(1)
+            List<TriggerObject> toRemoveList = new LinkedList();
+            TransactedList<TriggerObject> tlist = TriggerManager.getTriggers();
+
+            for (TriggerObject to : tlist) {
+                ArrayList<String> tr = rep.get(to.getclientID());
+                if (tr != null) {
+                    if (tr.contains(to.gettrigger())) {
+                        toRemoveList.add(to);
+                    }
+                }
+            }
+
+            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                Site.getLocal().allowThread();
+                Transaction transaction = Site.getLocal().startTransaction();
+                TriggerManager.getTriggers().removeAll(toRemoveList);
+                transaction.commit();
+            }  else {
+                return false;
+            }
+
+
+        } catch (Exception e) {
+            return false;
+        }
+        return true;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
