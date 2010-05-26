@@ -1,6 +1,7 @@
 package org.epzilla.dispatcher.clusterHandler;
 
 import org.epzilla.dispatcher.logs.WriteLog;
+import org.epzilla.dispatcher.rmi.TriggerRepresentation;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,10 +15,14 @@ import java.util.ArrayList;
  */
 public class TriggerLog {
 
-    public static synchronized void writeTolog(String clusterID, ArrayList<String> triggers) {
+    public static synchronized void writeTolog(String clusterID, ArrayList<TriggerRepresentation> triggers) {
 
         try {
-            WriteLog.writeInit(triggers, clusterID);
+            ArrayList<String> list = new ArrayList();
+            for (TriggerRepresentation rep : triggers) {
+                list.add(rep.getTrigger());
+            }
+            WriteLog.writeInit(list, clusterID);
         } catch (IOException e) {
         }
 

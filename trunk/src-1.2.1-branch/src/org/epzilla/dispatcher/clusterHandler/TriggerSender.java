@@ -1,6 +1,7 @@
 package org.epzilla.dispatcher.clusterHandler;
 
 import org.epzilla.clusterNode.rmi.ClusterInterface;
+import org.epzilla.dispatcher.rmi.TriggerRepresentation;
 import org.epzilla.util.Logger;
 
 import java.net.MalformedURLException;
@@ -30,7 +31,7 @@ public class TriggerSender {
         return instance;
     }
 
-    public static void acceptTrigger(String serverIp, String clusterID, ArrayList<String> triggers, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
+    public static void acceptTrigger(String serverIp, String clusterID, ArrayList<TriggerRepresentation> triggers, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         if (idMap.containsKey(serverIp)) {
             ClusterInterface clusterObj = (ClusterInterface) idMap.get(serverIp);
             sendTriggers(clusterObj, triggers, clusterID, clientID);
@@ -43,7 +44,7 @@ public class TriggerSender {
 
 
 
-    public static void requestTriggerDeletion(String serverIp, String clusterID, ArrayList<String> triggers, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
+    public static void requestTriggerDeletion(String serverIp, String clusterID, ArrayList<TriggerRepresentation> triggers, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         if (idMap.containsKey(serverIp)) {
             ClusterInterface clusterObj = (ClusterInterface) idMap.get(serverIp);
             deleteTriggers(clusterObj, triggers, clusterID, clientID);
@@ -63,8 +64,8 @@ public class TriggerSender {
 
     }
 
-    private static void sendTriggers(ClusterInterface co, ArrayList<String> triggers, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
-        response = co.acceptTiggerStream(triggers, clusterID, clientID);
+    private static void sendTriggers(ClusterInterface co, ArrayList<TriggerRepresentation> triggers, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
+        String response = co.acceptTiggerStream(triggers);
         TriggerLog.writeTolog(clusterID, triggers);
         if (response != null) {
             Logger.log("Triggers send to the cluster");
@@ -75,7 +76,7 @@ public class TriggerSender {
     }
 
 
-    private static void deleteTriggers(ClusterInterface co, ArrayList<String> triggers, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
+    private static void deleteTriggers(ClusterInterface co, ArrayList<TriggerRepresentation> triggers, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
 
         co.deleteTriggers(triggers, clusterID, clientID);
         if (response != null) {

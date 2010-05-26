@@ -5,6 +5,7 @@ import jstm.core.TransactedList;
 import jstm.core.Transaction;
 import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.dispatcher.RandomStringGenerator;
+import org.epzilla.dispatcher.rmi.TriggerRepresentation;
 
 import java.util.StringTokenizer;
 import java.util.TimerTask;
@@ -48,7 +49,7 @@ public class TriggerManager {
     }
 
     //AddTriggers through RMI to the shared memory
-    public static boolean addTriggerToList(String trigger, String clientID) {
+    public static boolean addTriggerToList(TriggerRepresentation tr) {
         boolean success = false;
         if (getTriggers() != null) {
             if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
@@ -58,8 +59,9 @@ public class TriggerManager {
                 // ID is the sequential number of the trigger
                 obj.settriggerID("TID:" + String.valueOf(count));
 
-                obj.settrigger(new String(trigger));
-                obj.setclientID(clientID);
+                obj.settrigger(tr.getTrigger());
+                obj.setclientID(tr.getClientId());
+                obj.settriggerID(tr.getTriggerId());
                 triggers.add(obj);
                 transaction.commit();
                 success = true;
