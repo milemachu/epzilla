@@ -17,7 +17,7 @@ public class LeaderPublisher implements IServicePublisher {
 		if (serviceName.equalsIgnoreCase("SUBSCRIBE_" + this.serviceName)) {
 			synchronized (clusterNodeIp) {				
 				clusterNodeIp.add(serviceClient);
-				System.out.println("New Cluster Node Discovered: "+serviceClient);
+				System.out.println("New Cluster Node Discovered by Cluster Leader : "+serviceClient);
 				return true;
 			}
 		}
