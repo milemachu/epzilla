@@ -18,23 +18,24 @@ public MulticastSender(String multicastGroupIp, int multicastPort) {
 	this.multicastGroupIp=multicastGroupIp;
 	this.multicastPort=multicastPort;
 	
-	try {
-		datagramSocket=new DatagramSocket();
-	} catch (Exception e) {
-		System.err.println(e.getMessage());
-	}
+	
 }
 
 public void broadcastMessage(String message){
 	try {
+		datagramSocket=new DatagramSocket();	
 		datagramPacket=new DatagramPacket(message.getBytes(), message.getBytes().length, InetAddress.getByName(multicastGroupIp), multicastPort);
 		datagramSocket.send(datagramPacket);
 	} catch (UnknownHostException e) {
 		System.err.println(e.getMessage());
 	} catch (IOException e) {
 		System.err.println(e.getMessage());
-	}
-	
+	} catch (Exception e) {
+		System.err.println(e.getMessage());
+	}	
+	datagramSocket.close();
+	datagramSocket=null;
+	datagramPacket=null;	
 }
 
 public static void main(String[] args) {
