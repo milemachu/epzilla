@@ -2,6 +2,9 @@ package org.epzilla.clusterNode.userInterface;
 
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.JLabel;
+import java.awt.Rectangle;
+import java.awt.Font;
 
 public class NodeUI extends JFrame {
 
@@ -17,14 +20,13 @@ public class NodeUI extends JFrame {
     private JTextArea jTextAreaIPList = null;
     private JTextArea jTextAreaPerformance = null;
     private JTextArea jTextAreaMachineInfo = null;
-    private Label label = null;
-    private Label label1 = null;
-    private Label label2 = null;
     private JTextArea jTextAreaLeader = null;
-    private Label label3 = null;
     private JTextArea jTextAreaEventCount = null;
-
-    /**
+	private JLabel lblNodeStatus = null;
+	private JLabel lblEC = null;
+	private JLabel lblCTL = null;
+	private JLabel lblCIL = null;
+	/**
      * This is the default constructor
      */
     public NodeUI() {
@@ -75,23 +77,19 @@ public class NodeUI extends JFrame {
      */
     private JPanel getJContentPane() {
         if (jContentPane == null) {
-            label3 = new Label();
-            label3.setBounds(new Rectangle(345, 62, 85, 19));
-            label3.setFont(new Font("Calibri", Font.PLAIN, 12));
-            label3.setText("Event Count:");
-            label2 = new Label();
-            label2.setBounds(new Rectangle(739, 59, 104, 20));
-            label2.setFont(new Font("Dialog", Font.PLAIN, 12));
-            label2.setText("Cluster IP List:");
-            label1 = new Label();
-            label1.setBounds(new Rectangle(48, 359, 132, 21));
-            label1.setFont(new Font("Dialog", Font.PLAIN, 12));
-            label1.setText("Cluster Trigger List:");
-            label = new Label();
-            label.setBounds(new Rectangle(50, 62, 86, 17));
-            label.setFont(new Font("Dialog", Font.PLAIN, 12));
-            label.setText("Node Status:");
-            jContentPane = new JPanel() {
+            lblCIL = new JLabel();
+            lblCIL.setBounds(new Rectangle(736, 63, 98, 16));
+            lblCIL.setText("Cluster IP List:");
+            lblCTL = new JLabel();
+            lblCTL.setBounds(new Rectangle(46, 364, 120, 16));
+            lblCTL.setText("Cluster Trigger List:");
+            lblEC = new JLabel();
+            lblEC.setBounds(new Rectangle(343, 61, 85, 16));
+            lblEC.setText("Event Count:");
+            lblNodeStatus = new JLabel();
+            lblNodeStatus.setBounds(new Rectangle(46, 60, 88, 16));
+            lblNodeStatus.setText("Node Status:");
+            jContentPane = new JPanel(){
                 public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
                     int w = getWidth();
@@ -107,12 +105,12 @@ public class NodeUI extends JFrame {
             jContentPane.add(getJScrollPane2(), null);
             jContentPane.add(getJScrollPane3(), null);
             jContentPane.add(getJScrollPane4(), null);
-            jContentPane.add(label, null);
-            jContentPane.add(label1, null);
-            jContentPane.add(label2, null);
             jContentPane.add(getJTextAreaLeader(), null);
-            jContentPane.add(label3, null);
             jContentPane.add(getJTextAreaEventCount(), null);
+            jContentPane.add(lblNodeStatus, null);
+            jContentPane.add(lblEC, null);
+            jContentPane.add(lblCTL, null);
+            jContentPane.add(lblCIL, null);
         }
         return jContentPane;
     }
@@ -257,8 +255,8 @@ public class NodeUI extends JFrame {
     public JTextArea getJTextAreaLeader() {
         if (jTextAreaLeader == null) {
             jTextAreaLeader = new JTextArea();
-            jTextAreaLeader.setBounds(new Rectangle(138, 60, 165, 20));
             jTextAreaLeader.setForeground(Color.green);
+            jTextAreaLeader.setBounds(new Rectangle(138, 60, 165, 20));
             jTextAreaLeader.setBackground(Color.black);
         }
         return jTextAreaLeader;
@@ -272,8 +270,8 @@ public class NodeUI extends JFrame {
     public JTextArea getJTextAreaEventCount() {
         if (jTextAreaEventCount == null) {
             jTextAreaEventCount = new JTextArea();
-            jTextAreaEventCount.setBounds(new Rectangle(433, 60, 136, 21));
             jTextAreaEventCount.setForeground(Color.green);
+            jTextAreaEventCount.setBounds(new Rectangle(433, 60, 136, 21));
             jTextAreaEventCount.setBackground(Color.black);
         }
         return jTextAreaEventCount;
