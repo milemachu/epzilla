@@ -26,7 +26,6 @@ public class DispatcherPublisher implements IServicePublisher {
 			}
 		}
 			return false;
-
 	}
 
 	public boolean publishService() {
@@ -41,8 +40,7 @@ public class DispatcherPublisher implements IServicePublisher {
 				clusterLeaderIp.remove(Integer.parseInt(serviceClient.split(Constants.DISPATCHER_CLIENT_DELIMITER)[0]));
 				return true;
 			}
-		}
-		
+		}		
 		return false;
 	}
 	

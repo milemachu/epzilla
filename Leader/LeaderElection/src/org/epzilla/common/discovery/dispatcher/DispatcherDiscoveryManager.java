@@ -16,10 +16,14 @@ public class DispatcherDiscoveryManager {
 	int tcpPort=5010;
 	private String multicastGroupIp="224.0.0.2";
 	private int multicastPort=5005;
-	static DispatcherPublisher publisher;
+	static DispatcherPublisher dispatcherPublisher;
+	static DispatcherLeaderPublisher leaderPublisher;
+	static String dispatcherLeader;
+	static boolean isLeader=false;
 	
 	public DispatcherDiscoveryManager() {
-		publisher=new DispatcherPublisher();
+		dispatcherPublisher=new DispatcherPublisher();
+		leaderPublisher=new DispatcherLeaderPublisher();
 		
 		tcpThread=new Thread(new Runnable() {
 			TCPListener tcpListner;
@@ -65,7 +69,11 @@ public class DispatcherDiscoveryManager {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					publisher.publishService();
+					dispatcherPublisher.publishService();
+					
+					if(isLeader()){
+						leaderPublisher.publishService();
+					}
 				}
 			}
 		});
@@ -74,9 +82,29 @@ public class DispatcherDiscoveryManager {
 	}
 	
 	public static DispatcherPublisher getDispatcherPublisher(){
-		return publisher;
+		return dispatcherPublisher;
 	}
 	
+	public static DispatcherLeaderPublisher getLeaderPublisher(){
+		return leaderPublisher;
+	}
+	
+	public static boolean isLeader(){
+		return isLeader;
+	}
+	
+	public static void setLeader(boolean result){
+		DispatcherDiscoveryManager.isLeader=result;
+	}
+	
+	public static String getDispatcherLeader() {
+		return dispatcherLeader;
+	}
+
+	public static void setDispatcherLeader(String dispatcherLeader) {
+		DispatcherDiscoveryManager.dispatcherLeader = dispatcherLeader;
+	}
+
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
