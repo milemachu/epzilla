@@ -19,7 +19,7 @@ public class EventsManager {
     private static ArrayList<String> ipArr = new ArrayList<String>();
     private static boolean isLoaded = false;
     private static Thread eventsThread;
-    private static ConcurrentLinkedQueue<String> eventQueue;
+    private static ConcurrentLinkedQueue<String> eventQueue = new ConcurrentLinkedQueue<String>();
     private static boolean isInit = false;
     private static int count;
     private static CircularList<String> lis = new CircularList();
