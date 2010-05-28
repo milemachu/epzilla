@@ -17,13 +17,6 @@ import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.awt.Rectangle;
-import java.awt.Point;
-import java.awt.Dimension;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextArea;
 
 public class DispatcherUI extends JFrame implements ActionListener {
     private JTabbedPane tabbedPane = null;
@@ -61,7 +54,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JScrollPane ipScrollPane = null;
     private JScrollPane resultScrollPane = null;
     private JScrollPane discoveryStatusPane = null;
-    private JScrollPane clusterPerformancePane = null;
+    private JScrollPane recTriggerList = null;
     private JLabel lblInEC = null;
     private JTextField txtInEventCount = null;
     private JLabel lblStatus = null;
@@ -75,6 +68,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JButton btnReplayLogs = null;
     private JLabel lblClusterPer = null;
     private JTextArea txtClusterPerformance = null;
+    private JTextArea txtRecoveredList = null;
+    private JLabel lblRecTriggers = null;
 
     public DispatcherUI() {
         initialize();
@@ -141,6 +136,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
             tabbedPane = new JTabbedPane();
             tabbedPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+            tabbedPane.setBackground(SystemColor.control);
             tabbedPane.addTab("Summary", summaryIcon, getSummeryTab());
             tabbedPane.addTab("Cluster Details", clusterDeIcon, getClusterDeTab());
             tabbedPane.addTab("Settings", settingsIcon, getMainSettings());
@@ -164,8 +160,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblDisp.setLocation(new Point(15, 171));
             lblDisp.setFont(new Font("Dialog", Font.BOLD, 12));
             lblDisp.setSize(new Dimension(175, 22));
-            mainSettings = new JPanel(){
-                 public void paintComponent(Graphics g) {
+            mainSettings = new JPanel() {
+                public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
                     int w = getWidth();
                     int h = getHeight();
@@ -215,8 +211,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblTriggers = new JLabel();
             lblTriggers.setBounds(new Rectangle(15, 313, 116, 16));
             lblTriggers.setText("Trigger List :");
-            summary = new JPanel(){
-                                 public void paintComponent(Graphics g) {
+            summary = new JPanel() {
+                public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
                     int w = getWidth();
                     int h = getHeight();
@@ -244,12 +240,15 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     private JPanel getClusterDeTab() {
         if (clusterDe == null) {
+            lblRecTriggers = new JLabel();
+            lblRecTriggers.setBounds(new Rectangle(703, 11, 124, 21));
+            lblRecTriggers.setText("Recovered Triggers:");
             lblDiscoveryStatus = new JLabel();
             lblDiscoveryStatus.setBounds(new Rectangle(10, 10, 200, 25));
             lblDiscoveryStatus.setText("Dispatcher Discovery Status :");
 
             clusterDe = new JPanel() {
-                                 public void paintComponent(Graphics g) {
+                public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
                     int w = getWidth();
                     int h = getHeight();
@@ -262,6 +261,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
             clusterDe.setOpaque(false);
             clusterDe.add(lblDiscoveryStatus, null);
             clusterDe.add(getDiscoveryStaPane(), null);
+            clusterDe.add(getRecTriggersPane(), null);
+            clusterDe.add(lblRecTriggers, null);
         }
         return clusterDe;
     }
@@ -270,6 +271,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
         if (menuBar == null) {
             menuBar = new JMenuBar();
             menuBar.setBackground(SystemColor.control);
+            menuBar.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
             file = new JMenu("File");
             helpmenu = new JMenu("Help");
             file.add(getAdminSettingMI());
@@ -428,8 +430,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
             txtStatus.setBounds(new Rectangle(15, 47, 587, 177));
             txtStatus.setForeground(Color.green);
             txtStatus.setEditable(false);
-            txtStatus.setLocation(new Point(15, 47));
-            txtStatus.setSize(new Dimension(584, 175));
             txtStatus.setBackground(Color.black);
         }
         return txtStatus;
@@ -509,14 +509,25 @@ public class DispatcherUI extends JFrame implements ActionListener {
         return txtClusterPerformance;
     }
 
-    private JScrollPane getClusterPerformancePane() {
-        if (clusterPerformancePane == null) {
-            clusterPerformancePane = new JScrollPane();
-            clusterPerformancePane.setBounds(new Rectangle(713, 340, 281, 170));
-            clusterPerformancePane.setViewportView(getTxtClusterPerformance());
+    public JTextArea getTxtRecoveredList() {
+        if (txtRecoveredList == null) {
+            txtRecoveredList = new JTextArea();
+            txtRecoveredList.setBounds(new Rectangle(703, 35, 295, 500));
+            txtRecoveredList.setForeground(Color.green);
+            txtRecoveredList.setBackground(Color.black);
+            txtRecoveredList.setEditable(false);
+        }
+        return txtRecoveredList;
+    }
+
+    private JScrollPane getRecTriggersPane() {
+        if (recTriggerList == null) {
+            recTriggerList = new JScrollPane();
+            recTriggerList.setBounds(new Rectangle(703, 35, 295, 500));
+            recTriggerList.setViewportView(getTxtRecoveredList());
 
         }
-        return resultScrollPane;
+        return recTriggerList;
     }
 
     public JTextArea getTxtDiscoveryStatus() {
@@ -525,6 +536,9 @@ public class DispatcherUI extends JFrame implements ActionListener {
             txtDiscoveryStatus.setBounds(new Rectangle(10, 35, 600, 500));
             txtDiscoveryStatus.setForeground(Color.green);
             txtDiscoveryStatus.setBackground(Color.black);
+            txtDiscoveryStatus.setEditable(false);
+            txtDiscoveryStatus.setWrapStyleWord(true);
+            txtDiscoveryStatus.setLineWrap(true);
         }
         return txtDiscoveryStatus;
     }
@@ -547,6 +561,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
             chkLogs.setSize(new Dimension(102, 21));
             chkLogs.addActionListener(this);
             chkLogs.setEnabled(true);
+            chkLogs.setBorderPainted(false);
+            chkLogs.setBackground(Color.LIGHT_GRAY);
         }
         return chkLogs;
     }
@@ -673,6 +689,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             boolean status = ReadLog.readLog();
             if (status) {
                 btnReplayLogs.setEnabled(false);
+                chkLogs.setSelected(false);
             }
 
         } else if (source == btnRegister) {
@@ -692,4 +709,5 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
         }
     }
+
 }
