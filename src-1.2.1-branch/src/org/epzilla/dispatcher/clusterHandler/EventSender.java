@@ -54,7 +54,7 @@ public class EventSender {
         if(!"IP".equalsIgnoreCase(leaderIP)){
         if (!leaderList.containsKey(leaderIP)) {
             initCluster(leaderIP, "CLUSTER_NODE");
-            response = clusterObj.acceptEventStream(event, cid, clientID);
+            response = clusterObj.acceptEventStream(event, cid);
 
             if (response != null) {
                 Logger.log("Event stream send to the Cluster " + clusterID);
@@ -63,7 +63,7 @@ public class EventSender {
             }
         } else {
             clusterObj = (ClusterInterface) leaderList.get(leaderIP);
-            response = clusterObj.acceptEventStream(event, cid, clientID);
+            response = clusterObj.acceptEventStream(event, cid);
 
             if (response != null) {
                 Logger.log("Event stream send to the Cluster " + clusterID);
