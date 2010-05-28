@@ -52,6 +52,8 @@ public class MessageDecoder {
 					eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
 					if(Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
 						NodeClientManager.setClusterLeader(strItems[1]);
+					}else if(Epzilla.getComponentType().equalsIgnoreCase(Component.DISPATCHER.name())){
+						DispatcherClientManager.setDispatcherLeader(strItems[1]);
 					}
 										
 					//Start Threading for sending data
@@ -84,6 +86,8 @@ public class MessageDecoder {
 			eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
 			if(Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
 				NodeClientManager.setClusterLeader(null);
+			}else if(Epzilla.getComponentType().equalsIgnoreCase(Component.DISPATCHER.name())){
+				DispatcherClientManager.setDispatcherLeader(null);
 			}
 			//RUN LCR ALGO
 			String result=lcrAlgorithm.runAlgorithm(message);
@@ -96,6 +100,8 @@ public class MessageDecoder {
 				eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
 				if(Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
 					NodeClientManager.setClusterLeader(strItems[2]);
+				}else if(Epzilla.getComponentType().equalsIgnoreCase(Component.DISPATCHER.name())){
+					DispatcherClientManager.setDispatcherLeader(strItems[2]);
 				}
 				EpzillaLeaderPubSub.initializePubSub();
 				//Starting Sender Thread
