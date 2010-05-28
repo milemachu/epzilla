@@ -34,23 +34,14 @@ public class TCPListener {
 			sb.append(new String(receivedData).trim()).append(Constants.TCP_UNICAST_DELIMITER).append(remoteSocket.substring(remoteSocket.indexOf("/")+1, remoteSocket.indexOf(":")));
 			
 			receivedData =null;
-			
-			
+			socket.close();
+			socket=null;		
 			
 			return sb.toString();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				socket.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			socket=null;
-		}
-		
-		
+		}		
 		return null;
 	}
 	
