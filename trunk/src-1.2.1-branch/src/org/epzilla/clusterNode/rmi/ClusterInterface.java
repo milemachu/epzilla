@@ -22,9 +22,9 @@ public interface ClusterInterface extends Remote {
 
     public String acceptTiggerStream(List<TriggerRepresentation> tList) throws RemoteException;
 
-    public String acceptEventStream(byte[] event, String clusterID, String clientID) throws RemoteException;
+    public String acceptEventStream(byte[] event, String clusterID) throws RemoteException;
 
-    public void addEventStream(String event, String clientID) throws RemoteException;
+    public void addEventStream(String event) throws RemoteException;
 
     public boolean deleteTriggers(ArrayList<TriggerRepresentation> list, String clusterID, String clientID) throws RemoteException;
 
