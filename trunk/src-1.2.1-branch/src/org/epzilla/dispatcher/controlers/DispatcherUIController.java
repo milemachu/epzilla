@@ -54,7 +54,7 @@ public class DispatcherUIController {
 
     public static void appendTriggers(List<String> triggers) {
         for (int i = 0; i < triggers.size(); i++) {
-            instance.getTxtTriggers().append(triggers.get(i) + "\n");
+            instance.getTxtRecoveredList().append(triggers.get(i) + "\n");
         }
     }
 
