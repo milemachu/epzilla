@@ -19,15 +19,12 @@ public class EventsManager {
     private static ArrayList<String> ipArr = new ArrayList<String>();
     private static boolean isLoaded = false;
     private static Thread eventsThread;
-    private static String clientId;
     private static ConcurrentLinkedQueue<String> eventQueue;
     private static boolean isInit = false;
     private static int count;
     private static CircularList<String> lis = new CircularList();
 
-    public EventsManager(String id) {
-        this.clientId = id;
-        eventQueue = new ConcurrentLinkedQueue<String>();
+    public EventsManager() {
     }
 
     public static void dispatchEvents() {
@@ -41,7 +38,7 @@ public class EventsManager {
                     try {
                         event = eventQueue.poll();
                         if (event != null) {
-                            EventSender.sendEvents(lis.next(), event, clientId);
+                            EventSender.sendEvents(lis.next(), event);
                             removeEvents(event);
                             count++;
                             
