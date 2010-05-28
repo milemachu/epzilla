@@ -25,6 +25,27 @@ public class DispatcherClientManager {
 	public static Hashtable<Integer, String> getClusterLeaderList() {
 		return DispatcherDiscoveryManager.getDispatcherPublisher().getSubscribers();
 	}
+	
+	public static String getDispatcherLeader(){
+		return DispatcherDiscoveryManager.getDispatcherLeader();
+	}
+	
+	public static void setDispatcherLeader(String dispatcherLeader){
+		try {
+			if(InetAddress.getLocalHost().getHostAddress().equalsIgnoreCase(dispatcherLeader))
+				DispatcherDiscoveryManager.setLeader(true);
+			else
+				DispatcherDiscoveryManager.setLeader(false);
+			DispatcherDiscoveryManager.setDispatcherLeader(dispatcherLeader);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	public static HashSet<String> getSubscribedDispatcherList() {
+		return	DispatcherDiscoveryManager.getLeaderPublisher().getSubscribers();
+	}
+
 
 	public void setDispatcherDiscMgr(DispatcherDiscoveryManager dispatcherDiscMgr) {
 		this.dispatcherDiscMgr = dispatcherDiscMgr;
