@@ -410,7 +410,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     public JTextArea getNotifications() {
         if (txtNotifications == null) {
             txtNotifications = new JTextArea();
-            txtNotifications.setBounds(new Rectangle(600, 90, 500, 535));
+            txtNotifications.setBounds(new Rectangle(600, 90, 400, 535));
             txtNotifications.setEditable(false);
             txtNotifications.setLineWrap(true);
             txtNotifications.setWrapStyleWord(true);
@@ -423,7 +423,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private JScrollPane getNotificationScrollpane() {
         if (notificationSP == null) {
             notificationSP = new JScrollPane();
-            notificationSP.setBounds(new Rectangle(600, 90, 500, 535));
+            notificationSP.setBounds(new Rectangle(600, 90, 400, 535));
             notificationSP.setViewportView(getNotifications());
             notificationSP.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         }
@@ -463,7 +463,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     }
 
     public void cancelSend() {
-        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel?", "Confirm Cancel", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel the Process", "Epzilla", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == JOptionPane.YES_OPTION) {
             btnCancelSend.setEnabled(false);
             ClientInit.stopEventTriggerStream();
@@ -565,7 +565,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         String dispName = txtDispName.getText();
 
         if ((dispIP.length() == 0) && (dispName.length() == 0)) {
-            JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Message", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Epzilla", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if ((dispIP.length() != 0) && (dispName.length() != 0)) {
@@ -573,13 +573,13 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
                 ClientInit.initSend(dispIP, dispName, clientID);
                 btnCancelSend.setEnabled(true);
             } catch (MalformedURLException e) {
-                JOptionPane.showMessageDialog(null, "Error in file send process.", "Message", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error in file send process.", "Epzilla", JOptionPane.ERROR_MESSAGE);
             } catch (NotBoundException e) {
-                JOptionPane.showMessageDialog(null, "Dispatcher failure.", "Message", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Dispatcher failure.","Epzilla", JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException ignored) {
             }
         } else
-            JOptionPane.showMessageDialog(null, "Error in file send process.", "epZilla", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error in file send process.","Epzilla", JOptionPane.ERROR_MESSAGE);
 
     }
 
@@ -653,11 +653,11 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
                 getDispatchers();
                 getClientID();
             } catch (MalformedURLException e) {
-                JOptionPane.showMessageDialog(null, "NameService IP Address incorrect", "Message", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "NameService IP Address incorrect","Epzilla", JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException e) {
-                JOptionPane.showMessageDialog(null, "Name Server not working, make sure settings details are correct", "Message", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Name Server not working, make sure settings details are correct", "Epzilla", JOptionPane.ERROR_MESSAGE);
             } catch (NotBoundException e) {
-                JOptionPane.showMessageDialog(null, "Invalid NameService name", "Message", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Invalid NameService name", "Epzilla", JOptionPane.ERROR_MESSAGE);
             }
         } else if (source == adminSettings) {
             tabbedPane.setVisible(true);
