@@ -17,6 +17,7 @@ import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.awt.Color;
 
 public class DispatcherUI extends JFrame implements ActionListener {
     private JTabbedPane tabbedPane = null;
@@ -160,7 +161,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblDisp.setLocation(new Point(15, 171));
             lblDisp.setFont(new Font("Dialog", Font.BOLD, 12));
             lblDisp.setSize(new Dimension(175, 22));
-            mainSettings = new JPanel() {
+            mainSettings = new JPanel() 
+            {
                 public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
                     int w = getWidth();
@@ -560,8 +562,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
             chkLogs.setSize(new Dimension(102, 21));
             chkLogs.addActionListener(this);
             chkLogs.setEnabled(true);
+            chkLogs.setBackground(new Color(230, 230, 225));
             chkLogs.setBorderPainted(false);
-            chkLogs.setBackground(Color.LIGHT_GRAY);
         }
         return chkLogs;
     }
@@ -584,7 +586,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
         String dispatcherName = txtDispSerName.getText().toString();
         String port = txtPort.getText().toString();
         if (isValidIp(ip) == false) {
-            JOptionPane.showMessageDialog(null, "Enter valid IP Address of NameServer.", "Message", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Enter valid IP Address of NameServer.", "Epzilla", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if (isValidPort(port) == false) {
@@ -598,7 +600,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             btnLoadSettings.setEnabled(false);
 
         } else {
-            JOptionPane.showMessageDialog(null, "Dispatcher registration fails. Enter setting details correctly.", "Message", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Dispatcher registration fails. Enter setting details correctly.", "Epzilla", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -678,7 +680,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
             tabbedPane.setVisible(false);
         } else if (source == btnLoadSettings) {
             loadSettings();
-        } else if (source == chkLogs) {
+        }
+        else if (source == chkLogs) {
             if (chkLogs.isSelected()) {
                 btnReplayLogs.setEnabled(true);
             } else if (!chkLogs.isSelected()) {
@@ -687,16 +690,18 @@ public class DispatcherUI extends JFrame implements ActionListener {
         } else if (source == btnReplayLogs) {
             boolean status = ReadLog.readLog();
             if (status) {
+                JOptionPane.showMessageDialog(null, "Trigger List successfully recovered", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
                 btnReplayLogs.setEnabled(false);
                 chkLogs.setSelected(false);
             }
 
-        } else if (source == btnRegister) {
+        }
+    else if (source == btnRegister) {
             try {
                 if (isRegister == false) {
                     register();
                 } else
-                    JOptionPane.showMessageDialog(null, "Dispatcher already registered", "Message", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Dispatcher already registered", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
             } catch (MalformedURLException e) {
             } catch (RemoteException e) {
                 DispatcherUIController.appendResults("Name Service not working...");
