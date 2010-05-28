@@ -62,9 +62,8 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
     }
 
 
-    public String acceptEventStream(byte[] event, String clusterID, String clientID) throws RemoteException {
+    public String acceptEventStream(byte[] event, String clusterID) throws RemoteException {
         try {
-            EventsManager em = new EventsManager(clientID);
             String eventS = new String(event);
             EventsManager.addEvents(eventS);
             EventsCounter.setInEventCount();
@@ -79,7 +78,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 
     // todo - add acc. ip
 
-    public void addEventStream(String event, String clientID) throws RemoteException {
+    public void addEventStream(String event) throws RemoteException {
         String derivedEvent = EventProcessor.getInstance().processEvent(event);
         System.out.println("addeventstream called.");
         try {
