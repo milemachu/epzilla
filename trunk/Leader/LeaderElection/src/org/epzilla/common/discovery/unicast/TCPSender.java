@@ -16,35 +16,19 @@ public class TCPSender {
 	public TCPSender(String tcpRemoteIp,int tcpPort) {
 		this.setTcpRemoteIp(tcpRemoteIp);
 		this.setTcpPort(tcpPort);
-		
-		try {
-			socket=new Socket(tcpRemoteIp, tcpPort);
-		} catch (UnknownHostException e) {
-			System.err.println(e.getMessage());
-		} catch (IOException e) {
-			System.err.println(e.getMessage());
-		}
 	}
 	
 	public void sendMessage(String message){
-		
 		try {
+			socket=new Socket(tcpRemoteIp, tcpPort);
 			socket.getOutputStream().write(message.getBytes());
-			socket.getOutputStream().flush();
-			
-			
+			socket.getOutputStream().flush();			
+			socket.close();
+			socket=null;
 			
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				socket.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			socket=null;
-		}
-		
+		}		
 	}
 	
 	public static void main(String[] args) {
