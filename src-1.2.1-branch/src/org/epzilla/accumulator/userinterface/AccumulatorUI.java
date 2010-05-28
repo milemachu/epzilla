@@ -15,7 +15,7 @@ public class AccumulatorUI extends JFrame {
     private JTextArea txtAccStatus = null;
     private JTextArea txtDeriveEvent = null;
     private JScrollPane resultScrollPane = null;
-    private JLabel lblTrigger = null;
+    private JLabel lblEvents = null;
     private JTextArea txtEvPro = null;
     private JLabel lblResults = null;
 
@@ -42,7 +42,6 @@ public class AccumulatorUI extends JFrame {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = screen.width;
         int y = screen.height;
-        this.setTitle("Accumulator");
         Image img = Toolkit.getDefaultToolkit().getImage("images//logo.jpg");
         this.setIconImage(img);
         this.setSize(x, y);
@@ -74,7 +73,7 @@ public class AccumulatorUI extends JFrame {
             txtAccStatus = new JTextArea();
             txtAccStatus.setEditable(false);
             txtAccStatus.setForeground(Color.green);
-            txtAccStatus.setSize(new Dimension(220, 25));
+            txtAccStatus.setSize(new Dimension(200, 20));
             txtAccStatus.setLocation(new Point(790, 90));
             txtAccStatus.setBackground(Color.black);
         }
@@ -86,17 +85,28 @@ public class AccumulatorUI extends JFrame {
             txtDeriveEvent = new JTextArea();
             txtDeriveEvent.setEditable(false);
             txtDeriveEvent.setForeground(Color.green);
-            txtDeriveEvent.setSize(new Dimension(220, 25));
+            txtDeriveEvent.setSize(new Dimension(200, 20));
             txtDeriveEvent.setLocation(new Point(790, 130));
             txtDeriveEvent.setBackground(Color.black);
         }
         return txtDeriveEvent;
     }
 
+    public JTextArea getEventProcessed() {
+        if (txtEvPro == null) {
+            txtEvPro = new JTextArea();
+            txtEvPro.setBackground(Color.black);
+            txtEvPro.setForeground(Color.green);
+            txtEvPro.setLocation(new Point(790, 170));
+            txtEvPro.setSize(new Dimension(200, 20));
+        }
+        return txtEvPro;
+    }
+
     private JScrollPane getResultScrollPane() {
         if (resultScrollPane == null) {
             resultScrollPane = new JScrollPane();
-            resultScrollPane.setBounds(new Rectangle(30, 90, 572, 500));
+            resultScrollPane.setBounds(new Rectangle(30, 60, 572, 600));
             resultScrollPane.setViewportView(getEventResults());
         }
         return resultScrollPane;
@@ -105,21 +115,20 @@ public class AccumulatorUI extends JFrame {
     private JPanel getJContentPane() {
         if (jContentPane == null) {
             lblResults = new JLabel();
-            lblResults.setBounds(new Rectangle(29, 17, 77, 27));
-            lblResults.setBounds(new Rectangle(29, 48, 77, 27));
+            lblResults.setBounds(new Rectangle(30, 30, 80, 30));
             lblResults.setText("Results:");
-            lblTrigger = new JLabel();
-            lblTrigger.setText("Events processed: ");
-            lblTrigger.setLocation(new Point(690, 170));
-            lblTrigger.setSize(new Dimension(129, 20));
+            lblEvents = new JLabel();
+            lblEvents.setText("Events processed: ");
+            lblEvents.setLocation(new Point(690, 165));
+            lblEvents.setSize(new Dimension(129, 30));
             lblStatus = new JLabel();
             lblStatus.setText("Accumulator Status:");
-            lblStatus.setSize(new Dimension(128, 25));
-            lblStatus.setLocation(new Point(690, 90));
+            lblStatus.setSize(new Dimension(128, 30));
+            lblStatus.setLocation(new Point(690, 85));
             lblEventCount = new JLabel();
             lblEventCount.setText("Derive Event Count:");
-            lblEventCount.setLocation(new Point(690, 130));
-            lblEventCount.setSize(new Dimension(117, 25));
+            lblEventCount.setLocation(new Point(690, 125));
+            lblEventCount.setSize(new Dimension(117, 30));
             jContentPane = new JPanel() {
                 public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
@@ -136,23 +145,11 @@ public class AccumulatorUI extends JFrame {
             jContentPane.add(getAccumulatorStatus(), null);
             jContentPane.add(getDeriveEventCount(), null);
             jContentPane.add(getResultScrollPane(), null);
-            jContentPane.add(lblTrigger, null);
+            jContentPane.add(lblEvents, null);
             jContentPane.add(getEventProcessed(), null);
             jContentPane.add(lblResults, null);
         }
         return jContentPane;
     }
-
-    public JTextArea getEventProcessed() {
-        if (txtEvPro == null) {
-            txtEvPro = new JTextArea();
-            txtEvPro.setBackground(Color.black);
-            txtEvPro.setForeground(Color.green);
-            txtEvPro.setLocation(new Point(790, 170));
-            txtEvPro.setSize(new Dimension(220, 25));
-        }
-        return txtEvPro;
-    }
-
 
 }
