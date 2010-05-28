@@ -271,7 +271,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
         if (menuBar == null) {
             menuBar = new JMenuBar();
             menuBar.setBackground(SystemColor.control);
-            menuBar.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
             file = new JMenu("File");
             helpmenu = new JMenu("Help");
             file.add(getAdminSettingMI());
