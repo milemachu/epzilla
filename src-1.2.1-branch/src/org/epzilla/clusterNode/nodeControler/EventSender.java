@@ -25,11 +25,10 @@ public class EventSender {
     public EventSender() {
     }
 
-    public static void sendEvents(String serverIp, String event, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
+    public static void sendEvents(String serverIp, String event) throws RemoteException, MalformedURLException, NotBoundException {
         if (!nodesList.containsKey(serverIp)) {
             initNode(serverIp, "CLUSTER_NODE");
-
-            clusterObj.addEventStream(event, clientID);
+            clusterObj.addEventStream(event);
             System.out.println("calling add event stream.");
 //            if (response != null) {
 //                Logger.log("Events added to the Node " + serverIp);
@@ -38,7 +37,7 @@ public class EventSender {
 //            }
         } else {
             clusterObj = (ClusterInterface) nodesList.get(serverIp);
-             clusterObj.addEventStream(event, clientID);
+             clusterObj.addEventStream(event);
             System.out.println("else part working.");
 
 //            if (response != null) {
