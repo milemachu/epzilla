@@ -20,6 +20,8 @@ public class TCPMessageDecoder implements Runnable {
 			DispatcherDiscoveryManager.getDispatcherPublisher().addSubscription(arr[0]+Constants.DISPATCHER_CLIENT_DELIMITER+tcpArr[1], arr[1]);
 		}else if(arr[1].equalsIgnoreCase("UNSUBSCRIBE_DISPATCHER_SERVICE")){
 			DispatcherDiscoveryManager.getDispatcherPublisher().removeSubscrition(arr[0]+Constants.DISPATCHER_CLIENT_DELIMITER+tcpArr[1], arr[1]);
+		}else if(arr[1].equalsIgnoreCase("SUBSCRIBE_DISPATCHER_LEADER_SERVICE") && DispatcherDiscoveryManager.isLeader() && !DispatcherDiscoveryManager.getLeaderPublisher().getSubscribers().contains(tcpArr[1])){
+			DispatcherDiscoveryManager.getLeaderPublisher().addSubscription(tcpArr[0], tcpArr[0]);
 		}
 	}
 
