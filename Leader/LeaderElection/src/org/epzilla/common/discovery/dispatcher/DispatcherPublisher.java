@@ -22,6 +22,7 @@ public class DispatcherPublisher implements IServicePublisher {
 			synchronized (clusterLeaderIp) {
 				String  []arr=serviceClient.split(Constants.DISPATCHER_CLIENT_DELIMITER);
 				clusterLeaderIp.put(Integer.parseInt(arr[0]), arr[1]);
+				System.out.println("New Cluster Leader Subscribed: "+serviceClient);
 				return true;
 			}
 		}
@@ -47,6 +48,7 @@ public class DispatcherPublisher implements IServicePublisher {
 	public boolean insertDispatcher(String dispatcherIp){
 		synchronized (dispatcherList) {
 			dispatcherList.add(dispatcherIp);
+			System.out.println("New Dispatcher Discovered: "+dispatcherIp);
 			return true;
 		}
 	}

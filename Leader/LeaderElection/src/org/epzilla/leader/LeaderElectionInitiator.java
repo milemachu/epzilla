@@ -1,6 +1,7 @@
 package org.epzilla.leader;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.RMISecurityManager;
 import java.util.HashSet;
@@ -112,21 +113,21 @@ public class LeaderElectionInitiator {
 				
 				//TODO:TEST ONLY 
 				//WARN
-				final String clusterLeader=NodeClientManager.getClusterLeader();
-				if(clusterLeader!=null){
+				final String dispatcherLeader=DispatcherClientManager.getDispatcherLeader();
+				if(dispatcherLeader!=null){
 					//No LE required. Leader Exist. Join the STM. Set the Epzilla variables.
-					Epzilla.setClusterLeader(clusterLeader);
+					Epzilla.setClusterLeader(dispatcherLeader);
 					Epzilla.setStatus(Status.NON_LEADER.name());
 					Epzilla.setLeaderElectionRunning(false);
 					eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
 					
 					Thread registrar=new Thread(new Runnable() {
 						public void run() {
-							RmiMessageClient.registerListenerWithLeader(clusterLeader, new EpZillaListener());
+							RmiMessageClient.registerListenerWithLeader(dispatcherLeader, new EpZillaListener());
 						}
 					});
 					registrar.start();
-					eventHandler.fireEpzillaEvent(new PulseReceivedEvent(clusterLeader));
+					eventHandler.fireEpzillaEvent(new PulseReceivedEvent(dispatcherLeader));
 				}else{
 					System.out.println("No Leader Exist.");
 					boolean isDefaultLeaderNode=Epzilla.isDefaultLeader();
@@ -136,11 +137,11 @@ public class LeaderElectionInitiator {
 						Epzilla.setLeaderElectionRunning(true);
 						Epzilla.setStatus(Status.UNKNOWN.name());
 						eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());						
-						final String nextNode=NodeClientManager.getNextNode();
+						final String nextDispatcher=DispatcherClientManager.getNextDispatcher();
 						
 						Thread starter=new Thread(new Runnable() {
 							public void run() {
-								RmiMessageClient.sendUidMessage(nextNode);
+								RmiMessageClient.sendUidMessage(nextDispatcher);
 							}
 						});
 						starter.start();
@@ -152,7 +153,7 @@ public class LeaderElectionInitiator {
 						boolean defaultLeaderRunningLE=true;
 						
 						//TEST ONLY TODO:TEST
-						doExecuteIfLeaderDoesNotExist(defaultLeaderNode, defaultLeaderNodeStatus, defaultLeaderRunningLE);								
+						doExecuteIfLeaderDoesNotExistForDispatcher(defaultLeaderNode, defaultLeaderNodeStatus, defaultLeaderRunningLE);								
 					}
 				}
 			}
@@ -170,7 +171,7 @@ public class LeaderElectionInitiator {
 				set3=NodeClientManager.getDispatcherList();
 			}else{
 				set1=DispatcherClientManager.getDispatcherList();
-				set2=(HashSet<String>) DispatcherClientManager.getClusterLeaderList().values();
+				set2=new HashSet<String>( DispatcherClientManager.getClusterLeaderList().values());
 				set3=DispatcherClientManager.getDispatcherList();
 			}
 			
@@ -236,18 +237,31 @@ public class LeaderElectionInitiator {
 			}else if(defaultLeaderNodeStatus.equalsIgnoreCase(Status.NON_LEADER.name())){
 				
 				final String currentClusterLeader=RmiMessageClient.getClusterLeaderFromRemote(defaultLeaderNode);
-				Epzilla.setClusterLeader(currentClusterLeader);
-				Epzilla.setStatus(Status.NON_LEADER.name());
-				Epzilla.setLeaderElectionRunning(false);
-				eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
+				String myIp;
+				try {
+					myIp = InetAddress.getLocalHost().getHostAddress();
+				} catch (UnknownHostException e) {
+					myIp=null;
+				}
+				if(!currentClusterLeader.equalsIgnoreCase(myIp)){
+					Epzilla.setClusterLeader(currentClusterLeader);
+					Epzilla.setStatus(Status.NON_LEADER.name());
+					Epzilla.setLeaderElectionRunning(false);
+					eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
+					
+					Thread registrar=new Thread(new Runnable() {
+						public void run() {
+							RmiMessageClient.registerListenerWithLeader(currentClusterLeader, new EpZillaListener());
+						}
+					});
+					registrar.start();
+					eventHandler.fireEpzillaEvent(new PulseReceivedEvent(currentClusterLeader));
+				}else{
+					System.out.println(Epzilla.getClusterLeader());
+					System.out.println(Epzilla.getStatus());
+					System.out.println(Epzilla.isLeaderElectionRunning());
+				}
 				
-				Thread registrar=new Thread(new Runnable() {
-					public void run() {
-						RmiMessageClient.registerListenerWithLeader(currentClusterLeader, new EpZillaListener());
-					}
-				});
-				registrar.start();
-				eventHandler.fireEpzillaEvent(new PulseReceivedEvent(currentClusterLeader));
 			}else{
 				//IF UNKNOWN
 				defaultLeaderRunningLE=RmiMessageClient.isLeaderElectioRunningInRemote(defaultLeaderNode);
@@ -271,6 +285,82 @@ public class LeaderElectionInitiator {
 			Thread starter=new Thread(new Runnable() {
 				public void run() {
 					RmiMessageClient.sendUidMessage(nextNode);
+				}
+			});
+			starter.start();			
+		}
+	}
+	
+	private static void doExecuteIfLeaderDoesNotExistForDispatcher(final String defaultLeaderNode,String defaultLeaderNodeStatus,boolean defaultLeaderRunningLE){
+		//No choice but to send message without threading. :(
+		defaultLeaderNodeStatus=RmiMessageClient.getStateFromRemote(defaultLeaderNode);
+		//If this is the leader, it should be already discovered by the DD.
+		if(defaultLeaderNodeStatus!=null){
+			if(defaultLeaderNodeStatus.equalsIgnoreCase(Status.LEADER.name())){
+				//TODO:Continue Here. Refer above.
+				Epzilla.setClusterLeader(defaultLeaderNode);
+				Epzilla.setStatus(Status.NON_LEADER.name());
+				Epzilla.setLeaderElectionRunning(false);
+				eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
+				
+				Thread registrar=new Thread(new Runnable() {
+					public void run() {
+						RmiMessageClient.registerListenerWithLeader(defaultLeaderNode, new EpZillaListener());
+					}
+				});
+				registrar.start();
+				eventHandler.fireEpzillaEvent(new PulseReceivedEvent(defaultLeaderNode));							
+			}else if(defaultLeaderNodeStatus.equalsIgnoreCase(Status.NON_LEADER.name())){
+				
+				final String currentClusterLeader=RmiMessageClient.getClusterLeaderFromRemote(defaultLeaderNode);
+				String myIp;
+				try {
+					myIp = InetAddress.getLocalHost().getHostAddress();
+				} catch (UnknownHostException e) {
+					myIp=null;
+				}
+				if(!currentClusterLeader.equalsIgnoreCase(myIp)){
+					Epzilla.setClusterLeader(currentClusterLeader);
+					Epzilla.setStatus(Status.NON_LEADER.name());
+					Epzilla.setLeaderElectionRunning(false);
+					eventHandler.fireEpzillaEvent(new ProcessStatusChangedEvent());
+					
+					Thread registrar=new Thread(new Runnable() {
+						public void run() {
+							RmiMessageClient.registerListenerWithLeader(currentClusterLeader, new EpZillaListener());
+						}
+					});
+					registrar.start();
+					eventHandler.fireEpzillaEvent(new PulseReceivedEvent(currentClusterLeader));
+				}else{
+					System.out.println(Epzilla.getClusterLeader());
+					System.out.println(Epzilla.getStatus());
+					System.out.println(Epzilla.isLeaderElectionRunning());
+				}
+				
+			}else{
+				//IF UNKNOWN
+				defaultLeaderRunningLE=RmiMessageClient.isLeaderElectioRunningInRemote(defaultLeaderNode);
+				if(!defaultLeaderRunningLE){
+					//Default Server just started. Wait 30 seconds and try again.
+					try {
+						Thread.sleep(SystemConstants.COMPONENT_DISCOVERY_TIME);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					//TODO:TEST Might leade to a Stack overflow
+					//WARN:
+					doExecuteIfLeaderDoesNotExistForDispatcher(defaultLeaderNode, defaultLeaderNodeStatus, defaultLeaderRunningLE);
+				}				
+			}
+		}else{//DEFAULT SERVER NOT ALIVE
+			//Has to be one of US :P
+			//Initiate the LE process.
+			final String nextDispatcher=DispatcherClientManager.getNextDispatcher();
+			
+			Thread starter=new Thread(new Runnable() {
+				public void run() {
+					RmiMessageClient.sendUidMessage(nextDispatcher);
 				}
 			});
 			starter.start();			
