@@ -35,4 +35,8 @@ public interface DispInterface extends Remote {
 
     public void performanceInfo(int clusterID,int cpuUsg, int mmUsg) throws RemoteException;
 
+    public void restructuringStarted(RestructuringInfo ri) throws RemoteException;
+
+    public void restructuringEnded(RestructuringInfo ri) throws RemoteException;
+
 }
