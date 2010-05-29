@@ -14,14 +14,17 @@ public class TCPMessageDecoder implements Runnable {
 	public void run() {
 		//0=message,1=ip
 		String []tcpArr=message.split(Constants.TCP_UNICAST_DELIMITER);
+		if(tcpArr[0].equalsIgnoreCase("SUBSCRIBE_DISPATCHER_LEADER_SERVICE") && DispatcherDiscoveryManager.isLeader() && !DispatcherDiscoveryManager.getLeaderPublisher().getSubscribers().contains(tcpArr[1])){
+			DispatcherDiscoveryManager.getLeaderPublisher().addSubscription(tcpArr[1], tcpArr[0]);
+		}else if(tcpArr[0].equalsIgnoreCase("UNSUBSCRIBE_DISPATCHER_LEADER_SERVICE") && DispatcherDiscoveryManager.isLeader()){
+			DispatcherDiscoveryManager.getLeaderPublisher().removeSubscrition(tcpArr[1], tcpArr[0]);
+		}
 		//0=cluster id,1=service name
 		String []arr=tcpArr[0].split(Constants.DISPATCHER_CLIENT_DELIMITER);
 		if(arr[1].equalsIgnoreCase("SUBSCRIBE_DISPATCHER_SERVICE")){
 			DispatcherDiscoveryManager.getDispatcherPublisher().addSubscription(arr[0]+Constants.DISPATCHER_CLIENT_DELIMITER+tcpArr[1], arr[1]);
 		}else if(arr[1].equalsIgnoreCase("UNSUBSCRIBE_DISPATCHER_SERVICE")){
 			DispatcherDiscoveryManager.getDispatcherPublisher().removeSubscrition(arr[0]+Constants.DISPATCHER_CLIENT_DELIMITER+tcpArr[1], arr[1]);
-		}else if(arr[1].equalsIgnoreCase("SUBSCRIBE_DISPATCHER_LEADER_SERVICE") && DispatcherDiscoveryManager.isLeader() && !DispatcherDiscoveryManager.getLeaderPublisher().getSubscribers().contains(tcpArr[1])){
-			DispatcherDiscoveryManager.getLeaderPublisher().addSubscription(tcpArr[0], tcpArr[0]);
 		}
 	}
 
