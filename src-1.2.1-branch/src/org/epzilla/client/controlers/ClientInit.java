@@ -36,7 +36,7 @@ public class ClientInit extends Thread {
             String url = "rmi://" + ip + "/" + name;
             DispInterface di = (DispInterface) Naming.lookup(url);
             setDispatcherObj(di);
-            dispMap.put(ip, getDispatcherObj());
+            dispMap.put(ip, di);
         }
     }
 
@@ -44,6 +44,7 @@ public class ClientInit extends Thread {
         lookUp(ip, name);
         ClientInit.clientID = clientID;
         isLive = true;
+        dynamicLookup =false;
         initSendTriggerStream(ip);
         initSendEventsStream(ip);
         trigger.start();
@@ -66,7 +67,7 @@ public class ClientInit extends Thread {
                 di = (DispInterface) dispMap.get(ip);
 
                 ArrayList<String> triggers = new ArrayList<String>();
-                for (int i = 0; i < 200; i++) {
+                for (int i = 0; i < 100; i++) {
                     triggers.add(EventTriggerGenerator.getNextTrigger());
                 }
                 try {
@@ -87,7 +88,8 @@ public class ClientInit extends Thread {
 
 
                 while (isLive) {
-                    for (int i = 0; i < 20; i++) {
+                    triggers = new ArrayList<String>();
+                    for (int i = 0; i < 5; i++) {
                         triggers.add(EventTriggerGenerator.getNextTrigger());
                     }
                     try {
@@ -95,6 +97,7 @@ public class ClientInit extends Thread {
                     } catch (RemoteException e) {
                         ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
                         isLive = false;
+                        initDLookup();
                     }
 
                     if (response != null) {
@@ -133,10 +136,7 @@ public class ClientInit extends Thread {
                     } catch (RemoteException e) {
                         isLive = false;
                         ClientUIControler.appendResults("Connection to the Dispatcher service failed, events sending stoped, Perform Lookup operation.." + "\n");
-//                        if (!dynamicLookup) {
-//                            dynamicLookup = true;
-//                            initDLookup();
-//                        }
+                        initDLookup();
                     }
 
                     if (response != null) {
@@ -148,9 +148,10 @@ public class ClientInit extends Thread {
     }
 
     private static void initDLookup() {
-        if (dynamicLookup) {
-            DynamicLookup.dynamicLookup();
-        }
+//        if (!dynamicLookup) {
+//            DynamicLookup.dynamicLookup();
+//            dynamicLookup = true;
+//        }
     }
 
     public static void stopEventTriggerStream() {
@@ -159,9 +160,5 @@ public class ClientInit extends Thread {
 
     private static void setDispatcherObj(Object obj) {
         di = (DispInterface) obj;
-    }
-
-    private static Object getDispatcherObj() {
-        return di;
     }
 }
