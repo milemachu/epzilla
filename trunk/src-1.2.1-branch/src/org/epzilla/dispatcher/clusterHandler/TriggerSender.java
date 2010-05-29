@@ -58,7 +58,6 @@ public class TriggerSender {
     private static ClusterInterface initCluster(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
         String url = "rmi://" + serverIp + "/" + serviceName;
         ClusterInterface obj = (ClusterInterface) Naming.lookup(url);
-//        setClusterObject(obj);
         idMap.put(serverIp, obj);
         return obj;
 
