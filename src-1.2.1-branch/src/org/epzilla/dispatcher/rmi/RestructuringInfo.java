@@ -6,4 +6,5 @@ public class RestructuringInfo implements Serializable {
 
     String dispatcherId;
     String dispatcherIp;
+    boolean replacement;
 }

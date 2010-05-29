@@ -1,6 +1,7 @@
 package org.epzilla.dispatcher.rmi;
 
 import net.epzilla.stratification.dynamic.SystemVariables;
+import net.epzilla.stratification.restruct.RestructuringDaemon;
 import org.epzilla.client.rmi.ClientCallbackInterface;
 import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.dispatcher.dataManager.*;
@@ -129,11 +130,14 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     @Override
     public void restructuringStarted(RestructuringInfo ri) throws RemoteException {
         //To change body of implemented methods use File | Settings | File Templates.
+        RestructuringDaemon.setRestructuring(true);
     }
 
     @Override
     public void restructuringEnded(RestructuringInfo ri) throws RemoteException {
         //To change body of implemented methods use File | Settings | File Templates.
+        RestructuringDaemon.setRestructuring(false);
+
     }
 
     @Override
