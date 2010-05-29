@@ -18,22 +18,20 @@ import java.util.HashMap;
  */
 public class ClientNotifier {
     private static HashMap clientMap = new HashMap<String, String>();
-    private static ClientInterface clientObj;
     private static String response = null;
 
     public static void getNotifications(String serverIp, String notifications) throws MalformedURLException, NotBoundException, RemoteException {
         byte[] msg = notifications.getBytes();
 
         if (clientMap.containsKey(serverIp)) {
-            clientObj = (ClientInterface) clientMap.get(serverIp);
+            ClientInterface clientObj = (ClientInterface) clientMap.get(serverIp);
             response = clientObj.notifyClient(msg);
             if (response != null)
                 Logger.log("Notifications send to the client");
             else
                 Logger.log("Notifications not sent");
         } else {
-            initClient(serverIp, "CLIENT");
-            clientObj = (ClientInterface) clientMap.get(serverIp);
+            ClientInterface clientObj = initClient(serverIp, "CLIENT");
             response = clientObj.notifyClient(msg);
             if (response != null)
                 Logger.log("Notifications send to the client");
@@ -42,16 +40,16 @@ public class ClientNotifier {
         }
     }
 
-    private static void initClient(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
+    private static ClientInterface initClient(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
         String url = "rmi://" + serverIp + "/" + serviceName;
         ClientInterface obj = (ClientInterface) Naming.lookup(url);
-        setClientObject(obj);
         clientMap.put(serverIp, obj);
+        return obj;
 
     }
 
     private static void setClientObject(Object obj) {
-        clientObj = (ClientInterface) obj;
+//        clientObj = (ClientInterface) obj;
     }
 
 }
