@@ -18,7 +18,6 @@ import java.util.HashMap;
  */
 public class ClientNotifier {
     private static HashMap clientMap = new HashMap<String, String>();
-    private static ClientInterface clientObj;
     private static String response = null;
     private static StringBuilder cIP;
     private static String clientIP;
@@ -32,7 +31,7 @@ public class ClientNotifier {
         byte[] notification = alerts.getBytes();
 
         if (clientMap.containsKey(clientID)) {
-            clientObj = (ClientInterface) clientMap.get(clientID);
+            ClientInterface clientObj = (ClientInterface) clientMap.get(clientID);
             response = clientObj.notifyClient(notification);
             if (response != null) {
                 Logger.log("Notifications send to the client");
@@ -42,8 +41,7 @@ public class ClientNotifier {
             }
         } else {
             clientIP = generateClientIP(clientID);
-            initClient(clientID, clientIP, "CLIENT");
-            clientObj = (ClientInterface) clientMap.get(clientID);
+            ClientInterface clientObj = initClient(clientID, clientIP, "CLIENT");
             response = clientObj.notifyClient(notification);
             if (response != null) {
                 Logger.log("Notifications send to the client");
@@ -55,18 +53,13 @@ public class ClientNotifier {
     }
 
 
-    private static void initClient(String clientID, String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
+    private static ClientInterface initClient(String clientID, String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
         String url = "rmi://" + serverIp + "/" + serviceName;
         ClientInterface obj = (ClientInterface) Naming.lookup(url);
-        setClientObject(obj);
         clientMap.put(clientID, obj);
+        return obj;
 
     }
-
-    private static void setClientObject(Object obj) {
-        clientObj = (ClientInterface) obj;
-    }
-
     /*
    method to generate clientIP from the clientID
     */
