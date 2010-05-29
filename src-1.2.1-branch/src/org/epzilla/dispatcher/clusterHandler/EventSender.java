@@ -41,11 +41,12 @@ public class EventSender {
 //        Logger.log(Arrays.toString(event));
 //    }
 
-    private static void initCluster(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
+    private static ClusterInterface initCluster(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
         String url = "rmi://" + serverIp + "/" + serviceName;
         ClusterInterface obj = (ClusterInterface) Naming.lookup(url);
         setClusterObject(obj);
-        leaderList.put(serverIp,getClusterObject());
+        leaderList.put(serverIp,obj);
+        return obj;
 
     }
 
@@ -53,7 +54,7 @@ public class EventSender {
         String cid = "x";
         if(!"IP".equalsIgnoreCase(leaderIP)){
         if (!leaderList.containsKey(leaderIP)) {
-            initCluster(leaderIP, "CLUSTER_NODE");
+            ClusterInterface clusterObj = initCluster(leaderIP, "CLUSTER_NODE");
             response = clusterObj.acceptEventStream(event, cid);
 
             if (response != null) {
