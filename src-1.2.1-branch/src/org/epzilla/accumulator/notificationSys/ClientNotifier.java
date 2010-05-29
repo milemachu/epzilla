@@ -28,35 +28,38 @@ public class ClientNotifier {
 
     }
 
-    private static void getAlerts(String alerts, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
+    private static void sendAlertMsg(String alerts, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
+        byte[] notification = alerts.getBytes();
+
         if (clientMap.containsKey(clientID)) {
             clientObj = (ClientInterface) clientMap.get(clientID);
-            sendNotifications(alerts);
+            response = clientObj.notifyClient(notification);
+            if (response != null) {
+                Logger.log("Notifications send to the client");
+                NotificationManager.setAlertCount();
+            } else {
+                Logger.log("Notifications not sent");
+            }
         } else {
             clientIP = generateClientIP(clientID);
-            initClient(clientIP, "CLIENT");
-            sendNotifications(alerts);
+            initClient(clientID, clientIP, "CLIENT");
+            clientObj = (ClientInterface) clientMap.get(clientID);
+            response = clientObj.notifyClient(notification);
+            if (response != null) {
+                Logger.log("Notifications send to the client");
+                NotificationManager.setAlertCount();
+            } else {
+                Logger.log("Notifications not sent");
+            }
         }
     }
 
 
-    private static void initClient(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
+    private static void initClient(String clientID, String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
         String url = "rmi://" + serverIp + "/" + serviceName;
         ClientInterface obj = (ClientInterface) Naming.lookup(url);
         setClientObject(obj);
-        clientMap.put(serverIp, clientObj);
-
-    }
-
-    public static void sendNotifications(String message) throws RemoteException {
-        byte[] alert = message.getBytes();
-        response = clientObj.notifyClient(alert);
-        if (response != null) {
-            Logger.log("Notifications send to the client");
-            NotificationManager.setAlertCount();
-        } else {
-            Logger.log("Notifications not sent");
-        }
+        clientMap.put(clientID, obj);
 
     }
 
@@ -67,6 +70,7 @@ public class ClientNotifier {
     /*
    method to generate clientIP from the clientID
     */
+
     public static String generateClientIP(String cid) {
         String toInsert = ".";
         String preCharacter = "";
