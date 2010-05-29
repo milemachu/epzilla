@@ -127,6 +127,16 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     }
 
     @Override
+    public void restructuringStarted(RestructuringInfo ri) throws RemoteException {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void restructuringEnded(RestructuringInfo ri) throws RemoteException {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public void getLeaderIp(int id, String ip) throws RemoteException {
         try {
 
