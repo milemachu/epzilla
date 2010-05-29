@@ -18,7 +18,7 @@ public class MulticastMessageDecoder implements Runnable {
 		if(mcArr[0].equalsIgnoreCase("DISPATCHER_SERVICE")){
 			//If this is the leader subscribe. else forget it.
 			//Send TCP connections to them.
-			if(NodeDiscoveryManager.isLeader()){
+			if(NodeDiscoveryManager.isLeader() && !NodeDiscoveryManager.getLeaderPublisher().getDispatchers().contains(mcArr[1])){
 				TCPSender ts=new TCPSender(mcArr[1], 5010);
 				ts.sendMessage(NodeDiscoveryManager.getClusterId()+Constants.DISPATCHER_CLIENT_DELIMITER+"SUBSCRIBE_DISPATCHER_SERVICE");
 				

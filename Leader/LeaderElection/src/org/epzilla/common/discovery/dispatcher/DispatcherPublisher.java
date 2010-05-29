@@ -22,7 +22,7 @@ public class DispatcherPublisher implements IServicePublisher {
 			synchronized (clusterLeaderIp) {
 				String  []arr=serviceClient.split(Constants.DISPATCHER_CLIENT_DELIMITER);
 				clusterLeaderIp.put(Integer.parseInt(arr[0]), arr[1]);
-				System.out.println("New Cluster Leader Subscribed: "+serviceClient);
+				System.out.println("New Cluster Leader Subscribed: Cluster ID="+arr[0]+" IP="+arr[1]);
 				return true;
 			}
 		}
