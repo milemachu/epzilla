@@ -60,7 +60,16 @@ public class NodeController {
             NodeAsLeader.loadPerformanceInfoList();
             NodeAsLeader.checkForOverloading();
         } else {
-            NodeAsNonLeader.startClient();
+            boolean success = NodeAsNonLeader.startClient();
+            while (!success) {
+                try {
+                    Thread.sleep(4000);
+                    success = NodeAsNonLeader.startClient();
+                } catch (Exception e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+
+            }
         }
     }
 
