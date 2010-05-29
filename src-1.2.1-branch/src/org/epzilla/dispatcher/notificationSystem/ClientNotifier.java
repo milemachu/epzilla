@@ -7,7 +7,6 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -23,12 +22,23 @@ public class ClientNotifier {
     private static String response = null;
 
     public static void getNotifications(String serverIp, String notifications) throws MalformedURLException, NotBoundException, RemoteException {
+        byte[] msg = notifications.getBytes();
+
         if (clientMap.containsKey(serverIp)) {
-            clientObj= (ClientInterface) clientMap.get(serverIp);
-            sendNotifications(notifications);
+            clientObj = (ClientInterface) clientMap.get(serverIp);
+            response = clientObj.notifyClient(msg);
+            if (response != null)
+                Logger.log("Notifications send to the client");
+            else
+                Logger.log("Notifications not sent");
         } else {
             initClient(serverIp, "CLIENT");
-            sendNotifications(notifications);
+            clientObj = (ClientInterface) clientMap.get(serverIp);
+            response = clientObj.notifyClient(msg);
+            if (response != null)
+                Logger.log("Notifications send to the client");
+            else
+                Logger.log("Notifications not sent");
         }
     }
 
@@ -36,17 +46,7 @@ public class ClientNotifier {
         String url = "rmi://" + serverIp + "/" + serviceName;
         ClientInterface obj = (ClientInterface) Naming.lookup(url);
         setClientObject(obj);
-        clientMap.put(serverIp, clientObj);
-
-    }
-
-    public static void sendNotifications(String msg) throws RemoteException {
-        byte[] notification = msg.getBytes();
-        response = clientObj.notifyClient(notification);
-        if (response != null)
-            Logger.log("Notifications send to the client");
-        else
-            Logger.log("Notifications not sent");
+        clientMap.put(serverIp, obj);
 
     }
 
