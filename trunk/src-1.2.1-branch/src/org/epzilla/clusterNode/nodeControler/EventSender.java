@@ -1,7 +1,6 @@
 package org.epzilla.clusterNode.nodeControler;
 
 import org.epzilla.clusterNode.rmi.ClusterInterface;
-import org.epzilla.util.Logger;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -28,6 +27,7 @@ public class EventSender {
     public static void sendEvents(String serverIp, String event) throws RemoteException, MalformedURLException, NotBoundException {
         if (!nodesList.containsKey(serverIp)) {
             initNode(serverIp, "CLUSTER_NODE");
+            clusterObj = (ClusterInterface) nodesList.get(serverIp);
             clusterObj.addEventStream(event);
             System.out.println("calling add event stream.");
 //            if (response != null) {
@@ -37,7 +37,7 @@ public class EventSender {
 //            }
         } else {
             clusterObj = (ClusterInterface) nodesList.get(serverIp);
-             clusterObj.addEventStream(event);
+            clusterObj.addEventStream(event);
             System.out.println("else part working.");
 
 //            if (response != null) {
@@ -52,7 +52,7 @@ public class EventSender {
         String url = "rmi://" + serverIp + "/" + serviceName;
         ClusterInterface obj = (ClusterInterface) Naming.lookup(url);
         setClusterObject(obj);
-        nodesList.put(serverIp, clusterObj);
+        nodesList.put(serverIp, obj);
 
     }
 
