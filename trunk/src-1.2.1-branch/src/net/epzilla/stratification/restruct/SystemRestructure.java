@@ -35,18 +35,20 @@ public class SystemRestructure {
             if (o instanceof TriggerInfoObject) {
                 TriggerInfoObject tio = (TriggerInfoObject) o;
                 try {
-                    LinkedList<TriggerInfoObject> clist = map.get(tio.getclientID());
-                    if (clist == null) {
-                        clist = new LinkedList();
-                        map.put(tio.getclientID(), clist);
+                    if (!"OOOO".equals(tio.gettrigger()) && (tio.gettrigger().length() > 10)) {
+                        LinkedList<TriggerInfoObject> clist = map.get(tio.getclientID());
+                        if (clist == null) {
+                            clist = new LinkedList();
+                            map.put(tio.getclientID(), clist);
+                        }
+                        clist.add(tio);
                     }
-                    clist.add(tio);
                 } catch (Exception e) {
                     Logger.error("", e);
                 }
             }
         }
-
+                             
 
         LinkedList<LinkedList<LinkedList<Cluster>>> slist = new LinkedList();
         LinkedList<TriggerStrcutureManager> tsmlist = new LinkedList();
@@ -134,15 +136,15 @@ public class SystemRestructure {
                         add = new ArrayList<TriggerRepresentation>();
                         addCluster.put(tio.getclientID(), add);
                     }
-                            TriggerRepresentation at = new TriggerRepresentation();
-                            TriggerRepresentation rt = new TriggerRepresentation();
+                    TriggerRepresentation at = new TriggerRepresentation();
+                    TriggerRepresentation rt = new TriggerRepresentation();
                     at.setClientId(tio.getclientID());
                     at.setTriggerId(tio.gettriggerID());
                     at.setTrigger(tio.gettrigger());
-                    
+
                     rt.setClientId(tio.getclientID());
                     rt.setTriggerId(tio.gettriggerID());
-                    
+
                     add.add(at);
                     rem.add(rt);
 //                    rem.addTriggerIds(tio.gettriggerID());
@@ -168,7 +170,7 @@ public class SystemRestructure {
                 }
             }
 
-            
+
             for (String stratum : addList.keySet()) {
                 TransactedList<NodeIPObject> tl = ClusterIPManager.getIpList();
                 for (NodeIPObject no : tl) {

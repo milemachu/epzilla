@@ -7,7 +7,7 @@ import org.epzilla.util.Logger;
 public class RestructuringDaemon {
     private static boolean alive = false;
     private static boolean restructuring = false;
-    public static int RESTRUCTURING_WAITING_TIME = 60000;
+    public static int RESTRUCTURING_WAITING_TIME = 50000;
 
 
     public static boolean isRestructuring() {
