@@ -49,8 +49,9 @@ public class CpuMemAnalyzer {
                     String temp = String.valueOf(sum / usageCache.length);
                     long mem = (mon.physical().getTotalBytes() - mon.physical().getFreeBytes());
                     NodeUIController.appendTextToPerformanceInfo("CPU Usage Average :" + temp + " %");
-                    PerformanceInfoManager.removePerformanceObject(NodeController.getThisIP());
-                    PerformanceInfoManager.addPerformanceInfo(NodeController.getThisIP(), temp, String.valueOf((mem*100 / mon.physical().getTotalBytes())),"0");
+//                    PerformanceInfoManager.removePerformanceObject(NodeController.getThisIP());
+                    PerformanceInfoManager.addPerformanceInfo(NodeController.getThisIP(), temp, String.valueOf((mem * 100 / mon.physical().getTotalBytes())), "0");
+//                    PerformanceInfoManager.modifyPerformanceInfo(NodeController.getThisIP(), temp, String.valueOf((mem * 100 / mon.physical().getTotalBytes())), "0");
                 }
                 NodeUIController.appendTextToPerformanceInfo("CPU Usage :" + val * 100 + " %");
                 long mem = (mon.physical().getTotalBytes() - mon.physical().getFreeBytes());
