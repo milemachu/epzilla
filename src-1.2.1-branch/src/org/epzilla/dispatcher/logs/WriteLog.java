@@ -57,7 +57,7 @@ public class WriteLog {
         writer.write(tag + " " + "Checkpoint");
         writer.newLine();
         for (int i = 0; i < myArr.size(); i++) {
-            writer.write(myArr.get(i));
+            writer.write(myArr.get(i)+":"+ownerId);
             writer.newLine();
         }
         writer.write("</commit>");
