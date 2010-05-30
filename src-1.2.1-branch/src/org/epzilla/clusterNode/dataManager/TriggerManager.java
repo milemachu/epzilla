@@ -57,7 +57,8 @@ public class TriggerManager {
                 Transaction transaction = Site.getLocal().startTransaction();
                 TriggerObject obj = new TriggerObject();
                 // ID is the sequential number of the trigger
-                obj.settriggerID("TID:" + String.valueOf(count));
+                obj.settriggerID( String.valueOf(count));
+//                obj.settriggerID("TID:" + String.valueOf(count));
 
                 obj.settrigger(tr.getTrigger());
                 obj.setclientID(tr.getClientId());
