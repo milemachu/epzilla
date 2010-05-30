@@ -74,6 +74,7 @@ public class Main {
         try {
             inetAddress = InetAddress.getLocalHost();
             ipAddress = inetAddress.getHostAddress();
+            NodeController.setThisIP(ipAddress);
         } catch (UnknownHostException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -101,19 +102,19 @@ public class Main {
 //                initSTM();
 //            }
 
-        LeaderElectionInitiator.mainMethod();
-        String leader = "";
-        while (leader.equalsIgnoreCase("")) {
-            leader = LeaderElectionInitiator.getLeader();
-        }
-        if (leader.equalsIgnoreCase(ipAddress)) {
+//        LeaderElectionInitiator.mainMethod();
+//        String leader = "";
+//        while (leader.equalsIgnoreCase("")) {
+//            leader = LeaderElectionInitiator.getLeader();
+//        }
+//        if (leader.equalsIgnoreCase(ipAddress)) {
             NodeController.setLeader(true);
             initSTM();
-        } else {
-            NodeController.setLeader(false);
-            NodeController.setLeaderIP(leader);
-            initSTM();
-        }
+//        } else {
+//            NodeController.setLeader(false);
+//            NodeController.setLeaderIP("192.168.182.4");
+//            initSTM();
+//        }
 
 //            register();
 //        } catch (UnknownHostException e) {
