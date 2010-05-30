@@ -84,6 +84,7 @@ public class NodeAsNonLeader {
             }
             success = true;
             NodeUIController.setLeaderStatus("Non Leader");
+            checkServerStatus();
         } catch (Exception e2) {
             NodeUIController.appendTextToStatus("Attempt to Start Client Failed... ");
             NodeUIController.appendTextToStatus(e2.getMessage());
@@ -152,7 +153,8 @@ public class NodeAsNonLeader {
         PerformanceInfoManager.setPerformanceList(info);
         info.addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-//                   DispatcherUIController.appendIP("IP added to List: " + ClusterLeaderIpListManager.getIpList().get(i));
+                PerformanceInfoObject obj = PerformanceInfoManager.getPerformanceList().get(i);
+                NodeUIController.appendTextToStatus("Load Balancing Info Recieved:: IP:" + obj.getnodeIP() + " CPU Usage:" + obj.getCPUusageAverage() + "% Memory Usage:" + obj.getMemUsageAverage() + "%");
             }
         });
 
@@ -165,7 +167,7 @@ public class NodeAsNonLeader {
             @Override
             public void run() {
                 if (client.getStatus() == SocketClient.Status.DISCONNECTED) {
-//                     DispatcherUIController.appendAccumulatorStatus("Server Status..." + client.getStatus().toString());
+                    NodeUIController.appendTextToStatus("Server Status :" + client.getStatus());
                     this.cancel();
                 }
             }
