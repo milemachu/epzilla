@@ -13,7 +13,7 @@ public class Clusterizer {
         return this.clusterMeta;
     }
 
-    public void clusterize(List<Integer> stratum, List<Query> queries, String clientId, int stratumId) {
+    public void clusterize(List<Integer> stratum, List<Query> queries, String clientId, int stratumId, boolean multipleStrata) {
         HashSet<TreeSet<String>> disjointSets = new HashSet<TreeSet<String>>();
 
         for (Query q : queries) {
@@ -44,6 +44,8 @@ public class Clusterizer {
                     disjointSets.add(currSet);
 
                 } else {
+                    // no dependencies.
+                    // new set is created.
                     TreeSet<String> singleQuerySet = new TreeSet<String>();
                     for (String retain : retainItems) {
                         singleQuerySet.add(retain);
