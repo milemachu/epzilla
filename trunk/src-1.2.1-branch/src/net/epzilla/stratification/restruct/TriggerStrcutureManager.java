@@ -159,7 +159,7 @@ public class TriggerStrcutureManager {
         int i = 0;
         for (LinkedList<Integer> st : lx) {
             c = new Clusterizer();
-            c.clusterize(st, this.getQueryList(), clientId, i);
+            c.clusterize(st, this.getQueryList(), clientId, i, false);
             i++;
             clist.add(c.getVirtualClusterInfo());
 //            for (Cluster ccx: c.getVirtualClusterInfo()) {
