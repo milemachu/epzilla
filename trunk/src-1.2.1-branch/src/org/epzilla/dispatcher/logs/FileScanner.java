@@ -109,7 +109,7 @@ public class FileScanner implements Runnable {
         } catch (FileNotFoundException e) {
             Logger.log("File not found");
         }
-        printArray(recoverArr);
+//        printArray(recoverArr);
         long end = System.currentTimeMillis();
         Logger.log("Time: " + (end - start));
         DispatcherUIController.appendTriggers(recoverArr);
