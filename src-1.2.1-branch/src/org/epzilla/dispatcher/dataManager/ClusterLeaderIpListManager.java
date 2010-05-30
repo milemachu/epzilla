@@ -1,15 +1,14 @@
 package org.epzilla.dispatcher.dataManager;
 
-import jstm.core.TransactedList;
 import jstm.core.Site;
+import jstm.core.TransactedList;
 import jstm.core.Transaction;
-
-import java.util.TimerTask;
-import java.util.List;
-import java.util.ArrayList;
-
+import net.epzilla.stratification.dynamic.SystemVariables;
+import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.dispatcher.dispatcherObjectModel.LeaderInfoObject;
-import org.epzilla.dispatcher.controlers.*;
+
+import java.util.ArrayList;
+import java.util.TimerTask;
 
 
 /**
@@ -22,10 +21,11 @@ import org.epzilla.dispatcher.controlers.*;
 public class ClusterLeaderIpListManager {
     private static TransactedList<LeaderInfoObject> ipList = new TransactedList<LeaderInfoObject>(20);
     static int count = 0;
-    private static ArrayList<String> ipArr = new ArrayList<String>();
-    private static ArrayList<String> idArr = new ArrayList<String>();
+//    private static ArrayList<String> ipArr = new ArrayList<String>();
+//    private static ArrayList<String> idArr = new ArrayList<String>();
 
     // Code For Testing Only -Dishan
+
     public static void loadSampleIPs() {
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {
@@ -55,6 +55,7 @@ public class ClusterLeaderIpListManager {
     }
 
     public static void addIP(String clusterID, String ip) {
+//        System.out.println("adding ip:" + ip + " cluster:" + clusterID);
         if (getIpList() != null) {
             if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
                 Site.getLocal().allowThread();
@@ -66,6 +67,8 @@ public class ClusterLeaderIpListManager {
                 transaction.commit();
             }
         }
+        int size = getIpList().size();
+        SystemVariables.setClusters(0, size - 1);
     }
 
     public static void removeIP(String ip) {
@@ -88,29 +91,39 @@ public class ClusterLeaderIpListManager {
         }
         printIPList();
     }
-   //add by chathura to get cluster leader ip list
+    //add by chathura to get cluster leader ip list
+
     public static ArrayList<String> getClusterIpList() {
+        ArrayList<String> ipArr = new ArrayList<String>();
         if (getIpList() != null) {
 //            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
 //                Site.getLocal().allowThread();
 //                Transaction transaction = Site.getLocal().startTransaction();
-                for (int i = 0; i < ipList.size(); i++) {
-                    ipArr.add(ipList.get(i).getleaderIP());
+            for (int i = 0; i < ipList.size(); i++) {
+                String ip = ipList.get(i).getleaderIP();
+                if (!"IP".equalsIgnoreCase(ip)) {
+                    ipArr.add(ip);
                 }
+            }
 //                transaction.commit();
 //            }
         }
         return ipArr;
     }
     //add by chathura to get cluster id list
+
     public static ArrayList<String> getClusterIdList() {
+        ArrayList<String> idArr = new ArrayList<String>();
         if (getIpList() != null) {
 //            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
 //                Site.getLocal().allowThread();
 //                Transaction transaction = Site.getLocal().startTransaction();
-                for (int i = 0; i < ipList.size(); i++) {
-                    idArr.add(ipList.get(i).getclusterID());
+            for (int i = 0; i < ipList.size(); i++) {
+                LeaderInfoObject lp = ipList.get(i);
+                if (!"IP".equalsIgnoreCase(lp.getleaderIP())) {
+                    idArr.add(lp.getclusterID());
                 }
+            }
 //                transaction.commit();
 //            }
         }
