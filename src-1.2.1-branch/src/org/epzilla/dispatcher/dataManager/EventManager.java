@@ -23,8 +23,11 @@ public class EventManager {
         if (!isLoaded) {
             loadClusterDetails();
         }
+
         try {
             for (int i = 0; i < ipArr.size(); i++) {
+                System.out.println("IP SIZE"+ipArr.size());
+                System.out.println("ID SIZE"+idArr.size());
                 EventSender.sendEvent(event, ipArr.get(i), idArr.get(i), clientID);
             }
             EventsCounter.setOutEventCount();

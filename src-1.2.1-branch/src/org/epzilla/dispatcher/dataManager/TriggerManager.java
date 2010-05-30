@@ -73,7 +73,8 @@ public class TriggerManager {
                     Transaction transaction = Site.getLocal().startTransaction();
                     TriggerInfoObject obj = new TriggerInfoObject();
                     // ID is the sequential number of the trigger
-                    obj.settriggerID("TID:" + String.valueOf(count));
+//                    obj.settriggerID("TID:" + String.valueOf(count));
+                    obj.settriggerID( String.valueOf(count));
                     obj.setclientID(clientID);
                     obj.settrigger(new String(trigger));
                     getTriggers().add(obj);
@@ -106,7 +107,8 @@ public class TriggerManager {
                     for (String trigger : triggerList) {
                         TriggerInfoObject obj = new TriggerInfoObject();
                         // ID is the sequential number of the trigger
-                        obj.settriggerID("TID:" + String.valueOf(tempCount));
+                        obj.settriggerID( String.valueOf(tempCount));
+//                        obj.settriggerID("TID:" + String.valueOf(tempCount));
                         obj.setclientID(clientID);
                         obj.settrigger(new String(trigger));
                         obj.setdispatcherId(NodeVariables.getDispatcherId());
@@ -165,7 +167,7 @@ public class TriggerManager {
 
                            try {
                                String ip =  ips.get(Integer.parseInt(cl));
-                               TriggerSender.acceptTrigger("192.168.1.2", "x", lis, clientID);
+                               TriggerSender.acceptTrigger(ip, "x", lis, clientID);
                            } catch (NumberFormatException e) {
                                
                                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
