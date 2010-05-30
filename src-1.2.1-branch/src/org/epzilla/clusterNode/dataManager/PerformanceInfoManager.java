@@ -32,40 +32,67 @@ public class PerformanceInfoManager {
         }
     }
 
-    public static boolean isObjectInList(String ip) {
-        boolean result = false;
-        for (int i = 0; i < performanceList.size(); i++) {
-            if (performanceList.get(i).getnodeIP() == ip)
-                result = true;
+    public static void modifyPerformanceInfo(String nodeIP, String cpuUsage, String memUsage, String networkUsage) {
+        if (getPerformanceList() != null) {
+            synchronized (performanceList) {
+                if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                    Site.getLocal().allowThread();
+
+                    int index = isObjectInList(nodeIP);
+                    if (index != -1) {
+                        Transaction transaction = Site.getLocal().startTransaction();
+                        performanceList.get(index).setCPUusageAverage(cpuUsage);
+                        performanceList.get(index).setMemUsageAverage(memUsage);
+                        performanceList.get(index).setNetworkUsageAverage(networkUsage);
+                        transaction.commit();
+                    } else
+                        addPerformanceInfo(nodeIP, cpuUsage, memUsage, networkUsage);
+                }
+            }
+        }
+    }
+
+
+    public static int isObjectInList(String ip) {
+        int result = -1;
+        synchronized (performanceList) {
+            for (int i = 0; i < performanceList.size(); i++) {
+                if (performanceList.get(i).getnodeIP() == ip) {
+                    result = i;
+                    break;
+                }
+
+            }
         }
         return result;
     }
 
 
     public static void removePerformanceObject(String nodeIP) {
-        try {
-            int count = performanceList.size();
-            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
-                Site.getLocal().allowThread();
-                int removeIndex = -1;
-                for (int i = 0; i < count; i++) {
-                    if (performanceList.get(i).getnodeIP().equals(nodeIP)) {
-                        removeIndex = i;
-                        break;
-                    }
-                }
-                if (removeIndex != -1) {
-                    Transaction transaction = Site.getLocal().startTransaction();
-                    boolean result = getPerformanceList().remove(getPerformanceList().get(removeIndex));
-                    if (result)
-                        transaction.commit();
-                    else
-                        transaction.abort();
+//        try {
+        int count = performanceList.size();
+        if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+            Site.getLocal().allowThread();
+            int removeIndex = -1;
+            for (int i = 0; i < count; i++) {
+                if (performanceList.get(i).getnodeIP().equals(nodeIP)) {
+                    removeIndex = i;
+                    break;
                 }
             }
+            if (removeIndex != -1) {
+                Transaction transaction = Site.getLocal().startTransaction();
+                boolean result = getPerformanceList().remove(getPerformanceList().get(removeIndex));
+                if (result)
+                    transaction.commit();
+                else
+                    transaction.abort();
+            }
         }
-        catch (Exception ex) {
-        }
+//        }
+//        catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
     }
 
     public static TransactedList<PerformanceInfoObject> getPerformanceList() {
