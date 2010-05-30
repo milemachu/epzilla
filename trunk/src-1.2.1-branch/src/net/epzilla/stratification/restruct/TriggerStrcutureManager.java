@@ -22,7 +22,7 @@ public class TriggerStrcutureManager {
     LinkedList<LinkedList<Cluster>> mapping = null;
     List<TriggerInfoObject> trList = null;
 
-    
+
     public String getClientId() {
         return clientId;
     }
@@ -106,9 +106,9 @@ public class TriggerStrcutureManager {
     private int getMin(int[] ar) {
         int m = 0;
         int i = 0;
-        for (int x: ar) {
+        for (int x : ar) {
             if (x < ar[m]) {
-               m = i;
+                m = i;
             }
             i++;
         }
@@ -144,9 +144,12 @@ public class TriggerStrcutureManager {
         QueryParser qp = new BasicQueryParser();
         Query q = null;
         for (TriggerInfoObject tio : triggerList) {
-            q = qp.parseString(tio.gettrigger());
-            q.setId(Integer.parseInt(tio.gettriggerID()));
-            list.add(q);
+            if (!"OOOO".equals(tio.gettrigger())) {
+                q = qp.parseString(tio.gettrigger());
+                System.out.println("tid:" + tio.gettriggerID());
+                q.setId(Integer.parseInt(tio.gettriggerID()));
+                list.add(q);
+            }
         }
 
         this.addQueries(list);
@@ -159,7 +162,7 @@ public class TriggerStrcutureManager {
         int i = 0;
         for (LinkedList<Integer> st : lx) {
             c = new Clusterizer();
-            c.clusterize(st, this.getQueryList(), clientId, i, false);
+            c.clusterize(st, this.getQueryList(), clientId, i);
             i++;
             clist.add(c.getVirtualClusterInfo());
 //            for (Cluster ccx: c.getVirtualClusterInfo()) {
