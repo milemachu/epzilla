@@ -17,8 +17,6 @@ import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.awt.Color;
-import java.awt.SystemColor;
 
 public class DispatcherUI extends JFrame implements ActionListener {
     private JTabbedPane tabbedPane = null;
@@ -162,8 +160,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblDisp.setLocation(new Point(15, 171));
             lblDisp.setFont(new Font("Dialog", Font.BOLD, 12));
             lblDisp.setSize(new Dimension(175, 22));
-            mainSettings = new JPanel() 
-            {
+            mainSettings = new JPanel() {
                 public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
                     int w = getWidth();
@@ -681,8 +678,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             tabbedPane.setVisible(false);
         } else if (source == btnLoadSettings) {
             loadSettings();
-        }
-        else if (source == chkLogs) {
+        } else if (source == chkLogs) {
             if (chkLogs.isSelected()) {
                 btnReplayLogs.setEnabled(true);
             } else if (!chkLogs.isSelected()) {
@@ -694,10 +690,13 @@ public class DispatcherUI extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Trigger List successfully recovered", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
                 btnReplayLogs.setEnabled(false);
                 chkLogs.setSelected(false);
+            } else if (!status) {
+                JOptionPane.showMessageDialog(null, "Recovery failed. Make sure settings details are correct", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                btnReplayLogs.setEnabled(false);
+                chkLogs.setSelected(false);
             }
 
-        }
-    else if (source == btnRegister) {
+        } else if (source == btnRegister) {
             try {
                 if (isRegister == false) {
                     register();
