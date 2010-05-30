@@ -14,7 +14,7 @@ public class TCPMessageDecoder implements Runnable {
 	public void run() {
 		//0=message,1=ip
 		String []tcpArr=message.split(Constants.TCP_UNICAST_DELIMITER);
-		if(tcpArr[0].equalsIgnoreCase("SUBSCRIBE_DISPATCHER_LEADER_SERVICE")/* && DispatcherDiscoveryManager.isLeader()*/){
+		if(tcpArr[0].equalsIgnoreCase("SUBSCRIBE_DISPATCHER_LEADER_SERVICE") && DispatcherDiscoveryManager.isLeader()){
 			DispatcherDiscoveryManager.getLeaderPublisher().addSubscription(tcpArr[1], tcpArr[0]);
 		}else if(tcpArr[0].equalsIgnoreCase("UNSUBSCRIBE_DISPATCHER_LEADER_SERVICE") && DispatcherDiscoveryManager.isLeader()){
 			DispatcherDiscoveryManager.getLeaderPublisher().removeSubscrition(tcpArr[1], tcpArr[0]);

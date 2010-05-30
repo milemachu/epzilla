@@ -20,6 +20,7 @@ public class DispatcherDiscoveryManager {
 	static DispatcherLeaderPublisher leaderPublisher;
 	static String dispatcherLeader;
 	static boolean isLeader=false;
+	static boolean isSubscribedWithLeader=false;
 	
 	public DispatcherDiscoveryManager() {
 		dispatcherPublisher=new DispatcherPublisher();
@@ -97,6 +98,14 @@ public class DispatcherDiscoveryManager {
 		DispatcherDiscoveryManager.isLeader=result;
 	}
 	
+	public static boolean isSubscribedWithLeader() {
+		return isSubscribedWithLeader;
+	}
+
+	public static void setSubscribedWithLeader(boolean isSubscribedWithLeader) {
+		DispatcherDiscoveryManager.isSubscribedWithLeader = isSubscribedWithLeader;
+	}
+
 	public static String getDispatcherLeader() {
 		return dispatcherLeader;
 	}
