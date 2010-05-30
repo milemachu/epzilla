@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileScanner implements Runnable {
-    private static List<String> recoverArr = new ArrayList<String>();
+    public static ArrayList<String> triggerList = new ArrayList<String>();
     private List<String> undoList = new ArrayList<String>();
     private File file;
     private static String strmatch = "";
@@ -37,13 +37,14 @@ public class FileScanner implements Runnable {
 
     public void run() {
         for (int i = 0; i < undoList.size(); i++) {
-            recoverArr.clear();
+//            recoverArr.clear();
             readFile(file, undoList.get(i));
 
         }
     }
 
     public static List<String> readFile(File file, String strReq) {
+        List<String> recoverArr = new ArrayList<String>();
         long start = System.currentTimeMillis();
         try {
             scanner = new Scanner(file);
@@ -80,6 +81,7 @@ public class FileScanner implements Runnable {
     }
 
     public static void readFile(File file) {
+        List<String> recoverArr = new ArrayList<String>();
         long start = System.currentTimeMillis();
         try {
             scanner = new Scanner(file);
@@ -110,9 +112,18 @@ public class FileScanner implements Runnable {
             Logger.log("File not found");
         }
 //        printArray(recoverArr);
+        setTriggerList(recoverArr);
         long end = System.currentTimeMillis();
         Logger.log("Time: " + (end - start));
         DispatcherUIController.appendTriggers(recoverArr);
+    }
+
+    public static void setTriggerList(List<String> list) {
+        FileScanner.triggerList = (ArrayList<String>) list;
+    }
+
+    public static ArrayList<String> getTriggerList() {
+        return triggerList;
     }
 
     public static void printArray(List<String> array) {
