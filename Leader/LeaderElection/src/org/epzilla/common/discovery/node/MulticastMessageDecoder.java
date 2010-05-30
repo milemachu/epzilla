@@ -32,8 +32,10 @@ public class MulticastMessageDecoder implements Runnable {
 				//Wait till the Leader publisher imple finishes.
 				//0-LEADER_SERVICE;1-ClusterId
 				String []info=mcArr[0].split(Constants.CLUSTER_ID_DELIMITER);
-				if(Integer.parseInt(info[1])==NodeDiscoveryManager.getClusterId() && NodeDiscoveryManager.getClusterLeader()==null){
+				if(Integer.parseInt(info[1])==NodeDiscoveryManager.getClusterId() && !NodeDiscoveryManager.isSubscribedWithLeader()){
 					NodeDiscoveryManager.setClusterLeader(mcArr[1]);
+					NodeDiscoveryManager.setSubscribedWithLeader(true);
+					
 					//send a tcp msg to subscribe with it.
 					TCPSender ts=new TCPSender(mcArr[1], tcpPort);
 					ts.sendMessage("SUBSCRIBE_LEADER_SERVICE");

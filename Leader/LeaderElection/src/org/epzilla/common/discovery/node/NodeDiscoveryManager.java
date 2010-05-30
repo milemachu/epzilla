@@ -24,6 +24,7 @@ public class NodeDiscoveryManager {
 	static boolean isLeadeer=false;
 	static int clusterId;
 	static String clusterLeader;
+	static boolean isSubscribedWithLeader;
 	
 	
 
@@ -119,6 +120,18 @@ public class NodeDiscoveryManager {
 		NodeDiscoveryManager.isLeadeer=result;
 	}
 	
+	public static boolean isSubscribedWithLeader() {
+		return isSubscribedWithLeader;
+	}
+
+
+
+	public static void setSubscribedWithLeader(boolean isSubscribedWithLeader) {
+		NodeDiscoveryManager.isSubscribedWithLeader = isSubscribedWithLeader;
+	}
+
+
+
 	public static int getClusterId(){
 		return clusterId;
 	}
