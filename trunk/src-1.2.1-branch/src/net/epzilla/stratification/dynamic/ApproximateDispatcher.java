@@ -61,6 +61,7 @@ public class ApproximateDispatcher {
 
                     TransactedList clusterList = new TransactedList();
                     int nclusters = SystemVariables.getClusters(i);
+                    System.out.println("nclusters:" + nclusters);
                     for (int j = 0; j < nclusters; j++) {
                         clusterList.add(new TransactedSet());
                     }
@@ -96,7 +97,7 @@ public class ApproximateDispatcher {
                 TransactedList clusters = (TransactedList) outputStrata.get(i);
                 boolean found = false;
 
-
+                System.out.println("getting clusters: " + clusters.size());
                 inner:
                 for (int j = clusters.size() - 1; j >= 0; j--) {
 
@@ -136,7 +137,7 @@ public class ApproximateDispatcher {
                         addDependencies((TransactedSet) ((TransactedList) outputStrata.get(target)).get(cluster), outs);
 
 //                        SystemVariables.triggerLoadMap.get(target)[cluster]++;
-                        System.out.println("SV internal: " + SystemVariables.triggerLoadMap.get(target)[cluster]);
+//                        System.out.println("SV internal: " + SystemVariables.triggerLoadMap.get(target)[cluster]);
 
                         break outer;
 
@@ -159,7 +160,7 @@ public class ApproximateDispatcher {
                         }
                         addDependencies((TransactedSet) ((TransactedList) outputStrata.get(stratum)).get(cluster), outs);
 
-                        System.out.println("SV internal: " + SystemVariables.triggerLoadMap.get(stratum)[cluster]);
+//                        System.out.println("SV internal: " + SystemVariables.triggerLoadMap.get(stratum)[cluster]);
                         break outer;
                     }
                 }
