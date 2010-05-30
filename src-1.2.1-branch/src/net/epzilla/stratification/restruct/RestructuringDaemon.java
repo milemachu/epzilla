@@ -33,6 +33,7 @@ public class RestructuringDaemon {
                     System.out.println("SystemRestructure....");
                     long st = System.currentTimeMillis();
                     try {
+                        
                         SystemRestructure.getInstance().restructureSystem();
                         SystemRestructure.getInstance().sendRestructureCommands();
                     } catch (InvalidSyntaxException e) {
