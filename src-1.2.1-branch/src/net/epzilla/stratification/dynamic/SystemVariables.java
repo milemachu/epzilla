@@ -25,10 +25,10 @@ public class SystemVariables {
     static {
 
         SystemVariables.setNumStrata(1);
-        SystemVariables.setClusters(0, 2);
+//        SystemVariables.setClusters(0, 1);
 
         SystemVariables.setClusterLoad(0, 0, 121);
-        SystemVariables.setClusterLoad(0, 1, 14);
+//        SystemVariables.setCl+usterLoad(0, 1, 14);
 
 
 //SystemVariables.setNumStrata(2);
