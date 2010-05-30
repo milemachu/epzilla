@@ -18,6 +18,9 @@ import org.epzilla.clusterNode.userInterface.NodeUIController;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.TimerTask;
 
 /**
@@ -56,9 +59,6 @@ public class NodeAsLeader {
             }
             share = (Share) serverAndClientsSites.getOpenShares().toArray()[0];
             success = true;
-
-            checkServerStatus();
-
         } catch (Transaction.AbortedException e2) {
 
             e2.printStackTrace();
@@ -140,6 +140,7 @@ public class NodeAsLeader {
         }
         PerformanceInfoManager.getPerformanceList().addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
+
                 PerformanceInfoObject obj = PerformanceInfoManager.getPerformanceList().get(i);
                 NodeUIController.appendTextToStatus("Load Balancing Info Recieved:: IP:" + obj.getnodeIP() + " CPU Usage:" + obj.getCPUusageAverage() + "% Memory Usage:" + obj.getMemUsageAverage() + "%");
             }
@@ -147,47 +148,66 @@ public class NodeAsLeader {
     }
 
 
-    public static void checkServerStatus() {
-        final java.util.Timer timer1 = new java.util.Timer();
-        timer1.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Group set = server.getServerAndClients();
-
-//                if (client.getStatus() == SocketClient.Status.DISCONNECTED) {
-////                     DispatcherUIController.appendAccumulatorStatus("Server Status..." + client.getStatus().toString());
-//                    this.cancel();
-//                }
-            }
-        }, 10, 1000);
-    }
+//    public static void checkServerStatus() {
+//        final java.util.Timer timer1 = new java.util.Timer();
+//        timer1.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+////                Group set = server.getServerAndClients();
+//
+////                if (client.getStatus() == SocketClient.Status.DISCONNECTED) {
+//////                     DispatcherUIController.appendAccumulatorStatus("Server Status..." + client.getStatus().toString());
+////                    this.cancel();
+////                }
+//            }
+//        }, 10, 1000);
+//    }
 
     //Check if the cluster is over loaded=> needs new nodes.
 
     public static void checkForOverloading() {
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {
+            Hashtable<String, Integer> cpuArray = new Hashtable<String, Integer>();
+            ArrayList<Integer> memArray = new ArrayList<Integer>();
 
             @Override
             public void run() {
                 TransactedList<PerformanceInfoObject> list = PerformanceInfoManager.getPerformanceList();
+                cpuArray.clear();
+                memArray.clear();
                 int CPUsum = 0;
                 int MemSum = 0;
-                for (int i = 0; i < list.size(); i++) {
+                for (int i = list.size()-1; i >=0 ; i--) {
                     if (list.get(i).getnodeIP() != "PPPP") {
-                        CPUsum += Integer.valueOf(list.get(i).getCPUusageAverage());
-                        MemSum += Integer.valueOf(list.get(i).getMemUsageAverage());
+                        if (!cpuArray.containsKey(list.get(i).getnodeIP())) {
+                            cpuArray.put(list.get(i).getnodeIP(), Integer.valueOf(list.get(i).getCPUusageAverage()));
+                            memArray.add(Integer.valueOf(list.get(i).getMemUsageAverage()));
+                        }
                     }
                 }
-                if (list.size() > 1) {
-                    int cpuresult= (int)(CPUsum / (list.size() - 1)) ;
-                    int memResult = (int)  (MemSum / (list.size() - 1));
-                    NodeUIController.appendTextToStatus("Average CPU usage of the cluster: " + cpuresult+ "%");
+                Enumeration keys = cpuArray.keys();
+                while (keys.hasMoreElements()) {
+                    CPUsum += cpuArray.get(keys.nextElement());
+                }
+
+                for (int i = 0; i < memArray.size(); i++) {
+                    MemSum += memArray.get(i);
+                }
+
+                if (cpuArray.size() > 0) {
+                    int cpuResult = (int) (CPUsum / cpuArray.size());
+                    int memResult = (int) (MemSum / cpuArray.size());
+                    NodeUIController.appendTextToStatus("Average CPU usage of the cluster: " + cpuResult + "%");
                     NodeUIController.appendTextToStatus("Average Memory usage of the cluster: " + memResult + "%");
 
                     //send perfomance info
-                    Main.sendInfo(cpuresult,memResult);
-                    NodeUIController.appendTextToStatus("Performance Info Sent to Dispatcher...");
+                    try {
+                        Main.sendInfo(cpuResult, memResult);
+                        NodeUIController.appendTextToStatus("Performance Info Sent to Dispatcher...");
+                    } catch (Exception e) {
+                        NodeUIController.appendTextToStatus("Cannot Reach Dispatcher");
+                    }
                 }
             }
         }, 120000, 200000);
