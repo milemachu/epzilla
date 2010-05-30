@@ -80,7 +80,7 @@ public class FileScanner implements Runnable {
         return recoverArr;
     }
 
-    public static void readFile(File file) {
+    public static boolean readFile(File file) {
         List<String> recoverArr = new ArrayList<String>();
         long start = System.currentTimeMillis();
         try {
@@ -110,12 +110,14 @@ public class FileScanner implements Runnable {
             scanner.close();
         } catch (FileNotFoundException e) {
             Logger.log("File not found");
+            return false;
         }
 //        printArray(recoverArr);
         setTriggerList(recoverArr);
         long end = System.currentTimeMillis();
         Logger.log("Time: " + (end - start));
         DispatcherUIController.appendTriggers(recoverArr);
+        return true;
     }
 
     public static void setTriggerList(List<String> list) {

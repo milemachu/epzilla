@@ -32,8 +32,10 @@ public class ReadLog {
         if (isLoaded == false) {
             loadSettings();
         }
-        FileScanner.readFile(file);
-        return true;
+        if (FileScanner.readFile(file))
+            return true;
+        else
+            return false;
     }
 
     private static void loadSettings() {
