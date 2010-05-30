@@ -1,5 +1,6 @@
 package org.epzilla.dispatcher.rmi;
 
+import net.epzilla.stratification.restruct.RestructuringDaemon;
 import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.dispatcher.controlers.MainDispatcherController;
 
@@ -69,7 +70,7 @@ public class DispatcherService {
             //To run as Dispatcher as STM server
             MainDispatcherController.runAsServer();
             Logger.log("running as server...");
-            
+            RestructuringDaemon.start();
             //To run dispatcher as STM client
             //MainDispatcherController.runAsClient();
             //Logger.log("running as client...");
