@@ -24,6 +24,12 @@ public class RmiMessageHandler {
 								messageDecoder.decodeMessage(message);
 							//Might be able to remove as well. Aware of that.
 //						}						
+					}else{
+						try {
+							Thread.sleep(1);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
