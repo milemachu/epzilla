@@ -18,6 +18,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.awt.Color;
+import java.awt.SystemColor;
 
 public class DispatcherUI extends JFrame implements ActionListener {
     private JTabbedPane tabbedPane = null;
@@ -139,7 +140,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             tabbedPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
             tabbedPane.setBackground(SystemColor.control);
             tabbedPane.addTab("Summary", summaryIcon, getSummeryTab());
-            tabbedPane.addTab("Cluster Details", clusterDeIcon, getClusterDeTab());
+            tabbedPane.addTab("Dispatcher View", clusterDeIcon, getClusterDeTab());
             tabbedPane.addTab("Settings", settingsIcon, getMainSettings());
             tabbedPane.setVisible(true);
         }
