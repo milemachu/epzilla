@@ -16,12 +16,14 @@ import java.awt.*;
 public class TableRenderer implements TableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        final String txt = value.toString();
+
         JLabel jl = new JLabel();
-        jl.setText(value.toString());
+        jl.setText(txt);
 //        jl.setHorizontalAlignment(JLabel.CENTER);
         try {
             if (column == EpzillaDataModel.CPU || column == EpzillaDataModel.MEMORY) {
-                int i = (Integer) value;
+                final int i = (Integer) value;
                 Color back = null;
                 if (i < 25) {
                     back = Color.GREEN;
@@ -32,7 +34,19 @@ public class TableRenderer implements TableCellRenderer {
                 } else {
                     back = Color.red;
                 }
-                 jl.setBackground(back);
+                final Color fc = back;
+                jl = new JLabel() {
+                    @Override
+                    protected void paintComponent(Graphics g) {
+                        super.paintComponent(g);    //To change body of overridden methods use File | Settings | File Templates.
+                        g.setColor(fc);
+                        g.fillRect(0, 0, (int) ((this.getWidth()) * (i / 100.0d)), this.getHeight());
+                        g.setColor(Color.black);
+                        g.drawString(txt, 1, 12);
+                    }
+                };
+
+//                 jl.setBackground(back);
             }
         } catch (Exception e) {
             Logger.error("error in cell renderer", e);
