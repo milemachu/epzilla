@@ -46,7 +46,7 @@ public class RmiMessageClient {
 			li = getLeaderInterface(remoteIp);
 			li.receiveMessage(MessageGenerator.getLeaderPublishMessage());
 		} catch (Exception e) {
-			System.err.println(e.getCause());
+			System.err.println(e.getCause()+e.getMessage()+remoteIp);
 		}
 	}
 
@@ -67,7 +67,7 @@ public class RmiMessageClient {
 			li = getLeaderInterface(remoteIp);
 			li.receiveMessage(message);
 		} catch (Exception e) {
-			System.err.println(e.getCause());
+			System.err.println(e.getCause()+e.getMessage()+remoteIp);
 		}
 	}
 
@@ -91,7 +91,7 @@ public class RmiMessageClient {
 			System.out.println("The UID of lower order forwarded to:" + remoteIp);
 			li.receiveMessage(receivedMessage);
 		} catch (Exception e) {
-			System.err.println(e.getCause());
+			System.err.println(e.getCause()+e.getMessage()+remoteIp);
 		}
 		
 	}
@@ -113,7 +113,7 @@ public class RmiMessageClient {
 			System.out.println("Recived UID is higher or same order. This UID sent to:"+ remoteIp);
 			li.receiveMessage(MessageGenerator.getUidMessage());
 		} catch (Exception e) {
-			System.err.println(e.getCause());
+			System.err.println(e.getCause()+e.getMessage()+remoteIp);
 		}
 		
 	}
@@ -135,7 +135,7 @@ public class RmiMessageClient {
 			System.out.println("Pulse sent to the non leader client:" + remoteIp);
 			li.receiveMessage(MessageGenerator.getPulse());
 		} catch (Exception e) {
-			System.err.println(e.getCause());
+			System.err.println(e.getCause()+e.getMessage()+remoteIp);
 		}
 	}
 
@@ -158,7 +158,7 @@ public class RmiMessageClient {
 			System.out
 			.println("Listner registered with the Leader "+remoteIp+" and ready to listen to pulse.");
 		} catch (Exception e) {
-			System.err.println(e.getCause());
+			System.err.println(e.getCause()+e.getMessage()+remoteIp);
 		}	
 	}
 
@@ -179,7 +179,7 @@ public class RmiMessageClient {
 			li = getLeaderInterface(remoteIp);
 			li.removeListener(listener);
 		} catch (Exception e) {
-			System.err.println(e.getCause());
+			System.err.println(e.getCause()+e.getMessage()+remoteIp);
 		}
 	}
 
@@ -200,7 +200,7 @@ public class RmiMessageClient {
 			li.receiveMessage(MessageGenerator.getRequestNotAccepted()+ errorCode + MessageMeta.SEPARATOR);
 			System.out.println("Request not accepted sent to:" + remoteIp);
 		}  catch (Exception e) {
-			System.err.println(e.getCause());
+			System.err.println(e.getCause()+e.getMessage()+remoteIp);
 		}
 	}
 
@@ -220,7 +220,7 @@ public class RmiMessageClient {
 			li.receiveMessage(MessageGenerator.getPing());
 			System.out.println("Ping sent to:" + remoteIp);
 		} catch (Exception e) {
-			System.err.println(e.getCause());
+			System.err.println(e.getCause()+e.getMessage()+remoteIp);
 		}
 	}
 
@@ -242,7 +242,7 @@ public class RmiMessageClient {
 			System.out.println("get cluster leader sent to:" + remoteIp);
 			return li.getClusterLeader();
 		} catch (Exception e) {
-			System.err.println(e.getCause());
+			System.err.println(e.getCause()+e.getMessage()+remoteIp);
 		}
 
 		return null;
@@ -264,7 +264,7 @@ public class RmiMessageClient {
 			System.out.println("get cluster leader sent to:" + remoteIp);
 			return li.getStatus();
 		} catch (Exception e) {
-			System.err.println(e.getCause());
+			System.err.println(e.getCause()+e.getMessage()+remoteIp);
 		}	
 		return null;		
 	}
@@ -285,7 +285,7 @@ public class RmiMessageClient {
 			System.out.println("get is Leader running in remote sent to:"+ remoteIp);
 			return li.isLeaderElectionRunning();
 		} catch (Exception e) {
-			System.err.println(e.getCause());
+			System.err.println(e.getCause()+e.getMessage()+remoteIp);
 		}
 		return false;		
 	}
