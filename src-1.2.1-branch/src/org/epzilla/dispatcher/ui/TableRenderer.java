@@ -18,9 +18,8 @@ public class TableRenderer implements TableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         final String txt = value.toString();
 
-        JLabel jl = new JLabel();
-        jl.setText(txt);
-//        jl.setHorizontalAlignment(JLabel.CENTER);
+        JLabel jl = null;
+
         try {
             if (column == EpzillaDataModel.CPU || column == EpzillaDataModel.MEMORY) {
                 final int i = (Integer) value;
@@ -42,16 +41,25 @@ public class TableRenderer implements TableCellRenderer {
                         g.setColor(fc);
                         g.fillRect(0, 0, (int) ((this.getWidth()) * (i / 100.0d)), this.getHeight());
                         g.setColor(Color.black);
-                        g.drawString(txt, 1, 12);
+                        g.drawString(txt, 2, 12);
                     }
                 };
 
 //                 jl.setBackground(back);
+            } else {
+                  jl = new JLabel() {
+                    @Override
+                    protected void paintComponent(Graphics g) {
+                        super.paintComponent(g);    //To change body of overridden methods use File | Settings | File Templates.
+                        g.setColor(Color.black);
+                        g.drawString(txt, 3, 12);
+                    }
+                };
             }
         } catch (Exception e) {
             Logger.error("error in cell renderer", e);
         }
         jl.setOpaque(true);
-        return jl;  //To change body of implemented methods use File | Settings | File Templates.
+        return jl != null? jl: new JLabel(txt);  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
