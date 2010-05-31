@@ -56,10 +56,10 @@ public class TableRenderer implements TableCellRenderer {
                     }
                 };
             }
+            jl.setOpaque(true);
         } catch (Exception e) {
             Logger.error("error in cell renderer", e);
         }
-        jl.setOpaque(true);
-        return jl != null? jl: new JLabel(txt);  //To change body of implemented methods use File | Settings | File Templates.
+        return jl;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
