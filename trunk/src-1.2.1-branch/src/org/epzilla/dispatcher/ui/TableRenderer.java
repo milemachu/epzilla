@@ -19,9 +19,10 @@ public class TableRenderer implements TableCellRenderer {
         final String txt = value.toString();
 
         JLabel jl = null;
-
+        final  String colname = table.getColumnName(column);
+        
         try {
-            if (column == EpzillaDataModel.CPU || column == EpzillaDataModel.MEMORY) {
+            if (colname.equals(EpzillaDataModel.headers[EpzillaDataModel.CPU]) || colname.equals(EpzillaDataModel.headers[EpzillaDataModel.MEMORY])) {
                 final int i = (Integer) value;
                 Color back = null;
                 if (i < 25) {
