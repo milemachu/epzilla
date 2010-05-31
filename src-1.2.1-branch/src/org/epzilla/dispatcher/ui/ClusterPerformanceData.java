@@ -1,5 +1,7 @@
 package org.epzilla.dispatcher.ui;
 
+import org.epzilla.dispatcher.controlers.DispatcherUIController;
+
 import java.util.Collections;
 import java.util.Vector;
 
@@ -50,6 +52,7 @@ public class ClusterPerformanceData {
         }
         d.setCpuUsage(cpuUsage);
         d.setMemoryUsage(memoryUsage);
+        DispatcherUIController.updateUI();
     }
 
     public Data getData(int index) {
