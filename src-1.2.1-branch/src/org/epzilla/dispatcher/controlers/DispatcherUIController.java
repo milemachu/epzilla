@@ -24,6 +24,10 @@ public class DispatcherUIController {
     private static DispatcherUI instance;
     private static String dateTime;
 
+    public static void updateUI() {
+          instance.repaint();
+    }
+
     public static void InitializeUI() {
         instance = new DispatcherUI();
         instance.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
