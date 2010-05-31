@@ -66,16 +66,29 @@ public class EventHandler {
 					Epzilla.addToTimerQueue(new ErrorOccurredEvent());
 				}else{
 					//Server not available. Initiate LE.
+					String previousLeader=Epzilla.getClusterLeader();
+					if(Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
+						NodeClientManager.setClusterLeader(null);
+						NodeClientManager.getNodeList().remove(previousLeader);
+						NodeClientManager.setSubscribedWithLeader(false);
+					}else{
+						DispatcherClientManager.setDispatcherLeader(null);
+						DispatcherClientManager.getDispatcherList().remove(previousLeader);
+						DispatcherClientManager.setSubscribedWithLeader(true);
+					}
 					Epzilla.setClusterLeader(EMPTY_STRING);
 					Epzilla.setStatus(Status.UNKNOWN.name());
 					Epzilla.setLeaderElectionRunning(true);
-					fireEpzillaEvent(new ProcessStatusChangedEvent());					
+					fireEpzillaEvent(new ProcessStatusChangedEvent());		
+					EpzillaLeaderPubSub.resetPubSub();
+					
 					Thread initiator=new Thread(new Runnable() {
 						public void run() {
 							RmiMessageClient.sendUidMessage(getNextHopToCommunicate());
 						}
 					});
 					initiator.start();
+					
 				}
 			}
 		}else if(event instanceof PingReceivedEvent){
