@@ -3,8 +3,10 @@ package org.epzilla.dispatcher.ui;
 import javax.swing.table.AbstractTableModel;
 
 class EpzillaDataModel extends AbstractTableModel {
-    String[] headers = {"Cluster Id", "CPU", "Memory"};
-
+    String[] headers = {"Cluster Id", "CPU (%)", "Memory (%)"};
+    public static int CPU = 1;
+    public static int MEMORY = 2;
+    
     public EpzillaDataModel() {
 
     }
