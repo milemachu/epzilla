@@ -12,6 +12,10 @@ public class EpzillaTable extends JPanel {
         this.setLayout(new CustomGridLayout(new String[] {"100%"}, new String[] {"100%"}));
         JTable jt = new JTable(mdm);
         jt.setModel(mdm);
+        jt.setDefaultRenderer(Object.class, new TableRenderer());
+        jt.setDefaultRenderer(Integer.class, new TableRenderer());
+        jt.setDefaultRenderer(Long.class, new TableRenderer());
+        jt.setDefaultRenderer(String.class, new TableRenderer());
 //        jt.setBounds(new Rectangle(713, 340, 281, 170));
 
         JScrollPane jsp = new JScrollPane(jt);
