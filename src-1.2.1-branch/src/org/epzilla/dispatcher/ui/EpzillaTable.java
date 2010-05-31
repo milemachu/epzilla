@@ -3,6 +3,7 @@ package org.epzilla.dispatcher.ui;
 import javax.swing.*;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import java.awt.*;
 import java.util.Enumeration;
 
 public class EpzillaTable extends JPanel {
@@ -12,6 +13,7 @@ public class EpzillaTable extends JPanel {
         this.setLayout(new CustomGridLayout(new String[]{"100%"}, new String[]{"100%"}));
         JTable jt = new JTable(mdm);
         jt.setModel(mdm);
+        jt.setBackground(Color.LIGHT_GRAY);
         jt.setDefaultRenderer(Object.class, new TableRenderer());
         jt.setDefaultRenderer(Integer.class, new TableRenderer());
         jt.setDefaultRenderer(Long.class, new TableRenderer());
