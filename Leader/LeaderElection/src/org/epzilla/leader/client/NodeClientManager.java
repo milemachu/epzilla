@@ -53,6 +53,14 @@ public class NodeClientManager {
 		return nodeDiscMgr;
 	}
 	
+	public static void setSubscribedWithLeader(boolean result){
+		NodeDiscoveryManager.setSubscribedWithLeader(result);
+	}
+	
+	public static boolean isSubscribedWithLeader(){
+		return NodeDiscoveryManager.isSubscribedWithLeader();
+	}
+	
 	public static String getNextNode(){
 		HashSet<String> discoveredSet=new HashSet<String>(getNodeList());
 		ArrayList<String> staticIpList=new ArrayList<String>(Epzilla.getComponentIpList().values());
