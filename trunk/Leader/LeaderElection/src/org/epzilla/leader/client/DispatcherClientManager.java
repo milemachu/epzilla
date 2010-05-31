@@ -55,6 +55,14 @@ public class DispatcherClientManager {
 		return dispatcherDiscMgr;
 	}
 	
+	public static void setSubscribedWithLeader(boolean result){
+		DispatcherDiscoveryManager.setSubscribedWithLeader(result);
+	}
+	
+	public static boolean isSubscribedWithLeader() {
+		return DispatcherDiscoveryManager.isSubscribedWithLeader();
+	}
+	
 	public static String getNextDispatcher(){
 		HashSet<String> discoveredSet=new HashSet<String>(getDispatcherList());
 		ArrayList<String> staticIpList=new ArrayList<String>(Epzilla.getComponentIpList().values());
