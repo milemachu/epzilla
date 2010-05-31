@@ -24,7 +24,6 @@ public class TableRenderer implements TableCellRenderer {
                 int i = (Integer) value;
                 Color back = null;
                 if (i < 25) {
-                    System.out.println("settin green");
                     back = Color.GREEN;
                 } else if (i < 50) {
                     back = Color.yellow;
