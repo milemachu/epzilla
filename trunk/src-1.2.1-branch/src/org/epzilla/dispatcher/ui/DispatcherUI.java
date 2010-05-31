@@ -71,6 +71,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JTextArea txtRecoveredList = null;
     private JLabel lblRecTriggers = null;
 
+
     public DispatcherUI() {
         initialize();
     }
@@ -233,10 +234,30 @@ public class DispatcherUI extends JFrame implements ActionListener {
             summary.add(lblOutEC, null);
             summary.add(getTxtOutEventCount(), null);
             summary.add(lblClusterPer, null);
-            summary.add(getTxtClusterPerformance(), null);
+//            summary.add(getTxtClusterPerformance(), null);
+//            summary.add(getPerformanceTable(), null);
+//            JTable t = new JTable(new EpzillaDataModel());
+//            t.setBounds(new Rectangle(713, 340, 281, 170));
+//            t.setFillsViewportHeight(true);
+//            JScrollPane jsp = new JScrollPane(t);
+//            summary.add(jsp);
+            EpzillaTable et = new EpzillaTable();
+            et.setBounds(new Rectangle(713, 340, 300, 170));
+            summary.add(et);
+
         }
         return summary;
     }
+
+
+    private JPanel getPerformanceTable() {
+        if (perfTable == null) {
+            perfTable = new EpzillaTable();
+        }
+        return perfTable;
+    }
+
+    JPanel perfTable;
 
     private JPanel getClusterDeTab() {
         if (clusterDe == null) {
