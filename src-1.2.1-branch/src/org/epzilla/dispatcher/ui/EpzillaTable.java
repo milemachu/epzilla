@@ -9,7 +9,7 @@ public class EpzillaTable extends JPanel {
 
     public EpzillaTable() {
         EpzillaDataModel mdm = new EpzillaDataModel();
-        this.setLayout(new CustomGridLayout(new String[] {"100%"}, new String[] {"100%"}));
+        this.setLayout(new CustomGridLayout(new String[]{"100%"}, new String[]{"100%"}));
         JTable jt = new JTable(mdm);
         jt.setModel(mdm);
         jt.setDefaultRenderer(Object.class, new TableRenderer());
@@ -17,6 +17,9 @@ public class EpzillaTable extends JPanel {
         jt.setDefaultRenderer(Long.class, new TableRenderer());
         jt.setDefaultRenderer(String.class, new TableRenderer());
 //        jt.setBounds(new Rectangle(713, 340, 281, 170));
+        jt.setDragEnabled(false);
+
+      
 
         JScrollPane jsp = new JScrollPane(jt);
         jt.setFillsViewportHeight(true);
