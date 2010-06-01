@@ -65,7 +65,7 @@ public class TriggerSender {
 
     private static void sendTriggers(ClusterInterface co, ArrayList<TriggerRepresentation> triggers, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
         String response = co.acceptTiggerStream(triggers);
-        TriggerLog.writeTolog(clusterID, triggers);
+        TriggerLog.writeTolog(clientID,clusterID, triggers);
         if (response != null) {
             Logger.log("Triggers send to the cluster");
         } else {

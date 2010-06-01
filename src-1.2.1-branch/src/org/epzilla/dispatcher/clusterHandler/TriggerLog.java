@@ -15,14 +15,14 @@ import java.util.ArrayList;
  */
 public class TriggerLog {
 
-    public static synchronized void writeTolog(String clusterID, ArrayList<TriggerRepresentation> triggers) {
+    public static synchronized void writeTolog(String clientID, String clusterID, ArrayList<TriggerRepresentation> triggers) {
 
         try {
             ArrayList<String> list = new ArrayList();
             for (TriggerRepresentation rep : triggers) {
                 list.add(rep.getTrigger());
             }
-            WriteLog.writeInit(list, clusterID);
+            WriteLog.writeInit(list, clientID, clusterID);
         } catch (IOException e) {
         }
 
