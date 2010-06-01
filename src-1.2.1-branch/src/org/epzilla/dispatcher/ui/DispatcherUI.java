@@ -2,6 +2,7 @@ package org.epzilla.dispatcher.ui;
 
 import org.epzilla.dispatcher.DispatcherRegister;
 import org.epzilla.dispatcher.controlers.DispatcherUIController;
+import org.epzilla.dispatcher.dataManager.RecoveredTriggers;
 import org.epzilla.dispatcher.logs.ReadLog;
 import org.epzilla.dispatcher.xml.ServerSettingsReader;
 
@@ -66,12 +67,11 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JTextArea txtDiscoveryStatus = null;
     private JCheckBox chkLogs = null;
     private JButton btnReplayLogs = null;
-    private JButton btnRecTriggers = null;
-    private JLabel lblClusterPer = null;
+       private JLabel lblClusterPer = null;
     private JTextArea txtClusterPerformance = null;
     private JTextArea txtRecoveredList = null;
     private JLabel lblRecTriggers = null;
-
+    ArrayList<String> recArray = new ArrayList<String>();
 
     public DispatcherUI() {
         initialize();
@@ -285,7 +285,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
             clusterDe.add(getDiscoveryStaPane(), null);
             clusterDe.add(getRecTriggersPane(), null);
             clusterDe.add(lblRecTriggers, null);
-            clusterDe.add(getBtnRecLogs(),null);
         }
         return clusterDe;
     }
@@ -552,18 +551,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
         return recTriggerList;
     }
 
-    private JButton getBtnRecLogs() {
-        if (btnRecTriggers == null) {
-           ImageIcon replayIcon = new ImageIcon("images//reload.jpg");
-            btnRecTriggers = new JButton(replayIcon);
-            btnRecTriggers.setBounds(new Rectangle(885, 540, 115, 20));
-            btnRecTriggers.setText("Add Triggers");
-            btnRecTriggers.setEnabled(true);
-            btnRecTriggers.addActionListener(this);
-        }
-        return btnRecTriggers;
-    }
-
     public JTextArea getTxtDiscoveryStatus() {
         if (txtDiscoveryStatus == null) {
             txtDiscoveryStatus = new JTextArea();
@@ -699,6 +686,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
+        ArrayList<String> recArray = new ArrayList<String>();
         Object source = event.getSource();
         if (source == adminSettings) {
             tabbedPane.setVisible(true);
@@ -720,17 +708,18 @@ public class DispatcherUI extends JFrame implements ActionListener {
                 btnReplayLogs.setEnabled(false);
             }
         } else if (source == btnReplayLogs) {
-            boolean status = ReadLog.readLog();
-            if (status) {
+            try {
+                recArray = ReadLog.readLog();
+                RecoveredTriggers.sendTiggerList(recArray);
                 JOptionPane.showMessageDialog(null, "Trigger List successfully recovered", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
                 btnReplayLogs.setEnabled(false);
                 chkLogs.setSelected(false);
-            } else if (!status) {
+            }
+            catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Recovery failed. Make sure settings details are correct", "Epzilla", JOptionPane.ERROR_MESSAGE);
                 btnReplayLogs.setEnabled(false);
                 chkLogs.setSelected(false);
             }
-
         } else if (source == btnRegister) {
             try {
                 if (isRegister == false) {
@@ -746,15 +735,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
 //                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
             }
 
-        } else if(source == btnRecTriggers){
-            try{
-
-
-            }   catch(Exception e){
-                  JOptionPane.showMessageDialog(null, "No Triggers to recover", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
-                e.printStackTrace();
-            }
         }
+
     }
 
 }
