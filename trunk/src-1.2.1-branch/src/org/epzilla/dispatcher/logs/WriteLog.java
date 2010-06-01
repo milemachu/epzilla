@@ -37,7 +37,7 @@ public class WriteLog {
 
     private static void overwriteLog(String filename, List<String> myArr, String clientID, String clusterID) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename, false));
-        String tag = clusterID;
+        String tag = "CID"+clusterID;
         writer.write(tag + " " + "Checkpoint");
         writer.newLine();
         for (int i = 0; i < myArr.size(); i++) {
@@ -53,7 +53,7 @@ public class WriteLog {
 
     private static void writeLog(String filename, List<String> myArr, String clientID, String clusterID) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true));
-        String tag = clusterID;
+       String tag = "CID"+clusterID;
         writer.write(tag + " " + "Checkpoint");
         writer.newLine();
         for (int i = 0; i < myArr.size(); i++) {

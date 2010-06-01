@@ -39,7 +39,7 @@ public class RandomStringGenerator {
                  for(int j = 0; j<3 ;j++){
 	      generateRandomStrings(START, END, random);
                      try {
-                         lf.writeInit(myArr,"1","CID"+j);
+                         lf.writeInit(myArr,"1",""+j);
                      } catch (IOException e) {
                          e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                      }
