@@ -102,19 +102,19 @@ public class Main {
 //                initSTM();
 //            }
 
-//        LeaderElectionInitiator.mainMethod();
-//        String leader = "";
-//        while (leader.equalsIgnoreCase("")) {
-//            leader = LeaderElectionInitiator.getLeader();
-//        }
-//        if (leader.equalsIgnoreCase(ipAddress)) {
+        LeaderElectionInitiator.mainMethod();
+        String leader = "";
+        while (leader.equalsIgnoreCase("")) {
+            leader = LeaderElectionInitiator.getLeader();
+        }
+        if (leader.equalsIgnoreCase(ipAddress)) {
             NodeController.setLeader(true);
             initSTM();
-//        } else {
-//            NodeController.setLeader(false);
-//            NodeController.setLeaderIP("192.168.182.4");
-//            initSTM();
-//        }
+        } else {
+            NodeController.setLeader(false);
+            NodeController.setLeaderIP(leader);
+            initSTM();
+        }
 
 //            register();
 //        } catch (UnknownHostException e) {
