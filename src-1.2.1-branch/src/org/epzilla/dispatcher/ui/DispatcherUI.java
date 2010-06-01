@@ -66,6 +66,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JTextArea txtDiscoveryStatus = null;
     private JCheckBox chkLogs = null;
     private JButton btnReplayLogs = null;
+    private JButton btnRecTriggers = null;
     private JLabel lblClusterPer = null;
     private JTextArea txtClusterPerformance = null;
     private JTextArea txtRecoveredList = null;
@@ -284,6 +285,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             clusterDe.add(getDiscoveryStaPane(), null);
             clusterDe.add(getRecTriggersPane(), null);
             clusterDe.add(lblRecTriggers, null);
+            clusterDe.add(getBtnRecLogs(),null);
         }
         return clusterDe;
     }
@@ -550,6 +552,18 @@ public class DispatcherUI extends JFrame implements ActionListener {
         return recTriggerList;
     }
 
+    private JButton getBtnRecLogs() {
+        if (btnRecTriggers == null) {
+           ImageIcon replayIcon = new ImageIcon("images//reload.jpg");
+            btnRecTriggers = new JButton(replayIcon);
+            btnRecTriggers.setBounds(new Rectangle(885, 540, 115, 20));
+            btnRecTriggers.setText("Add Triggers");
+            btnRecTriggers.setEnabled(true);
+            btnRecTriggers.addActionListener(this);
+        }
+        return btnRecTriggers;
+    }
+
     public JTextArea getTxtDiscoveryStatus() {
         if (txtDiscoveryStatus == null) {
             txtDiscoveryStatus = new JTextArea();
@@ -732,6 +746,14 @@ public class DispatcherUI extends JFrame implements ActionListener {
 //                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
             }
 
+        } else if(source == btnRecTriggers){
+            try{
+
+
+            }   catch(Exception e){
+                  JOptionPane.showMessageDialog(null, "No Triggers to recover", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
+                e.printStackTrace();
+            }
         }
     }
 
