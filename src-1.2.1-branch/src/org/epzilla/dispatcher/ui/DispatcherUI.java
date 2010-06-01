@@ -56,6 +56,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JScrollPane resultScrollPane = null;
     private JScrollPane discoveryStatusPane = null;
     private JScrollPane recTriggerList = null;
+    private JScrollPane dispIps = null;
     private JLabel lblInEC = null;
     private JTextField txtInEventCount = null;
     private JLabel lblStatus = null;
@@ -67,11 +68,13 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JTextArea txtDiscoveryStatus = null;
     private JCheckBox chkLogs = null;
     private JButton btnReplayLogs = null;
-       private JLabel lblClusterPer = null;
+    private JLabel lblClusterPer = null;
     private JTextArea txtClusterPerformance = null;
     private JTextArea txtRecoveredList = null;
+    private JTextArea txtDispIps = null;
     private JLabel lblRecTriggers = null;
-    ArrayList<String> recArray = new ArrayList<String>();
+    private JLabel lblDispIps = null;
+//    ArrayList<String> recArray = new ArrayList<String>();
 
     public DispatcherUI() {
         initialize();
@@ -263,12 +266,14 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JPanel getClusterDeTab() {
         if (clusterDe == null) {
             lblRecTriggers = new JLabel();
-            lblRecTriggers.setBounds(new Rectangle(703, 11, 124, 21));
+            lblRecTriggers.setBounds(new Rectangle(10, 350, 124, 20));
             lblRecTriggers.setText("Recovered Triggers:");
             lblDiscoveryStatus = new JLabel();
             lblDiscoveryStatus.setBounds(new Rectangle(10, 10, 200, 25));
             lblDiscoveryStatus.setText("Dispatcher Discovery Status :");
-
+            lblDispIps = new JLabel();
+            lblDispIps.setBounds(new Rectangle(720, 10, 124, 20));
+            lblDispIps.setText("Dispatcher IP set:");
             clusterDe = new JPanel() {
                 public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
@@ -285,6 +290,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
             clusterDe.add(getDiscoveryStaPane(), null);
             clusterDe.add(getRecTriggersPane(), null);
             clusterDe.add(lblRecTriggers, null);
+            clusterDe.add(lblDispIps, null);
+            clusterDe.add(getDispIpScrollPane(), null);
         }
         return clusterDe;
     }
@@ -533,7 +540,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     public JTextArea getTxtRecoveredList() {
         if (txtRecoveredList == null) {
             txtRecoveredList = new JTextArea();
-            txtRecoveredList.setBounds(new Rectangle(703, 35, 295, 500));
+            txtRecoveredList.setBounds(new Rectangle(10, 335, 600, 250));
             txtRecoveredList.setForeground(Color.green);
             txtRecoveredList.setBackground(Color.black);
             txtRecoveredList.setEditable(false);
@@ -544,7 +551,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JScrollPane getRecTriggersPane() {
         if (recTriggerList == null) {
             recTriggerList = new JScrollPane();
-            recTriggerList.setBounds(new Rectangle(703, 35, 295, 500));
+            recTriggerList.setBounds(new Rectangle(10, 375, 600, 250));
             recTriggerList.setViewportView(getTxtRecoveredList());
 
         }
@@ -554,7 +561,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     public JTextArea getTxtDiscoveryStatus() {
         if (txtDiscoveryStatus == null) {
             txtDiscoveryStatus = new JTextArea();
-            txtDiscoveryStatus.setBounds(new Rectangle(10, 35, 600, 500));
+            txtDiscoveryStatus.setBounds(new Rectangle(10, 35, 600, 250));
             txtDiscoveryStatus.setForeground(Color.green);
             txtDiscoveryStatus.setBackground(Color.black);
             txtDiscoveryStatus.setEditable(false);
@@ -567,13 +574,33 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JScrollPane getDiscoveryStaPane() {
         if (discoveryStatusPane == null) {
             discoveryStatusPane = new JScrollPane();
-            discoveryStatusPane.setBounds(new Rectangle(10, 35, 600, 500));
+            discoveryStatusPane.setBounds(new Rectangle(10, 35, 600, 250));
             discoveryStatusPane.setViewportView(getTxtDiscoveryStatus());
         }
         return discoveryStatusPane;
     }
 
+    private JScrollPane getDispIpScrollPane() {
+        if (dispIps == null) {
+            dispIps = new JScrollPane();
+            dispIps.setBounds(new Rectangle(720, 35, 270, 250));
+            dispIps.setViewportView(getDispIPSet());
+        }
+        return dispIps;
+    }
 
+    public JTextArea getDispIPSet() {
+        if (txtDispIps == null) {
+            txtDispIps = new JTextArea();
+            txtDispIps.setBounds(new Rectangle(720, 35, 270, 250));
+            txtDispIps.setForeground(Color.green);
+            txtDispIps.setEditable(false);
+            txtDispIps.setBackground(Color.black);
+        }
+        return txtDispIps;
+    }
+
+    //     txtRecoveredList.setBounds(new Rectangle(703, 35, 295, 500));
     private JCheckBox getChkLogs() {
         if (chkLogs == null) {
             chkLogs = new JCheckBox();
