@@ -25,7 +25,7 @@ public class DispatcherUIController {
     private static String dateTime;
 
     public static void updateUI() {
-          instance.repaint();
+        instance.repaint();
     }
 
     public static void InitializeUI() {
@@ -91,6 +91,10 @@ public class DispatcherUIController {
 
     public static void appendClusterData(String cluster, String cpuUsg, String mmUsg) {
         instance.getTxtClusterPerformance().setText("Cluster ID: " + cluster + "\n" + "CPU Usage: " + cpuUsg + "%" + "\n" + "Memory Usage: " + mmUsg + "MB" + "\n");
+    }
+
+    public static void appendDispatcherIPs(String text) {
+        instance.getDispIPSet().append(text + "\n");
     }
 
     private static String getDateTime() {
