@@ -59,6 +59,9 @@ public class NodeUIController {
     public static void setEventCount(String text) {
         instance.getJTextAreaEventCount().setText(text);
     }
+    public static void main(String[] args){
+        InitializeUI();
+    }
 }
 
 
