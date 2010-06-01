@@ -3,6 +3,7 @@ package org.epzilla.dispatcher.logs;
 import org.epzilla.dispatcher.xml.LogFileSettingReader;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +29,13 @@ public class ReadLog {
         return arr;
     }
 
-    public static boolean readLog() {
+    public static ArrayList<String> readLog() throws FileNotFoundException {
         if (isLoaded == false) {
             loadSettings();
         }
-        if (FileScanner.readFile(file))
-            return true;
-        else
-            return false;
+        ArrayList<String> recList = new ArrayList<String>();
+        recList= FileScanner.readFile(file);
+        return recList;
     }
 
     private static void loadSettings() {
@@ -48,10 +48,6 @@ public class ReadLog {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        readLog();
     }
 }
 

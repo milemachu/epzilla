@@ -23,25 +23,25 @@ public class WriteLog {
     public WriteLog() {
     }
 
-    public static void writeInit(List<String> triggerList, String userID) throws IOException {
+    public static void writeInit(List<String> triggerList, String clientID, String clusterID) throws IOException {
         if (isLoaded == false) {
             loadSettings();
         }
         long size = getFileSize(filePath);
 
         if (size > 100 * 1024 * 1024)
-            overwriteLog(CurrentValues.defaultLogFile, triggerList, userID);
+            overwriteLog(CurrentValues.defaultLogFile, triggerList, clientID, clusterID);
         else
-            writeLog(CurrentValues.defaultLogFile, triggerList, userID);
+            writeLog(CurrentValues.defaultLogFile, triggerList, clientID, clusterID);
     }
 
-    private static void overwriteLog(String filename, List<String> myArr, String ownerId) throws IOException {
+    private static void overwriteLog(String filename, List<String> myArr, String clientID, String clusterID) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename, false));
-        String tag = ownerId;
+        String tag = clusterID;
         writer.write(tag + " " + "Checkpoint");
         writer.newLine();
         for (int i = 0; i < myArr.size(); i++) {
-            writer.write(myArr.get(i));
+            writer.write(myArr.get(i) + ":" + clientID + ":" + clusterID);
             writer.newLine();
         }
         writer.write("</commit>");
@@ -51,13 +51,13 @@ public class WriteLog {
         writer.close();
     }
 
-    private static void writeLog(String filename, List<String> myArr, String ownerId) throws IOException {
+    private static void writeLog(String filename, List<String> myArr, String clientID, String clusterID) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true));
-        String tag = ownerId;
+        String tag = clusterID;
         writer.write(tag + " " + "Checkpoint");
         writer.newLine();
         for (int i = 0; i < myArr.size(); i++) {
-            writer.write(myArr.get(i)+":"+ownerId);
+            writer.write(myArr.get(i) + ":" + clientID + ":" + clusterID);
             writer.newLine();
         }
         writer.write("</commit>");
