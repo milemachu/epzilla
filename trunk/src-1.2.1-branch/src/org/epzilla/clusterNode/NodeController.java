@@ -1,9 +1,9 @@
 package org.epzilla.clusterNode;
 
+import org.epzilla.clusterNode.userInterface.IpListManager;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.clusterNode.sharedMemory.NodeAsLeader;
 import org.epzilla.clusterNode.sharedMemory.NodeAsNonLeader;
-import org.epzilla.clusterNode.dataManager.TriggerManager;
 import org.epzilla.clusterNode.loadAnalyzer.CpuMemAnalyzer;
 
 /**
@@ -53,6 +53,7 @@ public class NodeController {
     public static void init() {
         NodeUIController.InitializeUI();
         CpuMemAnalyzer.Initialize();
+        IpListManager.Initialize();
         if (isLeader) {
             NodeAsLeader.startServer();
             NodeAsLeader.loadTriggers();
