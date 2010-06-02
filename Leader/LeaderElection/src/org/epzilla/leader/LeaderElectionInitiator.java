@@ -9,8 +9,8 @@ import java.util.Hashtable;
 
 import org.epzilla.leader.client.DispatcherClientManager;
 import org.epzilla.leader.client.NodeClientManager;
+import org.epzilla.leader.event.LeaderDisconnectedEvent;
 import org.epzilla.leader.event.ProcessStatusChangedEvent;
-import org.epzilla.leader.event.PulseNotReceivedTimeoutEvent;
 import org.epzilla.leader.event.PulseReceivedEvent;
 import org.epzilla.leader.event.listner.EpZillaListener;
 import org.epzilla.leader.message.EventHandler;
@@ -19,8 +19,8 @@ import org.epzilla.leader.rmi.LeaderInterface;
 import org.epzilla.leader.rmi.LeaderServiceImpl;
 import org.epzilla.leader.util.Component;
 import org.epzilla.leader.util.ConfigurationLoader;
-import org.epzilla.leader.util.SystemConstants;
 import org.epzilla.leader.util.Status;
+import org.epzilla.leader.util.SystemConstants;
 
 public class LeaderElectionInitiator {
 	
@@ -374,7 +374,8 @@ public class LeaderElectionInitiator {
 	 * @return result of it
 	 */
 	public static boolean initiateLeaderElection(){
-		return eventHandler.fireEpzillaEvent(new PulseNotReceivedTimeoutEvent());
+//		return eventHandler.fireEpzillaEvent(new PulseNotReceivedTimeoutEvent());
+		return eventHandler.fireEpzillaEvent(new LeaderDisconnectedEvent());
 	}
 	
 	/**

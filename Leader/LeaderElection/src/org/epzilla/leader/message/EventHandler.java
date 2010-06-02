@@ -8,6 +8,7 @@ import org.epzilla.leader.client.DispatcherClientManager;
 import org.epzilla.leader.client.NodeClientManager;
 import org.epzilla.leader.event.ErrorOccurredEvent;
 import org.epzilla.leader.event.IEpzillaEvent;
+import org.epzilla.leader.event.LeaderDisconnectedEvent;
 import org.epzilla.leader.event.PingReceivedEvent;
 import org.epzilla.leader.event.ProcessStatusChangedEvent;
 import org.epzilla.leader.event.PulseIntervalTimeoutEvent;
@@ -74,7 +75,7 @@ public class EventHandler {
 					}else{
 						DispatcherClientManager.setDispatcherLeader(null);
 						DispatcherClientManager.getDispatcherList().remove(previousLeader);
-						DispatcherClientManager.setSubscribedWithLeader(true);
+						DispatcherClientManager.setSubscribedWithLeader(false);
 					}
 					Epzilla.setClusterLeader(EMPTY_STRING);
 					Epzilla.setStatus(Status.UNKNOWN.name());
@@ -91,6 +92,31 @@ public class EventHandler {
 					
 				}
 			}
+		}else if(event instanceof LeaderDisconnectedEvent){
+			//STM Detected the Leader is not alive anymore
+			if(Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
+				NodeClientManager.setClusterLeader(null);
+				NodeClientManager.getNodeList().remove(Epzilla.getClusterLeader());
+				NodeClientManager.setSubscribedWithLeader(false);
+			}else{
+				DispatcherClientManager.setDispatcherLeader(null);
+				DispatcherClientManager.getDispatcherList().remove(Epzilla.getClusterLeader());
+				DispatcherClientManager.setSubscribedWithLeader(false);
+			}
+			Epzilla.setClusterLeader(EMPTY_STRING);
+			Epzilla.setStatus(Status.UNKNOWN.name());
+			Epzilla.setLeaderElectionRunning(true);
+			fireEpzillaEvent(new ProcessStatusChangedEvent());		
+			EpzillaLeaderPubSub.resetPubSub();
+			
+			//TODO:Start multicasting of dead node			
+			Thread initiator=new Thread(new Runnable() {
+				public void run() {
+					RmiMessageClient.sendUidMessage(getNextHopToCommunicate());
+				}
+			});
+			initiator.start();
+			
 		}else if(event instanceof PingReceivedEvent){
 			if (Epzilla.getStatus().equalsIgnoreCase(Status.LEADER.name())) {
 				Thread informer=new Thread(new Runnable() {
