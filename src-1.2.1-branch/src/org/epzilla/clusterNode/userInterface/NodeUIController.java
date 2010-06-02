@@ -40,6 +40,10 @@ public class NodeUIController {
         instance.getJTextAreaIPList().append(text + "\n");
     }
 
+    public static String getIpList(){
+        return instance.getJTextAreaIPList().getText();
+    }
+
     public static void appendTextToMachineInfo(String text) {
         instance.getjTextAreaMachineInfo().append(text + "\n");
     }
