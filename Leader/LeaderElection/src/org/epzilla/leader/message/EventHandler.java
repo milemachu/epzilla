@@ -19,6 +19,7 @@ import org.epzilla.leader.event.listner.EpZillaListener;
 import org.epzilla.leader.event.listner.IEpzillaEventListner;
 import org.epzilla.leader.util.Component;
 import org.epzilla.leader.util.Status;
+import org.epzilla.leader.util.SystemConstants;
 
 public class EventHandler {
 	private static String EMPTY_STRING=""; 
@@ -97,10 +98,12 @@ public class EventHandler {
 			if(Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
 				NodeClientManager.setClusterLeader(null);
 				NodeClientManager.getNodeList().remove(Epzilla.getClusterLeader());
+				System.out.println("Removed dead node and updated the node list.");
 				NodeClientManager.setSubscribedWithLeader(false);
 			}else{
 				DispatcherClientManager.setDispatcherLeader(null);
 				DispatcherClientManager.getDispatcherList().remove(Epzilla.getClusterLeader());
+				System.out.println("Removed the dead dispatcher and updated the dispatcher list.");
 				DispatcherClientManager.setSubscribedWithLeader(false);
 			}
 			Epzilla.setClusterLeader(EMPTY_STRING);
@@ -109,7 +112,13 @@ public class EventHandler {
 			fireEpzillaEvent(new ProcessStatusChangedEvent());		
 			EpzillaLeaderPubSub.resetPubSub();
 			
-			//TODO:Start multicasting of dead node			
+			//TODO:Start multicasting of dead node
+			try {
+				Thread.sleep(SystemConstants.DEAD_LEADER_REMOVAL_DELAY);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
 			Thread initiator=new Thread(new Runnable() {
 				public void run() {
 					RmiMessageClient.sendUidMessage(getNextHopToCommunicate());
