@@ -21,9 +21,13 @@ public class IpListManager {
             @Override
             public void run() {
                 HashSet<String> ipList = LeaderElectionInitiator.getSubscribedNodeList();
-                for (Iterator i = ipList.iterator(); i.hasNext();) {
-                    String ip = (String) i.next();
-                    NodeUIController.appendTextToIPList(ip);
+                String currentList = NodeUIController.getIpList();
+                if (ipList != null) {
+                    for (Iterator i = ipList.iterator(); i.hasNext();) {
+                        String ip = (String) i.next();
+                        if (!currentList.contains(ip))
+                            NodeUIController.appendTextToIPList(ip);
+                    }
                 }
                 System.gc();
             }
