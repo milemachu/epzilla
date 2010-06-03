@@ -68,6 +68,7 @@ public class EventHandler {
 					Epzilla.addToTimerQueue(new ErrorOccurredEvent());
 				}else{
 					//Server not available. Initiate LE.
+					//This is now taken over by the LeaderDisconnectedEvent
 					String previousLeader=Epzilla.getClusterLeader();
 					if(Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
 						NodeClientManager.setClusterLeader(null);
