@@ -30,7 +30,7 @@ public class ClientHandler {
         initNameService(serverIp, serviceName);
         try {
             dispDetails = service.getDispatcherIP();
-            if (dispDetails != " ") {
+            if (!dispDetails.equals(" ")) {
                 dispIP.add(dispDetails);
             }
         } catch (Exception e) {
