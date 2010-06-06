@@ -22,6 +22,7 @@ public class Main {
     private static String serviceName = "CLUSTER_NODE";
     private static DispInterface disObj;
     private static String ipAddress;
+    private static LeaderElectionInitiator leaderElectionInitiator;
 
     public static void bindClusterNode(String serviceName) throws UnknownHostException, MalformedURLException, RemoteException {
         if (System.getSecurityManager() == null) {
@@ -90,10 +91,6 @@ public class Main {
 //        }
     }
 
-    public static void initSTM() {
-        NodeController.init();
-    }
-
     public static void main(String[] args) {
 //        try {
 //            bindClusterNode(serviceName);
@@ -103,18 +100,9 @@ public class Main {
 //            }
 
         LeaderElectionInitiator.mainMethod();
-        String leader = "";
-        while (leader.equalsIgnoreCase("")) {
-            leader = LeaderElectionInitiator.getLeader();
-        }
-        if (leader.equalsIgnoreCase(ipAddress)) {
-            NodeController.setLeader(true);
-            initSTM();
-        } else {
-            NodeController.setLeader(false);
-            NodeController.setLeaderIP(leader);
-            initSTM();
-        }
+        NodeController.initUI();
+        startSTM();
+
 
 //            register();
 //        } catch (UnknownHostException e) {
@@ -126,6 +114,30 @@ public class Main {
 //        } catch (NotBoundException e) {
 //            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 //        }
+    }
+
+    public static boolean triggerLEFromRemote() {
+        return LeaderElectionInitiator.initiateLeaderElection();
+    }
+
+
+    public static void startSTM() {
+//        LeaderElectionInitiator.mainMethod();
+        String leader = "192.168.182.4";
+        while (leader.equalsIgnoreCase("")) {
+            leader = LeaderElectionInitiator.getLeader();
+        }
+        if (leader.equalsIgnoreCase(ipAddress)) {
+            NodeController.setLeader(true);
+            NodeController.setUiVisible();
+            NodeController.initSTM();
+        } else {
+            NodeController.setLeader(false);
+            NodeController.setLeaderIP(leader);
+            NodeController.setUiVisible();
+            NodeController.initSTM();
+        }
+
     }
 
 }

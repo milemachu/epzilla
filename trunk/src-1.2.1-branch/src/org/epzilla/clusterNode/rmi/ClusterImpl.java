@@ -3,6 +3,7 @@ package org.epzilla.clusterNode.rmi;
 import jstm.core.Site;
 import jstm.core.TransactedList;
 import jstm.core.Transaction;
+import org.epzilla.clusterNode.NodeController;
 import org.epzilla.clusterNode.accConnector.DeriveEventSender;
 import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.dataManager.EventsManager;
@@ -135,7 +136,9 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
     @Override
     public void initNodeProcess() throws RemoteException {
         // init UI of the processing node
-        Main.initSTM();
+        NodeController.initUI();
+        NodeController.setUiVisible();
+        NodeController.initSTM();
     }
 
 //

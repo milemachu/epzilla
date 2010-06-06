@@ -5,6 +5,7 @@ import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.clusterNode.sharedMemory.NodeAsLeader;
 import org.epzilla.clusterNode.sharedMemory.NodeAsNonLeader;
 import org.epzilla.clusterNode.loadAnalyzer.CpuMemAnalyzer;
+import org.epzilla.leader.event.PulseIntervalTimeoutEvent;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,25 +36,18 @@ public class NodeController {
         NodeController.leaderIP = leaderIP;
     }
 
-    public static void main(String[] args) {
-        NodeUIController.InitializeUI();
-        CpuMemAnalyzer.Initialize();
-        if (isLeader) {
-            NodeAsLeader.startServer();
-            NodeAsLeader.loadTriggers();
-            NodeAsLeader.loadIPList();
-            NodeAsLeader.loadPerformanceInfoList();
-            NodeAsLeader.checkForOverloading();
-        } else {
-            NodeAsNonLeader.startClient();
-        }
-        //TriggerManager.initTestTriggerStream();   // For testing ONLY
-    }
-
-    public static void init() {
+    public static void initUI() {
         NodeUIController.InitializeUI();
         CpuMemAnalyzer.Initialize();
         IpListManager.Initialize();
+    }
+
+    public static void setUiVisible() {
+        NodeUIController.setVisible(true);
+    }
+
+
+    public static void initSTM() {
         if (isLeader) {
             NodeAsLeader.startServer();
             NodeAsLeader.loadTriggers();
