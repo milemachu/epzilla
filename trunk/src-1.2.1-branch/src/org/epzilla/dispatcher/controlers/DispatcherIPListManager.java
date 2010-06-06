@@ -14,15 +14,17 @@ import java.util.TimerTask;
  * To change this template use File | Settings | File Templates.
  */
 public class DispatcherIPListManager {
-       public static void Initialize() {
+    public static void Initialize() {
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {
             @Override
             public void run() {
                 HashSet<String> ipList = LeaderElectionInitiator.getSubscribedNodeList();
-                for (Iterator i = ipList.iterator(); i.hasNext();) {
-                    String ip = (String) i.next();
-                    DispatcherUIController.appendDispatcherIPs(ip);
+                String currentList = DispatcherUIController.getIpList();
+                for (Object dispList : ipList) {
+                    String ip = (String) dispList;
+                    if (!currentList.contains(ip))
+                        DispatcherUIController.appendDispatcherIPs(ip);
                 }
                 System.gc();
             }
