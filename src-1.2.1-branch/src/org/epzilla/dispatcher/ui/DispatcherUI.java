@@ -36,19 +36,12 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JMenuItem adminSettings = null;
     private JMenuItem closetabs = null;
     private JMenuItem exit = null;
-    private JMenu file = null;
-    private JMenu helpmenu = null;
     private JPanel mainSettings = null;
     private JPanel summary = null;
     private JPanel clusterDe = null;
     private JTextArea txtTriggers = null;
-    private JLabel lblDisp = null;
-    private JLabel lblName = null;
     private JTextField txtDispSerName = null;
     private JTextArea txtStatus = null;
-    private JLabel lblTriggers = null;
-    private JLabel lblEvents = null;
-    private JLabel lblIPs = null;
     private JTextArea txtIPs = null;
     private JScrollPane statusScrollPane = null;
     private JScrollPane triggerListScrollPane = null;
@@ -57,24 +50,16 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JScrollPane discoveryStatusPane = null;
     private JScrollPane recTriggerList = null;
     private JScrollPane dispIps = null;
-    private JLabel lblInEC = null;
     private JTextField txtInEventCount = null;
-    private JLabel lblStatus = null;
     private JTextArea txtResult = null;
     private boolean isRegister = false;
-    private JLabel lblOutEC = null;
     private JTextField txtOutEventCount = null;
-    private JLabel lblDiscoveryStatus = null;
     private JTextArea txtDiscoveryStatus = null;
     private JCheckBox chkLogs = null;
     private JButton btnReplayLogs = null;
-    private JLabel lblClusterPer = null;
     private JTextArea txtClusterPerformance = null;
     private JTextArea txtRecoveredList = null;
     private JTextArea txtDispIps = null;
-    private JLabel lblRecTriggers = null;
-    private JLabel lblDispIps = null;
-//    ArrayList<String> recArray = new ArrayList<String>();
 
     public DispatcherUI() {
         initialize();
@@ -153,14 +138,14 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JPanel getMainSettings() {
         if (mainSettings == null) {
 
-            lblStatus = new JLabel();
+            JLabel lblStatus = new JLabel();
             lblStatus.setBounds(new Rectangle(15, 340, 71, 23));
             lblStatus.setText("Status :");
-            lblName = new JLabel();
+            JLabel lblName = new JLabel();
             lblName.setText("Service Name :");
             lblName.setLocation(new Point(30, 203));
             lblName.setSize(new Dimension(94, 16));
-            lblDisp = new JLabel();
+            JLabel lblDisp = new JLabel();
             lblDisp.setText("Dispatcher Details ");
             lblDisp.setLocation(new Point(15, 171));
             lblDisp.setFont(new Font("Dialog", Font.BOLD, 12));
@@ -198,22 +183,22 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     private JPanel getSummeryTab() {
         if (summary == null) {
-            lblClusterPer = new JLabel();
+            JLabel lblClusterPer = new JLabel();
             lblClusterPer.setBounds(new Rectangle(713, 313, 151, 16));
             lblClusterPer.setText("Cluster Performance:");
-            lblOutEC = new JLabel();
+            JLabel lblOutEC = new JLabel();
             lblOutEC.setBounds(new Rectangle(220, 553, 138, 22));
             lblOutEC.setText("Outgoing Event Count :");
-            lblInEC = new JLabel();
+            JLabel lblInEC = new JLabel();
             lblInEC.setBounds(new Rectangle(15, 553, 140, 22));
             lblInEC.setText("Incoming Event Count :");
-            lblIPs = new JLabel();
+            JLabel lblIPs = new JLabel();
             lblIPs.setBounds(new Rectangle(720, 17, 103, 16));
             lblIPs.setText("Leader IP List :");
-            lblEvents = new JLabel();
+            JLabel lblEvents = new JLabel();
             lblEvents.setBounds(new Rectangle(15, 21, 117, 16));
             lblEvents.setText("Status :");
-            lblTriggers = new JLabel();
+            JLabel lblTriggers = new JLabel();
             lblTriggers.setBounds(new Rectangle(15, 313, 116, 16));
             lblTriggers.setText("Trigger List :");
             summary = new JPanel() {
@@ -265,13 +250,13 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     private JPanel getClusterDeTab() {
         if (clusterDe == null) {
-            lblRecTriggers = new JLabel();
+            JLabel lblRecTriggers = new JLabel();
             lblRecTriggers.setBounds(new Rectangle(10, 350, 124, 20));
             lblRecTriggers.setText("Recovered Triggers:");
-            lblDiscoveryStatus = new JLabel();
+            JLabel lblDiscoveryStatus = new JLabel();
             lblDiscoveryStatus.setBounds(new Rectangle(10, 10, 200, 25));
             lblDiscoveryStatus.setText("Dispatcher Discovery Status :");
-            lblDispIps = new JLabel();
+            JLabel lblDispIps = new JLabel();
             lblDispIps.setBounds(new Rectangle(720, 10, 124, 20));
             lblDispIps.setText("Dispatcher IP set:");
             clusterDe = new JPanel() {
@@ -300,8 +285,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
         if (menuBar == null) {
             menuBar = new JMenuBar();
             menuBar.setBackground(SystemColor.control);
-            file = new JMenu("File");
-            helpmenu = new JMenu("Help");
+            JMenu file = new JMenu("File");
+            JMenu helpmenu = new JMenu("Help");
             file.add(getAdminSettingMI());
             file.add(getCloseMI());
             file.add(getExitMI());
@@ -628,15 +613,15 @@ public class DispatcherUI extends JFrame implements ActionListener {
     }
 
     public void register() throws MalformedURLException, RemoteException, UnknownHostException, NotBoundException {
-        String ip = txtIP.getText().toString();
-        String nameService = txtNameServer.getText().toString();
-        String dispatcherName = txtDispSerName.getText().toString();
-        String port = txtPort.getText().toString();
-        if (isValidIp(ip) == false) {
+        String ip = txtIP.getText();
+        String nameService = txtNameServer.getText();
+        String dispatcherName = txtDispSerName.getText();
+        String port = txtPort.getText();
+        if (!isValidIp(ip)) {
             JOptionPane.showMessageDialog(null, "Enter valid IP Address of NameServer.", "Epzilla", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if (isValidPort(port) == false) {
+        if (!isValidPort(port)) {
             JOptionPane.showMessageDialog(null, "Enter valid Port number", "Message", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -676,8 +661,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
         if (format) {
             boolean validIp = true;
             String[] values = ip.split("\\.");
-            for (int k = 0; k < values.length; ++k) {
-                short v = Short.valueOf(values[k]).shortValue();
+            for (String value : values) {
+                short v = Short.valueOf(value);
                 if ((v < 0) || (v > 255)) {
                     validIp = false;
                     break;
@@ -713,7 +698,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        ArrayList<String> recArray = new ArrayList<String>();
+        ArrayList<String> recArray;
         Object source = event.getSource();
         if (source == adminSettings) {
             tabbedPane.setVisible(true);
@@ -749,7 +734,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             }
         } else if (source == btnRegister) {
             try {
-                if (isRegister == false) {
+                if (!isRegister) {
                     register();
                 } else
                     JOptionPane.showMessageDialog(null, "Dispatcher already registered", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
