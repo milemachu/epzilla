@@ -30,6 +30,7 @@ import org.epzilla.clusterNode.dataManager.PerformanceInfoManager;
 public class NodeAsNonLeader {
     private static Share share;
     private static SocketClient client;
+    private static boolean isActive;
 
     public static boolean startClient() {
         boolean success = false;
@@ -40,6 +41,7 @@ public class NodeAsNonLeader {
             ConnectionInfo connection = client.connect();
             NodeUIController.appendTextToStatus("Client Started Successfully.... ");
             NodeUIController.appendTextToStatus("Connected to server: " + NodeController.getLeaderIP().toString());
+            isActive = true;
             share = new Share();
 
             NodeUIController.appendTextToStatus("Number of Open Shares: "
@@ -114,14 +116,17 @@ public class NodeAsNonLeader {
         info.addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
                 try {
+                    if (isActive) {
+                        TriggerObject trig = TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1);
+                        if ("OOOO".equals(trig.gettrigger())) {
+                            return;
+                        }
 
-                    TriggerObject trig = TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1);
-                    if ("OOOO".equals(trig.gettrigger())) {
-                        return;
+                        NodeUIController.appendTextToTriggerList(trig.gettrigger());
+                        EventProcessor.getInstance().addTrigger(trig.gettrigger(), trig.getclientID());
+                    } else {
+                        info.removeListener(this);
                     }
-
-                    NodeUIController.appendTextToTriggerList(trig.gettrigger());
-                    EventProcessor.getInstance().addTrigger(trig.gettrigger(), trig.getclientID());
                 } catch (Exception e) {
 //                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     org.epzilla.util.Logger.error("stm err:", e);
@@ -141,7 +146,11 @@ public class NodeAsNonLeader {
         ClusterIPManager.setIpList(info);
         info.addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
+                if (isActive) {
 //                   DispatcherUIController.appendIP("IP added to List: " + ClusterLeaderIpListManager.getIpList().get(i));
+                } else {
+                    info.removeListener(this);
+                }
             }
         });
 
@@ -153,8 +162,13 @@ public class NodeAsNonLeader {
         PerformanceInfoManager.setPerformanceList(info);
         info.addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-                PerformanceInfoObject obj = PerformanceInfoManager.getPerformanceList().get(i);
-                NodeUIController.appendTextToStatus("Load Balancing Info Recieved:: IP:" + obj.getnodeIP() + " CPU Usage:" + obj.getCPUusageAverage() + "% Memory Usage:" + obj.getMemUsageAverage() + "%");
+                if (isActive) {
+                    PerformanceInfoObject obj = PerformanceInfoManager.getPerformanceList().get(i);
+                    NodeUIController.appendTextToStatus("Load Balancing Info Recieved:: IP:" + obj.getnodeIP() + " CPU Usage:" + obj.getCPUusageAverage() + "% Memory Usage:" + obj.getMemUsageAverage() + "%");
+
+                } else {
+                    info.removeListener(this);
+                }
             }
         });
 
@@ -166,9 +180,14 @@ public class NodeAsNonLeader {
         timer1.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (client.getStatus() == SocketClient.Status.DISCONNECTED) {
-                    NodeUIController.appendTextToStatus("Server Status :" + client.getStatus());
+                final SocketClient.Status serverStatus = client.getStatus();
+                if (serverStatus == SocketClient.Status.DISCONNECTED) {
+                    NodeUIController.appendTextToStatus("Server Status :" + serverStatus);
                     this.cancel();
+                    isActive=false;
+                    //Initializing LE
+                    org.epzilla.clusterNode.leaderReg.Main.triggerLEFromRemote();
+                    org.epzilla.clusterNode.leaderReg.Main.startSTM();
                 }
             }
         }, 10, 1000);

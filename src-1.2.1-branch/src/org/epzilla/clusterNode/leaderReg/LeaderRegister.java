@@ -62,7 +62,7 @@ public class LeaderRegister {
     //method to send performance info
     public static void sendInfo(int cpuUsg, int mmUsg) {
         try {
-            disObj.performanceInfo(1,cpuUsg,mmUsg);   //cluster ID HC
+            disObj.performanceInfo(1, cpuUsg, mmUsg);   //cluster ID HC
         } catch (RemoteException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -80,7 +80,8 @@ public class LeaderRegister {
 
     public static void main(String[] args) {
         try {
-            NodeController.init();
+            NodeController.initUI();
+            NodeController.initSTM();
             bindClusterNode(serviceName);
             loadSettings();
             register();
