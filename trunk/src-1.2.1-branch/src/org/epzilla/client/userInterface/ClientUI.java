@@ -31,9 +31,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private JTextField txtIP = null;
     private JTextField txtPort = null;
     private JTextField txtName = null;
-    private JLabel labelIP = null;
-    private JLabel labelPort = null;
-    private JLabel labelName = null;
     public Vector<String> ips = new Vector<String>();
     private JMenuBar menuBar = null;
     private JMenuItem about = null;
@@ -44,35 +41,27 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private JMenu helpmenu = new JMenu("Help");
     private JButton btnSend = null;
     private JButton btnCancelSend = null;
-    private JLabel lblDetails = null;
     private JList listLookup = null;
     private JButton btnClear = null;
     private JButton btnLookup = null;
-    private JLabel lblDispIP1 = null;
     private JTextField txtDispIP = null;
-    private JLabel lblSettings = null;
     private JScrollPane resultsScrollPane = null;
     private JScrollPane notificationSP = null;
     public JTextArea txtResults = null;
-    private JLabel lblDispatcherServiceName = null;
     private JTextField txtDispName = null;
     private static ClientHandler client;
-    private static ClientInit clientTest;
     public boolean isRegister = false;
     private boolean isLookup = false;
     private static String clientID = "";
     private static String clientIP = "";
     private static ServerSettingsReader reader;
-    private JLabel lblSummary = null;
-    private JLabel lblCount = null;
     private JTextField txtNotiCount = null;
     private JTextArea txtNotifications = null;
-    private JLabel jLabel = null;
 
     public ClientUI() {
         super();
         client = new ClientHandler();
-        clientTest = new ClientInit();
+        ClientInit clientTest = new ClientInit();
         reader = new ServerSettingsReader();
         initialize();
     }
@@ -105,42 +94,42 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     private JTabbedPane getMyTabbedPane() {
         if (tabbedPane == null) {
-            jLabel = new JLabel();
+            JLabel jLabel = new JLabel();
             jLabel.setBounds(new Rectangle(600, 63, 154, 22));
             jLabel.setText("Notification messages:");
             ImageIcon settingsIcon = new ImageIcon("images//settings.jpg");
             ImageIcon summaryIcon = new ImageIcon("images//summary.jpg");
             ImageIcon serviceIcon = new ImageIcon("images//service.jpg");
 
-            lblCount = new JLabel();
+            JLabel lblCount = new JLabel();
             lblCount.setBounds(new Rectangle(600, 18, 120, 25));
             lblCount.setText("Notifications count:");
-            lblSummary = new JLabel();
+            JLabel lblSummary = new JLabel();
             lblSummary.setBounds(new Rectangle(26, 5, 69, 24));
             lblSummary.setText("Summary:");
-            lblDispatcherServiceName = new JLabel();
+            JLabel lblDispatcherServiceName = new JLabel();
             lblDispatcherServiceName.setText("Service Name :");
             lblDispatcherServiceName.setLocation(new Point(15, 178));
             lblDispatcherServiceName.setSize(new Dimension(123, 16));
-            lblSettings = new JLabel();
+            JLabel lblSettings = new JLabel();
             lblSettings.setText("Server Settings:");
             lblSettings.setLocation(new Point(15, 15));
             lblSettings.setFont(new Font("Dialog", Font.BOLD, 12));
             lblSettings.setSize(new Dimension(196, 25));
-            lblDispIP1 = new JLabel();
+            JLabel lblDispIP1 = new JLabel();
             lblDispIP1.setBounds(new Rectangle(15, 148, 141, 16));
             lblDispIP1.setText("Dispatcher IP Selected :");
-            lblDetails = new JLabel();
+            JLabel lblDetails = new JLabel();
             lblDetails.setBounds(new Rectangle(15, 16, 259, 16));
             lblDetails.setText("Lookup available services in the System");
-            labelName = new JLabel();
+            JLabel labelName = new JLabel();
             labelName.setText("Name :");
             labelName.setSize(new Dimension(47, 25));
             labelName.setLocation(new Point(30, 92));
-            labelPort = new JLabel();
+            JLabel labelPort = new JLabel();
             labelPort.setText("Port :");
             labelPort.setBounds(new Rectangle(30, 135, 41, 25));
-            labelIP = new JLabel();
+            JLabel labelIP = new JLabel();
             labelIP.setText("IP Address :");
             labelIP.setSize(new Dimension(72, 25));
             labelIP.setLocation(new Point(30, 49));
@@ -446,7 +435,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         String port = txtPort.getText();
         String clientIp = getIpAddress();
         if ((isValidIp(ip)) && (serverName.length() != 0)) {
-            ips = client.getServiceIp(ip, serverName, clientIp);
+            ips = ClientHandler.getServiceIp(ip, serverName, clientIp);
             if (!ips.isEmpty()) {
                 listLookup.setListData(ips);
 //                    btnLookup.setEnabled(false);
