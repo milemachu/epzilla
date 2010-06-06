@@ -56,13 +56,14 @@ public class ClientNotifier {
         }
     }
 
-    public static void resendAlerts() throws MalformedURLException, NotBoundException, RemoteException {
+    public static boolean resendAlerts() throws MalformedURLException, NotBoundException, RemoteException {
         for (String buffer : alertBuffer) {
             StringTokenizer st = new StringTokenizer(buffer, ":");
             String alert = st.nextToken();
             String id = st.nextToken();
             sendAlertMsg(alert, id);
         }
+        return true;
     }
 
     private static ClientInterface initClient(String clientID, String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
@@ -97,8 +98,8 @@ public class ClientNotifier {
     public static void main(String[] args) {
         try {
             for (int i = 0; i < 10; i++) {
-                sendAlertMsg("hello", "127000000001");
-                Thread.sleep(2000);
+                sendAlertMsg("Alert "+i, "127000000001");
+//                Thread.sleep(2000);
             }
             resendAlerts();
         } catch (RemoteException e) {
@@ -108,8 +109,8 @@ public class ClientNotifier {
         } catch (NotBoundException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        catch (InterruptedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+//        catch (InterruptedException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        }
     }
 }
