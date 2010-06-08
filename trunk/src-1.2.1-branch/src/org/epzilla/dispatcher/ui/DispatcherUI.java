@@ -722,7 +722,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
         } else if (source == btnReplayLogs) {
             try {
                 recArray = ReadLog.readLog();
-                RecoveredTriggers.sendTiggerList(recArray);
+                RecoveredTriggers.getRecTriggerList(recArray);
                 JOptionPane.showMessageDialog(null, "Trigger List successfully recovered", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
                 btnReplayLogs.setEnabled(false);
                 chkLogs.setSelected(false);

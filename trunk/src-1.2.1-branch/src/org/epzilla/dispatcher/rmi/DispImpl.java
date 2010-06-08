@@ -23,7 +23,6 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
     private Vector<ClientCallbackInterface> clientList = new Vector<ClientCallbackInterface>();
     private HashMap clientMap = new HashMap<String, String>();
-    private ArrayList<String> recoverTriggers = new ArrayList<String>();
     private String clientIP;
     private static boolean isIDGen = false;
     private static int eventsSeqID = 1;
@@ -101,7 +100,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
     @Override
     public void replayLogs(String clusterID, String leaderIP) throws RemoteException {
-        recoverTriggers = (ArrayList<String>) ReadLog.readLog(clusterID);
+        ArrayList<String> recoverTriggers = (ArrayList<String>) ReadLog.readLog(clusterID);
     }
 
     @Override
