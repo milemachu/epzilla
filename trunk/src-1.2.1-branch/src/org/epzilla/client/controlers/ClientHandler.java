@@ -16,14 +16,10 @@ import java.util.Vector;
 public class ClientHandler {
 
     private static Vector<String> dispIP = new Vector<String>();
-    private static String clientID = "";
     private static String dispDetails = "";
     private static ClientCallbackInterface obj;
     private static NameService service;
     private static DispInterface disObj;
-    private static String ip="";
-    private static String dispServiceName="";
-    private boolean isDispatcherInit = false;
 
     public static Vector<String> getServiceIp(String serverIp, String serviceName, String clientIp) throws MalformedURLException, RemoteException, NotBoundException {
         dispIP.removeAllElements();
@@ -44,8 +40,8 @@ public class ClientHandler {
         initNameService(serverIp, serviceName);
         int size = service.getDirectorySize();
         for (int i = 0; i < size; i++) {
-            ip = service.getHostName(i);
-            dispServiceName = service.getName(i);
+            String ip = service.getHostName(i);
+            String dispServiceName = service.getName(i);
             dispDetails = ip + " " + dispServiceName;
             dispIP.add(dispDetails);
         }
@@ -53,17 +49,17 @@ public class ClientHandler {
     }
 
     public static String getClientsID(String ip) throws RemoteException {
-        clientID = service.getClientID(ip);
-        return clientID;
+        return service.getClientID(ip);
     }
 
     public void regForCallback(String ip, String serviceName) throws NotBoundException, RemoteException, MalformedURLException, UnknownHostException {
-        if (!isDispatcherInit) {
+        boolean dispatcherInit = false;
+        if (!dispatcherInit) {
             initDispatcher(ip, serviceName);
             ClientCallbackInterface obj = new ClientCallbackImpl();
             disObj.registerCallback(obj);
             setClientObject(obj);
-        } else if (isDispatcherInit) {
+        } else if (dispatcherInit) {
             ClientCallbackInterface obj = new ClientCallbackImpl();
             disObj.registerCallback(obj);
             setClientObject(obj);
