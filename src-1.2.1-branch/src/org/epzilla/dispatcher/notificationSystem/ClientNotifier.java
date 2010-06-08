@@ -48,8 +48,4 @@ public class ClientNotifier {
 
     }
 
-    private static void setClientObject(Object obj) {
-//        clientObj = (ClientInterface) obj;
-    }
-
 }
