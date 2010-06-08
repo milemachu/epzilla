@@ -15,7 +15,6 @@ import java.util.Map;
 public class RBLoadBalancer {
     private static Hashtable<String, Integer> ipTable = new Hashtable<String, Integer>();
     private static int loadFactor = 0;
-    private static Object[] myArray;
     private static IpComparator myComparator = new IpComparator();
     private static Thread runner;
 
@@ -43,10 +42,9 @@ public class RBLoadBalancer {
     }
 
     public static String getIPAddress() {
-        myArray = ipTable.entrySet().toArray();
+        Object[] myArray = ipTable.entrySet().toArray();
         Arrays.sort(myArray, myComparator);
-        String ipAddress = (String) ((Map.Entry) myArray[0]).getKey();
-        return ipAddress;
+        return (String) ((Map.Entry) myArray[0]).getKey();
     }
 
 //    private static void updateProcess(final String ipAddress) {
@@ -66,9 +64,9 @@ public class RBLoadBalancer {
 
 class IpComparator implements Comparator {
     public int compare(Object o1, Object o2) {
-        if (((Integer) ((Map.Entry) o1).getValue()).intValue() > ((Integer) ((Map.Entry) o2).getValue()).intValue()) {
+        if ((Integer) ((Map.Entry) o1).getValue() > (Integer) ((Map.Entry) o2).getValue()) {
             return (1);
-        } else if (((Integer) ((Map.Entry) o1).getValue()).intValue() < ((Integer) ((Map.Entry) o2).getValue()).intValue()) {
+        } else if ((Integer) ((Map.Entry) o1).getValue() < (Integer) ((Map.Entry) o2).getValue()) {
             return (-1);
         } else {
             return (0);

@@ -52,8 +52,7 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
     public String getDispatcherIP() throws RemoteException {
         String dispIP = RBLoadBalancer.getIPAddress();
         int dispID = searchDisp(dispIP);
-        String toReturn = dispIP + " " + dispatcherName.elementAt(dispID);
-        return toReturn;
+        return dispIP + " " + dispatcherName.elementAt(dispID);
     }
 
     public String getHostName(int i) throws RemoteException {
@@ -79,7 +78,7 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
         String temp = "";
         String value = "";
         for (int i = 0; i < addrArray.length; i++) {
-            temp = addrArray[i].toString();
+            temp = addrArray[i];
             while (temp.length() != 3) {
                 temp = '0' + temp;
             }
@@ -91,8 +90,7 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
     private void loadDispDetails() {
         try {
             Vector<String[]> data = XmlReader.readFile("./src/org/epzilla/nameserver/xmlLog/dispatcherData.xml");
-            for (int i = 0; i < data.size(); i++) {
-                String[] ar = data.get(i);
+            for (String[] ar : data) {
                 dispatcherName.add(ar[0]);
                 dispatcherIPAdrs.add(ar[1]);
                 dispatcherPort.add(Integer.valueOf(ar[2]));

@@ -14,7 +14,7 @@ public class NameServiceHandler extends UnicastRemoteObject {
     public NameServiceHandler() throws RemoteException {
     }
 
-    private static void startRegistry() {
+    private void startRegistry() {
         try {
             Runtime.getRuntime().exec("rmiregistry");
             Thread.sleep(1000);
@@ -25,7 +25,7 @@ public class NameServiceHandler extends UnicastRemoteObject {
         }
     }
 
-    public static void bind(String serviceName) {
+    public void bind(String serviceName) {
 
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new org.epzilla.dispatcher.rmi.OpenSecurityManager());
