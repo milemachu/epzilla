@@ -1,9 +1,6 @@
 package org.epzilla.dispatcher.dataManager;
 
-import org.epzilla.util.Logger;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 /**
@@ -17,28 +14,26 @@ public class RecoveredTriggers {
     public RecoveredTriggers() {
 
     }
-    public void triggerList(ArrayList<String> recArray){
-       printArray(recArray);
-    }
-    public static String sendTiggerList(ArrayList<String> triggers) {
-        printArray(triggers);
 
-        String CID = "";
-//        String trigger="";
-//        try {
-//            for (String tr : triggers) {
-//                StringTokenizer st = new StringTokenizer(tr, ":");
-//                trigger = st.nextToken();  //trigger
-//                CID = st.nextToken(); //Cluster ID
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        return CID;
-    }
-    public static void printArray(ArrayList<String> array) {
-        for (String anArray : array) {
-            System.out.println(anArray);
+    public static void getRecTriggerList(ArrayList<String> triggers) {
+
+        String trigger,clientID,clusterID;
+        try {
+            for (String tr : triggers) {
+                StringTokenizer st = new StringTokenizer(tr, ":");
+                trigger = st.nextToken();  //trigger
+                clientID = st.nextToken(); //client ID
+                clusterID = st.nextToken();//cluster id
+                sendTriggers(trigger, clientID, clusterID);
+                System.out.println("Trigger: " + trigger + " Client: " + clientID + " Cluster: " + clusterID);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    private static void sendTriggers(String trigger, String clientID, String clusterID) {
+        //trigger managing logic here
+
     }
 }
