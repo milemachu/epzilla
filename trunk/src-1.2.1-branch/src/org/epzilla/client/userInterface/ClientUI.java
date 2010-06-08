@@ -645,6 +645,10 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
                 JOptionPane.showMessageDialog(null, "NameService IP Address incorrect","Epzilla", JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException e) {
                 JOptionPane.showMessageDialog(null, "Name Server not working, make sure settings details are correct", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                txtDispName.setText("");
+                txtDispIP.setText("");
+                listLookup.removeAll();
+                listLookup.repaint();
             } catch (NotBoundException e) {
                 JOptionPane.showMessageDialog(null, "Invalid NameService name", "Epzilla", JOptionPane.ERROR_MESSAGE);
             }
