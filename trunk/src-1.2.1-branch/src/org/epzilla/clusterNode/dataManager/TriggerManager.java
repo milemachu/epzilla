@@ -23,54 +23,83 @@ public class TriggerManager {
 
 
     // Code For Testing Only -Dishan
+
     public static void initTestTriggerStream() {
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (getTriggers() != null) {
+                TriggerRepresentation obj = new TriggerRepresentation();
+                obj.setTriggerId(String.valueOf(count));
+                obj.setTrigger(RandomStringGenerator.nextString());
+                addTriggerToList(obj);
+                count++;
+            }
 
+
+        }, 0, 500);
+
+        final java.util.Timer timer2 = new java.util.Timer();
+        timer2.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                removeTriggerFromList(triggers.get(0).gettriggerID());
+            }
+        }, 2000, 1500);
+
+    }
+
+    //AddTriggers through RMI to the shared memory
+
+    public static boolean addTriggerToList(TriggerRepresentation tr) {
+        boolean success = false;
+        if (getTriggers() != null) {
+            try {
+                synchronized (triggers) {
                     if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
                         Site.getLocal().allowThread();
                         Transaction transaction = Site.getLocal().startTransaction();
                         TriggerObject obj = new TriggerObject();
-                        obj.settriggerID(String.valueOf(count));
-                        obj.settrigger(RandomStringGenerator.nextString());
-                        getTriggers().add(obj);
+                        obj.settriggerID(tr.getTriggerId());
+                        obj.settrigger(tr.getTrigger());
+                        obj.setclientID(tr.getClientId());
+                        obj.settriggerID(tr.getTriggerId());
+                        triggers.add(obj);
                         transaction.commit();
+                        success = true;
                     }
-                    count++;
-
-                    if (count == 200)
-                        timer1.cancel();
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }, 0, 500);
-    }
-
-    //AddTriggers through RMI to the shared memory
-    public static boolean addTriggerToList(TriggerRepresentation tr) {
-        boolean success = false;
-        if (getTriggers() != null) {
-            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
-                Site.getLocal().allowThread();
-                Transaction transaction = Site.getLocal().startTransaction();
-                TriggerObject obj = new TriggerObject();
-                // ID is the sequential number of the trigger
-                obj.settriggerID( String.valueOf(count));
-//                obj.settriggerID("TID:" + String.valueOf(count));
-
-                obj.settrigger(tr.getTrigger());
-                obj.setclientID(tr.getClientId());
-                obj.settriggerID(tr.getTriggerId());
-                triggers.add(obj);
-                transaction.commit();
-                success = true;
-            }
-            count++;
         }
         return success;
     }
+
+    public static boolean removeTriggerFromList(String triggerID) {
+        boolean success = false;
+        if (getTriggers() != null) {
+            try {
+                synchronized (triggers) {
+                    if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                        Site.getLocal().allowThread();
+                        for (int i = 0; i < triggers.size(); i++) {
+                            if (triggers.get(i).gettriggerID().equalsIgnoreCase(triggerID)) {
+                                Transaction transaction = Site.getLocal().startTransaction();
+                                triggers.remove(i);
+                                transaction.commit();
+                                success = true;
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return success;
+    }
+
 
     public static TransactedList<TriggerObject> getTriggers() {
         return triggers;

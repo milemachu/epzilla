@@ -1,10 +1,11 @@
 package org.epzilla.clusterNode.dataManager;
 
 import org.epzilla.clusterNode.clusterInfoObjectModel.PerformanceInfoObject;
-
 import jstm.core.TransactedList;
 import jstm.core.Site;
 import jstm.core.Transaction;
+
+import java.util.TimerTask;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,83 +17,77 @@ import jstm.core.Transaction;
 public class PerformanceInfoManager {
     private static TransactedList<PerformanceInfoObject> performanceList = new TransactedList<PerformanceInfoObject>();
 
-    public static void addPerformanceInfo(String nodeIP, String cpuUsage, String memUsage, String networkUsage) {
-        if (getPerformanceList() != null) {
-            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
-                Site.getLocal().allowThread();
-                Transaction transaction = Site.getLocal().startTransaction();
-                PerformanceInfoObject obj = new PerformanceInfoObject();
-                obj.setnodeIP(nodeIP);
-                obj.setCPUusageAverage(cpuUsage);
-                obj.setMemUsageAverage(memUsage);
-                obj.setNetworkUsageAverage(networkUsage);
-                performanceList.add(obj);
-                transaction.commit();
+
+    // Code For Testing Only -Dishan
+
+    public static void initTestPerformanceInfoStream() {
+        final java.util.Timer timer1 = new java.util.Timer();
+        timer1.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                addPerformanceInfo("127.0.0.1", "20", "50", "10");
             }
-        }
+
+
+        }, 0, 500);
+
+        final java.util.Timer timer2 = new java.util.Timer();
+        timer2.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                removePerformanceInfoFromList("127.0.0.1");
+            }
+        }, 2000, 1500);
+
     }
 
-    public static void modifyPerformanceInfo(String nodeIP, String cpuUsage, String memUsage, String networkUsage) {
+
+    public static boolean addPerformanceInfo(String nodeIP, String cpuUsage, String memUsage, String networkUsage) {
+        boolean success = false;
         if (getPerformanceList() != null) {
             synchronized (performanceList) {
                 if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
                     Site.getLocal().allowThread();
-
-                    int index = isObjectInList(nodeIP);
-                    if (index != -1) {
-                        Transaction transaction = Site.getLocal().startTransaction();
-                        performanceList.get(index).setCPUusageAverage(cpuUsage);
-                        performanceList.get(index).setMemUsageAverage(memUsage);
-                        performanceList.get(index).setNetworkUsageAverage(networkUsage);
-                        transaction.commit();
-                    } else
-                        addPerformanceInfo(nodeIP, cpuUsage, memUsage, networkUsage);
+                    Transaction transaction1 = Site.getLocal().startTransaction();
+                    PerformanceInfoObject obj = new PerformanceInfoObject();
+                    obj.setnodeIP(nodeIP);
+                    obj.setCPUusageAverage(cpuUsage);
+                    obj.setMemUsageAverage(memUsage);
+                    obj.setNetworkUsageAverage(networkUsage);
+                    performanceList.add(obj);
+                    transaction1.commit();
+                    success = true;
                 }
             }
         }
+        return success;
     }
 
 
-    public static int isObjectInList(String ip) {
-        int result = -1;
-        synchronized (performanceList) {
-            for (int i = 0; i < performanceList.size(); i++) {
-                if (performanceList.get(i).getnodeIP() == ip) {
-                    result = i;
-                    break;
-                }
+    public static boolean removePerformanceInfoFromList(String nodeIP) {
+        boolean success = false;
+        if (getPerformanceList() != null) {
+            try {
+                synchronized (performanceList) {
+                    if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                        Site.getLocal().allowThread();
+                        for (int i = 0; i < performanceList.size(); i++) {
+                            if (performanceList.get(i).getnodeIP().equalsIgnoreCase(nodeIP)) {
+                                Transaction transaction2 = Site.getLocal().startTransaction();
+                                performanceList.remove(i);
+                                transaction2.beginCommit(null);
+                                success = true;
+                                break;
 
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        return result;
-    }
-
-
-    public static void removePerformanceObject(String nodeIP) {
-//        try {
-        int count = performanceList.size();
-        if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
-            Site.getLocal().allowThread();
-            int removeIndex = -1;
-            for (int i = 0; i < count; i++) {
-                if (performanceList.get(i).getnodeIP().equals(nodeIP)) {
-                    removeIndex = i;
-                    break;
-                }
-            }
-            if (removeIndex != -1) {
-                Transaction transaction = Site.getLocal().startTransaction();
-                boolean result = getPerformanceList().remove(getPerformanceList().get(removeIndex));
-                if (result)
-                    transaction.commit();
-                else
-                    transaction.abort();
-            }
-        }
-//        }
-//        catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
+        return success;
     }
 
     public static TransactedList<PerformanceInfoObject> getPerformanceList() {
