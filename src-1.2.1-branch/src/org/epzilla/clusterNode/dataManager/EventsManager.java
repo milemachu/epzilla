@@ -39,7 +39,7 @@ public class EventsManager {
                         event = eventQueue.poll();
                         if (event != null) {
                             EventSender.sendEvents(lis.next(), event);
-                            removeEvents(event);
+//                            removeEvents(event);
                             count++;
                             
                         }
