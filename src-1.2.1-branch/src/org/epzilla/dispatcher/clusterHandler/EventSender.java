@@ -27,20 +27,6 @@ public class EventSender {
     public EventSender() {
     }
 
-    /*
-   event stream need to be add to all the Cluster Nodes
-    */
-//    public static void acceptEvent(ArrayList<String> serverIp, ArrayList<String> clusterID, byte[] event, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
-//        for (String aServerIp : serverIp) {
-//            if (!"IP".equalsIgnoreCase(aServerIp)) {
-//                initCluster(aServerIp, "CLUSTER_NODE");
-//                String id = "x";
-//                sendEvent(event, aServerIp, id, clientID);
-//            }
-//        }
-//        Logger.log(Arrays.toString(event));
-//    }
-
     private static ClusterInterface initCluster(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
         String url = "rmi://" + serverIp + "/" + serviceName;
         ClusterInterface obj = (ClusterInterface) Naming.lookup(url);
