@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
-* initializing method which will accept List<String> and trigger ID, trigger owner
-* default log file location is taken from the CurrentValues class
-* size of the log file is defined, here it is 2MB, if greater than 1MB it will destroy existing an create new one
+* initializing method which will accept List<String> and clientID,  clusterID
+*  size of the log file is defined, here it is 2MB, if greater than 1MB it will destroy existing an create new one
 * owerwriteLog and write methods are there to perform that task
 */
 public class WriteLog {
@@ -24,24 +23,24 @@ public class WriteLog {
     }
 
     public static void writeInit(List<String> triggerList, String clientID, String clusterID) throws IOException {
-        if (isLoaded == false) {
+        if (!isLoaded) {
             loadSettings();
         }
         long size = getFileSize(filePath);
 
-        if (size > 100 * 1024 * 1024)
-            overwriteLog(CurrentValues.defaultLogFile, triggerList, clientID, clusterID);
+        if (size > 1024 * 1024 * 1024)
+            overwriteLog(filePath, triggerList, clientID, clusterID);
         else
-            writeLog(CurrentValues.defaultLogFile, triggerList, clientID, clusterID);
+            writeLog(filePath, triggerList, clientID, clusterID);
     }
 
     private static void overwriteLog(String filename, List<String> myArr, String clientID, String clusterID) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename, false));
-        String tag = "CID"+clusterID;
+        String tag = "CID" + clusterID;
         writer.write(tag + " " + "Checkpoint");
         writer.newLine();
-        for (int i = 0; i < myArr.size(); i++) {
-            writer.write(myArr.get(i) + ":" + clientID + ":" + clusterID);
+        for (String trigger : myArr) {
+            writer.write(trigger + ":" + clientID + ":" + clusterID);
             writer.newLine();
         }
         writer.write("</commit>");
@@ -53,11 +52,11 @@ public class WriteLog {
 
     private static void writeLog(String filename, List<String> myArr, String clientID, String clusterID) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true));
-       String tag = "CID"+clusterID;
+        String tag = "CID" + clusterID;
         writer.write(tag + " " + "Checkpoint");
         writer.newLine();
-        for (int i = 0; i < myArr.size(); i++) {
-            writer.write(myArr.get(i) + ":" + clientID + ":" + clusterID);
+        for (String trigger : myArr) {
+            writer.write(trigger + ":" + clientID + ":" + clusterID);
             writer.newLine();
         }
         writer.write("</commit>");

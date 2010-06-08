@@ -8,32 +8,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-* FileScanner class takes the Cluster ID and recover them
-* ID is in the form:- CID0, CID1.....
-* RecoveryList class takes log file and create undo and redo lists
-*/
 public class ReadLog {
     private static LogFileSettingReader reader = new LogFileSettingReader();
-    private static String filePath = "";
     private static File file;
-    private static String reqstr = "CID2";
     private static boolean isLoaded = false;
-    private static List<String> arr = null;
 
     public static List<String> readLog(String clusterID) {
-        if (isLoaded == false) {
+        if (!isLoaded) {
             loadSettings();
         }
-        arr = FileScanner.readFile(file, clusterID);
-        return arr;
+        return FileScanner.readFile(file, clusterID);
     }
 
     public static ArrayList<String> readLog() throws FileNotFoundException {
-        if (isLoaded == false) {
+        if (!isLoaded) {
             loadSettings();
         }
-        ArrayList<String> recList = new ArrayList<String>();
+        ArrayList<String> recList;
         recList= FileScanner.readFile(file);
         return recList;
     }
@@ -42,7 +33,7 @@ public class ReadLog {
         try {
             ArrayList<String[]> data = reader.getServerIPSettings("./src/settings/log_file_settings.xml");
             String[] ar = data.get(0);
-            filePath = ar[0];
+            String filePath = ar[0];
             file = new File(filePath);
             isLoaded = true;
         } catch (IOException e) {
