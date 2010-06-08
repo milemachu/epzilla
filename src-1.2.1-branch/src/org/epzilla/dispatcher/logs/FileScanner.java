@@ -109,7 +109,6 @@ public class FileScanner implements Runnable {
             }
             scanner.close();
 
-//        printArray(recoverArr);
         setTriggerList(recoverArr);
         long end = System.currentTimeMillis();
         Logger.log("Time: " + (end - start));
