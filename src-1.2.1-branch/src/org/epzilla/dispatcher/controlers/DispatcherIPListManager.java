@@ -2,8 +2,9 @@ package org.epzilla.dispatcher.controlers;
 
 import org.epzilla.leader.LeaderElectionInitiator;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.TimerTask;
 
 /**
@@ -20,14 +21,26 @@ public class DispatcherIPListManager {
             @Override
             public void run() {
                 HashSet<String> ipList = LeaderElectionInitiator.getSubscribedNodeList();
-                String currentList = DispatcherUIController.getIpList();
-                for (Object dispList : ipList) {
-                    String ip = (String) dispList;
-                    if (!currentList.contains(ip))
-                        DispatcherUIController.appendDispatcherIPs(ip);
+                if (ipList == null) {
+                    try {
+                        String currentList = DispatcherUIController.getIpList();
+                        InetAddress inetAddress = InetAddress.getLocalHost();
+                        String ipAddress = inetAddress.getHostAddress();
+                        if (!currentList.contains(ipAddress))
+                            DispatcherUIController.appendDispatcherIPs(ipAddress);
+                    } catch (UnknownHostException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    String currentList = DispatcherUIController.getIpList();
+                    for (Object dispList : ipList) {
+                        String ip = (String) dispList;
+                        if (!currentList.contains(ip))
+                            DispatcherUIController.appendDispatcherIPs(ip);
+                    }
+                    System.gc();
                 }
-                System.gc();
             }
-        }, 2000, 60000);
+        }, 5000, 30000);
     }
 }

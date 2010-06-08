@@ -35,7 +35,7 @@ public class DispatcherUIController {
         appendResults("Dispatcher Successfully deployed");
         try {
             Logger.log("entering... ");
-            instance.register();
+            instance.register();           
             Logger.log("returning...");
         } catch (MalformedURLException e) {
             appendResults("Setting details are incorrect");
@@ -46,6 +46,7 @@ public class DispatcherUIController {
         } catch (NotBoundException e) {
             appendResults("Setting details are incorrect");
         }
+          DispatcherIPListManager.Initialize();
     }
 
     public static void appendTextToStatus(String text) {
@@ -96,9 +97,11 @@ public class DispatcherUIController {
     public static void appendDispatcherIPs(String text) {
         instance.getDispIPSet().append(text + "\n");
     }
-     public static String getIpList(){
+
+    public static String getIpList() {
         return instance.getDispIPSet().getText();
     }
+
     private static String getDateTime() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
