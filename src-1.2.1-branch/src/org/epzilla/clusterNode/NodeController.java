@@ -2,8 +2,8 @@ package org.epzilla.clusterNode;
 
 import org.epzilla.clusterNode.userInterface.IpListManager;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
-import org.epzilla.clusterNode.replayLogs.sharedMemory.NodeAsLeader;
-import org.epzilla.clusterNode.replayLogs.sharedMemory.NodeAsNonLeader;
+import org.epzilla.clusterNode.sharedMemory.NodeAsLeader;
+import org.epzilla.clusterNode.sharedMemory.NodeAsNonLeader;
 import org.epzilla.clusterNode.loadAnalyzer.CpuMemAnalyzer;
 
 /**
