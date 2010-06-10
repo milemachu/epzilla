@@ -6,9 +6,6 @@ import org.epzilla.util.Logger;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.rmi.Naming;
-import java.rmi.NoSuchObjectException;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,6 +17,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class ClientStartup {
     private static String serviceName = "CLIENT";
     static ClientInterface obj;
+
     public static void bindClient() {
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new org.epzilla.client.rmi.OpenSecurityManager());
@@ -36,7 +34,7 @@ public class ClientStartup {
             e.printStackTrace();
         }
     }
-    
+
     private static void startRegistry() {
         try {
             Runtime.getRuntime().exec("rmiregistry");
