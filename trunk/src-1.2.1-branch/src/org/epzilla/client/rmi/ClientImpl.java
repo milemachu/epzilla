@@ -19,7 +19,7 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface {
     public ClientImpl() throws RemoteException {
     }
 
-
+   
     public String notifyClient(byte[] notifications) {
         try {
             String alert = new String(notifications);
