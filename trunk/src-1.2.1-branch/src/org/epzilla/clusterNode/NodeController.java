@@ -1,11 +1,12 @@
 package org.epzilla.clusterNode;
 
+import org.epzilla.clusterNode.dataManager.PerformanceInfoManager;
+import org.epzilla.clusterNode.dataManager.TriggerManager;
 import org.epzilla.clusterNode.userInterface.IpListManager;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
-import org.epzilla.clusterNode.sharedMemory.NodeAsLeader;
-import org.epzilla.clusterNode.sharedMemory.NodeAsNonLeader;
+import org.epzilla.clusterNode.replayLogs.sharedMemory.NodeAsLeader;
+import org.epzilla.clusterNode.replayLogs.sharedMemory.NodeAsNonLeader;
 import org.epzilla.clusterNode.loadAnalyzer.CpuMemAnalyzer;
-import org.epzilla.leader.event.PulseIntervalTimeoutEvent;
 
 /**
  * Created by IntelliJ IDEA.
@@ -54,6 +55,9 @@ public class NodeController {
             NodeAsLeader.loadIPList();
             NodeAsLeader.loadPerformanceInfoList();
             NodeAsLeader.checkForOverloading();
+            //For testing ONLY
+            //TriggerManager.initTestTriggerStream();
+            //PerformanceInfoManager.initTestPerformanceInfoStream();
         } else {
             boolean success = NodeAsNonLeader.startClient();
             while (!success) {
