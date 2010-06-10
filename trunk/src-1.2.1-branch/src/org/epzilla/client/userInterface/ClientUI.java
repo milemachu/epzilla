@@ -6,7 +6,6 @@ import org.epzilla.client.controlers.ClientInit;
 import org.epzilla.client.xml.ServerSettingsReader;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -333,7 +332,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             listLookup.setSize(new Dimension(325, 72));
             listLookup.setLocation(new Point(165, 46));
             listLookup.addListSelectionListener(this);
-            listLookup.setBackground(new Color(210,210,210));
+            listLookup.setBackground(new Color(210, 210, 210));
         }
         return listLookup;
     }
@@ -564,11 +563,11 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             } catch (MalformedURLException e) {
                 JOptionPane.showMessageDialog(null, "Error in file send process.", "Epzilla", JOptionPane.ERROR_MESSAGE);
             } catch (NotBoundException e) {
-                JOptionPane.showMessageDialog(null, "Dispatcher failure.","Epzilla", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Dispatcher failure.", "Epzilla", JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException ignored) {
             }
         } else
-            JOptionPane.showMessageDialog(null, "Error in file send process.","Epzilla", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error in file send process.", "Epzilla", JOptionPane.ERROR_MESSAGE);
 
     }
 
@@ -642,7 +641,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
                 getDispatchers();
                 getClientID();
             } catch (MalformedURLException e) {
-                JOptionPane.showMessageDialog(null, "NameService IP Address incorrect","Epzilla", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "NameService IP Address incorrect", "Epzilla", JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException e) {
                 JOptionPane.showMessageDialog(null, "Name Server not working, make sure settings details are correct", "Epzilla", JOptionPane.ERROR_MESSAGE);
                 txtDispName.setText("");
