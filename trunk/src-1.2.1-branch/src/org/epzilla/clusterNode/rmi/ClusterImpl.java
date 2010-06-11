@@ -6,17 +6,18 @@ import jstm.core.Transaction;
 import org.epzilla.clusterNode.NodeController;
 import org.epzilla.clusterNode.accConnector.DeriveEventSender;
 import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
+import org.epzilla.clusterNode.dataManager.EventsCounter;
 import org.epzilla.clusterNode.dataManager.EventsManager;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
-import org.epzilla.clusterNode.dataManager.EventsCounter;
-import org.epzilla.clusterNode.leaderReg.Main;
 import org.epzilla.clusterNode.processor.EventProcessor;
 import org.epzilla.dispatcher.rmi.TriggerRepresentation;
 import org.epzilla.util.Logger;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -141,6 +142,10 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         NodeController.initSTM();
     }
 
+    @Override
+    public void sleepNodeProcess() throws RemoteException {
+        //sleep UI of the processing node
+    }
 //
 //    @Override
 //    public boolean deleteTriggers(HashMap<String, ArrayList<String>> rep) throws RemoteException {
