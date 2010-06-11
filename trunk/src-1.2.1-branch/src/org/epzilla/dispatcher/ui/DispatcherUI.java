@@ -38,7 +38,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JMenuItem exit = null;
     private JPanel mainSettings = null;
     private JPanel summary = null;
-    private JPanel clusterDe = null;
+    private JPanel dispStatus = null;
     private JTextArea txtTriggers = null;
     private JTextField txtDispSerName = null;
     private JTextArea txtStatus = null;
@@ -104,7 +104,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
         if (tabbedPane == null) {
             ImageIcon settingsIcon = new ImageIcon("images//settings.jpg");
             ImageIcon summaryIcon = new ImageIcon("images//summary.jpg");
-            ImageIcon clusterDeIcon = new ImageIcon("images//clusterDe.jpg");
+            ImageIcon dispStatusIcon = new ImageIcon("images//dispStatus.jpg");
 
             lblDetails = new JLabel();
             lblDetails.setText("NameServer Details ");
@@ -128,13 +128,17 @@ public class DispatcherUI extends JFrame implements ActionListener {
             tabbedPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
             tabbedPane.setBackground(SystemColor.control);
             tabbedPane.addTab("Summary", summaryIcon, getSummeryTab());
-            tabbedPane.addTab("Dispatcher View", clusterDeIcon, getClusterDeTab());
+            tabbedPane.addTab("Dispatcher Status", dispStatusIcon, getDispStatusTab());
             tabbedPane.addTab("Settings", settingsIcon, getMainSettings());
             tabbedPane.setVisible(true);
         }
         return tabbedPane;
     }
-
+   private JPanel getFrontPanel(){
+         JPanel panel = new JPanel();
+        
+       return panel;
+   }
     private JPanel getMainSettings() {
         if (mainSettings == null) {
 
@@ -193,7 +197,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblInEC.setBounds(new Rectangle(15, 553, 140, 22));
             lblInEC.setText("Incoming Event Count :");
             JLabel lblIPs = new JLabel();
-            lblIPs.setBounds(new Rectangle(720, 17, 103, 16));
+            lblIPs.setBounds(new Rectangle(713, 17, 103, 16));
             lblIPs.setText("Leader IP List :");
             JLabel lblEvents = new JLabel();
             lblEvents.setBounds(new Rectangle(15, 21, 117, 16));
@@ -248,8 +252,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     JPanel perfTable;
 
-    private JPanel getClusterDeTab() {
-        if (clusterDe == null) {
+    private JPanel getDispStatusTab() {
+        if (dispStatus == null) {
             JLabel lblRecTriggers = new JLabel();
             lblRecTriggers.setBounds(new Rectangle(10, 350, 124, 20));
             lblRecTriggers.setText("Recovered Triggers:");
@@ -257,9 +261,12 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblDiscoveryStatus.setBounds(new Rectangle(10, 10, 200, 25));
             lblDiscoveryStatus.setText("Dispatcher Discovery Status :");
             JLabel lblDispIps = new JLabel();
-            lblDispIps.setBounds(new Rectangle(720, 10, 124, 20));
+            lblDispIps.setBounds(new Rectangle(700, 10, 124, 20));
             lblDispIps.setText("Dispatcher IP set:");
-            clusterDe = new JPanel() {
+            JLabel lblMemory = new JLabel();
+            lblMemory.setBounds(700,355,120,20);
+            lblMemory.setText("Memory Analyzer");
+            dispStatus = new JPanel() {
                 public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
                     int w = getWidth();
@@ -269,16 +276,20 @@ public class DispatcherUI extends JFrame implements ActionListener {
                     g2d.fillRect(0, 0, w, h);
                 }
             };
-            clusterDe.setLayout(null);
-            clusterDe.setOpaque(false);
-            clusterDe.add(lblDiscoveryStatus, null);
-            clusterDe.add(getDiscoveryStaPane(), null);
-            clusterDe.add(getRecTriggersPane(), null);
-            clusterDe.add(lblRecTriggers, null);
-            clusterDe.add(lblDispIps, null);
-            clusterDe.add(getDispIpScrollPane(), null);
+            dispStatus.setLayout(null);
+            dispStatus.setOpaque(false);
+            dispStatus.add(lblDiscoveryStatus, null);
+            dispStatus.add(getDiscoveryStaPane(), null);
+            dispStatus.add(getRecTriggersPane(), null);
+            dispStatus.add(lblRecTriggers, null);
+            dispStatus.add(lblDispIps, null);
+            dispStatus.add(getDispIpScrollPane(), null);
+//            dispStatus.add(lblMemory,null);
+//            MemoryAnalyzer mm = new MemoryAnalyzer();
+//             mm.setBounds(new Rectangle(700, 381, 300, 250));
+//           dispStatus.add(mm);
         }
-        return clusterDe;
+        return dispStatus;
     }
 
     private JMenuBar getmyMenuBar() {
@@ -451,7 +462,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JScrollPane getIpScrollPane() {
         if (ipScrollPane == null) {
             ipScrollPane = new JScrollPane();
-            ipScrollPane.setBounds(new Rectangle(720, 44, 270, 175));
+            ipScrollPane.setBounds(new Rectangle(713, 44, 300, 175));
             ipScrollPane.setViewportView(getTxtIPSet());
         }
         return ipScrollPane;
@@ -568,7 +579,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JScrollPane getDispIpScrollPane() {
         if (dispIps == null) {
             dispIps = new JScrollPane();
-            dispIps.setBounds(new Rectangle(720, 35, 270, 250));
+            dispIps.setBounds(new Rectangle(700, 35, 300, 250));
             dispIps.setViewportView(getDispIPSet());
         }
         return dispIps;
@@ -577,7 +588,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     public JTextArea getDispIPSet() {
         if (txtDispIps == null) {
             txtDispIps = new JTextArea();
-            txtDispIps.setBounds(new Rectangle(720, 35, 270, 250));
+            txtDispIps.setBounds(new Rectangle(700, 35, 270, 250));
             txtDispIps.setForeground(Color.green);
             txtDispIps.setEditable(false);
             txtDispIps.setBackground(Color.black);
