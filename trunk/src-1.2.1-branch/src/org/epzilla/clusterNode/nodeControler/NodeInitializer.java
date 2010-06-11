@@ -19,7 +19,7 @@ public class NodeInitializer {
 
     public static void nodeInit(String nodeIP) {
         try {
-            initService(nodeIP, "CLUSTER_NODE");
+            ClusterInterface nodeObj = initService(nodeIP, "CLUSTER_NODE");
             nodeObj.initNodeProcess();
         } catch (MalformedURLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -30,10 +30,10 @@ public class NodeInitializer {
         }
     }
 
-    private static void initService(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
+    private static ClusterInterface initService(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
         String url = "rmi://" + serverIp + "/" + serviceName;
         ClusterInterface obj = (ClusterInterface) Naming.lookup(url);
-        setClusterObject(obj);
+        return obj;
     }
 
     private static void setClusterObject(Object obj) {
