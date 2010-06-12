@@ -8,64 +8,59 @@ package org.epzilla.dispatcher.dispatcherObjectModel;
 
 import jstm.core.*;
 
-public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
+public class PerformanceInfoObject extends jstm.core.TransactedStructure {
 
-    public TriggerDependencyStructure() {
+    public PerformanceInfoObject() {
         super(FIELD_COUNT);
     }
 
-    public String getclientId() {
+    public String getnodeIP() {
         return (String) getField(0);
     }
 
-    public void setclientId(String value) {
+    public void setnodeIP(String value) {
         setField(0, value);
     }
 
-    public int getvirtualStrata() {
-        java.lang.Integer value = (java.lang.Integer) getField(1);
-
-        if(value != null)
-            return value.intValue();
-
-        return 0;
+    public String getCPUusageAverage() {
+        return (String) getField(1);
     }
 
-    public void setvirtualStrata(int value) {
-        setField(1, new java.lang.Integer(value));
+    public void setCPUusageAverage(String value) {
+        setField(1, value);
     }
 
-    public TransactedList getOutputStructure() {
-        return (TransactedList) getField(2);
+    public String getMemUsageAverage() {
+        return (String) getField(2);
     }
 
-    public void setOutputStructure(TransactedList value) {
+    public void setMemUsageAverage(String value) {
         setField(2, value);
     }
 
-    public TransactedList getInputStructure() {
-        return (TransactedList) getField(3);
+    public String getNetworkUsageAverage() {
+        return (String) getField(3);
     }
 
-    public void setInputStructure(TransactedList value) {
+    public void setNetworkUsageAverage(String value) {
         setField(3, value);
     }
 
-    public static final int CLIENTID_INDEX = 0;
+    public static final int NODEIP_INDEX = 0;
 
-    public static final String CLIENTID_NAME = "clientId";
+    public static final String NODEIP_NAME = "nodeIP";
 
-    public static final int VIRTUALSTRATA_INDEX = 1;
+    public static final int CPUUSAGEAVERAGE_INDEX = 1;
 
-    public static final String VIRTUALSTRATA_NAME = "virtualStrata";
+    public static final String CPUUSAGEAVERAGE_NAME = "CPUusageAverage";
 
-    public static final int OUTPUTSTRUCTURE_INDEX = 2;
+    public static final int MEMUSAGEAVERAGE_INDEX = 2;
 
-    public static final String OUTPUTSTRUCTURE_NAME = "OutputStructure";
+    public static final String MEMUSAGEAVERAGE_NAME = "MemUsageAverage";
 
-    public static final int INPUTSTRUCTURE_INDEX = 3;
+    public static final int NETWORKUSAGEAVERAGE_INDEX = 3;
 
-    public static final String INPUTSTRUCTURE_NAME = "InputStructure";
+    public static final String NETWORKUSAGEAVERAGE_NAME = "NetworkUsageAverage";
 
     public static final int FIELD_COUNT = 4;
 
@@ -77,13 +72,13 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
     public static String getFieldNameStatic(int index) {
         switch (index) {
             case 0:
-                return "clientId";
+                return "nodeIP";
             case 1:
-                return "virtualStrata";
+                return "CPUusageAverage";
             case 2:
-                return "OutputStructure";
+                return "MemUsageAverage";
             case 3:
-                return "InputStructure";
+                return "NetworkUsageAverage";
             default:
                 throw new java.lang.IllegalArgumentException();
         }
@@ -93,7 +88,7 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
 
     @Override
     protected int getClassId() {
-        return 3;
+        return 5;
     }
 
     @Override
@@ -101,7 +96,7 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
         return "2sG6AVQttNcts9YIS+QbNw";
     }
 
-    private static final int[] NON_TRANSIENT_FIELDS = new int[] { 2, 3 };
+    private static final int[] NON_TRANSIENT_FIELDS = new int[] {  };
 
     @Override
     protected int[] getNonTransientFields() {
@@ -135,7 +130,7 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
                     writer.writeShort((short) -2);
                 else {
                     writer.writeShort((short) 2);
-                    writer.writeInteger(((java.lang.Integer) values[1]).intValue());
+                    writer.writeString((String) values[1]);
                 }
             }
 
@@ -144,7 +139,7 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
                     writer.writeShort((short) -3);
                 else {
                     writer.writeShort((short) 3);
-                    writer.writeTransactedObject((TransactedObject) values[2]);
+                    writer.writeString((String) values[2]);
                 }
             }
 
@@ -153,7 +148,7 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
                     writer.writeShort((short) -4);
                 else {
                     writer.writeShort((short) 4);
-                    writer.writeTransactedObject((TransactedObject) values[3]);
+                    writer.writeString((String) values[3]);
                 }
             }
         }
@@ -196,7 +191,7 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
             if (values == null)
                 values = new Object[4];
 
-            values[1] = new java.lang.Integer(reader.readInteger());
+            values[1] = reader.readString();
             index = reader.readShort();
         } else if (index == -2) {
             if (values == null)
@@ -210,7 +205,7 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
             if (values == null)
                 values = new Object[4];
 
-            values[2] = reader.readTransactedObject();
+            values[2] = reader.readString();
             index = reader.readShort();
         } else if (index == -3) {
             if (values == null)
@@ -224,7 +219,7 @@ public class TriggerDependencyStructure extends jstm.core.TransactedStructure {
             if (values == null)
                 values = new Object[4];
 
-            values[3] = reader.readTransactedObject();
+            values[3] = reader.readString();
             index = reader.readShort();
         } else if (index == -4) {
             if (values == null)
