@@ -2,9 +2,6 @@ package org.epzilla.clusterNode.userInterface;
 
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.JLabel;
-import java.awt.Rectangle;
-import java.awt.Font;
 
 public class NodeUI extends JFrame {
 
@@ -15,6 +12,7 @@ public class NodeUI extends JFrame {
     private JScrollPane jScrollPane2 = null;
     private JScrollPane jScrollPane3 = null;
     private JScrollPane jScrollPane4 = null;
+    private JScrollPane clusterNodesPane = null;
     private JTextArea jTextAreaStatus = null;
     private JTextArea jTextAreaTriggers = null;
     private JTextArea jTextAreaIPList = null;
@@ -22,11 +20,9 @@ public class NodeUI extends JFrame {
     private JTextArea jTextAreaMachineInfo = null;
     private JTextArea jTextAreaLeader = null;
     private JTextArea jTextAreaEventCount = null;
-	private JLabel lblNodeStatus = null;
-	private JLabel lblEC = null;
-	private JLabel lblCTL = null;
-	private JLabel lblCIL = null;
-	/**
+    private JTextArea nodesList = null;
+
+    /**
      * This is the default constructor
      */
     public NodeUI() {
@@ -34,11 +30,6 @@ public class NodeUI extends JFrame {
         initialize();
     }
 
-    /**
-     * This method initializes this
-     *
-     * @return void
-     */
     private void initialize() {
         try {
             // Set cross-platform Java L&F (also called "Metal")
@@ -77,19 +68,22 @@ public class NodeUI extends JFrame {
      */
     private JPanel getJContentPane() {
         if (jContentPane == null) {
-            lblCIL = new JLabel();
-            lblCIL.setBounds(new Rectangle(736, 63, 98, 16));
+            JLabel lblCIL = new JLabel();
+            lblCIL.setBounds(new Rectangle(736, 30, 98, 16));
             lblCIL.setText("Cluster IP List:");
-            lblCTL = new JLabel();
+            JLabel lblCNL = new JLabel();
+            lblCNL.setBounds(new Rectangle(736, 195, 100, 16));
+            lblCNL.setText("Node List:");
+            JLabel lblCTL = new JLabel();
             lblCTL.setBounds(new Rectangle(46, 364, 120, 16));
             lblCTL.setText("Cluster Trigger List:");
-            lblEC = new JLabel();
-            lblEC.setBounds(new Rectangle(343, 61, 85, 16));
+            JLabel lblEC = new JLabel();
+            lblEC.setBounds(new Rectangle(343, 30, 85, 16));
             lblEC.setText("Event Count:");
-            lblNodeStatus = new JLabel();
-            lblNodeStatus.setBounds(new Rectangle(46, 60, 88, 16));
+            JLabel lblNodeStatus = new JLabel();
+            lblNodeStatus.setBounds(new Rectangle(46, 30, 88, 16));
             lblNodeStatus.setText("Node Status:");
-            jContentPane = new JPanel(){
+            jContentPane = new JPanel() {
                 public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
                     int w = getWidth();
@@ -107,10 +101,12 @@ public class NodeUI extends JFrame {
             jContentPane.add(getJScrollPane4(), null);
             jContentPane.add(getJTextAreaLeader(), null);
             jContentPane.add(getJTextAreaEventCount(), null);
+            jContentPane.add(getNodesPane(), null);
             jContentPane.add(lblNodeStatus, null);
             jContentPane.add(lblEC, null);
             jContentPane.add(lblCTL, null);
             jContentPane.add(lblCIL, null);
+            jContentPane.add(lblCNL, null);
         }
         return jContentPane;
     }
@@ -123,7 +119,7 @@ public class NodeUI extends JFrame {
     private JScrollPane getJScrollPane() {
         if (jScrollPane == null) {
             jScrollPane = new JScrollPane();
-            jScrollPane.setBounds(new Rectangle(46, 93, 642, 246));
+            jScrollPane.setBounds(new Rectangle(46, 65, 642, 280));
             jScrollPane.setViewportView(getJTextAreaStatus());
         }
         return jScrollPane;
@@ -151,10 +147,19 @@ public class NodeUI extends JFrame {
     private JScrollPane getJScrollPane2() {
         if (jScrollPane2 == null) {
             jScrollPane2 = new JScrollPane();
-            jScrollPane2.setBounds(new Rectangle(736, 89, 244, 250));
+            jScrollPane2.setBounds(new Rectangle(736, 65, 244, 120));
             jScrollPane2.setViewportView(getJTextAreaIPList());
         }
         return jScrollPane2;
+    }
+
+    private JScrollPane getNodesPane() {
+        if (clusterNodesPane == null) {
+            clusterNodesPane = new JScrollPane();
+            clusterNodesPane.setBounds(new Rectangle(736, 216, 244, 120));
+            clusterNodesPane.setViewportView(getJTextAreaNodeList());
+        }
+        return clusterNodesPane;
     }
 
     /**
@@ -228,6 +233,15 @@ public class NodeUI extends JFrame {
         return jTextAreaIPList;
     }
 
+    public JTextArea getJTextAreaNodeList() {
+        if (nodesList == null) {
+            nodesList = new JTextArea();
+            nodesList.setBackground(Color.black);
+            nodesList.setForeground(Color.green);
+        }
+        return nodesList;
+    }
+
     public JTextArea getjTextAreaPerformance() {
         if (jTextAreaPerformance == null) {
             jTextAreaPerformance = new JTextArea();
@@ -256,7 +270,7 @@ public class NodeUI extends JFrame {
         if (jTextAreaLeader == null) {
             jTextAreaLeader = new JTextArea();
             jTextAreaLeader.setForeground(Color.green);
-            jTextAreaLeader.setBounds(new Rectangle(138, 60, 165, 20));
+            jTextAreaLeader.setBounds(new Rectangle(120, 30, 150, 20));
             jTextAreaLeader.setBackground(Color.black);
         }
         return jTextAreaLeader;
@@ -271,7 +285,7 @@ public class NodeUI extends JFrame {
         if (jTextAreaEventCount == null) {
             jTextAreaEventCount = new JTextArea();
             jTextAreaEventCount.setForeground(Color.green);
-            jTextAreaEventCount.setBounds(new Rectangle(433, 60, 136, 21));
+            jTextAreaEventCount.setBounds(new Rectangle(420, 30, 150, 20));
             jTextAreaEventCount.setBackground(Color.black);
         }
         return jTextAreaEventCount;
