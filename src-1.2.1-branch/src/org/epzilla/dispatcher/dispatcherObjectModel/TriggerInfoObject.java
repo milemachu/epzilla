@@ -168,7 +168,7 @@ public class TriggerInfoObject extends jstm.core.TransactedStructure {
 
     @Override
     public String getObjectModelUID() {
-        return "j3Cph1yHjsw4ndyc4ueOuA";
+        return "2sG6AVQttNcts9YIS+QbNw";
     }
 
     private static final int[] NON_TRANSIENT_FIELDS = new int[] {  };
