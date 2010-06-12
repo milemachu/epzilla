@@ -60,6 +60,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JTextArea txtClusterPerformance = null;
     private JTextArea txtRecoveredList = null;
     private JTextArea txtDispIps = null;
+    private JPanel mainPanel = null;
 
     public DispatcherUI() {
         initialize();
@@ -100,6 +101,17 @@ public class DispatcherUI extends JFrame implements ActionListener {
         });
     }
 
+    private JPanel getMainPanel() {
+//           if (mainPanel == null) {
+//               JPanel tabPanel = new JPanel();
+//               JPanel dataPanel = new JPanel();
+//               tabPanel.add(getMyTabbedPane());
+//               tabPanel.setBounds(0,0,700,768);
+//               dataPanel.setBounds(700,0,324,768);
+//           }
+           return mainPanel;
+       }
+
     private JTabbedPane getMyTabbedPane() {
         if (tabbedPane == null) {
             ImageIcon settingsIcon = new ImageIcon("images//settings.jpg");
@@ -134,11 +146,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
         }
         return tabbedPane;
     }
-   private JPanel getFrontPanel(){
-         JPanel panel = new JPanel();
-        
-       return panel;
-   }
+
     private JPanel getMainSettings() {
         if (mainSettings == null) {
 
@@ -242,16 +250,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
         return summary;
     }
 
-
-    private JPanel getPerformanceTable() {
-        if (perfTable == null) {
-            perfTable = new EpzillaTable();
-        }
-        return perfTable;
-    }
-
-    JPanel perfTable;
-
     private JPanel getDispStatusTab() {
         if (dispStatus == null) {
             JLabel lblRecTriggers = new JLabel();
@@ -265,7 +263,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblDispIps.setText("Dispatcher IP set:");
             JLabel lblMemory = new JLabel();
             lblMemory.setBounds(700,355,120,20);
-            lblMemory.setText("Memory Analyzer");
+            lblMemory.setText("Memory Analyzer:");
             dispStatus = new JPanel() {
                 public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
@@ -284,10 +282,10 @@ public class DispatcherUI extends JFrame implements ActionListener {
             dispStatus.add(lblRecTriggers, null);
             dispStatus.add(lblDispIps, null);
             dispStatus.add(getDispIpScrollPane(), null);
-//            dispStatus.add(lblMemory,null);
-//            MemoryAnalyzer mm = new MemoryAnalyzer();
-//             mm.setBounds(new Rectangle(700, 381, 300, 250));
-//           dispStatus.add(mm);
+            dispStatus.add(lblMemory,null);                            
+            MemoryTable mt = new MemoryTable();
+            mt.setBounds(new Rectangle(700, 381, 300, 250));
+            dispStatus.add(mt);
         }
         return dispStatus;
     }
