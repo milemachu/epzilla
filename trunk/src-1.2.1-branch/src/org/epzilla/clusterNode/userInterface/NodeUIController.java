@@ -47,6 +47,14 @@ public class NodeUIController {
         return instance.getJTextAreaIPList().getText();
     }
 
+    public static void appendTextToNodeList(String text) {
+        instance.getJTextAreaNodeList().append(text + "\n");
+    }
+
+    public static String getNodeList() {
+        return instance.getJTextAreaNodeList().getText();
+    }
+
     public static void appendTextToMachineInfo(String text) {
         instance.getjTextAreaMachineInfo().append(text + "\n");
     }
