@@ -16,12 +16,21 @@ import java.util.TimerTask;
 public class IpListManager {
 
     public static void Initialize() {
+        initClientIpList();
+        initNodeIpList();
+    }
+
+    private static void initClientIpList() {
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {
             @Override
             public void run() {
                 HashSet<String> ipList = LeaderElectionInitiator.getSubscribedNodeList();
+                HashSet<String> nodeList = LeaderElectionInitiator.getNodes();
+
                 String currentList = NodeUIController.getIpList();
+                String cList = NodeUIController.getNodeList();
+
                 if (ipList != null) {
                     for (Iterator i = ipList.iterator(); i.hasNext();) {
                         String ip = (String) i.next();
@@ -31,7 +40,26 @@ public class IpListManager {
                 }
                 System.gc();
             }
-        }, 2000, 60000);
+        }, 10000, 60000);
     }
 
+    private static void initNodeIpList() {
+        final java.util.Timer timer1 = new java.util.Timer();
+        timer1.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                HashSet<String> nodeList = LeaderElectionInitiator.getNodes();
+                String currentList = NodeUIController.getNodeList();
+
+                if (nodeList != null) {
+                    for (Iterator i = nodeList.iterator(); i.hasNext();) {
+                        String ip = (String) i.next();
+                        if (!currentList.contains(ip))
+                            NodeUIController.appendTextToNodeList(ip);
+                    }
+                }
+                System.gc();
+            }
+        }, 10000, 60000);
+    }
 }
