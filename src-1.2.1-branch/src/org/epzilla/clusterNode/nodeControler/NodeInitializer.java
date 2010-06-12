@@ -14,29 +14,23 @@ import java.rmi.RemoteException;
  * Time: 1:45:50 PM
  * To change this template use File | Settings | File Templates.
  */
-public class NodeInitializer {
-    private static ClusterInterface nodeObj;
+public class NodeInitializer { 
 
     public static void nodeInit(String nodeIP) {
         try {
             ClusterInterface nodeObj = initService(nodeIP, "CLUSTER_NODE");
             nodeObj.initNodeProcess();
         } catch (MalformedURLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         } catch (NotBoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         } catch (RemoteException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
     }
 
     private static ClusterInterface initService(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
         String url = "rmi://" + serverIp + "/" + serviceName;
-        ClusterInterface obj = (ClusterInterface) Naming.lookup(url);
-        return obj;
-    }
-
-    private static void setClusterObject(Object obj) {
-        nodeObj = (ClusterInterface) obj;
+        return (ClusterInterface) Naming.lookup(url);
     }
 }
