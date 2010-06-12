@@ -37,6 +37,12 @@ public class ModelGenerationEngine {
         leaderIP.Fields.add(new Field(String.class, "clusterID"));
         leaderIP.Fields.add(new Field(String.class, "leaderIP"));
 
+        Structure performanceInfo = new Structure("PerformanceInfoObject");
+        performanceInfo.Fields.add(new Field(String.class, "nodeIP"));
+        performanceInfo.Fields.add(new Field(String.class, "CPUusageAverage"));
+        performanceInfo.Fields.add(new Field(String.class, "MemUsageAverage"));
+        performanceInfo.Fields.add(new Field(String.class, "NetworkUsageAverage"));
+
         // contains a dynamic  trigger structure.
         Structure clientTriggerStructure = new Structure("TriggerDependencyStructure");
         clientTriggerStructure.Fields.add(new Field(String.class, "clientId"));
@@ -52,6 +58,7 @@ public class ModelGenerationEngine {
         pack.Structures.add(leaderIP);
         pack.Structures.add(clientTriggerStructure);
         pack.Structures.add(marker);
+        pack.Structures.add(performanceInfo);
         return model;
     }
 
@@ -60,7 +67,7 @@ public class ModelGenerationEngine {
         ObjectModelDefinition model = create();
         Generator generator = new Generator(model);
         generator.writeFiles("./src/", Generator.Target.Java5, false);
-        
+
     }
 
 }
