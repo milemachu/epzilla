@@ -15,7 +15,7 @@ import java.rmi.RemoteException;
  * To change this template use File | Settings | File Templates.
  */
 public class NodeDown {
-    public static void sleepNode(String nodeIP){
+    public static void sleepNode(String nodeIP) { 
         try {
             ClusterInterface clusterObj = initService(nodeIP, "CLUSTER_NODE");
             clusterObj.sleepNodeProcess();
@@ -24,12 +24,12 @@ public class NodeDown {
         } catch (NotBoundException e) {
             e.printStackTrace();
         } catch (RemoteException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
     }
-     private static ClusterInterface initService(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
+
+    private static ClusterInterface initService(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
         String url = "rmi://" + serverIp + "/" + serviceName;
-        ClusterInterface obj = (ClusterInterface) Naming.lookup(url);
-        return obj;
+        return (ClusterInterface) Naming.lookup(url);
     }
 }
