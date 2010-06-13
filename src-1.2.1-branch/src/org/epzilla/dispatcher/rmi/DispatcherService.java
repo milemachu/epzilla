@@ -3,16 +3,16 @@ package org.epzilla.dispatcher.rmi;
 import net.epzilla.stratification.restruct.RestructuringDaemon;
 import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.dispatcher.controlers.MainDispatcherController;
+import org.epzilla.dispatcher.dataManager.NodeVariables;
+import org.epzilla.dispatcher.loadAnalyzer.CpuMemAnalyzer;
+import org.epzilla.leader.LeaderElectionInitiator;
+import org.epzilla.util.Logger;
 
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
-
-import org.epzilla.dispatcher.dataManager.NodeVariables;
-import org.epzilla.dispatcher.loadAnalyzer.CpuMemAnalyzer;
-import org.epzilla.util.Logger;
 
 public class DispatcherService {
 
@@ -23,10 +23,6 @@ public class DispatcherService {
 
     }
 
-    public DispatcherService(String name) {
-        this.serviceName = name;
-    }
-
     private void bindDispatcher(String serviceName) throws RemoteException, UnknownHostException, MalformedURLException {
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new OpenSecurityManager());
@@ -34,7 +30,6 @@ public class DispatcherService {
         DispInterface dispInt = new DispImpl();
         InetAddress inetAddress;
         inetAddress = InetAddress.getLocalHost();
-        Logger.log("inet addreass:" + inetAddress);
 
         String ipAddress = inetAddress.getHostAddress();
         String id = dispIdGen(ipAddress);
@@ -65,6 +60,10 @@ public class DispatcherService {
         try {
             DispatcherService service = new DispatcherService();
             service.bindDispatcher(serviceName);
+
+            //added leader election init
+            LeaderElectionInitiator.mainMethod();
+
             NodeVariables.setCurrentServerIP(STMserverIP);
             DispatcherUIController.InitializeUI();
             CpuMemAnalyzer.Initialize();
@@ -73,6 +72,7 @@ public class DispatcherService {
             MainDispatcherController.runAsServer();
             Logger.log("running as server...");
             RestructuringDaemon.start();
+            
             //To run dispatcher as STM client
             //MainDispatcherController.runAsClient();
             //Logger.log("running as client...");
@@ -96,15 +96,6 @@ public class DispatcherService {
 //                Logger.log(x.getstratumId());
 //                Logger.log(x.getclusterID());
 //
-//            }
-            //Dynamic Discovery
-//            DispatcherDiscoveryManager ddm=new DispatcherDiscoveryManager();
-//
-//            Thread.sleep(30000);
-//            Hashtable<Integer,String> leaders=DispatcherDiscoveryManager.getDispatcherPublisher().getSubscribers();
-//            DispImpl di = new DispImpl();
-//            for(int key: leaders.keySet()){
-//                di.getLeaderIp(key, leaders.get(key));
 //            }
         } catch (Exception e) {
             e.printStackTrace();
