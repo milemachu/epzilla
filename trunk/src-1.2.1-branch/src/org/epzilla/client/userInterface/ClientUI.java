@@ -440,10 +440,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 //                    btnLookup.setEnabled(false);
 //                    btnClear.setEnabled(true);
             }
-
         }
-//        else
-//            JOptionPane.showMessageDialog(null, "Make sure setting details correct.", "Message", JOptionPane.ERROR_MESSAGE);
     }
 
     public void setResults(String str) {
@@ -640,16 +637,19 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             try {
                 getDispatchers();
                 getClientID();
+                if (ips.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No active Dispatchers available, make sure settings details are correct", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                }
             } catch (MalformedURLException e) {
                 JOptionPane.showMessageDialog(null, "NameService IP Address incorrect", "Epzilla", JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException e) {
-                JOptionPane.showMessageDialog(null, "Name Server not working, make sure settings details are correct", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Invalid NameService name, make sure settings details are correct", "Epzilla", JOptionPane.ERROR_MESSAGE);
                 txtDispName.setText("");
                 txtDispIP.setText("");
                 listLookup.removeAll();
                 listLookup.repaint();
             } catch (NotBoundException e) {
-                JOptionPane.showMessageDialog(null, "Invalid NameService name", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Invalid NameService name, make sure settings details are correct", "Epzilla", JOptionPane.ERROR_MESSAGE);
             }
         } else if (source == adminSettings) {
             tabbedPane.setVisible(true);
