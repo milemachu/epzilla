@@ -92,8 +92,15 @@ public class Main {
     }
 
     public static void main(String[] args) {
-//        try {
-//            bindClusterNode(serviceName);
+        try {
+            bindClusterNode(serviceName);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         loadSettings();
 //            if (nodeStatus == "default") {
 //                initSTM();
@@ -103,17 +110,7 @@ public class Main {
         NodeController.initUI();
         startSTM();
 
-
 //            register();
-//        } catch (UnknownHostException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        } catch (RemoteException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        } catch (NotBoundException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        }
     }
 
     public static boolean triggerLEFromRemote() {
