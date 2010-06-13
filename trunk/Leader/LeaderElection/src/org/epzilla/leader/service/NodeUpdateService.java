@@ -10,8 +10,38 @@ import org.epzilla.leader.Epzilla;
 import org.epzilla.leader.client.NodeClientManager;
 import org.epzilla.leader.message.RmiMessageClient;
 import org.epzilla.leader.util.Status;
+import org.epzilla.leader.util.SystemConstants;
 
-public class NodeUpdateService extends UpdateService{
+public class NodeUpdateService extends Thread implements IEpzillaService{
+	// Private constructor prevents instantiation from other classes
+	 private NodeUpdateService() {
+		 this.setDaemon(true);
+	 }
+	   
+	 public void  run() {
+		while (true) {
+			try {
+				Thread.sleep(SystemConstants.UPDATE_SERVICE_RUNNING_TIME);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			executeService();
+		}
+	   }
+	 
+	   /**
+	    * SingletonHolder is loaded on the first execution of Singleton.getInstance() 
+	    * or the first access to SingletonHolder.INSTANCE, not before.
+	    */
+	   private static class NodeUpdateServiceHolder { 
+	     private static final NodeUpdateService INSTANCE = new NodeUpdateService();
+	   }
+	 
+	   public static NodeUpdateService getInstance() {
+	     return NodeUpdateServiceHolder.INSTANCE;
+	   }
+	
+	
 
 	@SuppressWarnings("unchecked")
 	public void executeService() {
@@ -39,7 +69,7 @@ public class NodeUpdateService extends UpdateService{
 					.hasNext();) {
 				String string = (String) iterator.next();
 				NodeDiscoveryManager.getNodePublisher().removeSubscrition(string, "UNSUBSCRIBE_NODE_SERVICE");
-				System.out.println("Removed a dead node from node list :"+string);
+				System.out.println("Removed a dead node from node list :"+string +"Removed by "+Thread.currentThread().getId());
 			}
 			
 		}
@@ -65,7 +95,7 @@ public class NodeUpdateService extends UpdateService{
 					.hasNext();) {
 				String string = (String) iterator.next();
 				NodeDiscoveryManager.getLeaderPublisher().removeSubscrition(string, "UNSUBSCRIBE_LEADER_SERVICE");
-				System.out.println("Removed a dead node from subscribers :"+string);
+				System.out.println("Removed a dead node from subscribers :"+string+"Removed by "+Thread.currentThread().getId());
 				
 			}
 		}

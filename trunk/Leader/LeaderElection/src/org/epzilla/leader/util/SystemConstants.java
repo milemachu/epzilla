@@ -7,5 +7,7 @@ public class SystemConstants {
 	public static int DISCOVERY_MULTICAST_TIME=0;
 	
 	public static int DEAD_LEADER_REMOVAL_DELAY=0;
+	
+	public static int UPDATE_SERVICE_RUNNING_TIME=0;
 
 }
