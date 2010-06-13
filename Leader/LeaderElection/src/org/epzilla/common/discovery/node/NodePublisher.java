@@ -43,7 +43,7 @@ public class NodePublisher implements IServicePublisher {
 	public boolean removeSubscrition(String serviceClient, String serviceName) {
 		if (serviceName.equalsIgnoreCase("UNSUBSCRIBE_" + this.serviceName)) {
 			synchronized (nodeList) {
-				nodeList.remove(Integer.parseInt(serviceClient));
+				nodeList.remove(serviceClient);
 				return true;
 			}
 		}
