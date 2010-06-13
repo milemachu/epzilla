@@ -17,6 +17,8 @@ import org.epzilla.leader.message.EventHandler;
 import org.epzilla.leader.message.RmiMessageClient;
 import org.epzilla.leader.rmi.LeaderInterface;
 import org.epzilla.leader.rmi.LeaderServiceImpl;
+import org.epzilla.leader.service.DispatcherUpdateService;
+import org.epzilla.leader.service.NodeUpdateService;
 import org.epzilla.leader.util.Component;
 import org.epzilla.leader.util.ConfigurationLoader;
 import org.epzilla.leader.util.Status;
@@ -29,6 +31,7 @@ public class LeaderElectionInitiator {
 	public LeaderElectionInitiator() {
 		eventHandler=new EventHandler();
 	}
+
 	
 	public static void main(String[] args) {
 		mainMethod();
@@ -81,6 +84,12 @@ public class LeaderElectionInitiator {
 					});
 					registrar.start();
 					eventHandler.fireEpzillaEvent(new PulseReceivedEvent(clusterLeader));
+					
+					//Start Update Daemon Service.
+					NodeUpdateService.getInstance().start();
+					System.out.println("Update Service Started.");
+					
+					
 				}else{
 					System.out.println("No Leader Exist.");
 					boolean isDefaultLeaderNode=Epzilla.isDefaultLeader();
@@ -128,6 +137,10 @@ public class LeaderElectionInitiator {
 					});
 					registrar.start();
 					eventHandler.fireEpzillaEvent(new PulseReceivedEvent(dispatcherLeader));
+					
+					//Start update Daemon Service
+					DispatcherUpdateService.getInstance().start();
+					System.out.println("Update Service Started.");
 				}else{
 					System.out.println("No Leader Exist.");
 					boolean isDefaultLeaderNode=Epzilla.isDefaultLeader();
