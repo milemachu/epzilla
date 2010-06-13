@@ -14,6 +14,8 @@ import org.epzilla.leader.event.PulseIntervalTimeoutEvent;
 import org.epzilla.leader.event.PulseReceivedEvent;
 import org.epzilla.leader.event.RequestRejectedEvent;
 import org.epzilla.leader.event.listner.EpZillaListener;
+import org.epzilla.leader.service.DispatcherUpdateService;
+import org.epzilla.leader.service.NodeUpdateService;
 import org.epzilla.leader.util.Component;
 import org.epzilla.leader.util.Status;
 
@@ -43,6 +45,21 @@ public class MessageDecoder {
 					//This is the leader
 					System.out.println("Localhost is the Leader");
 					eventHandler.fireEpzillaEvent(new PulseIntervalTimeoutEvent());
+					//TODO: Complete Update daemon logic
+					final String component=Epzilla.getComponentType();					
+					if(component.equalsIgnoreCase(Component.NODE.name())){
+						Thread.State updateServiceState=NodeUpdateService.getInstance().getState();
+						if(updateServiceState==Thread.State.NEW){
+							NodeUpdateService.getInstance().start();
+							System.out.println("Update Service Started.");
+						}
+					}else if(component.equalsIgnoreCase(Component.DISPATCHER.name())){
+						Thread.State updateServiceState=DispatcherUpdateService.getInstance().getState();
+						if(updateServiceState==Thread.State.NEW){
+							DispatcherUpdateService.getInstance().start();
+							System.out.println("Update Service Started.");
+						}
+					}					
 					return true;
 				}else{
 					//This is not the leader
@@ -72,6 +89,22 @@ public class MessageDecoder {
 					executor.start();
 					
 					eventHandler.fireEpzillaEvent(new PulseReceivedEvent(strItems[1]));
+					
+					//TODO: Complete Update daemon logic
+					final String component=Epzilla.getComponentType();					
+					if(component.equalsIgnoreCase(Component.NODE.name())){
+						Thread.State updateServiceState=NodeUpdateService.getInstance().getState();
+						if(updateServiceState==Thread.State.NEW){
+							NodeUpdateService.getInstance().start();
+							System.out.println("Update Service Started.");
+						}
+					}else if(component.equalsIgnoreCase(Component.DISPATCHER.name())){
+						Thread.State updateServiceState=DispatcherUpdateService.getInstance().getState();
+						if(updateServiceState==Thread.State.NEW){
+							DispatcherUpdateService.getInstance().start();
+							System.out.println("Update Service Started.");
+						}
+					}					
 					return true;
 				}
 			} catch (UnknownHostException e) {
