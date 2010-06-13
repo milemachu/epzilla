@@ -95,6 +95,8 @@ public class ConfigurationLoader {
 				SystemConstants.DISCOVERY_MULTICAST_TIME=Integer.parseInt(el.getContent());
 			else if(name.equalsIgnoreCase("LeaderRemoval"))
 				SystemConstants.DEAD_LEADER_REMOVAL_DELAY=Integer.parseInt(el.getContent());
+			else if(name.equalsIgnoreCase("UpdatePeriod"))
+				SystemConstants.UPDATE_SERVICE_RUNNING_TIME=Integer.parseInt(el.getContent());
 		}
 		
 		System.out.print("Done loading Constants.");
