@@ -45,6 +45,16 @@ public class DispatcherPublisher implements IServicePublisher {
 		return false;
 	}
 	
+	public boolean removeLeaderSubscrition(String serviceClient, String serviceName) {
+		if(serviceName.equalsIgnoreCase("UNSUBSCRIBE_"+this.serviceName)){
+			synchronized (clusterLeaderIp){
+				clusterLeaderIp.remove(serviceClient);
+				return true;
+			}
+		}		
+		return false;
+	}
+	
 	public boolean insertDispatcher(String dispatcherIp){
 		synchronized (dispatcherList) {
 			dispatcherList.add(dispatcherIp);
