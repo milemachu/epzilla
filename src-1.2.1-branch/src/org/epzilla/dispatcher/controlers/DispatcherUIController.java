@@ -35,7 +35,7 @@ public class DispatcherUIController {
         appendResults("Dispatcher Successfully deployed");
         try {
             Logger.log("entering... ");
-            instance.register();           
+            instance.register();
             Logger.log("returning...");
         } catch (MalformedURLException e) {
             appendResults("Setting details are incorrect");
@@ -46,7 +46,7 @@ public class DispatcherUIController {
         } catch (NotBoundException e) {
             appendResults("Setting details are incorrect");
         }
-          DispatcherIPListManager.Initialize();
+        DispatcherIPListManager.Initialize();
     }
 
     public static void appendTextToStatus(String text) {
@@ -90,9 +90,9 @@ public class DispatcherUIController {
         instance.getTxtOutEventCount().setText(text);
     }
 
-    public static void appendClusterData(String cluster, String cpuUsg, String mmUsg) {
-        instance.getTxtClusterPerformance().setText("Cluster ID: " + cluster + "\n" + "CPU Usage: " + cpuUsg + "%" + "\n" + "Memory Usage: " + mmUsg + "MB" + "\n");
-    }
+//    public static void appendClusterData(String cluster, String cpuUsg, String mmUsg) {
+//        instance.getTxtClusterPerformance().setText("Cluster ID: " + cluster + "\n" + "CPU Usage: " + cpuUsg + "%" + "\n" + "Memory Usage: " + mmUsg + "MB" + "\n");
+//    }
 
     public static void appendDispatcherIPs(String text) {
         instance.getDispIPSet().append(text + "\n");
@@ -100,6 +100,10 @@ public class DispatcherUIController {
 
     public static String getIpList() {
         return instance.getDispIPSet().getText();
+    }
+
+    public static void clearDispatcherIpList() {
+        instance.getDispIPSet().setText("");
     }
 
     private static String getDateTime() {

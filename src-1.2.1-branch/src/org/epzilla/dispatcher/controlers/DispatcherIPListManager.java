@@ -20,6 +20,7 @@ public class DispatcherIPListManager {
         timer1.schedule(new TimerTask() {
             @Override
             public void run() {
+                DispatcherUIController.clearDispatcherIpList();
                 HashSet<String> ipList = LeaderElectionInitiator.getSubscribedNodeList();
                 if (ipList == null) {
                     try {
