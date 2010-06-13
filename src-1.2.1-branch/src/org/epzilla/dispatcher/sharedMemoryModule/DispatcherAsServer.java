@@ -1,13 +1,14 @@
 package org.epzilla.dispatcher.sharedMemoryModule;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.TimerTask;
 
 import net.epzilla.stratification.dynamic.DynamicDependencyManager;
 import org.epzilla.dispatcher.controlers.*;
-import org.epzilla.dispatcher.dataManager.ClientManager;
-import org.epzilla.dispatcher.dataManager.ClusterLeaderIpListManager;
-import org.epzilla.dispatcher.dataManager.TriggerManager;
-import org.epzilla.dispatcher.dataManager.NodeVariables;
+import org.epzilla.dispatcher.dataManager.*;
 import org.epzilla.dispatcher.dispatcherObjectModel.*;
 import jstm.core.*;
 import jstm.transports.clientserver.*;
@@ -129,4 +130,69 @@ public class DispatcherAsServer {
             }
         });
     }
+
+    public static void loadPerformanceInfoList() {
+        DispatcherUIController.appendTextToStatus("Adding TransactedList for Load Balance Info...");
+        if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+            Site.getLocal().allowThread();
+            Transaction transaction = Site.getLocal().startTransaction();
+            PerformanceInfoObject obj = new PerformanceInfoObject();
+            obj.setnodeIP("PPPP");
+            PerformanceInfoManager.getPerformanceList().add(obj);
+            share.add(PerformanceInfoManager.getPerformanceList());
+            transaction.commit();
+        }
+        PerformanceInfoManager.getPerformanceList().addListener(new FieldListener() {
+            public void onChange(Transaction transaction, int i) {
+
+                PerformanceInfoObject obj = PerformanceInfoManager.getPerformanceList().get(i);
+                DispatcherUIController.appendTextToStatus("Load Balancing Info Recieved:: IP:" + obj.getnodeIP() + " CPU Usage:" + obj.getCPUusageAverage() + "% Memory Usage:" + obj.getMemUsageAverage() + "%");
+            }
+        });
+    }
+
+
+     public static void checkForOverloading() {
+        final java.util.Timer timer1 = new java.util.Timer();
+        timer1.schedule(new TimerTask() {
+            Hashtable<String, Integer> cpuArray = new Hashtable<String, Integer>();
+            ArrayList<Integer> memArray = new ArrayList<Integer>();
+
+            @Override
+            public void run() {
+                TransactedList<PerformanceInfoObject> list = PerformanceInfoManager.getPerformanceList();
+                cpuArray.clear();
+                memArray.clear();
+                int CPUsum = 0;
+                int MemSum = 0;
+                for (int i = list.size()-1; i >=0 ; i--) {
+                    if (list.get(i).getnodeIP() != "PPPP") {
+                        if (!cpuArray.containsKey(list.get(i).getnodeIP())) {
+                            cpuArray.put(list.get(i).getnodeIP(), Integer.valueOf(list.get(i).getCPUusageAverage()));
+                            memArray.add(Integer.valueOf(list.get(i).getMemUsageAverage()));
+                        }
+                    }
+                }
+                Enumeration keys = cpuArray.keys();
+                while (keys.hasMoreElements()) {
+                    CPUsum += cpuArray.get(keys.nextElement());
+                }
+
+                for (int i = 0; i < memArray.size(); i++) {
+                    MemSum += memArray.get(i);
+                }
+
+                if (cpuArray.size() > 0) {
+                    int cpuResult = (int) (CPUsum / cpuArray.size());
+                    int memResult = (int) (MemSum / cpuArray.size());
+                     DispatcherUIController.appendTextToStatus("Average CPU usage of the cluster: " + cpuResult + "%");
+                     DispatcherUIController.appendTextToStatus("Average Memory usage of the cluster: " + memResult + "%");
+
+                    //TO DO add new node
+
+                }
+            }
+        }, 120000, 200000);
+    }
+
 }

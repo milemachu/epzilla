@@ -9,10 +9,7 @@ import java.util.TimerTask;
 
 
 import net.epzilla.stratification.dynamic.DynamicDependencyManager;
-import org.epzilla.dispatcher.dataManager.ClientManager;
-import org.epzilla.dispatcher.dataManager.ClusterLeaderIpListManager;
-import org.epzilla.dispatcher.dataManager.NodeVariables;
-import org.epzilla.dispatcher.dataManager.TriggerManager;
+import org.epzilla.dispatcher.dataManager.*;
 import org.epzilla.dispatcher.controlers.*;
 import org.epzilla.dispatcher.dispatcherObjectModel.*;
 
@@ -27,6 +24,7 @@ import org.epzilla.dispatcher.dispatcherObjectModel.*;
 public class DispatcherAsClient {
     private static Share share;
     private static SocketClient client;
+    private static boolean isActive;
 
     public static boolean startClient() {
         boolean success = false;
@@ -38,6 +36,7 @@ public class DispatcherAsClient {
             DispatcherUIController.appendTextToStatus("Client Started Successfully.... ");
             DispatcherUIController.appendTextToStatus("Connected to server: " + connection.getServer().getObjectModelUID().toString());
             share = new Share();
+            isActive = true;
 
             DispatcherUIController.appendTextToStatus("Number of Open Shares: "
                     + String.valueOf(connection.getServerAndClients()
@@ -116,14 +115,23 @@ public class DispatcherAsClient {
         if (info.get(0) instanceof LeaderInfoObject) {
             addIpList((TransactedList<LeaderInfoObject>) info);
         }
+        if (info.get(0) instanceof PerformanceInfoObject) {
+            addPerformanceInfoList((TransactedList<PerformanceInfoObject>) info);
+        }
     }
+
 
     private static void addTriggerList(final TransactedList<TriggerInfoObject> info) {
         DispatcherUIController.appendTextToStatus("TriggerList added.");
         TriggerManager.setTriggers(info);
         info.addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-                DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
+
+                if (isActive) {
+                    DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
+                } else {
+                    info.removeListener(this);
+                }
             }
         });
     }
@@ -144,8 +152,30 @@ public class DispatcherAsClient {
         ClusterLeaderIpListManager.setIpList(info);
         info.addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-//                DispatcherUIController.appendIP("IP added to List: " + ClusterLeaderIpListManager.getIpList().get(i));
-                ClusterLeaderIpListManager.printIPList();
+                if (isActive) {
+                    ClusterLeaderIpListManager.printIPList();
+                } else {
+                    info.removeListener(this);
+                }
+            }
+        });
+
+    }
+
+
+    private static void addPerformanceInfoList(final TransactedList<PerformanceInfoObject> info) {
+
+        DispatcherUIController.appendTextToStatus("Performance Info List added...");
+        PerformanceInfoManager.setPerformanceList(info);
+        info.addListener(new FieldListener() {
+            public void onChange(Transaction transaction, int i) {
+                if (isActive) {
+                    PerformanceInfoObject obj = PerformanceInfoManager.getPerformanceList().get(i);
+                    DispatcherUIController.appendTextToStatus("Load Balancing Info Recieved:: IP:" + obj.getnodeIP() + " CPU Usage:" + obj.getCPUusageAverage() + "% Memory Usage:" + obj.getMemUsageAverage() + "%");
+
+                } else {
+                    info.removeListener(this);
+                }
             }
         });
 
@@ -160,6 +190,7 @@ public class DispatcherAsClient {
                 if (client.getStatus() == SocketClient.Status.DISCONNECTED) {
                     DispatcherUIController.appendTextToStatus("Server Status..." + client.getStatus().toString());
                     this.cancel();
+                    isActive=false;
                 }
             }
         }, 10, 1000);

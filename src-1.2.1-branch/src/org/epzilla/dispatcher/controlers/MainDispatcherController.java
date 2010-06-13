@@ -33,6 +33,8 @@ public class MainDispatcherController {
 //        run();
 //    }
 
+
+
     public static void run() {
         try {
 
@@ -50,6 +52,9 @@ public class MainDispatcherController {
             DispatcherAsServer.loadTriggers();
             DispatcherAsServer.loadIPList();
             DispatcherAsServer.loadClientList();
+            DispatcherAsServer.loadPerformanceInfoList();
+            DispatcherAsServer.checkForOverloading();
+            //Code for testing ONLY
 //        TriggerManager.initTestTriggerStream();
 //        ClusterLeaderIpListManager.loadSampleIPs();
         }
@@ -60,6 +65,7 @@ public class MainDispatcherController {
         DispatcherAsClient.startClient();
         DispatcherAsClient.checkServerStatus();
     }
+
 
 
 }

@@ -11,6 +11,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 import org.epzilla.dispatcher.dataManager.NodeVariables;
+import org.epzilla.dispatcher.loadAnalyzer.CpuMemAnalyzer;
 import org.epzilla.util.Logger;
 
 public class DispatcherService {
@@ -65,7 +66,8 @@ public class DispatcherService {
             DispatcherService service = new DispatcherService();
             service.bindDispatcher(serviceName);
             NodeVariables.setCurrentServerIP(STMserverIP);
-             DispatcherUIController.InitializeUI();
+            DispatcherUIController.InitializeUI();
+            CpuMemAnalyzer.Initialize();
 
             //To run as Dispatcher as STM server
             MainDispatcherController.runAsServer();
