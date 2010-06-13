@@ -261,7 +261,7 @@ public class RmiMessageClient {
 		LeaderInterface li;
 		try {
 			li = getLeaderInterface(remoteIp);
-			System.out.println("get cluster leader sent to:" + remoteIp);
+			System.out.println("get status sent to:" + remoteIp);
 			return li.getStatus();
 		} catch (Exception e) {
 			System.err.println(e.getCause()+e.getMessage()+remoteIp);
