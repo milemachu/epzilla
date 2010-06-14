@@ -235,13 +235,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             summary.add(lblOutEC, null);
             summary.add(getTxtOutEventCount(), null);
             summary.add(lblClusterPer, null);
-//            summary.add(getTxtClusterPerformance(), null);
-//            summary.add(getPerformanceTable(), null);
-//            JTable t = new JTable(new EpzillaDataModel());
-//            t.setBounds(new Rectangle(713, 340, 281, 170));
-//            t.setFillsViewportHeight(true);
-//            JScrollPane jsp = new JScrollPane(t);
-//            summary.add(jsp);
+
             EpzillaTable et = new EpzillaTable();
             et.setBounds(new Rectangle(713, 340, 300, 170));
             summary.add(et);
@@ -259,11 +253,14 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblDiscoveryStatus.setBounds(new Rectangle(10, 10, 200, 25));
             lblDiscoveryStatus.setText("Dispatcher Discovery Status :");
             JLabel lblDispIps = new JLabel();
-            lblDispIps.setBounds(new Rectangle(700, 10, 124, 20));
+            lblDispIps.setBounds(new Rectangle(320, 350, 124, 20));
             lblDispIps.setText("Dispatcher IP set:");
             JLabel lblMemory = new JLabel();
             lblMemory.setBounds(700,355,120,20);
-            lblMemory.setText("Memory Analyzer:");
+            lblMemory.setText("Memory Usage:");
+            JLabel lblCPU = new JLabel();
+            lblCPU.setBounds(new Rectangle(700,10,125,20));
+            lblCPU.setText("CPU Usage:");
             dispStatus = new JPanel() {
                 public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
@@ -282,10 +279,16 @@ public class DispatcherUI extends JFrame implements ActionListener {
             dispStatus.add(lblRecTriggers, null);
             dispStatus.add(lblDispIps, null);
             dispStatus.add(getDispIpScrollPane(), null);
-            dispStatus.add(lblMemory,null);                            
+            dispStatus.add(lblMemory,null);
+            dispStatus.add(lblCPU,null);
+            
             MemoryTable mt = new MemoryTable();
             mt.setBounds(new Rectangle(700, 381, 300, 250));
             dispStatus.add(mt);
+
+            CpuAnalyzer ca = new CpuAnalyzer();
+            ca.setBounds(new Rectangle(700,35,300,250));
+            dispStatus.add(ca);
         }
         return dispStatus;
     }
@@ -469,7 +472,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     public JTextArea getTxtIPSet() {
         if (txtIPs == null) {
             txtIPs = new JTextArea();
-            txtIPs.setBounds(new Rectangle(720, 44, 270, 175));
+            txtIPs.setBounds(new Rectangle(300, 44, 280, 175));
             txtIPs.setForeground(Color.green);
             txtIPs.setEditable(false);
             txtIPs.setBackground(Color.black);
@@ -534,7 +537,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     public JTextArea getTxtRecoveredList() {
         if (txtRecoveredList == null) {
             txtRecoveredList = new JTextArea();
-            txtRecoveredList.setBounds(new Rectangle(10, 335, 600, 250));
+            txtRecoveredList.setBounds(new Rectangle(10, 335, 280, 250));
             txtRecoveredList.setForeground(Color.green);
             txtRecoveredList.setBackground(Color.black);
             txtRecoveredList.setEditable(false);
@@ -545,7 +548,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JScrollPane getRecTriggersPane() {
         if (recTriggerList == null) {
             recTriggerList = new JScrollPane();
-            recTriggerList.setBounds(new Rectangle(10, 375, 600, 250));
+            recTriggerList.setBounds(new Rectangle(10, 375, 300, 250));
             recTriggerList.setViewportView(getTxtRecoveredList());
 
         }
@@ -555,7 +558,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     public JTextArea getTxtDiscoveryStatus() {
         if (txtDiscoveryStatus == null) {
             txtDiscoveryStatus = new JTextArea();
-            txtDiscoveryStatus.setBounds(new Rectangle(10, 35, 600, 250));
+            txtDiscoveryStatus.setBounds(new Rectangle(10, 35, 610, 250));
             txtDiscoveryStatus.setForeground(Color.green);
             txtDiscoveryStatus.setBackground(Color.black);
             txtDiscoveryStatus.setEditable(false);
@@ -568,7 +571,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JScrollPane getDiscoveryStaPane() {
         if (discoveryStatusPane == null) {
             discoveryStatusPane = new JScrollPane();
-            discoveryStatusPane.setBounds(new Rectangle(10, 35, 600, 250));
+            discoveryStatusPane.setBounds(new Rectangle(10, 35, 610, 250));
             discoveryStatusPane.setViewportView(getTxtDiscoveryStatus());
         }
         return discoveryStatusPane;
@@ -577,7 +580,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JScrollPane getDispIpScrollPane() {
         if (dispIps == null) {
             dispIps = new JScrollPane();
-            dispIps.setBounds(new Rectangle(700, 35, 300, 250));
+            dispIps.setBounds(new Rectangle(320, 375, 300, 250));
             dispIps.setViewportView(getDispIPSet());
         }
         return dispIps;
@@ -586,7 +589,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     public JTextArea getDispIPSet() {
         if (txtDispIps == null) {
             txtDispIps = new JTextArea();
-            txtDispIps.setBounds(new Rectangle(700, 35, 270, 250));
+            txtDispIps.setBounds(new Rectangle(320, 375, 300, 250));
             txtDispIps.setForeground(Color.green);
             txtDispIps.setEditable(false);
             txtDispIps.setBackground(Color.black);
