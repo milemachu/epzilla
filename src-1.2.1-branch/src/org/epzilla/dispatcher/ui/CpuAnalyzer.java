@@ -1,5 +1,7 @@
 package org.epzilla.dispatcher.ui;
 
+import org.epzilla.dispatcher.loadAnalyzer.CpuMemAnalyzer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -82,12 +84,13 @@ public class CpuAnalyzer extends JPanel {
             graphics.clearRect(0, 0, w, h);
 
             //get the CPU usage of the machine
-            float freeMemory = (float) runtime.freeMemory();
-            float totalMemory = (float) runtime.totalMemory();
+            float cpuUsage = (float) CpuMemAnalyzer.getCpuUsage();
+            float total = 100;
+            float freeCpu = total-cpuUsage;
 
             graphics.setColor(GREEN);
-//            graphics.drawString(String.valueOf((int) totalMemory / 1024) + "K allocated", 4.0f, (float) aH + 0.5f);
-            name = String.valueOf(((int) (totalMemory - freeMemory)) / 100)
+//            graphics.drawString(String.valueOf((int) total / 1024) + "K allocated", 4.0f, (float) aH + 0.5f);
+            name = String.valueOf(((int) (total-freeCpu)) )
                     + " % ";
             graphics.drawString(name, 4, h - dH);
 
@@ -97,9 +100,9 @@ public class CpuAnalyzer extends JPanel {
             float blockWidth = 20.0f;
 
             graphics.setColor(plotColor);
-            int MemUsage = (int) ((freeMemory / totalMemory) * 10);
+            int usage = (int) ((freeCpu / total) * 10);
             int i = 0;
-            for (; i < MemUsage; i++) {
+            for (; i < usage; i++) {
                 rect2.setRect(5, ssH + i * blockHeight,
                         blockWidth, blockHeight - 1);
                 graphics.fill(rect2);
@@ -158,7 +161,7 @@ public class CpuAnalyzer extends JPanel {
                 System.arraycopy(tmp, 0, points, 0, tmp.length);
             } else {
                 graphics.setColor(YELLOW);
-                points[nums] = (int) (graphY + graphH * (freeMemory / totalMemory));
+                points[nums] = (int) (graphY + graphH * (freeCpu / total));
                 for (int j = graphX + graphW - nums, k = 0; k < nums; k++, j++) {
                     if (k != 0) {
                         if (points[k] != points[k - 1]) {
