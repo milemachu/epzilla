@@ -15,8 +15,12 @@ import java.util.TimerTask;
  * To change this template use File | Settings | File Templates.
  */
 public class CpuMemAnalyzer {
-        public static void Initialize() {
+    private static int cpuUsage;
+    private static int memUsage;
+
+    public static void Initialize() {
         final JavaSysMon mon = new JavaSysMon();
+
 
 //        NodeUIController.appendTextToMachineInfo("Number of CPUs :" + mon.numCpus());
 //        NodeUIController.appendTextToMachineInfo("CPU Speed :" + mon.cpuFrequencyInHz() / 1000000 + " MHz");
@@ -50,12 +54,26 @@ public class CpuMemAnalyzer {
                     PerformanceInfoManager.addPerformanceInfo(NodeVariables.getNodeIP(), temp, String.valueOf((mem * 100 / mon.physical().getTotalBytes())), "0");
                 }
 //                NodeUIController.appendTextToPerformanceInfo("CPU Usage :" + val * 100 + " %");
-//                long mem = (mon.physical().getTotalBytes() - mon.physical().getFreeBytes());
+                long mem = (mon.physical().getTotalBytes() - mon.physical().getFreeBytes());
 //                NodeUIController.appendTextToPerformanceInfo("Memory Usage :" + mem / 1048576 + " MB");
 //                NodeUIController.appendTextToPerformanceInfo("Memory Usage Percentage: " + (mem * 100 / mon.physical().getTotalBytes()) + " %");
+                cpuUsage = (int) (val * 100);
+                memUsage = (int) (mem * 100 / mon.physical().getTotalBytes());
                 oldTime = newTime;
             }
         }, 1000, 1000);
 
+    }
+
+    public static int getCpuUsage() {
+        return cpuUsage;
+    }
+
+    public static int getMemUsage() {
+        return memUsage;
+    }
+
+    public static void setMemUsage(int memUsage) {
+        CpuMemAnalyzer.memUsage = memUsage;
     }
 }
