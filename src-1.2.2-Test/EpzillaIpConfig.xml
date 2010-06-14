@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cluster id="1" component="Dispatcher">
+<ip uid="1" default="true">192.168.1.25</ip>
+<ip uid="2">192.168.1.15</ip>
+<ip uid="3">192.168.1.50</ip>
+<ip uid="4">192.168.1.235</ip>
+<ip uid="5">192.168.1.75</ip>
+<ip uid="6">192.168.1.225</ip>
+</cluster>
