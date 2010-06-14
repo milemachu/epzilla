@@ -1,0 +1,11 @@
+<system>
+    <dispatcher>
+        <stratification>
+            <restructuring time="50000" triggers="100" />
+            <strata>1</strata>
+        </stratification>
+    </dispatcher>
+    <accumulator>
+
+    </accumulator>
+</system>
