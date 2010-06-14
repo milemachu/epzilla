@@ -17,6 +17,8 @@ import java.util.TimerTask;
 public class CpuMemAnalyzer {
     private static int cpuUsage;
     private static int memUsage;
+    private static int totalMemory;
+    private static int freeMemory;
 
     public static void Initialize() {
         final JavaSysMon mon = new JavaSysMon();
@@ -55,9 +57,11 @@ public class CpuMemAnalyzer {
                 }
 //                NodeUIController.appendTextToPerformanceInfo("CPU Usage :" + val * 100 + " %");
                 long mem = (mon.physical().getTotalBytes() - mon.physical().getFreeBytes());
+                totalMemory = (int) mon.physical().getTotalBytes();
+                freeMemory = (int)mon.physical().getFreeBytes();
 //                NodeUIController.appendTextToPerformanceInfo("Memory Usage :" + mem / 1048576 + " MB");
 //                NodeUIController.appendTextToPerformanceInfo("Memory Usage Percentage: " + (mem * 100 / mon.physical().getTotalBytes()) + " %");
-                cpuUsage = (int) (val * 100);
+                cpuUsage = (int) (val*100);
                 memUsage = (int) (mem * 100 / mon.physical().getTotalBytes());
                 oldTime = newTime;
             }
@@ -68,7 +72,12 @@ public class CpuMemAnalyzer {
     public static int getCpuUsage() {
         return cpuUsage;
     }
-
+    public static int getTotalMemory(){
+        return  totalMemory;
+    }
+    public static int getFreeMemory(){
+        return freeMemory;
+    }
     public static int getMemUsage() {
         return memUsage;
     }
