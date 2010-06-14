@@ -1,5 +1,7 @@
 package org.epzilla.dispatcher.ui;
 
+import org.epzilla.dispatcher.loadAnalyzer.CpuMemAnalyzer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -63,7 +65,7 @@ public class MemoryTable extends JPanel {
                     }
                     repaint();
                 }
-            }, 10, 500);
+            }, 3000, 500);
         }
 
         public void paint(Graphics g) {
@@ -75,14 +77,13 @@ public class MemoryTable extends JPanel {
             graphics.setBackground(getBackground());
             graphics.clearRect(0, 0, w, h);
 
-            //get total and free memory from the system
-            float freeMemory = (float) runtime.freeMemory();
-            float totalMemory = (float) runtime.totalMemory();
+            float freeMemory = (float) CpuMemAnalyzer.getFreeMemory();
+            float totalMemory = (float) CpuMemAnalyzer.getTotalMemory();
 
             graphics.setColor(GREEN);
-            graphics.drawString(String.valueOf((int) totalMemory / 1024) + "K allocated", 4.0f, (float) aH + 0.5f);
-            name = String.valueOf(((int) (totalMemory - freeMemory)) / 1024)
-                    + "K used";
+            graphics.drawString(String.valueOf((int) totalMemory / 1048576) + "MB allocated", 4.0f, (float) aH + 0.5f);
+            name = String.valueOf(((int) (totalMemory - freeMemory)) / 1048576)
+                    + "MB used";
             graphics.drawString(name, 4, h - dH);
 
             float ssH = aH + dH;
