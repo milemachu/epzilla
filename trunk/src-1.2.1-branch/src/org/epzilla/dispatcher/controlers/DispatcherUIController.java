@@ -50,7 +50,7 @@ public class DispatcherUIController {
             appendResults("Setting details are incorrect");
         }
         DispatcherIPListManager.Initialize();
-        loadDiscoveryStatus();
+//        loadDiscoveryStatus();
     }
 
     public static void appendTextToStatus(String text) {
