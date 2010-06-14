@@ -47,9 +47,6 @@ public class MemoryTable extends JPanel {
         }
 
         public void initProcess() {
-//            runner = new Thread(this);
-//            runner.setPriority(Thread.MIN_PRIORITY);
-//            runner.start();
             timer.scheduleAtFixedRate(new TimerTask() {
                 public void run() {
 
@@ -69,30 +66,6 @@ public class MemoryTable extends JPanel {
             }, 10, 500);
         }
 
-//        public void run() {
-//            while (true) {
-//                Dimension d = getSize();
-//                if (d.width != w || d.height != h) {
-//                    w = d.width;
-//                    h = d.height;
-//                    image = (BufferedImage) createImage(w, h);
-//                    graphics = image.createGraphics();
-//                    graphics.setFont(myFont);
-//                    FontMetrics fontMatrics = graphics.getFontMetrics(myFont);
-//                    aH = fontMatrics.getAscent();
-//                    dH = fontMatrics.getDescent();
-//                }
-//                repaint();
-//                try {
-//                    Thread.sleep(time);
-//                } catch (InterruptedException e) {
-//                    break;
-//                }
-//
-//            }
-//            runner = null;
-//        }
-
         public void paint(Graphics g) {
 
             if (graphics == null) {
@@ -102,6 +75,7 @@ public class MemoryTable extends JPanel {
             graphics.setBackground(getBackground());
             graphics.clearRect(0, 0, w, h);
 
+            //get total and free memory from the system
             float freeMemory = (float) runtime.freeMemory();
             float totalMemory = (float) runtime.totalMemory();
 
