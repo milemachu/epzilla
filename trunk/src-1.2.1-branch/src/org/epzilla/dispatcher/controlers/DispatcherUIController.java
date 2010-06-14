@@ -1,15 +1,18 @@
 package org.epzilla.dispatcher.controlers;
 
 import org.epzilla.dispatcher.ui.DispatcherUI;
+import org.epzilla.dispatcher.xml.DiscoveryStatusReader;
 import org.epzilla.util.Logger;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,6 +50,7 @@ public class DispatcherUIController {
             appendResults("Setting details are incorrect");
         }
         DispatcherIPListManager.Initialize();
+        loadDiscoveryStatus();
     }
 
     public static void appendTextToStatus(String text) {
@@ -90,10 +94,6 @@ public class DispatcherUIController {
         instance.getTxtOutEventCount().setText(text);
     }
 
-//    public static void appendClusterData(String cluster, String cpuUsg, String mmUsg) {
-//        instance.getTxtClusterPerformance().setText("Cluster ID: " + cluster + "\n" + "CPU Usage: " + cpuUsg + "%" + "\n" + "Memory Usage: " + mmUsg + "MB" + "\n");
-//    }
-
     public static void appendDispatcherIPs(String text) {
         instance.getDispIPSet().append(text + "\n");
     }
@@ -110,6 +110,15 @@ public class DispatcherUIController {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         return dateFormat.format(date);
+    }
+    private static void loadDiscoveryStatus(){
+         try {
+            ArrayList<String[]> data = DiscoveryStatusReader.getDiscoveryStatus("./src/name.xml");
+            String[] ar = data.get(0);
+            dispDiscoveryStatus(ar.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
