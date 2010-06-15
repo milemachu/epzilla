@@ -68,11 +68,11 @@ public class NodeUI extends JFrame {
      */
     private JPanel getJContentPane() {
         if (jContentPane == null) {
-            JLabel lblCIL = new JLabel();
-            lblCIL.setBounds(new Rectangle(736, 30, 98, 16));
-            lblCIL.setText("Cluster IP List:");
+//            JLabel lblCIL = new JLabel();
+//            lblCIL.setBounds(new Rectangle(736, 30, 98, 16));
+//            lblCIL.setText("Cluster IP List:");
             JLabel lblCNL = new JLabel();
-            lblCNL.setBounds(new Rectangle(736, 195, 100, 16));
+            lblCNL.setBounds(new Rectangle(736, 30, 98, 16));
             lblCNL.setText("Node List:");
             JLabel lblCTL = new JLabel();
             lblCTL.setBounds(new Rectangle(46, 364, 120, 16));
@@ -96,7 +96,7 @@ public class NodeUI extends JFrame {
             jContentPane.setLayout(null);
             jContentPane.add(getJScrollPane(), null);
             jContentPane.add(getJScrollPane1(), null);
-            jContentPane.add(getJScrollPane2(), null);
+//            jContentPane.add(getJScrollPane2(), null);
             jContentPane.add(getJScrollPane3(), null);
             jContentPane.add(getJScrollPane4(), null);
             jContentPane.add(getJTextAreaLeader(), null);
@@ -105,7 +105,7 @@ public class NodeUI extends JFrame {
             jContentPane.add(lblNodeStatus, null);
             jContentPane.add(lblEC, null);
             jContentPane.add(lblCTL, null);
-            jContentPane.add(lblCIL, null);
+//            jContentPane.add(lblCIL, null);
             jContentPane.add(lblCNL, null);
         }
         return jContentPane;
@@ -156,7 +156,7 @@ public class NodeUI extends JFrame {
     private JScrollPane getNodesPane() {
         if (clusterNodesPane == null) {
             clusterNodesPane = new JScrollPane();
-            clusterNodesPane.setBounds(new Rectangle(736, 216, 244, 120));
+            clusterNodesPane.setBounds(new Rectangle(736, 65, 244, 280));
             clusterNodesPane.setViewportView(getJTextAreaNodeList());
         }
         return clusterNodesPane;
