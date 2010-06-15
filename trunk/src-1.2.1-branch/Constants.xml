@@ -2,4 +2,6 @@
 <TimeSpan>
 <ComponentDiscovery>30000</ComponentDiscovery>
 <DiscoveryMulticast>10000</DiscoveryMulticast>
+<LeaderRemoval>5000</LeaderRemoval>
+<UpdatePeriod>60000</UpdatePeriod>
 </TimeSpan>
