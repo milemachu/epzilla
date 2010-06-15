@@ -44,7 +44,7 @@ public class TableRenderer implements TableCellRenderer {
                         g.fillRect(0, 0, ww, this.getHeight());
                         g.setColor(Color.black);
                         g.fillRect(ww, 0, this.getWidth() - ww, this.getHeight());
-                        g.setColor(Color.black);
+                        g.setColor(Color.white);
                         g.drawString(txt, 2, 12);
 
 
