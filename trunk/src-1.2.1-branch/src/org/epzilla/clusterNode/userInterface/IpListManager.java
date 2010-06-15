@@ -16,7 +16,7 @@ import java.util.TimerTask;
 public class IpListManager {
 
     public static void Initialize() {
-        initClientIpList();
+//        initClientIpList();
         initNodeIpList();
     }
 
@@ -49,13 +49,12 @@ public class IpListManager {
             @Override
             public void run() {
                 HashSet<String> nodeList = LeaderElectionInitiator.getNodes();
-                String currentList = NodeUIController.getNodeList();
 
+                NodeUIController.clearNodeList();
                 if (nodeList != null) {
                     for (Iterator i = nodeList.iterator(); i.hasNext();) {
                         String ip = (String) i.next();
-                        if (!currentList.contains(ip))
-                            NodeUIController.appendTextToNodeList(ip);
+                        NodeUIController.appendTextToNodeList(ip);
                     }
                 }
                 System.gc();
