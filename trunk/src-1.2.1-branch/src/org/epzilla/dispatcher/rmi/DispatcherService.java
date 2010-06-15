@@ -32,6 +32,7 @@ public class DispatcherService {
         inetAddress = InetAddress.getLocalHost();
 
         String ipAddress = inetAddress.getHostAddress();
+        NodeVariables.setNodeIP(ipAddress);
         String id = dispIdGen(ipAddress);
         String disServiceName = serviceName + id;
         String name = "rmi://" + ipAddress + "/" + disServiceName;
@@ -64,15 +65,29 @@ public class DispatcherService {
             //added leader election init
             LeaderElectionInitiator.mainMethod();
 
-            NodeVariables.setCurrentServerIP(STMserverIP);
-            DispatcherUIController.InitializeUI();
-            CpuMemAnalyzer.Initialize();
 
-            //To run as Dispatcher as STM server
-            MainDispatcherController.runAsServer();
-            Logger.log("running as server...");
-            RestructuringDaemon.start();
-            
+//        LeaderElectionInitiator.mainMethod();
+            String leader = "";
+            while (leader.equalsIgnoreCase("")) {
+                leader = LeaderElectionInitiator.getLeader();
+
+            }
+            if (leader.equalsIgnoreCase(NodeVariables.getNodeIP())) {
+
+                //To run as Dispatcher as STM server
+                DispatcherUIController.InitializeUI();
+                MainDispatcherController.runAsServer();
+                Logger.log("running as server...");
+                RestructuringDaemon.start();
+
+            } else {
+                DispatcherUIController.InitializeUI();
+                NodeVariables.setCurrentServerIP(leader);
+                MainDispatcherController.runAsClient();
+            }
+
+
+            CpuMemAnalyzer.Initialize();
             //To run dispatcher as STM client
             //MainDispatcherController.runAsClient();
             //Logger.log("running as client...");

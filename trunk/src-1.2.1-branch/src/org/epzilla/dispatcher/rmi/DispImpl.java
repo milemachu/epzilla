@@ -28,7 +28,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     private static int eventsSeqID = 1;
     private static String dispID = "";
 
-    protected DispImpl() throws RemoteException {
+    public DispImpl() throws RemoteException {
 
     }
 
