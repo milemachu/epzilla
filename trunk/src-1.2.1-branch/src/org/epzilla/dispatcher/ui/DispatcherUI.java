@@ -54,6 +54,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JTextArea txtResult = null;
     private boolean isRegister = false;
     private JTextField txtOutEventCount = null;
+    private JTextField txtEDRate = null;
     private JTextArea txtDiscoveryStatus = null;
     private JCheckBox chkLogs = null;
     private JButton btnReplayLogs = null;
@@ -109,8 +110,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
 //               tabPanel.setBounds(0,0,700,768);
 //               dataPanel.setBounds(700,0,324,768);
 //           }
-           return mainPanel;
-       }
+        return mainPanel;
+    }
 
     private JTabbedPane getMyTabbedPane() {
         if (tabbedPane == null) {
@@ -204,6 +205,9 @@ public class DispatcherUI extends JFrame implements ActionListener {
             JLabel lblInEC = new JLabel();
             lblInEC.setBounds(new Rectangle(15, 553, 140, 22));
             lblInEC.setText("Incoming Event Count :");
+            JLabel lblEDR = new JLabel();
+            lblEDR.setBounds(new Rectangle(420, 553, 200, 22));
+            lblEDR.setText("Event Dispatch rate (E/s):");
             JLabel lblIPs = new JLabel();
             lblIPs.setBounds(new Rectangle(713, 17, 150, 16));
             lblIPs.setText("Cluster Leader IP List :");
@@ -234,6 +238,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
             summary.add(getTxtInEventCount(), null);
             summary.add(lblOutEC, null);
             summary.add(getTxtOutEventCount(), null);
+            summary.add(lblEDR, null);
+            summary.add(getEventDispatchRate(), null);
             summary.add(lblClusterPer, null);
 
             EpzillaTable et = new EpzillaTable();
@@ -256,10 +262,10 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblDispIps.setBounds(new Rectangle(320, 350, 124, 20));
             lblDispIps.setText("Dispatcher IP set:");
             JLabel lblMemory = new JLabel();
-            lblMemory.setBounds(700,355,120,20);
+            lblMemory.setBounds(700, 355, 120, 20);
             lblMemory.setText("Memory Usage:");
             JLabel lblCPU = new JLabel();
-            lblCPU.setBounds(new Rectangle(700,10,125,20));
+            lblCPU.setBounds(new Rectangle(700, 10, 125, 20));
             lblCPU.setText("CPU Usage:");
             dispStatus = new JPanel() {
                 public void paintComponent(Graphics g) {
@@ -279,15 +285,15 @@ public class DispatcherUI extends JFrame implements ActionListener {
             dispStatus.add(lblRecTriggers, null);
             dispStatus.add(lblDispIps, null);
             dispStatus.add(getDispIpScrollPane(), null);
-            dispStatus.add(lblMemory,null);
-            dispStatus.add(lblCPU,null);
-            
+            dispStatus.add(lblMemory, null);
+            dispStatus.add(lblCPU, null);
+
             MemoryTable mt = new MemoryTable();
             mt.setBounds(new Rectangle(700, 381, 300, 250));
             dispStatus.add(mt);
 
             CpuAnalyzer ca = new CpuAnalyzer();
-            ca.setBounds(new Rectangle(700,35,300,250));
+            ca.setBounds(new Rectangle(700, 35, 300, 250));
             dispStatus.add(ca);
         }
         return dispStatus;
@@ -500,6 +506,17 @@ public class DispatcherUI extends JFrame implements ActionListener {
             txtOutEventCount.setBackground(Color.black);
         }
         return txtOutEventCount;
+    }
+
+    public JTextField getEventDispatchRate() {
+        if (txtEDRate == null) {
+            txtEDRate = new JTextField();
+            txtEDRate.setBounds(new Rectangle(420, 581, 154, 30));
+            txtEDRate.setForeground(Color.GREEN);
+            txtEDRate.setBackground(Color.BLACK);
+            txtEDRate.setEditable(false);
+        }
+        return txtEDRate;
     }
 
     private JScrollPane getResultPane() {
