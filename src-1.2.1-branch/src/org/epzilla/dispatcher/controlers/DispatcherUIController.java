@@ -78,8 +78,8 @@ public class DispatcherUIController {
     }
 
     public static void dispDiscoveryStatus(String text) {
-        dateTime = getDateTime();
-        instance.getTxtDiscoveryStatus().append(dateTime + ":" + text + "\n");
+//        dateTime = getDateTime();
+        instance.getTxtDiscoveryStatus().append(text + "\n");
     }
 
     public static void clearIPList() {
@@ -112,7 +112,7 @@ public class DispatcherUIController {
         return dateFormat.format(date);
     }
     private static void loadDiscoveryStatus(){
-        dispDiscoveryStatus("Leader Election service up and running....."+"/n"+"Dynamic Discovery status: working");
+        dispDiscoveryStatus("Leader Election service up and running...."+"\n"+"Dynamic Discovery process up and running....");
 //         try {
 //            ArrayList<String[]> data = DiscoveryStatusReader.getDiscoveryStatus("./src/name.xml");
 //            String[] ar = data.get(0);
