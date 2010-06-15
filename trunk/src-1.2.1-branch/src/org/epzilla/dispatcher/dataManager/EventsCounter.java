@@ -17,6 +17,7 @@ public class EventsCounter {
 
     public static int countIn = 0;
     public static int countOut = 0;
+    public static int lastOut =0;
     static TimerTaskC timer = new TimerTaskC();
 
     public EventsCounter() {
@@ -41,10 +42,13 @@ class TimerTaskC {
         timer1.schedule(new TimerTask() {
             @Override
             public void run() {
+                String textRate = Integer.toString((EventsCounter.countOut - EventsCounter.lastOut)/10);
+                DispatcherUIController.setEDRate(textRate);
                 String text = Integer.toString(EventsCounter.countOut);
                 DispatcherUIController.appendOutEventCount(text);
                 text = Integer.toString(EventsCounter.countIn);
                 DispatcherUIController.appendInEventsCount(text);
+                EventsCounter.lastOut = EventsCounter.countOut;
                 System.gc();
             }
         }, 10, 10000);
