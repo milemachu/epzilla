@@ -45,6 +45,7 @@ public class NodeUpdateService extends Thread implements IEpzillaService{
 
 	@SuppressWarnings("unchecked")
 	public void executeService() {
+		System.out.println("Starting node update routine.");
 		
 		HashSet<String> currentNodeList=new HashSet<String>(NodeClientManager.getNodeList());
 		HashSet<String> respondedList=new HashSet<String>();
@@ -84,6 +85,8 @@ public class NodeUpdateService extends Thread implements IEpzillaService{
 	
 	@SuppressWarnings("unchecked")
 	private void executeLeaderTasks(HashSet<String> respondedList){
+		System.out.println("Starting node leader update routine.");
+		
 		HashSet<String> currentSubscribedNodeList=new HashSet<String>(NodeClientManager.getSubscribedNodeList());
 		HashSet<String> currentDispatcherList=new HashSet<String>(NodeClientManager.getDispatcherList());
 		HashSet<String> respondedDispatcherList=new HashSet<String>();
