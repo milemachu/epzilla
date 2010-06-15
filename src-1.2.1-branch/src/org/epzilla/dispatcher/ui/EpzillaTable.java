@@ -1,6 +1,7 @@
 package org.epzilla.dispatcher.ui;
 
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
@@ -16,11 +17,13 @@ public class EpzillaTable extends JPanel {
         jt.setBackground(Color.black);
         jt.getTableHeader().setBackground(Color.black);
         jt.getTableHeader().setForeground(Color.white);
+        
         jt.setForeground(Color.white);
         jt.setDefaultRenderer(Object.class, new TableRenderer());
         jt.setDefaultRenderer(Integer.class, new TableRenderer());
         jt.setDefaultRenderer(Long.class, new TableRenderer());
         jt.setDefaultRenderer(String.class, new TableRenderer());
+        jt.setDefaultRenderer(JTableHeader.class, new TableRenderer());
 //        jt.setBounds(new Rectangle(713, 340, 281, 170));
         jt.setDragEnabled(false);
 
