@@ -23,11 +23,11 @@ public class ClusterPerformanceData {
 
     private ClusterPerformanceData() {
         vec = new Vector();
-        this.addData(90, 18, 44);
-        this.addData(71, 90, 20);
-
-        this.addData(105, 70, 5);
-        this.addData(10, 12, 65);
+//        this.addData(90, 18, 44);
+//        this.addData(71, 90, 20);
+//
+//        this.addData(105, 70, 5);
+//        this.addData(10, 12, 65);
 
     }
 
