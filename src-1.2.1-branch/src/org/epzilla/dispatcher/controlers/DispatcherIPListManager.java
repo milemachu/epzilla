@@ -59,27 +59,28 @@ public class DispatcherIPListManager {
             public void run() {
                 DispatcherUIController.clearDispatcherIpList();
                 HashSet<String> ipList = LeaderElectionInitiator.getSubscribedNodeList();
-                if (ipList != null) {
-                    if (ipList.size() == 0) {
+
+//                if (ipList != null) {
+                    if (ipList==null) {
                         try {
-                            String currentList = DispatcherUIController.getIpList();
+//                            String currentList = DispatcherUIController.getIpList();
                             InetAddress inetAddress = InetAddress.getLocalHost();
                             String ipAddress = inetAddress.getHostAddress();
-                            if (!currentList.contains(ipAddress))
+//                            if (!currentList.contains(ipAddress))
                                 DispatcherUIController.appendDispatcherIPs(ipAddress);
                         } catch (UnknownHostException e) {
                             e.printStackTrace();
                         }
                     } else {
-                        String currentList = DispatcherUIController.getIpList();
+//                        String currentList = DispatcherUIController.getIpList();
                         for (Object dispList : ipList) {
                             String ip = (String) dispList;
-                            if (!currentList.contains(ip))
+//                            if (!currentList.contains(ip))
                                 DispatcherUIController.appendDispatcherIPs(ip);
                         }
                         System.gc();
                     }
-                }
+//                }
             }
         }, 5000, 30000);
     }
@@ -91,7 +92,6 @@ public class DispatcherIPListManager {
             public void run() {
                 Hashtable<Integer, String> leaders = LeaderElectionInitiator.getSubscribedClusterLeadersFromDispatcher();
                 for (int key : leaders.keySet()) {
-                     DispatcherUIController.clearIPList();
                     ClusterLeaderIpListManager.removeIP(leaders.get(key));
                     ClusterLeaderIpListManager.addIP("" + key, leaders.get(key));
                 }
