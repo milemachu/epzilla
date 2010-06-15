@@ -50,7 +50,7 @@ public class DispatcherUIController {
             appendResults("Setting details are incorrect");
         }
         DispatcherIPListManager.Initialize();
-//        loadDiscoveryStatus();
+        loadDiscoveryStatus();
     }
 
     public static void appendTextToStatus(String text) {
@@ -112,13 +112,14 @@ public class DispatcherUIController {
         return dateFormat.format(date);
     }
     private static void loadDiscoveryStatus(){
-         try {
-            ArrayList<String[]> data = DiscoveryStatusReader.getDiscoveryStatus("./src/name.xml");
-            String[] ar = data.get(0);
-            dispDiscoveryStatus(ar.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dispDiscoveryStatus("Leader Election service up and running....."+"/n"+"Dynamic Discovery status: working");
+//         try {
+//            ArrayList<String[]> data = DiscoveryStatusReader.getDiscoveryStatus("./src/name.xml");
+//            String[] ar = data.get(0);
+//            dispDiscoveryStatus(ar.toString());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
 }
