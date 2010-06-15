@@ -67,6 +67,7 @@ public class ClusterLeaderIpListManager {
                 transaction.commit();
             }
         }
+        printIPList();//print cluster leader Ip list periodically
         int size = getIpList().size();
         SystemVariables.setClusters(0, size - 1);
     }
