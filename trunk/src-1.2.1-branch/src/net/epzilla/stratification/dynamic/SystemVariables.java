@@ -45,6 +45,7 @@ public class SystemVariables {
 
             }
         };
+        t.start();
 //        SystemVariables.setClusterLoad(0, 0, 121);
 //        SystemVariables.setCl+usterLoad(0, 1, 14);
 
