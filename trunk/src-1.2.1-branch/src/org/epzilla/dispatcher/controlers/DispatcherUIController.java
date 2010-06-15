@@ -1,18 +1,15 @@
 package org.epzilla.dispatcher.controlers;
 
 import org.epzilla.dispatcher.ui.DispatcherUI;
-import org.epzilla.dispatcher.xml.DiscoveryStatusReader;
 import org.epzilla.util.Logger;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -78,7 +75,6 @@ public class DispatcherUIController {
     }
 
     public static void dispDiscoveryStatus(String text) {
-//        dateTime = getDateTime();
         instance.getTxtDiscoveryStatus().append(text + "\n");
     }
 
@@ -92,6 +88,10 @@ public class DispatcherUIController {
 
     public static void appendOutEventCount(String text) {
         instance.getTxtOutEventCount().setText(text);
+    }
+
+    public static void setEDRate(String text) {
+        instance.getEventDispatchRate().setText(text);
     }
 
     public static void appendDispatcherIPs(String text) {
@@ -111,8 +111,9 @@ public class DispatcherUIController {
         Date date = new Date();
         return dateFormat.format(date);
     }
-    private static void loadDiscoveryStatus(){
-        dispDiscoveryStatus("Leader Election service up and running...."+"\n"+"Dynamic Discovery process up and running....");
+
+    private static void loadDiscoveryStatus() {
+        dispDiscoveryStatus("Leader Election service up and running...." + "\n" + "Dynamic Discovery process up and running....");
 //         try {
 //            ArrayList<String[]> data = DiscoveryStatusReader.getDiscoveryStatus("./src/name.xml");
 //            String[] ar = data.get(0);
