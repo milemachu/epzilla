@@ -22,7 +22,7 @@ public class DispatcherIPListManager {
             public void run() {
                 DispatcherUIController.clearDispatcherIpList();
                 HashSet<String> ipList = LeaderElectionInitiator.getSubscribedNodeList();
-                if (ipList == null) {
+                if (ipList.size() == 0) {
                     try {
                         String currentList = DispatcherUIController.getIpList();
                         InetAddress inetAddress = InetAddress.getLocalHost();
