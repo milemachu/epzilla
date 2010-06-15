@@ -14,6 +14,8 @@ public class EpzillaTable extends JPanel {
         JTable jt = new JTable(mdm);
         jt.setModel(mdm);
         jt.setBackground(Color.black);
+        jt.getTableHeader().setBackground(Color.black);
+       
         jt.setForeground(Color.white);
         jt.setDefaultRenderer(Object.class, new TableRenderer());
         jt.setDefaultRenderer(Integer.class, new TableRenderer());
