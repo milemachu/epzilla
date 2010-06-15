@@ -49,7 +49,7 @@ public class ClientInit extends Thread {
         initSendEventsStream(ip);
         trigger.start();
         events.start();
-
+        ClientUIControler.appendResults("Start Event/ Trigger sending process....");
     }
 
     public static void initSendTriggerStream(final String ip) {
