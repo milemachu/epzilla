@@ -139,6 +139,7 @@ public class LeaderElectionInitiator {
 					eventHandler.fireEpzillaEvent(new PulseReceivedEvent(dispatcherLeader));
 					
 					//Start update Daemon Service
+					if(DispatcherUpdateService.getInstance().getState()==Thread.State.NEW)
 					DispatcherUpdateService.getInstance().start();
 					System.out.println("Update Service Started.");
 				}else{
