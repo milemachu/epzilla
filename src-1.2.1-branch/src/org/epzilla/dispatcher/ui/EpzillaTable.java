@@ -23,7 +23,7 @@ public class EpzillaTable extends JPanel {
         jt.setDefaultRenderer(Integer.class, new TableRenderer());
         jt.setDefaultRenderer(Long.class, new TableRenderer());
         jt.setDefaultRenderer(String.class, new TableRenderer());
-        jt.setDefaultRenderer(JTableHeader.class, new TableRenderer());
+        jt.setDefaultRenderer(JTableHeader.class, new HeaderRenderer());
 //        jt.setBounds(new Rectangle(713, 340, 281, 170));
         jt.setDragEnabled(false);
 
