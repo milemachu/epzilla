@@ -89,7 +89,7 @@ public class DispatcherIPListManager {
         timer1.schedule(new TimerTask() {
             @Override
             public void run() {
-                Hashtable<Integer, String> leaders = DispatcherDiscoveryManager.getDispatcherPublisher().getSubscribers();
+                Hashtable<Integer, String> leaders = LeaderElectionInitiator.getSubscribedClusterLeadersFromDispatcher();
                 for (int key : leaders.keySet()) {
 
                     ClusterLeaderIpListManager.removeIP(leaders.get(key));
