@@ -146,7 +146,7 @@ public class DispatcherAsServer {
             public void onChange(Transaction transaction, int i) {
 
                 PerformanceInfoObject obj = PerformanceInfoManager.getPerformanceList().get(i);
-                DispatcherUIController.appendTextToStatus("Load Balancing Info Recieved:: IP:" + obj.getnodeIP() + " CPU Usage:" + obj.getCPUusageAverage() + "% Memory Usage:" + obj.getMemUsageAverage() + "%");
+                DispatcherUIController.appendTextToStatus("Dispatcher Performance:: IP:" + obj.getnodeIP() + " CPU Usage:" + obj.getCPUusageAverage() + "% Memory Usage:" + obj.getMemUsageAverage() + "%");
             }
         });
     }
@@ -185,8 +185,8 @@ public class DispatcherAsServer {
                 if (cpuArray.size() > 0) {
                     int cpuResult = (int) (CPUsum / cpuArray.size());
                     int memResult = (int) (MemSum / cpuArray.size());
-                     DispatcherUIController.appendTextToStatus("Average CPU usage of the cluster: " + cpuResult + "%");
-                     DispatcherUIController.appendTextToStatus("Average Memory usage of the cluster: " + memResult + "%");
+                     DispatcherUIController.appendTextToStatus("Average CPU usage of Dispatchers: " + cpuResult + "%");
+                     DispatcherUIController.appendTextToStatus("Average Memory usage of Dispatchers: " + memResult + "%");
 
                     //TO DO add new node
 
