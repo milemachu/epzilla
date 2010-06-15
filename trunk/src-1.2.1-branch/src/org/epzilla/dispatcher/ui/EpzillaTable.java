@@ -13,7 +13,8 @@ public class EpzillaTable extends JPanel {
         this.setLayout(new CustomGridLayout(new String[]{"100%"}, new String[]{"100%"}));
         JTable jt = new JTable(mdm);
         jt.setModel(mdm);
-        jt.setBackground(Color.LIGHT_GRAY);
+        jt.setBackground(Color.black);
+        jt.setForeground(Color.white);
         jt.setDefaultRenderer(Object.class, new TableRenderer());
         jt.setDefaultRenderer(Integer.class, new TableRenderer());
         jt.setDefaultRenderer(Long.class, new TableRenderer());
@@ -25,6 +26,7 @@ public class EpzillaTable extends JPanel {
 
         JScrollPane jsp = new JScrollPane(jt);
         jt.setFillsViewportHeight(true);
+        jsp.setBackground(Color.black);
 //        jt.setBounds(0,0,300,90);
 
 //        TableColumnModel tcm = jt.getColumnModel();
@@ -36,7 +38,7 @@ public class EpzillaTable extends JPanel {
 //            tc.setMaxWidth(80);
 //        }
 //        jsp.setBounds(new Rectangle(713, 340, 281, 170));
-
+                                     super.setBackground(Color.black);
         super.add(jsp);
     }
 
