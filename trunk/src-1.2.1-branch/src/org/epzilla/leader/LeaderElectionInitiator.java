@@ -86,6 +86,7 @@ public class LeaderElectionInitiator {
 					eventHandler.fireEpzillaEvent(new PulseReceivedEvent(clusterLeader));
 					
 					//Start Update Daemon Service.
+					if(NodeUpdateService.getInstance().getState()==Thread.State.NEW)
 					NodeUpdateService.getInstance().start();
 					System.out.println("Update Service Started.");
 					
