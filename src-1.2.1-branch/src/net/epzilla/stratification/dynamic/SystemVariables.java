@@ -1,7 +1,9 @@
 package net.epzilla.stratification.dynamic;
 
-import java.util.Hashtable;
+import org.epzilla.leader.LeaderElectionInitiator;
+import org.epzilla.util.Logger;
 
+import java.util.Hashtable;
 
 
 public class SystemVariables {
@@ -27,7 +29,23 @@ public class SystemVariables {
         SystemVariables.setNumStrata(1);
 //        SystemVariables.setClusters(0, 1);
 
-        SystemVariables.setClusterLoad(0, 0, 121);
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+//                super.run();    //To change body of overridden methods use File | Settings | File Templates.
+                while (true) {
+                    try {
+
+                        SystemVariables.setClusters(0, LeaderElectionInitiator.getSubscribedClusterLeadersFromDispatcher().size());
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        Logger.error("", e);
+                    }
+                }
+
+            }
+        };
+//        SystemVariables.setClusterLoad(0, 0, 121);
 //        SystemVariables.setCl+usterLoad(0, 1, 14);
 
 
@@ -110,6 +128,7 @@ public class SystemVariables {
     }
 
     public static int getClusters(int stratum) {
+        System.out.println("getting clusters for stratum: " + stratum);
         return strataClusters.get(stratum);
     }
 
