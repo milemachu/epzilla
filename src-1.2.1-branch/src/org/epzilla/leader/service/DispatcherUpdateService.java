@@ -45,6 +45,8 @@ public class DispatcherUpdateService extends Thread implements IEpzillaService {
 	@SuppressWarnings("unchecked")
 	public void executeService() {
 		
+		System.out.println("Starting dispatcher update routine");
+		
 		HashSet<String> currentDispatcherList=new HashSet<String>(DispatcherClientManager.getDispatcherList());
 		HashSet<String> respondedDispatcherList=new HashSet<String>();
 		try {
@@ -111,6 +113,7 @@ public class DispatcherUpdateService extends Thread implements IEpzillaService {
 	
 	@SuppressWarnings("unchecked")
 	private void executeLeaderTasks(HashSet<String> respondedList){
+		System.out.println("Starting dispatcher leader update routine.");
 		HashSet<String> currentSubscribedDispatcherList=new HashSet<String>(DispatcherClientManager.getSubscribedDispatcherList());
 
 		
