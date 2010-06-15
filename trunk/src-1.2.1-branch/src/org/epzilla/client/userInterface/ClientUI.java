@@ -87,7 +87,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         });
 
         loadSettings();
-        btnClear.setEnabled(false);
+        btnClear.setVisible(false);
 
     }
 
@@ -332,7 +332,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             listLookup.setSize(new Dimension(325, 72));
             listLookup.setLocation(new Point(165, 46));
             listLookup.addListSelectionListener(this);
-            listLookup.setBackground(new Color(210, 210, 210));
+            listLookup.setBackground(Color.BLACK);
+            listLookup.setForeground(Color.GREEN);
         }
         return listLookup;
     }
@@ -367,6 +368,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             txtDispIP.setPreferredSize(new Dimension(4, 20));
             txtDispIP.setLocation(new Point(165, 147));
             txtDispIP.setEditable(false);
+            txtDispIP.setForeground(Color.GREEN);
+            txtDispIP.setBackground(Color.BLACK);
             txtDispIP.setSize(new Dimension(325, 20));
         }
         return txtDispIP;
@@ -423,6 +426,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             txtDispName = new JTextField();
             txtDispName.setLocation(new Point(165, 181));
             txtDispName.setEditable(false);
+            txtDispName.setForeground(Color.GREEN);
+            txtDispName.setBackground(Color.BLACK);
             txtDispName.setSize(new Dimension(325, 20));
         }
         return txtDispName;
