@@ -171,7 +171,7 @@ public class DispatcherAsClient {
             public void onChange(Transaction transaction, int i) {
                 if (isActive) {
                     PerformanceInfoObject obj = PerformanceInfoManager.getPerformanceList().get(i);
-                    DispatcherUIController.appendTextToStatus("Load Balancing Info Recieved:: IP:" + obj.getnodeIP() + " CPU Usage:" + obj.getCPUusageAverage() + "% Memory Usage:" + obj.getMemUsageAverage() + "%");
+                    DispatcherUIController.appendTextToStatus("Dispatcher Performance:: IP:" + obj.getnodeIP() + " CPU Usage:" + obj.getCPUusageAverage() + "% Memory Usage:" + obj.getMemUsageAverage() + "%");
 
                 } else {
                     info.removeListener(this);
@@ -191,6 +191,7 @@ public class DispatcherAsClient {
                     DispatcherUIController.appendTextToStatus("Server Status..." + client.getStatus().toString());
                     this.cancel();
                     isActive=false;
+                    
                 }
             }
         }, 10, 1000);
