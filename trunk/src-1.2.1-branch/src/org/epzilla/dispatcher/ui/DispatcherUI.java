@@ -205,8 +205,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
             lblInEC.setBounds(new Rectangle(15, 553, 140, 22));
             lblInEC.setText("Incoming Event Count :");
             JLabel lblIPs = new JLabel();
-            lblIPs.setBounds(new Rectangle(713, 17, 103, 16));
-            lblIPs.setText("Leader IP List :");
+            lblIPs.setBounds(new Rectangle(713, 17, 150, 16));
+            lblIPs.setText("Cluster Leader IP List :");
             JLabel lblEvents = new JLabel();
             lblEvents.setBounds(new Rectangle(15, 21, 117, 16));
             lblEvents.setText("Status :");
