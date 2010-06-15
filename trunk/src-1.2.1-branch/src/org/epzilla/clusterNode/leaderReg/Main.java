@@ -14,6 +14,8 @@ import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.HashSet;
+import java.util.Iterator;
 
 public class Main {
     private static ClusterSettingsReader reader = new ClusterSettingsReader();
@@ -23,6 +25,7 @@ public class Main {
     private static DispInterface disObj;
     private static String ipAddress;
     private static LeaderElectionInitiator leaderElectionInitiator;
+    private static boolean success = false;
 
     public static void bindClusterNode(String serviceName) throws UnknownHostException, MalformedURLException, RemoteException {
         if (System.getSecurityManager() == null) {
@@ -37,15 +40,17 @@ public class Main {
         Logger.log("Cluster Node successfully deployed.....");
     }
 
-    private static void register() throws RemoteException, MalformedURLException, NotBoundException, UnknownHostException {
-        String url = "rmi://" + "192.168.1.4" + "/" + "DISPATCHER_SERVICE192168001004";
+
+    private static void register(String ip) throws RemoteException, MalformedURLException, NotBoundException, UnknownHostException {
+        String id = dispIdGen(ip);
+        String url = "rmi://" + ip + "/" + "DISPATCHER_SERVICE" + id;
         DispInterface service;
         service = (DispInterface) Naming.lookup(url);
-        InetAddress inetAddress = InetAddress.getLocalHost();
-        String ipAddress = inetAddress.getHostAddress();
-        service.getLeaderIp(clusterID, ipAddress);      //cluster ID taken from the setting file clusterID_settings
+//        InetAddress inetAddress = InetAddress.getLocalHost();
+//        String ipAddress = inetAddress.getHostAddress();
+//        service.getLeaderIp(clusterID, ipAddress);      //cluster ID taken from the setting file clusterID_settings
         setDispObject(service);
-
+        success = true;
 
         //DD for Client
 //        org.epzilla.common.discovery.node.NodeDiscoveryManager nodeDiscMgr=new NodeDiscoveryManager(2);
@@ -53,6 +58,20 @@ public class Main {
 //        NodeDiscoveryManager.setClusterLeader(InetAddress.getLocalHost().getHostAddress());
     }
 
+    private static String dispIdGen(String addr) {
+        String[] addrArray = addr.split("\\.");
+        String temp = "";
+        String value = "";
+        for (int i = 0; i < addrArray.length; i++) {
+            temp = addrArray[i].toString();
+            while (temp.length() != 3) {
+                temp = '0' + temp;
+            }
+            value += temp;
+        }
+        return value;
+    }
+    
     public static void setDispObject(Object obj) {
         disObj = (DispInterface) obj;
     }
@@ -63,6 +82,23 @@ public class Main {
 
     //method to send performance info
     public static void sendInfo(int cpuUsg, int mmUsg) {
+        HashSet<String> leader = LeaderElectionInitiator.getDispatchers();
+        Iterator it = leader.iterator();
+        if (!success) {
+            if (it.next() != null) {
+                try {
+                    register((String) it.next());
+                } catch (RemoteException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (NotBoundException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+        }
         try {
             disObj.performanceInfo(clusterID, cpuUsg, mmUsg);   //cluster ID taken from the setting file clusterID_settings
         } catch (RemoteException e) {
