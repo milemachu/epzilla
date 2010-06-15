@@ -55,6 +55,10 @@ public class NodeUIController {
         return instance.getJTextAreaNodeList().getText();
     }
 
+    public static void clearNodeList() {
+        instance.getJTextAreaNodeList().setText("");
+    }
+
     public static void appendTextToMachineInfo(String text) {
         instance.getjTextAreaMachineInfo().append(text + "\n");
     }
@@ -74,6 +78,7 @@ public class NodeUIController {
     public static void setEventCount(String text) {
         instance.getJTextAreaEventCount().setText(text);
     }
+
 }
 
 
