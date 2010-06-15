@@ -25,7 +25,6 @@ public class Main {
     private static DispInterface disObj;
     private static String ipAddress;
     private static LeaderElectionInitiator leaderElectionInitiator;
-    private static boolean success = false;
 
     public static void bindClusterNode(String serviceName) throws UnknownHostException, MalformedURLException, RemoteException {
         if (System.getSecurityManager() == null) {
@@ -50,7 +49,6 @@ public class Main {
 //        String ipAddress = inetAddress.getHostAddress();
 //        service.getLeaderIp(clusterID, ipAddress);      //cluster ID taken from the setting file clusterID_settings
         setDispObject(service);
-        success = true;
 
         //DD for Client
 //        org.epzilla.common.discovery.node.NodeDiscoveryManager nodeDiscMgr=new NodeDiscoveryManager(2);
@@ -86,7 +84,6 @@ public class Main {
         HashSet<String> leader = LeaderElectionInitiator.getDispatchers();
         clusterID = LeaderElectionInitiator.getClusterId();
         Iterator it = leader.iterator();
-        if (!success) {
             if (it.hasNext()) {
                 try {
                     register((String) it.next());
@@ -101,7 +98,6 @@ public class Main {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }
-        }
     }
 
     private static void loadSettings() {
