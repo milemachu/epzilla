@@ -120,7 +120,7 @@ public class Main {
 
     public static void startSTM() {
 //        LeaderElectionInitiator.mainMethod();
-        String leader = "192.168.182.4";
+        String leader = "";
         while (leader.equalsIgnoreCase("")) {
             leader = LeaderElectionInitiator.getLeader();
         }
