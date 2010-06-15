@@ -35,7 +35,8 @@ public class ClientUIControler implements Runnable {
     }
 
     public static void appendResults(String message) {
-        clientInstance.getTxtResults().append(message + "\n");
+        dateTime = getDateTime();
+        clientInstance.getTxtResults().append(dateTime + ":" +message + "\n");
     }
 
     public static void setListLookup(String dispData) {
