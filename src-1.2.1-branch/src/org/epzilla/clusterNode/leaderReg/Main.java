@@ -58,7 +58,7 @@ public class Main {
 //        NodeDiscoveryManager.setClusterLeader(InetAddress.getLocalHost().getHostAddress());
     }
 
-    private static String dispIdGen(String addr) {
+ private static String dispIdGen(String addr) {
         String[] addrArray = addr.split("\\.");
         String temp = "";
         String value = "";
@@ -82,12 +82,15 @@ public class Main {
 
     //method to send performance info
     public static void sendInfo(int cpuUsg, int mmUsg) {
+
         HashSet<String> leader = LeaderElectionInitiator.getDispatchers();
+        clusterID = LeaderElectionInitiator.getClusterId();
         Iterator it = leader.iterator();
         if (!success) {
-            if (it.next() != null) {
+            if (it.hasNext()) {
                 try {
                     register((String) it.next());
+                     disObj.performanceInfo(clusterID, cpuUsg, mmUsg);   //cluster ID taken from the setting file clusterID_settings
                 } catch (RemoteException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (MalformedURLException e) {
@@ -98,11 +101,6 @@ public class Main {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }
-        }
-        try {
-            disObj.performanceInfo(clusterID, cpuUsg, mmUsg);   //cluster ID taken from the setting file clusterID_settings
-        } catch (RemoteException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 
