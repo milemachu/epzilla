@@ -26,6 +26,7 @@ public class EpzillaTable extends JPanel {
 //        jt.setDefaultRenderer(JTableHeader.class, new HeaderRenderer());
         jt.getTableHeader().setDefaultRenderer(new HeaderRenderer());
 //        jt.setBounds(new Rectangle(713, 340, 281, 170));
+        
         jt.setDragEnabled(false);
 
       

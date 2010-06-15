@@ -28,9 +28,9 @@ public class TableRenderer implements TableCellRenderer {
                 if (i < 25) {
                     back = Color.GREEN;
                 } else if (i < 50) {
-                    back = Color.yellow;
+                    back = Color.green;
                 } else if (i < 75) {
-                    back = Color.orange;
+                    back = Color.green;
                 } else {
                     back = Color.red;
                 }
