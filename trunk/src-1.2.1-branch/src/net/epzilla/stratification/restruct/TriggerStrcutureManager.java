@@ -6,6 +6,7 @@ import net.epzilla.stratification.query.InvalidSyntaxException;
 import net.epzilla.stratification.query.Query;
 import net.epzilla.stratification.query.QueryParser;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
+import org.epzilla.util.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -146,7 +147,7 @@ public class TriggerStrcutureManager {
         for (TriggerInfoObject tio : triggerList) {
             if (!"OOOO".equals(tio.gettrigger())) {
                 q = qp.parseString(tio.gettrigger());
-                System.out.println("tid:" + tio.gettriggerID());
+                Logger.log("tid:" + tio.gettriggerID());
                 q.setId(Integer.parseInt(tio.gettriggerID()));
                 list.add(q);
             }
@@ -328,7 +329,7 @@ public class TriggerStrcutureManager {
             this.map[i] = set;
             i++;
         }
-        System.out.println("depend built: " + (System.currentTimeMillis() - st));
+        Logger.log("depend built: " + (System.currentTimeMillis() - st));
 
     }
 

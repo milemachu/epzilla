@@ -48,7 +48,7 @@ public class SystemRestructure {
                 }
             }
         }
-                             
+
 
         LinkedList<LinkedList<LinkedList<Cluster>>> slist = new LinkedList();
         LinkedList<TriggerStrcutureManager> tsmlist = new LinkedList();
@@ -80,8 +80,6 @@ public class SystemRestructure {
         }
 
         // fully restructured.
-
-
     }
 
     public boolean sendRestructureCommands() {
@@ -152,12 +150,12 @@ public class SystemRestructure {
             }
 
             // todo - send to clusters.
-            System.out.println("sending command.");
+            Logger.log("sending command.");
 
             // todo implement strata
             for (String stratum : remList.keySet()) {
                 TransactedList<NodeIPObject> tl = ClusterIPManager.getIpList();
-                System.out.println("tl size:" + tl.size());
+                Logger.log("tl size:" + tl.size());
                 for (NodeIPObject no : tl) {
                     String id = no.getclusterID();
                     if (remList.get(stratum).containsKey(id)) {
@@ -193,8 +191,45 @@ public class SystemRestructure {
         return true;
     }
 
+
+    private void redistribute(LinkedList<Cluster> total) {
+        int i = 0;
+        int j = 0;
+        int sts = SystemVariables.getNumStrata();
+        int stsm1 = sts - 1;
+        boolean increasing = true;
+        for (int x = 0; x < sts; x++) {
+            int cls = SystemVariables.getClusters(x) - 1;
+            j = 0;
+            for (Cluster c : total) {
+                if ((c.getStratum() == x) || (c.getStratum() > x && x == stsm1)) {
+                    c.setRealStratum(x);
+                    if (!c.isIndependent()) {
+                        if ((j <= cls) && (j >= 0)) {
+                            c.setRealCluster(j);
+                        } else {
+                            if (increasing) {
+                                j = cls;
+                                increasing = false;
+                            } else {
+                                j = 0;
+                                increasing = true;
+                            }
+                            c.setRealCluster(j);
+
+                        }
+                        if (increasing) {
+                            j++;
+                        } else {
+                            j--;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) throws Exception {
-        System.out.println(InetAddress.getLocalHost().getHostAddress());
         BufferedReader br = new BufferedReader(new FileReader("./src/query/queries.txt"));
         ArrayList<String> list = new ArrayList<String>(50);
         String line = null;
@@ -247,51 +282,10 @@ public class SystemRestructure {
             } else {
                 two++;
             }
-
         }
         System.out.println("one:zero" + one + ":" + two);
         long sss = System.currentTimeMillis();
         sr.sendRestructureCommands();
         System.out.println("time e: " + (System.currentTimeMillis() - sss));
     }
-
-
-    private void redistribute(LinkedList<Cluster> total) {
-        int i = 0;
-        int j = 0;
-        int sts = SystemVariables.getNumStrata();
-        int stsm1 = sts - 1;
-        boolean increasing = true;
-        for (int x = 0; x < sts; x++) {
-            int cls = SystemVariables.getClusters(x) - 1;
-            j = 0;
-            for (Cluster c : total) {
-                if ((c.getStratum() == x) || (c.getStratum() > x && x == stsm1)) {
-                    c.setRealStratum(x);
-//                    System.out.println("setting stratum:" + x + c.isIndependent());
-                    if (!c.isIndependent()) {
-                        if ((j <= cls) && (j >= 0)) {
-                            c.setRealCluster(j);
-                        } else {
-                            if (increasing) {
-                                j = cls;
-                                increasing = false;
-                            } else {
-                                j = 0;
-                                increasing = true;
-                            }
-                            c.setRealCluster(j);
-
-                        }
-                        if (increasing) {
-                            j++;
-                        } else {
-                            j--;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
 }
