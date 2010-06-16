@@ -57,7 +57,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
                 i++;
             }
 
-
+            br.close();
             
         } catch (Exception e) {
             e.printStackTrace();
