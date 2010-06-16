@@ -709,7 +709,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     private void loadSettings() {
         try {
-            ArrayList<String[]> data = ServerSettingsReader.getServerIPSettings("./src/settings/server_settings.xml");
+            ArrayList<String[]> data = ServerSettingsReader.getServerIPSettings("server_settings.xml");
             String[] ar = data.get(0);
             txtIP.setText(ar[0]);
             txtPort.setText(ar[1]);
