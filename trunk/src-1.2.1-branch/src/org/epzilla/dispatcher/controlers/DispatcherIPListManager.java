@@ -91,10 +91,12 @@ public class DispatcherIPListManager {
             @Override
             public void run() {
                 Hashtable<Integer, String> leaders = LeaderElectionInitiator.getSubscribedClusterLeadersFromDispatcher();
-                for (int key : leaders.keySet()) {
+                if(leaders !=null){
+				for (int key : leaders.keySet()) {
                     ClusterLeaderIpListManager.removeIP(leaders.get(key));
                     ClusterLeaderIpListManager.addIP("" + key, leaders.get(key));
                 }
+				}
 
                 System.gc();
 
