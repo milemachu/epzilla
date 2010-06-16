@@ -129,8 +129,11 @@ public class SystemVariables {
     }
 
     public static int getClusters(int stratum) {
-        System.out.println("getting clusters for stratum: " + stratum);
-        return strataClusters.get(stratum);
+        try {
+            return strataClusters.get(stratum);
+        } catch (Exception e) {
+            return 1;
+        }
     }
 
     public static void setClusters(int stratum, int clusters) {
