@@ -1,7 +1,11 @@
 package net.epzilla.stratification.restruct;
 
 import net.epzilla.stratification.query.InvalidSyntaxException;
+import org.epzilla.leader.LeaderElectionInitiator;
 import org.epzilla.util.Logger;
+
+import java.util.HashSet;
+import java.util.Hashtable;
 
 
 public class RestructuringDaemon {
@@ -26,26 +30,35 @@ public class RestructuringDaemon {
                 try {
                     Thread.sleep(RestructuringDaemon.RESTRUCTURING_WAITING_TIME);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    Logger.error("error sleeping", e);
                 }
 
                 while (alive) {
                     System.out.println("SystemRestructure....");
                     long st = System.currentTimeMillis();
                     try {
-                        
+
+                        HashSet<String> disp = LeaderElectionInitiator.getDispatchers();
+
+                        for (String ip: disp) {
+                            
+                        }
+
                         SystemRestructure.getInstance().restructureSystem();
                         SystemRestructure.getInstance().sendRestructureCommands();
-                    } catch (InvalidSyntaxException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (Exception e) {
+                        Logger.error("Error: invalid syntax? ", e);
+
                     }
                     System.out.println("SystemRestructure ended....." + (System.currentTimeMillis()  - st) + " ms");
+
 
 
                     try {
                         Thread.sleep(RestructuringDaemon.RESTRUCTURING_WAITING_TIME);
                     } catch (InterruptedException e) {
-                        Logger.error("", e);
+                        Logger.error("error sleeping", e);
+                        
                     }
                 }
             }
