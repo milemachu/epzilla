@@ -575,7 +575,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     private void loadSettings() {
         try {
-            ArrayList<String[]> data = reader.getServerIPSettings("./src/settings/server_settings.xml");
+            ArrayList<String[]> data = reader.getServerIPSettings("server_settings.xml");
             String[] ar = data.get(0);
             txtIP.setText(ar[0]);
             txtPort.setText(ar[1]);
