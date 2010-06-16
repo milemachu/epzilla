@@ -65,7 +65,7 @@ public class ClientInfoObject extends jstm.core.TransactedStructure {
 
     @Override
     public String getObjectModelUID() {
-        return "4QPjCsBfGaufoVI+bv5syg";
+        return "irMFLhacyEeNMDJiM0LPhw";
     }
 
     private static final int[] NON_TRANSIENT_FIELDS = new int[] {  };
