@@ -1,5 +1,6 @@
 package org.epzilla.clusterNode.query;
 
+import java.util.Hashtable;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.ArrayList;
@@ -16,6 +17,32 @@ import java.util.HashSet;
  */
 public class Query {
     // all digits regexp.
+    public static int pass = 0;
+    public static int sum = 1;
+    public static int avg = 2;
+    public static int min = 3;
+    public static int max = 4;
+    public static int copyRow = 5;
+
+    public static Hashtable<String, Integer> opMap = new Hashtable();
+
+    static {
+        opMap.put("pass", 0);
+        opMap.put("sum", 1);
+        opMap.put("avg", 2);
+        opMap.put("min", 3);
+        opMap.put("max", 4);
+        opMap.put("copyRow", 5);
+    }
+
+    public int[] getOperations() {
+        return operations;
+    }
+
+    public void setOperations(int[] operations) {
+        this.operations = operations;
+    }
+
     static Pattern p = Pattern.compile("(\\d)+");
 
     private QueryType type = null;
@@ -25,6 +52,7 @@ public class Query {
     private String[] outputs = null;
     private String[] conditionLeft = null;
     private String[][] conditions = null;
+    private int[] operations = null;
 
     public String getInputTitle() {
         return inputTitle;
