@@ -84,7 +84,7 @@ public class Main {
         HashSet<String> leader = LeaderElectionInitiator.getDispatchers();
         clusterID = LeaderElectionInitiator.getClusterId();
         Iterator it = leader.iterator();
-            if (it.hasNext()) {
+            while (it.hasNext()) {
                 try {
                     register((String) it.next());
                      disObj.performanceInfo(clusterID, cpuUsg, mmUsg);   //cluster ID taken from the setting file clusterID_settings
