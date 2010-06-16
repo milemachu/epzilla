@@ -15,6 +15,12 @@ public class BasicQueryParser implements QueryParser {
     String[] inputMap;
     String[] outputMap;
 
+    public static void main(String[] args) throws InvalidSyntaxException {
+        BasicQueryParser bqp = new BasicQueryParser();
+        bqp.parseString("SELECT avg(StockTrades.price), min(StockTrades.price) RETAIN 10 EVENTS OUTPUT StkTrades.avgprice, StkTrades.minprice;");
+        
+    }
+
     private void clear() {
         this.type = null;
         this.inputs = this.outputs = null;
@@ -63,7 +69,7 @@ public class BasicQueryParser implements QueryParser {
         createInputMap();
         createOutputMap();
 
-        Query q =  new Query(0, query, inputMap, outputMap, retainCriterion, retainAmount);
+        Query q = new Query(0, query, inputMap, outputMap, retainCriterion, retainAmount);
         q.setQueryString(query);
         return q;
     }
@@ -122,11 +128,11 @@ public class BasicQueryParser implements QueryParser {
             inputString = inputString.replaceAll(token, " ");
         }
         inputString = inputString.replaceAll("\\)", ",");
-        for (String op: LanguageDefinitions.operators) {
+        for (String op : LanguageDefinitions.operators) {
             inputString = inputString.replaceAll(op, ",");
         }
         inputs = inputString.trim().split(",");
-        
+
         HashSet<String> validStrings = new HashSet<String>();
         for (String str : inputs) {
             str = str.trim();
