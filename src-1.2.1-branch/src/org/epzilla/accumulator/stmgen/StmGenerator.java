@@ -41,6 +41,15 @@ public class StmGenerator {
         client.Fields.add(new Field(String.class, "clientIP"));
         pack.Structures.add(client);
 
+
+        Structure performanceInfo = new Structure("PerformanceInfoObject");
+        performanceInfo.Fields.add(new Field(String.class, "nodeIP"));
+        performanceInfo.Fields.add(new Field(String.class, "CPUusageAverage"));
+        performanceInfo.Fields.add(new Field(String.class, "MemUsageAverage"));
+        performanceInfo.Fields.add(new Field(String.class, "NetworkUsageAverage"));
+
+        pack.Structures.add(performanceInfo);
+
         Generator generator = new Generator(model);
         generator.writeFiles("./src/org/epzilla/accumulator/", Generator.Target.Java5, false);
 
