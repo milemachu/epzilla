@@ -28,6 +28,11 @@ public class RestructuringDaemon {
     static {
         try {
             File f = new File("./src/settings/restructuring.xml");
+
+            if (!f.exists())  {
+                f = new File("restructuring.xml");
+            }
+
             BufferedReader br = new BufferedReader(new FileReader(f));
 
             org.epzilla.clusterNode.xml.XMLElement xe = new org.epzilla.clusterNode.xml.XMLElement();
@@ -56,7 +61,7 @@ public class RestructuringDaemon {
             br.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
