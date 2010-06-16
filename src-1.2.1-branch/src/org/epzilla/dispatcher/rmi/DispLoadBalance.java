@@ -44,7 +44,7 @@ public class DispLoadBalance {
 
     private static void loadSettings() {
         try {
-            ArrayList<String[]> data = reader.getServerIPSettings("./src/settings/server_settings.xml");
+            ArrayList<String[]> data = reader.getServerIPSettings("server_settings.xml");
             String[] ar = data.get(0);
             ip = ar[0];
             port = ar[1];
