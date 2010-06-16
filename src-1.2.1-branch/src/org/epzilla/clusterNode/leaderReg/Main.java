@@ -109,16 +109,6 @@ public class Main {
         } catch (UnknownHostException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
-//        try {
-//            ArrayList<String[]> data = reader.getServerIPSettings("./src/settings/clusterID_settings.xml");
-//            String[] ar = data.get(0);
-//            String ID = ar[0];
-//            nodeStatus = ar[1];
-//            clusterID = Integer.parseInt(ID);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public static void main(String[] args) {
