@@ -10,9 +10,9 @@ import jstm.core.*;
 
 public final class AccumulatorObjectModel extends jstm.core.ObjectModel {
 
-    public static final String UID = "4QPjCsBfGaufoVI+bv5syg";
+    public static final String UID = "irMFLhacyEeNMDJiM0LPhw";
 
-    public static final String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ObjectModelDefinition xsi:noNamespaceSchemaLocation=\"http://www.xstm.net/schemas/xstm-0.3.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Name>AccumulatorObjectModel</Name><RootPackage name=\"generated\"><Packages/><Structures><Structure name=\"ClientInfoObject\"><Fields><Field transient=\"false\" name=\"clientID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"clientIP\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure></Structures></RootPackage></ObjectModelDefinition>";
+    public static final String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ObjectModelDefinition xsi:noNamespaceSchemaLocation=\"http://www.xstm.net/schemas/xstm-0.3.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Name>AccumulatorObjectModel</Name><RootPackage name=\"generated\"><Packages/><Structures><Structure name=\"ClientInfoObject\"><Fields><Field transient=\"false\" name=\"clientID\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"clientIP\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure><Structure name=\"PerformanceInfoObject\"><Fields><Field transient=\"false\" name=\"nodeIP\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"CPUusageAverage\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"MemUsageAverage\"><Type name=\"java.lang.String\"/></Field><Field transient=\"false\" name=\"NetworkUsageAverage\"><Type name=\"java.lang.String\"/></Field></Fields><Methods/></Structure></Structures></RootPackage></ObjectModelDefinition>";
 
     public AccumulatorObjectModel() {
     }
@@ -29,7 +29,7 @@ public final class AccumulatorObjectModel extends jstm.core.ObjectModel {
 
     @Override
     public int getClassCount() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -37,6 +37,8 @@ public final class AccumulatorObjectModel extends jstm.core.ObjectModel {
         switch (classId) {
             case 0:
                 return new ClientInfoObject();
+            case 1:
+                return new PerformanceInfoObject();
         }
 
         throw new IllegalArgumentException("Unknown class id: " + classId);
