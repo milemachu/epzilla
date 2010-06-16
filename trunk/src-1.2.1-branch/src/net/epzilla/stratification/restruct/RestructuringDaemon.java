@@ -1,10 +1,19 @@
 package net.epzilla.stratification.restruct;
 
+import org.epzilla.clusterNode.xml.XMLElement;
 import org.epzilla.dispatcher.rmi.DispInterface;
+import org.epzilla.dispatcher.rmi.RestructuringInfo;
 import org.epzilla.leader.LeaderElectionInitiator;
 import org.epzilla.util.Logger;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 
@@ -12,7 +21,49 @@ public class RestructuringDaemon {
     private static boolean alive = false;
     private static boolean restructuring = false;
     public static int RESTRUCTURING_WAITING_TIME = 50000;
+    public static int INITIAL_RESTRUCTURING_WAITING_TIME = 50000;
 
+
+
+    static {
+        try {
+            File f = new File("./src/settings/restructuring.xml");
+            BufferedReader br = new BufferedReader(new FileReader(f));
+
+            org.epzilla.clusterNode.xml.XMLElement xe = new org.epzilla.clusterNode.xml.XMLElement();
+            StringBuilder sb = new StringBuilder("");
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+            xe.parseString(sb.toString());
+            ArrayList<XMLElement> ch = xe.getChildren();
+            XMLElement e = ch.get(0);
+            String init = e.getAttribute("INIT_WAIT");
+            String wait = e.getAttribute("WAIT");
+
+            int iinit = Integer.parseInt(init.trim());
+            int iwait = Integer.parseInt(wait.trim());
+
+            if (iwait > 0) {
+                RESTRUCTURING_WAITING_TIME = iinit;
+            }
+
+            if (iinit > 0) {
+                INITIAL_RESTRUCTURING_WAITING_TIME = iwait;
+            }
+
+            br.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(INITIAL_RESTRUCTURING_WAITING_TIME);
+        System.out.println(RESTRUCTURING_WAITING_TIME);
+    }
 
     public static boolean isRestructuring() {
         return restructuring;
@@ -41,14 +92,38 @@ public class RestructuringDaemon {
                         HashSet<String> disp = LeaderElectionInitiator.getDispatchers();
 
                         for (String ip : disp) {
-                            String id = dispIdGen(ip);
-                            String serviceName = "DISPATCHER_SERVICE" + id;
-                            String url = "rmi://" + ip + "/" + serviceName;
-                            DispInterface obj = (DispInterface) Naming.lookup(url);
+                            try {
+                                String id = dispIdGen(ip);
+                                String serviceName = "DISPATCHER_SERVICE" + id;
+                                String url = "rmi://" + ip + "/" + serviceName;
+                                DispInterface obj = (DispInterface) Naming.lookup(url);
+                                RestructuringInfo ri = new RestructuringInfo();
+                                obj.restructuringStarted(ri);
+                            } catch (Exception e) {
+                                Logger.error("error sending command", e);
+                            }
+
+
                         }
 
                         SystemRestructure.getInstance().restructureSystem();
                         SystemRestructure.getInstance().sendRestructureCommands();
+
+
+                        for (String ip : disp) {
+                            try {
+                                String id = dispIdGen(ip);
+                                String serviceName = "DISPATCHER_SERVICE" + id;
+                                String url = "rmi://" + ip + "/" + serviceName;
+                                DispInterface obj = (DispInterface) Naming.lookup(url);
+                                RestructuringInfo ri = new RestructuringInfo();
+                                obj.restructuringEnded(ri);
+                            } catch (NotBoundException e) {
+                                Logger.error("error sending command", e);
+                            }
+
+                        }
+
                     } catch (Exception e) {
                         Logger.error("Error: invalid syntax? ", e);
 
