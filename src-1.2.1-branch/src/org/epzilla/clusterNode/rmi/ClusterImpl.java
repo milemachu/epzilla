@@ -11,8 +11,13 @@ import org.epzilla.clusterNode.dataManager.EventsManager;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
 import org.epzilla.clusterNode.processor.EventProcessor;
 import org.epzilla.dispatcher.rmi.TriggerRepresentation;
+import org.epzilla.dispatcher.xml.XMLElement;
 import org.epzilla.util.Logger;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -28,6 +33,35 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface {
+
+    public static String[] accIpArray = null;
+
+    static {
+        try {
+            File f = new File("./src/settings/Accumulators.xml");
+            BufferedReader br = new BufferedReader(new FileReader(f));
+
+            org.epzilla.clusterNode.xml.XMLElement xe = new org.epzilla.clusterNode.xml.XMLElement();
+            xe.parseString(br.readLine());
+            ArrayList<org.epzilla.clusterNode.xml.XMLElement> ch = xe.getChildren();
+            accIpArray = new String[ch.size()];
+            int i = 0;
+            for (org.epzilla.clusterNode.xml.XMLElement x : ch) {
+                String ip = x.getAttribute("ip");
+                accIpArray[i] = ip;
+                i++;
+            }
+
+
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("running.");
+    }
 
     public ClusterImpl() throws RemoteException {
     }
@@ -76,7 +110,6 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         }
         return null;
     }
-
 
     // todo - add acc. ip
 
