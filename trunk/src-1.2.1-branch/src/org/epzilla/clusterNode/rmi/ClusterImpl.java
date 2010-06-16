@@ -42,7 +42,12 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
             BufferedReader br = new BufferedReader(new FileReader(f));
 
             org.epzilla.clusterNode.xml.XMLElement xe = new org.epzilla.clusterNode.xml.XMLElement();
-            xe.parseString(br.readLine());
+            StringBuilder sb = new StringBuilder("");
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+            xe.parseString(sb.toString());
             ArrayList<org.epzilla.clusterNode.xml.XMLElement> ch = xe.getChildren();
             accIpArray = new String[ch.size()];
             int i = 0;
@@ -61,6 +66,9 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 
     public static void main(String[] args) {
         System.out.println("running.");
+        for (String x: accIpArray) {
+            System.out.println(x);
+        }
     }
 
     public ClusterImpl() throws RemoteException {
