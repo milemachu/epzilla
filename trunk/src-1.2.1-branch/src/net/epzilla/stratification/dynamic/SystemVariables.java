@@ -132,6 +132,7 @@ public class SystemVariables {
         try {
             return strataClusters.get(stratum);
         } catch (Exception e) {
+            Logger.error("looking for stratum:" + stratum, e);
             return 1;
         }
     }
