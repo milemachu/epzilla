@@ -58,7 +58,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
             }
 
             br.close();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -66,7 +66,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 
     public static void main(String[] args) {
         System.out.println("running.");
-        for (String x: accIpArray) {
+        for (String x : accIpArray) {
             System.out.println(x);
         }
     }
@@ -106,6 +106,14 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
     }
 
 
+    /**
+     * events from dispatcher.
+     *
+     * @param event
+     * @param clusterID
+     * @return
+     * @throws RemoteException
+     */
     public String acceptEventStream(byte[] event, String clusterID) throws RemoteException {
         try {
             String eventS = new String(event);
@@ -121,12 +129,18 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 
     // todo - add acc. ip
 
+    /**
+     * events from cluster leaders.
+     *
+     * @param event
+     * @throws RemoteException
+     */
     public void addEventStream(String event) throws RemoteException {
         String derivedEvent = EventProcessor.getInstance().processEvent(event);
-        System.out.println("addeventstream called.");
         try {
-            DeriveEventSender.sendDeriveEvent("192.168.1.2", derivedEvent.getBytes());
-            System.out.println("sending derived event...");
+            for (String aip : accIpArray) {
+                DeriveEventSender.sendDeriveEvent(aip, derivedEvent.getBytes());
+            }
         } catch (Exception e) {
             Logger.error("error adding event in cluster node", e);
         }
