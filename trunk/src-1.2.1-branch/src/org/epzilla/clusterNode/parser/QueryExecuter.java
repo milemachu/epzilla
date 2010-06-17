@@ -56,15 +56,22 @@ public class QueryExecuter {
         QueryParser qp = new QueryParser();
 //        Query q = qp.parseQuery("SELECT avg(StockTrades.price), StockTrades.last  , min(StockTrades.price), StockTrades.amount RETAIN 10 EVENTS OUTPUT StkTrades");
         Query q = qp.parseQuery(EventTriggerGenerator.generateStockDetailsTrigger());
-         QueryExecuter qe = new QueryExecuter();
+        QueryExecuter qe = new QueryExecuter();
         qe.addQuery(q);
 
 
-        for (int i = 0; i<100; i++) {
+        for (int i = 0; i < 100; i++) {
             qe.addQuery(EventTriggerGenerator.generateStockDetailsTrigger());
         }
 
-        System.out.println("ev:" +qe.processEvent("DFCC\naskPrice,amount\n100,2\n23,2"));
+        for (int i = 10; i > 0; i--) {
+            String x = EventTriggerGenerator.generateStockEvent();
+            System.out.println(x);
+            System.out.println("processed:");
+            System.out.println(qe.processEvent(x));
+        }
+
+        System.out.println("ev:" + qe.processEvent("DFCC\naskPrice,amount\n100,2\n23,2"));
 
 
     }
@@ -103,10 +110,12 @@ public class QueryExecuter {
             inputPositions.put(head, i);
         }
 
+        String lastOutputTitle = null;
         for (Query q : queryRef) {
             if (title.equals(q.getInputTitle())) {
-                
-                sb.append(q.getOutputTitle());
+                if (lastOutputTitle == null || !q.getOutputTitle().equals(lastOutputTitle)) {
+                    sb.append(q.getOutputTitle());
+                }
                 sb.append("\n");
                 String[] resHeaders = q.getResultHeaders();
                 i = 0;
@@ -136,22 +145,22 @@ public class QueryExecuter {
                                         store = td;
                                     }
                                 }
-                                sb.append(resHeaders[i]).append("=").append(store );
+                                sb.append(resHeaders[i]).append("=").append(store);
 
                                 break;
                             case Query.max:
-                                    if (csv.length > 0) {
+                                if (csv.length > 0) {
                                     store = Double.parseDouble(csv[0][index]);
                                 }
-                                
+
                                 for (int j = 0; j < csv.length; j++) {
                                     td = Double.parseDouble(csv[j][index]);
                                     if (td > store) {
                                         store = td;
                                     }
                                 }
-                                sb.append(resHeaders[i]).append("=").append(store );
-                                
+                                sb.append(resHeaders[i]).append("=").append(store);
+
                                 break;
                             case Query.sum:
                                 for (int j = 0; j < csv.length; j++) {
