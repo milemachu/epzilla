@@ -69,27 +69,41 @@ public class EventTriggerGenerator {
     }
 
 
-      public static String generateStockEvent() {
+    public static String generateStockEvent() {
         StringBuilder writer = new StringBuilder();
         try {
             int symIndex = (int) (Math.random() * (stockSymbols.length));
-            
-            writer.append("Title");
-            writer.append(',');
-            writer.append("CarModel");
-            writer.append(',');
-            writer.append("Color");
-            writer.append(',');
-            writer.append("Year");
+
+
+            writer.append(stockSymbols[symIndex]);
             writer.append('\n');
 
-            writer.append("CarDetails");
-            writer.append(',');
-            writer.append(Const.WORDS[random.nextInt(Const.WORDS.length)]);
-            writer.append(',');
-            writer.append(Const.COLOR[random.nextInt(Const.COLOR.length)]);
-            writer.append(',');
-            writer.append(Const.YEAR[random.nextInt(Const.YEAR.length)]);
+            // bid last amount ask
+            int lim = attributes.length - 1;
+            for (int i = 0; i < attributes.length; i++) {
+                writer.append(attributes[i]);
+                if (i < lim) {
+                    writer.append(",");
+                }
+            }
+            writer.append("\n");
+            int r = (int) (Math.random() * 10);
+            for (int i = 0; i < r; i++) {
+                double bid = Math.random() * 150;
+                writer.append(round(bid, 2)).append(",");
+                if (Math.random() > 0.5) {
+                    writer.append(round((bid + (Math.random() * 5)),2));
+                } else {
+                    writer.append(round((bid - (Math.random() * 5)), 2));
+                }
+                writer.append(",");
+                writer.append(((int) (Math.random() * 1000)) * 100);
+                writer.append(",");
+                writer.append(round((bid + (Math.random() * 5)),2));
+
+                writer.append("\n");
+            }
+
 
         }
         catch (Exception e) {
@@ -98,6 +112,11 @@ public class EventTriggerGenerator {
         return writer.toString();
     }
 
+
+    private static double round(double input, int decimals) {
+              int pow = (int) Math.pow(10, decimals);
+        return ((((int)(input * pow)) * 1.0))/pow;
+    }
 //    "select CarDetails.CarModel where CarDetails.Year=1980  output as Details"
 
     public static String getNextTrigger() {
@@ -189,7 +208,6 @@ public class EventTriggerGenerator {
     static String[] attributes = {"bidPrice", "last", "amount", "askPrice"};
 
 
-
     public static String generateStockDetailsTrigger() {
         StringBuilder writer = new StringBuilder("");
         writer.append("SELECT");
@@ -212,7 +230,7 @@ public class EventTriggerGenerator {
         if (!operations[opIndex].equals("")) {
             writer.append(")");
         }
-        
+
 //        writer.append('.');
 //        writer.append(Const.PROPERTY[random.nextInt(Const.PROPERTY.length)]);
         writer.append(" ");
