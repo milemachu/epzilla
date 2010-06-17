@@ -217,6 +217,15 @@ public class EventTriggerGenerator {
         int opIndex = (int) (Math.random() * (operations.length));
         int attIndex = (int) (Math.random() * (attributes.length));
 
+        if (attIndex != 2) {
+            if (opIndex == 4) {
+                opIndex = 3;
+            }
+        }      else {
+             if (opIndex == 3) {
+                opIndex = 4;
+            }
+        }
 
 //        writer.append("StockTrades.min");
         if (!operations[opIndex].equals("")) {
