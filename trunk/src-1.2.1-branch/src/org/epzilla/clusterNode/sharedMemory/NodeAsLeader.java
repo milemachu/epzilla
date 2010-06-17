@@ -14,6 +14,7 @@ import org.epzilla.clusterNode.dataManager.TriggerManager;
 import org.epzilla.clusterNode.leaderReg.Main;
 import org.epzilla.clusterNode.processor.EventProcessor;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
+import org.epzilla.clusterNode.xml.ClusterSettingsReader;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -33,6 +34,10 @@ import java.util.TimerTask;
 public class NodeAsLeader {
     private static Share share;
     private static Server server;
+    static int sendingInterval;
+    static int cpuUpperThreshHold;
+    static int memUpperThreshHold;
+    static int cpuLowerThreshHold;
 
     public static boolean startServer() {
         boolean success = false;
@@ -167,6 +172,19 @@ public class NodeAsLeader {
 
     public static void checkForOverloading() {
         final java.util.Timer timer1 = new java.util.Timer();
+        ArrayList<String[]> settingsList = ClusterSettingsReader.getServerIPSettings("clusterID_settings.xml");
+        String[] settings = settingsList.get(0);
+        if (settings != null) {
+            sendingInterval = Integer.valueOf(settings[0]);
+            cpuUpperThreshHold = Integer.valueOf(settings[1]);
+            memUpperThreshHold = Integer.valueOf(settings[2]);
+            cpuLowerThreshHold = Integer.valueOf(settings[3]);
+        } else {
+            sendingInterval = 20000;
+            cpuUpperThreshHold = 90;
+            memUpperThreshHold = 90;
+            cpuLowerThreshHold = 5;
+        }
         timer1.schedule(new TimerTask() {
             Hashtable<String, Integer> cpuArray = new Hashtable<String, Integer>();
             ArrayList<Integer> memArray = new ArrayList<Integer>();
@@ -178,7 +196,7 @@ public class NodeAsLeader {
                 memArray.clear();
                 int CPUsum = 0;
                 int MemSum = 0;
-                for (int i = list.size()-1; i >=0 ; i--) {
+                for (int i = list.size() - 1; i >= 0; i--) {
                     if (list.get(i).getnodeIP() != "PPPP") {
                         if (!cpuArray.containsKey(list.get(i).getnodeIP())) {
                             cpuArray.put(list.get(i).getnodeIP(), Integer.valueOf(list.get(i).getCPUusageAverage()));
@@ -201,6 +219,15 @@ public class NodeAsLeader {
                     NodeUIController.appendTextToStatus("Average CPU usage of the cluster: " + cpuResult + "%");
                     NodeUIController.appendTextToStatus("Average Memory usage of the cluster: " + memResult + "%");
 
+                    if (cpuResult >= cpuUpperThreshHold && memResult >= memUpperThreshHold) {
+                        // Add node
+
+                    } else if (cpuResult < cpuLowerThreshHold) {
+                        //Remove Node
+
+
+                    }
+
                     //send perfomance info
                     try {
                         Main.sendInfo(cpuResult, memResult);
@@ -210,7 +237,7 @@ public class NodeAsLeader {
                     }
                 }
             }
-        }, 120000, 200000);
+        }, sendingInterval, sendingInterval);
     }
 
 
