@@ -1,5 +1,6 @@
 package org.epzilla.clusterNode.userInterface;
 
+import org.epzilla.clusterNode.nodeControler.SleepNode;
 import org.epzilla.clusterNode.nodeControler.WakeNode;
 
 import javax.swing.*;
@@ -328,7 +329,7 @@ public class NodeUI extends JFrame implements ActionListener {
             WakeNode.wake();
         }
         if(source == btnRemoveNode){
-            //remove logic here
+            SleepNode.sleep();
         }
 
     }
