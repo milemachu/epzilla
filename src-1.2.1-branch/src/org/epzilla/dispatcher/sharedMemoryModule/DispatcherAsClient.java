@@ -9,9 +9,11 @@ import java.util.TimerTask;
 
 
 import net.epzilla.stratification.dynamic.DynamicDependencyManager;
+import org.epzilla.dispatcher.Main;
 import org.epzilla.dispatcher.dataManager.*;
 import org.epzilla.dispatcher.controlers.*;
 import org.epzilla.dispatcher.dispatcherObjectModel.*;
+import org.epzilla.dispatcher.rmi.DispatcherService;
 
 
 /**
@@ -190,8 +192,9 @@ public class DispatcherAsClient {
                 if (client.getStatus() == SocketClient.Status.DISCONNECTED) {
                     DispatcherUIController.appendTextToStatus("Server Status..." + client.getStatus().toString());
                     this.cancel();
-                    isActive=false;
-                    
+                    isActive = false;
+                    Main.triggerLEFromRemote();
+                    Main.InitSTM();
                 }
             }
         }, 10, 1000);
