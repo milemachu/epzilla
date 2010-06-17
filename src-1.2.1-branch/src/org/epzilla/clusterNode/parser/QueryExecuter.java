@@ -115,8 +115,10 @@ public class QueryExecuter {
             if (title.equals(q.getInputTitle())) {
                 if (lastOutputTitle == null || !q.getOutputTitle().equals(lastOutputTitle)) {
                     sb.append(q.getOutputTitle());
+                    sb.append("\n");
+                    
                 }
-                sb.append("\n");
+                lastOutputTitle = q.getOutputTitle();
                 String[] resHeaders = q.getResultHeaders();
                 i = 0;
                 int[] ops = q.getOperations();
