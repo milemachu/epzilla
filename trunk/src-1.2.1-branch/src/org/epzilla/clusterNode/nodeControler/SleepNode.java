@@ -1,11 +1,15 @@
 package org.epzilla.clusterNode.nodeControler;
 
+import org.epzilla.clusterNode.NodeController;
 import org.epzilla.clusterNode.rmi.ClusterInterface;
+import org.epzilla.leader.LeaderElectionInitiator;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +19,30 @@ import java.rmi.RemoteException;
  * To change this template use File | Settings | File Templates.
  */
 public class SleepNode {
-    public static void sleepNode(String nodeIP) { 
+    private static HashSet<String> nodeList;
+
+    public static void sleep() {
+        if (getNodeDetails()) {
+            String leaderIP = NodeController.getLeaderIP();
+            for (Iterator i = nodeList.iterator(); i.hasNext();) {
+                String ip = (String) i.next();
+                if (!ip.equalsIgnoreCase(leaderIP)) {
+                    sleepNode(ip);
+                    break;
+                }
+            }
+        }
+    }
+
+    public static boolean getNodeDetails() {
+        nodeList.clear();
+        nodeList = LeaderElectionInitiator.getNodes();
+        if (nodeList.size() > 2)
+            return true;
+        return false;
+    }
+
+    public static void sleepNode(String nodeIP) {
         try {
             ClusterInterface clusterObj = initService(nodeIP, "CLUSTER_NODE");
             clusterObj.sleepNodeProcess();

@@ -37,7 +37,7 @@ public class WakeNode {
     public static boolean getNodeDetails() {
         nodeList.clear();
         nodeList = LeaderElectionInitiator.getNodes();
-        if (nodeList.size() > 2)
+        if (nodeList.size() < 3)
             return true;
         return false;
     }
