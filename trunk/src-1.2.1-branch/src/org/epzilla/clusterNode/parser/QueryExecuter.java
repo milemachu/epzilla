@@ -1,10 +1,7 @@
 package org.epzilla.clusterNode.parser;
 
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Vector;
-import java.util.HashSet;
+import java.util.*;
 
 import org.epzilla.clusterNode.query.Query;
 import org.epzilla.clusterNode.query.QuerySyntaxException;
@@ -29,6 +26,7 @@ public class QueryExecuter {
     public void addQuery(Query q) {
         synchronized (lock) {
             this.mirror.add(q);
+            Collections.sort(this.mirror);
             this.queries = (Vector<Query>) this.mirror.clone();
         }
     }

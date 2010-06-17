@@ -1,9 +1,9 @@
 package org.epzilla.clusterNode.processor;
 
-import net.epzilla.node.parser.BlankProcessor;
-import net.epzilla.node.parser.QueryExecutor;
-import net.epzilla.node.parser.QueryParser;
-import net.epzilla.node.query.QuerySyntaxException;
+
+import org.epzilla.clusterNode.parser.QueryExecuter;
+import org.epzilla.clusterNode.parser.QueryParser;
+import org.epzilla.clusterNode.query.QuerySyntaxException;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class EventProcessor {
     private ConcurrentLinkedQueue cq = new ConcurrentLinkedQueue();
-    private Hashtable<String, QueryExecutor> clientExecutors = new Hashtable();
+    private Hashtable<String, QueryExecuter> clientExecutors = new Hashtable();
 
 
     private static EventProcessor instance = new EventProcessor();
@@ -34,9 +34,9 @@ public class EventProcessor {
 
     public void addTrigger(String trigger, String clientId) throws QuerySyntaxException {
         System.out.println("adding trigger" + clientId);
-        QueryExecutor q = clientExecutors.get(clientId);
+        QueryExecuter q = clientExecutors.get(clientId);
         if (q == null) {
-            q = new BlankProcessor();
+            q = new QueryExecuter();
             clientExecutors.put(clientId, q);
         }
         q.addQuery(new QueryParser().parseQuery(trigger));
@@ -46,7 +46,7 @@ public class EventProcessor {
 
 
     public void reloadTriggers(List<String> triggers, String clientId) throws QuerySyntaxException {
-        QueryExecutor q = new BlankProcessor();
+        QueryExecuter q = new QueryExecuter();
         clientExecutors.put(clientId, q);
 
         for (String t : triggers) {
@@ -54,11 +54,19 @@ public class EventProcessor {
         }
     }
 
+    public void cleanTriggers(String clientId) {
+        try {
+                    clientExecutors .remove(clientId);
+        }   catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void addTriggers(ArrayList<String> triggers, String clientId) throws QuerySyntaxException {
-        QueryExecutor q = clientExecutors.get(clientId);
+        QueryExecuter q = clientExecutors.get(clientId);
         if (q == null) {
-            q = new QueryExecutor();
+            q = new QueryExecuter();
             clientExecutors.put(clientId, q);
         }
 
@@ -75,7 +83,7 @@ public class EventProcessor {
         String eventId = tok.nextToken();
         System.out.println("processing event: " +  clientId + " : " + eventId);
 
-        QueryExecutor q = this.clientExecutors.get(clientId);
+        QueryExecuter q = this.clientExecutors.get(clientId);
         if (q != null) {
             String res = q.processEvents(cont);
             StringBuilder sb = new StringBuilder("");
