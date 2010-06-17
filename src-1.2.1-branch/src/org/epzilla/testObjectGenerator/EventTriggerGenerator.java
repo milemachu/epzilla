@@ -42,30 +42,30 @@ public class EventTriggerGenerator {
 
 
     public static String getNextEvent() {
-        StringBuilder writer = new StringBuilder();
-        try {
-            writer.append("Title");
-            writer.append(',');
-            writer.append("CarModel");
-            writer.append(',');
-            writer.append("Color");
-            writer.append(',');
-            writer.append("Year");
-            writer.append('\n');
-
-            writer.append("CarDetails");
-            writer.append(',');
-            writer.append(Const.WORDS[random.nextInt(Const.WORDS.length)]);
-            writer.append(',');
-            writer.append(Const.COLOR[random.nextInt(Const.COLOR.length)]);
-            writer.append(',');
-            writer.append(Const.YEAR[random.nextInt(Const.YEAR.length)]);
-
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return writer.toString();
+//        StringBuilder writer = new StringBuilder();
+//        try {
+//            writer.append("Title");
+//            writer.append(',');
+//            writer.append("CarModel");
+//            writer.append(',');
+//            writer.append("Color");
+//            writer.append(',');
+//            writer.append("Year");
+//            writer.append('\n');
+//
+//            writer.append("CarDetails");
+//            writer.append(',');
+//            writer.append(Const.WORDS[random.nextInt(Const.WORDS.length)]);
+//            writer.append(',');
+//            writer.append(Const.COLOR[random.nextInt(Const.COLOR.length)]);
+//            writer.append(',');
+//            writer.append(Const.YEAR[random.nextInt(Const.YEAR.length)]);
+//
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        return generateStockEvent();
     }
 
 
@@ -92,14 +92,14 @@ public class EventTriggerGenerator {
                 double bid = Math.random() * 150;
                 writer.append(round(bid, 2)).append(",");
                 if (Math.random() > 0.5) {
-                    writer.append(round((bid + (Math.random() * 5)),2));
+                    writer.append(round((bid + (Math.random() * 5)), 2));
                 } else {
                     writer.append(round((bid - (Math.random() * 5)), 2));
                 }
                 writer.append(",");
                 writer.append(((int) (Math.random() * 1000)) * 100);
                 writer.append(",");
-                writer.append(round((bid + (Math.random() * 5)),2));
+                writer.append(round((bid + (Math.random() * 5)), 2));
 
                 writer.append("\n");
             }
@@ -114,28 +114,30 @@ public class EventTriggerGenerator {
 
 
     private static double round(double input, int decimals) {
-              int pow = (int) Math.pow(10, decimals);
-        return ((((int)(input * pow)) * 1.0))/pow;
+        int pow = (int) Math.pow(10, decimals);
+        return ((((int) (input * pow)) * 1.0)) / pow;
     }
 //    "select CarDetails.CarModel where CarDetails.Year=1980  output as Details"
 
     public static String getNextTrigger() {
-        StringBuilder writer = new StringBuilder();
-        Random random = new Random();
-        turn = random.nextInt(2);
-        try {
-            if (turn == 0) {
-                generateCarDetailsTrigger(writer);
+//        StringBuilder writer = new StringBuilder();
+//        Random random = new Random();
+//        turn = random.nextInt(2);
+//        try {
+//            if (turn == 0) {
+//                generateCarDetailsTrigger(writer);
+//
+//            } else {
+//                generateBikeDetailsTrigger(writer);
+//            }
+//
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return writer.toString();
+        return generateStockDetailsTrigger();
 
-            } else {
-                generateBikeDetailsTrigger(writer);
-            }
-
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return writer.toString();
     }
 
     private static void generateBikeDetailsTrigger(StringBuilder writer) {
@@ -221,8 +223,8 @@ public class EventTriggerGenerator {
             if (opIndex == 4) {
                 opIndex = 3;
             }
-        }      else {
-             if (opIndex == 3) {
+        } else {
+            if (opIndex == 3) {
                 opIndex = 4;
             }
         }
