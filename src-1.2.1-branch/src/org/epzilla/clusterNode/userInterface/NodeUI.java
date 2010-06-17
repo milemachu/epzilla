@@ -1,6 +1,6 @@
 package org.epzilla.clusterNode.userInterface;
 
-import org.epzilla.clusterNode.nodeControler.NodeManager;
+import org.epzilla.clusterNode.nodeControler.WakeNode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -325,7 +325,7 @@ public class NodeUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (source == btnAddNode) {
-            NodeManager.wakeNode();
+            WakeNode.wake();
         }
         if(source == btnRemoveNode){
             //remove logic here
