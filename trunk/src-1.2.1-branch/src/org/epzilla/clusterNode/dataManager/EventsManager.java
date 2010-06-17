@@ -53,7 +53,7 @@ public class EventsManager {
                         org.epzilla.util.Logger.error("queue poll returns null", e);
                     }
                     try {
-                        Thread.sleep(1);
+                        Thread.sleep(0, 1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
