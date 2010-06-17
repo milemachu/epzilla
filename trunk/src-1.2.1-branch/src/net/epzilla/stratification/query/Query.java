@@ -1,5 +1,6 @@
 package net.epzilla.stratification.query;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 
@@ -74,6 +75,8 @@ public class Query {
         this(0, query, inputs, outputs, retainCriterion, retain);
     }
 
+
+
     public Query(int id, String query, String[] inputs, String[] outputs, int retainCriterion, int retain) {
         this.query = query;
         this.inputs = inputs;
@@ -126,7 +129,9 @@ public class Query {
     public String toString() {
         return "Query id=" + id +
                 "Retain criterion: " + retainCriterion +
-                "Retain for: " + retain;
+                "Retain for: " + retain +
+                "\ninputs:\n" +  Arrays.toString(this.inputs) +
+                "\noutputs:\n" +  Arrays.toString(this.outputs);
     }
 
     public int getClientId() {
