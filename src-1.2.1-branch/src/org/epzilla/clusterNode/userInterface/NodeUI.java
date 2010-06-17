@@ -2,8 +2,10 @@ package org.epzilla.clusterNode.userInterface;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class NodeUI extends JFrame {
+public class NodeUI extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     private JPanel jContentPane = null;
@@ -21,6 +23,8 @@ public class NodeUI extends JFrame {
     private JTextArea jTextAreaLeader = null;
     private JTextArea jTextAreaEventCount = null;
     private JTextArea nodesList = null;
+    public JButton btnAddNode = null;
+    public JButton btnRemoveNode = null;
 
     /**
      * This is the default constructor
@@ -68,9 +72,9 @@ public class NodeUI extends JFrame {
      */
     private JPanel getJContentPane() {
         if (jContentPane == null) {
-//            JLabel lblCIL = new JLabel();
-//            lblCIL.setBounds(new Rectangle(736, 30, 98, 16));
-//            lblCIL.setText("Cluster IP List:");
+//            JLabel lblBtn = new JLabel();
+//            lblBtn.setBounds(new Rectangle(46, 660, 100, 16));
+//            lblBtn.setText("Add new Node:");
             JLabel lblCNL = new JLabel();
             lblCNL.setBounds(new Rectangle(736, 30, 98, 16));
             lblCNL.setText("Node List:");
@@ -105,7 +109,9 @@ public class NodeUI extends JFrame {
             jContentPane.add(lblNodeStatus, null);
             jContentPane.add(lblEC, null);
             jContentPane.add(lblCTL, null);
-//            jContentPane.add(lblCIL, null);
+//            jContentPane.add(lblBtn, null);
+            jContentPane.add(getAddNodeButton(), null);
+            jContentPane.add(getRemoveNodeButton(),null);
             jContentPane.add(lblCNL, null);
         }
         return jContentPane;
@@ -291,4 +297,34 @@ public class NodeUI extends JFrame {
         return jTextAreaEventCount;
     }
 
+    public JButton getAddNodeButton() {
+        if (btnAddNode == null) {
+            ImageIcon logsIcon = new ImageIcon("images//register.jpg");
+            btnAddNode = new JButton(logsIcon);
+            btnAddNode.setBounds(new Rectangle(46, 700, 120, 25));
+            btnAddNode.setText("Add Node");
+            btnAddNode.addActionListener(this);
+        }
+        return btnAddNode;
+    }
+
+    public JButton getRemoveNodeButton() {
+        if (btnRemoveNode == null) {
+            ImageIcon logsIcon = new ImageIcon("images//close.jpg");
+            btnRemoveNode = new JButton(logsIcon);
+            btnRemoveNode.setBounds(new Rectangle(200, 700, 120, 25));
+            btnRemoveNode.setText("Remove Node");
+            btnRemoveNode.addActionListener(this);
+        }
+        return btnRemoveNode;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        if (source == btnAddNode) {
+            //node adding logic
+        }
+
+    }
 }  //  @jve:decl-index=0:visual-constraint="10,10"
