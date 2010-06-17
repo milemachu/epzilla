@@ -3,8 +3,6 @@ package org.epzilla.testObjectGenerator;
 import org.epzilla.util.Logger;
 
 import java.util.Random;
-import java.io.FileWriter;
-import java.io.IOException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,11 +26,12 @@ public class EventTriggerGenerator {
 
     public static String nextString() {
         for (int idx = 0; idx < buf.length; ++idx)
-            buf[idx] = symbols[random.nextInt(symbols.length)];
+            buf[idx] = symbols[random.nextInt(stockSymbols.length)];
         return new String(buf);
     }
 
     //For testing only-Dishan
+
     public static void main(String[] args) {
         String temp;
         for (int i = 0; i < 1000; i++) {
@@ -45,6 +44,36 @@ public class EventTriggerGenerator {
     public static String getNextEvent() {
         StringBuilder writer = new StringBuilder();
         try {
+            writer.append("Title");
+            writer.append(',');
+            writer.append("CarModel");
+            writer.append(',');
+            writer.append("Color");
+            writer.append(',');
+            writer.append("Year");
+            writer.append('\n');
+
+            writer.append("CarDetails");
+            writer.append(',');
+            writer.append(Const.WORDS[random.nextInt(Const.WORDS.length)]);
+            writer.append(',');
+            writer.append(Const.COLOR[random.nextInt(Const.COLOR.length)]);
+            writer.append(',');
+            writer.append(Const.YEAR[random.nextInt(Const.YEAR.length)]);
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return writer.toString();
+    }
+
+
+      public static String generateStockEvent() {
+        StringBuilder writer = new StringBuilder();
+        try {
+            int symIndex = (int) (Math.random() * (stockSymbols.length));
+            
             writer.append("Title");
             writer.append(',');
             writer.append("CarModel");
@@ -151,6 +180,70 @@ public class EventTriggerGenerator {
         writer.append(" ");
         writer.append("CarDetails");
     }
+
+    static String[] stockSymbols = {"Dialog", "Mobitel", "Etisalat", "JohnKeells", "LankaIOC", "Sierra", "Janashakthi",
+            "Dankotuwa", "DFCC", "AmanaTakaful", "Hayleys", "Hemas", "EastWest", "LankaCeramic", "LankaCement", "Nawaloka"
+            , "PanAsia", "Seylan", "TokyoCement", "UnitedMotors", "Mahaweli", "LBFinance", "RichardPeiris"};
+
+    static String[] operations = {"", "min", "max", "avg", "sum"};
+    static String[] attributes = {"bidPrice", "last", "amount", "askPrice"};
+
+
+
+    public static String generateStockDetailsTrigger() {
+        StringBuilder writer = new StringBuilder("");
+        writer.append("SELECT");
+        writer.append(" ");
+
+        int symIndex = (int) (Math.random() * (stockSymbols.length));
+        int opIndex = (int) (Math.random() * (operations.length));
+        int attIndex = (int) (Math.random() * (attributes.length));
+
+
+//        writer.append("StockTrades.min");
+        if (!operations[opIndex].equals("")) {
+            writer.append(operations[opIndex]);
+            writer.append("(");
+        }
+        writer.append(stockSymbols[symIndex]);
+        writer.append(".");
+        writer.append(attributes[attIndex]);
+
+        if (!operations[opIndex].equals("")) {
+            writer.append(")");
+        }
+        
+//        writer.append('.');
+//        writer.append(Const.PROPERTY[random.nextInt(Const.PROPERTY.length)]);
+        writer.append(" ");
+
+//        writer.append("WHERE");
+//        writer.append(" ");
+//        writer.append("CarDetails");
+//        writer.append('.');
+//        int temp = random.nextInt(Const.PROPERTY.length);
+//        writer.append(Const.PROPERTY[temp]);
+//        writer.append('=');
+//        switch (temp) {
+//            case 0:
+//                writer.append(Const.WORDS[random.nextInt(Const.WORDS.length)]);
+//                break;
+//            case 1:
+//                writer.append(Const.YEAR[random.nextInt(Const.YEAR.length)]);
+//                break;
+//            case 2:
+//                writer.append(Const.COLOR[random.nextInt(Const.COLOR.length)]);
+//                break;
+//        }
+//        writer.append(" ");
+        writer.append("OUTPUT AS");
+        writer.append(" ");
+        writer.append(stockSymbols[symIndex]);
+        writer.append("-notification");
+//        writer.append("CarDetails");
+        return writer.toString();
+    }
+
 
     private static void generateTrigger(StringBuilder writer) {
         writer.append("SELECT");
