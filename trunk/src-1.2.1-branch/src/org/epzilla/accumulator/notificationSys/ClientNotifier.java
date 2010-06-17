@@ -84,7 +84,7 @@ public class ClientNotifier {
                             String alert = st.nextToken();
                             String id = st.nextToken();
                             sendAlertMsg(alert, id);
-                            Thread.sleep(1000);
+                            Thread.sleep(0, 10000);
                         }
 
                     } catch (RemoteException e) {
