@@ -78,7 +78,18 @@ public class NodeUIController {
     public static void setEventCount(String text) {
         instance.getJTextAreaEventCount().setText(text);
     }
-
+    /*
+    get node controler button
+     */
+    public static void getAddNodeButton(){
+        instance.getAddNodeButton().setVisible(false);
+    }
+    public static void getRemoveNodeBtn(){
+        instance.getRemoveNodeButton().setVisible(false);
+    }
+//    public static void main(String[] args){
+//        InitializeUI();
+//    }
 }
 
 
