@@ -61,9 +61,14 @@ public class AccumulatorServiceImpl extends UnicastRemoteObject implements Accum
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    int count = 0;
+
     public void receiveDeriveEvent(byte[] deriveEvent) throws RemoteException {
         String eventS = new String(deriveEvent);
         EventManager.setEventSegement(eventS);
+        count++;
         AccumulatorUIControler.appendEventResults(eventS);
+        AccumulatorUIControler.appendDeriveEventCount(count + "");
+        AccumulatorUIControler.appendEventprocessed(count + "");
     }
 }
