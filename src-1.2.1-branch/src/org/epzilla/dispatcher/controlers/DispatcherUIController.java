@@ -31,7 +31,7 @@ public class DispatcherUIController {
     public static void InitializeUI() {
         instance = new DispatcherUI();
         instance.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        instance.setVisible(true);
+
         appendResults("Dispatcher Successfully deployed");
         try {
             Logger.log("entering... ");
@@ -49,6 +49,12 @@ public class DispatcherUIController {
         DispatcherIPListManager.Initialize();
         loadDiscoveryStatus();
     }
+
+    public static void setUIVisibility(boolean status)
+    {
+        instance.setVisible(status);
+    }
+
 
     public static void appendTextToStatus(String text) {
         instance.getTxtStatus().append(text + "\n");
