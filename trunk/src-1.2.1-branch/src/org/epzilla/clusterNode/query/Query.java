@@ -2,10 +2,6 @@ package org.epzilla.clusterNode.query;
 
 import java.util.Hashtable;
 import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
 
 
 /**
@@ -17,22 +13,22 @@ import java.util.HashSet;
  */
 public class Query {
     // all digits regexp.
-    public static int pass = 0;
-    public static int sum = 1;
-    public static int avg = 2;
-    public static int min = 3;
-    public static int max = 4;
-    public static int copyRow = 5;
+    public static final int pass = 0;
+    public static final int sum = 1;
+    public static final int avg = 2;
+    public static final int min = 3;
+    public static final int max = 4;
+    public static final int copyRow = 5;
 
-    public static Hashtable<String, Integer> opMap = new Hashtable();
+    public static Hashtable<String, Integer> operatorMap = new Hashtable();
 
     static {
-        opMap.put("pass", 0);
-        opMap.put("sum", 1);
-        opMap.put("avg", 2);
-        opMap.put("min", 3);
-        opMap.put("max", 4);
-        opMap.put("copyRow", 5);
+        operatorMap.put("pass", 0);
+        operatorMap.put("sum", 1);
+        operatorMap.put("avg", 2);
+        operatorMap.put("min", 3);
+        operatorMap.put("max", 4);
+        operatorMap.put("copyRow", 5);
     }
 
     public int[] getOperations() {
@@ -44,6 +40,16 @@ public class Query {
     }
 
     static Pattern p = Pattern.compile("(\\d)+");
+
+    private String[] resultHeaders = null;
+
+    public String[] getResultHeaders() {
+        return resultHeaders;
+    }
+
+    public void setResultHeaders(String[] resultHeaders) {
+        this.resultHeaders = resultHeaders;
+    }
 
     private QueryType type = null;
     private String inputTitle = null;
