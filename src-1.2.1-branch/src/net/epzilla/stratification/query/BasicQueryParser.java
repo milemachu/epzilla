@@ -17,7 +17,8 @@ public class BasicQueryParser implements QueryParser {
 
     public static void main(String[] args) throws InvalidSyntaxException {
         BasicQueryParser bqp = new BasicQueryParser();
-        bqp.parseString("SELECT avg(StockTrades.price), min(StockTrades.price) RETAIN 10 EVENTS OUTPUT StkTrades.avgprice, StkTrades.minprice;");
+        Query  q = bqp.parseString("SELECT avg(StockTrades.price), min(StockTrades.price) OUTPUT AS StkTrades");
+        System.out.println(q);
         
     }
 
