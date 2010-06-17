@@ -1,6 +1,8 @@
 package org.epzilla.clusterNode.parser;
 
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Vector;
 import java.util.HashSet;
 
@@ -49,6 +51,131 @@ public class QueryExecuter {
         }
     }
 
+    public static void main(String[] args) throws QuerySyntaxException {
+        QueryParser qp = new QueryParser();
+        Query q = qp.parseQuery("SELECT avg(StockTrades.price), StockTrades.last  , min(StockTrades.price), StockTrades.amount RETAIN 10 EVENTS OUTPUT StkTrades");
+         QueryExecuter qe = new QueryExecuter();
+        qe.addQuery(q);
+        System.out.println("ev:" +qe.processEvent("StockTrades\nprice,amount\n100,2\n23,2"));
+
+    }
+
+    public String processEvent(String event) {
+        String[] lines = event.split("\n");
+        String[] eventHeaders = lines[1].split(",");
+        HashMap<String, Integer> hash = new HashMap();
+        int i = 0;
+
+        for (String item : eventHeaders) {
+            hash.put(item, i);
+            i++;
+        }
+
+        String title = lines[0].trim();
+        StringBuilder sb = new StringBuilder("");
+        Vector<Query> queryRef = this.queries;
+        String[][] csv = new String[lines.length - 2][eventHeaders.length];
+        for (i = 0; i < csv.length; i++) {
+            csv[i] = new String[eventHeaders.length];
+        }
+
+
+        for (i = 2; i < lines.length; i++) {
+            String[] temp = lines[i].split(",");
+            for (int j = 0; j < temp.length; j++) {
+                csv[i - 2][j] = temp[j];
+            }
+        }
+
+        HashMap<String, Integer> inputPositions = new HashMap();
+
+        i = 0;
+        for (String head : eventHeaders) {
+            inputPositions.put(head, i);
+        }
+
+        for (Query q : queryRef) {
+            if (title.equals(q.getInputTitle())) {
+                
+                sb.append(q.getOutputTitle());
+                sb.append("\n");
+                String[] resHeaders = q.getResultHeaders();
+                i = 0;
+                int[] ops = q.getOperations();
+                for (String input : q.getInputs()) {
+                    Integer pos = inputPositions.get(input);
+                    if (pos == null) {
+                        sb.append(resHeaders[i]).append("=[N/A]\n");
+                    } else {
+                        double store = 0;
+                        int index = pos;
+                        switch (ops[i]) {
+                            case Query.avg:
+                                for (int j = 0; j < csv.length; j++) {
+                                    store += Double.parseDouble(csv[j][index]);
+                                }
+                                sb.append(resHeaders[i]).append("=").append(store / csv.length);
+                                break;
+                            case Query.min:
+                                if (csv.length > 0) {
+                                    store = Double.parseDouble(csv[0][index]);
+                                }
+                                double td;
+                                for (int j = 0; j < csv.length; j++) {
+                                    td = Double.parseDouble(csv[j][index]);
+                                    if (td < store) {
+                                        store = td;
+                                    }
+                                }
+                                sb.append(resHeaders[i]).append("=").append(store );
+
+                                break;
+                            case Query.max:
+                                    if (csv.length > 0) {
+                                    store = Double.parseDouble(csv[0][index]);
+                                }
+                                
+                                for (int j = 0; j < csv.length; j++) {
+                                    td = Double.parseDouble(csv[j][index]);
+                                    if (td > store) {
+                                        store = td;
+                                    }
+                                }
+                                sb.append(resHeaders[i]).append("=").append(store );
+                                
+                                break;
+                            case Query.sum:
+                                for (int j = 0; j < csv.length; j++) {
+                                    store += Double.parseDouble(csv[j][index]);
+                                }
+                                sb.append(resHeaders[i]).append("=").append(store);
+
+                                break;
+                            case Query.pass:
+                                String[] cols = new String[csv.length];
+                                for (int j = 0; j < csv.length; j++) {
+                                    cols[j] = csv[j][index];
+                                }
+                                sb.append(resHeaders[i]).append("=").append(Arrays.toString(cols));
+
+                                break;
+                            case Query.copyRow:
+                        }
+                        sb.append("\n");
+                    }
+                    i++;
+                }
+//                String[][] result = new String[q.getInputs().length][2];
+
+
+            }
+        }
+
+        return sb.toString();
+    }
+
+
+    @Deprecated
     public String processEvents(String events) {
         try {
             String[] csvRows = events.split("\n");
