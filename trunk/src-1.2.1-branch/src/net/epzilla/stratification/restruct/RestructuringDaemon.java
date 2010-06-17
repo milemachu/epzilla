@@ -27,7 +27,7 @@ public class RestructuringDaemon {
 
     static {
         try {
-            File f = new File("./src/settings/restructuring.xml");
+            File f = new File("restructuring.xml");
 
             if (!f.exists())  {
                 f = new File("restructuring.xml");
