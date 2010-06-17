@@ -73,7 +73,7 @@ public class LeaderRegister {
             ArrayList<String[]> data = reader.getServerIPSettings("clusterID_settings.xml");
             String[] ar = data.get(0);
             clusterID = ar[0];
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
