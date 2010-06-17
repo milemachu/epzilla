@@ -325,6 +325,9 @@ public class NodeUI extends JFrame implements ActionListener {
         if (source == btnAddNode) {
             //node adding logic
         }
+        if(source == btnRemoveNode){
+            //remove logic here
+        }
 
     }
 }  //  @jve:decl-index=0:visual-constraint="10,10"
