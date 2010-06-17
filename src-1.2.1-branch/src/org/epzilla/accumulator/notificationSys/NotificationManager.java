@@ -34,7 +34,7 @@ class TimerTaskN {
                 AccumulatorUIControler.appendEventprocessed(text);
                 System.gc();
             }
-        }, 1000, 10000);
+        }, 10000, 10000);
 
 
     }

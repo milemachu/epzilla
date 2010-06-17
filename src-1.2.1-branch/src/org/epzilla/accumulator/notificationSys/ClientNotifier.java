@@ -54,7 +54,6 @@ public class ClientNotifier {
             response = clientObj.notifyClient(notification);
             if (response != null) {
                 Logger.log("Notifications send to the client");
-                NotificationManager.setAlertCount();
             } else {
                 alertQueue.add(alerts + ":" + clientID);
                 Logger.log("Notifications not sent");
@@ -65,7 +64,6 @@ public class ClientNotifier {
             response = clientObj.notifyClient(notification);
             if (response != null) {
                 Logger.log("Notifications send to the client");
-                NotificationManager.setAlertCount();
             } else {
                 alertQueue.add(alerts + ":" + clientID);
                 Logger.log("Notifications not sent");
@@ -90,13 +88,13 @@ public class ClientNotifier {
                         }
 
                     } catch (RemoteException e) {
-                        e.printStackTrace();
+//                        e.printStackTrace();
                     } catch (MalformedURLException e) {
-                        e.printStackTrace();
+//                        e.printStackTrace();
                     } catch (NotBoundException e) {
-                        e.printStackTrace();
+//                        e.printStackTrace();
                     } catch (InterruptedException e) {
-                        e.printStackTrace();  
+//                        e.printStackTrace();
                     }
                 }
             }
