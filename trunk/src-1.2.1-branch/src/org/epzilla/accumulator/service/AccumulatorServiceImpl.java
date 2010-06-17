@@ -5,12 +5,14 @@ import jstm.core.TransactedList;
 import org.epzilla.accumulator.dataManager.EventManager;
 import org.epzilla.accumulator.generated.SharedDerivedEvent;
 import org.epzilla.accumulator.global.DerivedEvent;
+import org.epzilla.accumulator.notificationSys.ClientNotifier;
 import org.epzilla.accumulator.notificationSys.NotificationManager;
 import org.epzilla.accumulator.stm.STMAccess;
 import org.epzilla.accumulator.userinterface.AccumulatorUIControler;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.StringTokenizer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -68,6 +70,12 @@ public class AccumulatorServiceImpl extends UnicastRemoteObject implements Accum
         AccumulatorUIControler.appendEventResults(eventS);
 //        AccumulatorUIControler.appendDeriveEventCount(count + "");
 //        AccumulatorUIControler.appendEventprocessed(count + "");
-        NotificationManager.setAlertCount();
+        NotificationManager.setAlertCount();  // set count of the processed events
+
+        //add logic to send the result to the client
+        StringTokenizer st = new StringTokenizer(eventS, ":");
+        String result = st.nextToken();  //trigger
+        String clientID = st.nextToken(); //client ID
+        ClientNotifier.addAlertMessage(result, clientID);
     }
 }
