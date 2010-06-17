@@ -108,6 +108,7 @@ public class QueryExecuter {
         i = 0;
         for (String head : eventHeaders) {
             inputPositions.put(head, i);
+            i++;
         }
 
         String lastOutputTitle = null;
@@ -180,6 +181,7 @@ public class QueryExecuter {
 
                                 break;
                             case Query.copyRow:
+                                break;
                         }
                         sb.append("\n");
                     }
