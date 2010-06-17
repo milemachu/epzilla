@@ -1,5 +1,6 @@
 package org.epzilla.accumulator.dataManager;
 
+import org.epzilla.accumulator.notificationSys.ClientNotifier;
 import org.epzilla.accumulator.userinterface.AccumulatorUIControler;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class EventManager {
                     sendNotificationtoClient();
                     processed++;
                     AccumulatorUIControler.appendEventprocessed(String.valueOf(processed));
+                    ClientNotifier.addAlertMessage("Dummy Alert",getClientID(eventResultSegment));
                     eventList.remove(eventID);
                 }
 
@@ -44,6 +46,33 @@ public class EventManager {
             e.printStackTrace();
         }
     }
+
+    public static String getClientID(String event) {
+        String clientID = "";
+        try{
+        StringTokenizer st = new StringTokenizer(event, ":");
+        st.nextToken();  //Event
+        clientID =  st.nextToken(); //ClientID 
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return clientID;
+    }
+
+    public static String getEvent(String event) {
+        String eventCont = "";
+        try{
+        StringTokenizer st = new StringTokenizer(event, ":");
+        eventCont=  st.nextToken(); //Event
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return eventCont;
+    }
+
+
 
 
     public static String getEventID(String event) {
