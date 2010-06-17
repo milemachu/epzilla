@@ -1,18 +1,16 @@
 package org.epzilla.accumulator.service;
 
 
-import java.rmi.server.UnicastRemoteObject;
-import java.rmi.RemoteException;
-
+import jstm.core.TransactedList;
+import org.epzilla.accumulator.dataManager.EventManager;
 import org.epzilla.accumulator.generated.SharedDerivedEvent;
 import org.epzilla.accumulator.global.DerivedEvent;
-import org.epzilla.accumulator.service.AccumulatorService;
-import org.epzilla.accumulator.stm.EventConverter;
+import org.epzilla.accumulator.notificationSys.NotificationManager;
 import org.epzilla.accumulator.stm.STMAccess;
-import org.epzilla.accumulator.dataManager.EventManager;
 import org.epzilla.accumulator.userinterface.AccumulatorUIControler;
 
-import jstm.core.TransactedList;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 /**
  * Created by IntelliJ IDEA.
@@ -66,9 +64,10 @@ public class AccumulatorServiceImpl extends UnicastRemoteObject implements Accum
     public void receiveDeriveEvent(byte[] deriveEvent) throws RemoteException {
         String eventS = new String(deriveEvent);
         EventManager.setEventSegement(eventS);
-        count++;
+//        count++;
         AccumulatorUIControler.appendEventResults(eventS);
-        AccumulatorUIControler.appendDeriveEventCount(count + "");
-        AccumulatorUIControler.appendEventprocessed(count + "");
+//        AccumulatorUIControler.appendDeriveEventCount(count + "");
+//        AccumulatorUIControler.appendEventprocessed(count + "");
+        NotificationManager.setAlertCount();
     }
 }
