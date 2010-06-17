@@ -60,7 +60,7 @@ public class DispatcherIPListManager {
                 DispatcherUIController.clearDispatcherIpList();
                 HashSet<String> ipList = LeaderElectionInitiator.getSubscribedNodeList();
 
-//                if (ipList != null) {
+                if (ipList != null) {
                     if (ipList==null) {
                         try {
 //                            String currentList = DispatcherUIController.getIpList();
@@ -80,7 +80,7 @@ public class DispatcherIPListManager {
                         }
                         System.gc();
                     }
-//                }
+                }
             }
         }, 5000, 30000);
     }
