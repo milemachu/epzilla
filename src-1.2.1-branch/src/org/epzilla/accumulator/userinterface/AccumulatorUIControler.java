@@ -15,12 +15,12 @@ public class AccumulatorUIControler {
 		instance.getAccumulatorStatus().append(text + "\n");
 	}
 	public static void appendDeriveEventCount(String text){
-		instance.getDeriveEventCount().append(text + "\n");
+		instance.getDeriveEventCount().setText(text + "\n");
 	}
 	public static void appendEventResults(String text){
 		instance.getEventResults().append(text + "\n");
 	}
 	public static void appendEventprocessed(String text){
-		instance.getEventProcessed().append(text+ "\n");
+		instance.getEventProcessed().setText(text+ "\n");
 	}
 }
