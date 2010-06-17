@@ -56,7 +56,7 @@
   <repository>
     <id>GoogleCode</id>
     <name>epzilla</name>
-    <url>svn:https://epzilla.googlecode.com/svn/trunk/src-1.2.1-branch/target</url>
+    <url>svn:https://epzilla.googlecode.com/svn/trunk/src-1.2.1-branch/buildArtifacts</url>
   </repository>
 </distributionManagement>
 <repositories>
