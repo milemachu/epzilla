@@ -37,6 +37,7 @@ public class ClusterPerformanceData {
     }
 
     public synchronized void addData(int clusterId, int cpuUsage, int memoryUsage) {
+        System.out.println("cluster performance data recieved:" + clusterId + ", " + cpuUsage);
         Data d = null;
         for (Data data : vec) {
             if (data.getClusterId() == clusterId) {

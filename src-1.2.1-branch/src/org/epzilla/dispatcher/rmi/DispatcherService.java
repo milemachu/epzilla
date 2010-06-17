@@ -56,6 +56,10 @@ public class DispatcherService {
         return value;
     }
 
+    public static boolean triggerLEFromRemote() {
+        return LeaderElectionInitiator.initiateLeaderElection();
+    }
+
     public static void main(String[] args) {
 
         try {

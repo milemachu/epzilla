@@ -73,24 +73,8 @@ public class Main {
 
 
 //        LeaderElectionInitiator.mainMethod();
-            String leader = "";
-            while (leader.equalsIgnoreCase("")) {
-                leader = LeaderElectionInitiator.getLeader();
-
-            }
-            if (leader.equalsIgnoreCase(NodeVariables.getNodeIP())) {
-
-                //To run as Dispatcher as STM server
-                DispatcherUIController.InitializeUI();
-                MainDispatcherController.runAsServer();
-                Logger.log("running as server...");
-                RestructuringDaemon.start();
-
-            } else {
-                DispatcherUIController.InitializeUI();
-                NodeVariables.setCurrentServerIP(leader);
-                MainDispatcherController.runAsClient();
-            }
+            DispatcherUIController.InitializeUI();
+            InitSTM();
 
 
             CpuMemAnalyzer.Initialize();
@@ -102,5 +86,31 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void InitSTM() {
+        String leader = "";
+        while (leader.equalsIgnoreCase("")) {
+            leader = LeaderElectionInitiator.getLeader();
+
+        }
+        if (leader.equalsIgnoreCase(NodeVariables.getNodeIP())) {
+
+            //To run as Dispatcher as STM server
+            DispatcherUIController.setUIVisibility(true);
+            MainDispatcherController.runAsServer();
+            Logger.log("running as server...");
+            RestructuringDaemon.start();
+
+        } else {
+
+            DispatcherUIController.setUIVisibility(true);
+            NodeVariables.setCurrentServerIP(leader);
+            MainDispatcherController.runAsClient();
+        }
+    }
+
+      public static boolean triggerLEFromRemote() {
+        return LeaderElectionInitiator.initiateLeaderElection();
     }
 }
