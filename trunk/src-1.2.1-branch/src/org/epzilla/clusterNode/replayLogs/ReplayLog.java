@@ -38,7 +38,7 @@ public class ReplayLog {
             ArrayList<String[]> data = reader.getServerIPSettings("./src/settings/clusterID_settings.xml");
             String[] ar = data.get(0);
             clusterID = ar[0];
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
