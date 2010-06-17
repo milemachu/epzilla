@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * Time: 8:44:39 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Query {
+public class Query implements Comparable {
     // all digits regexp.
     public static final int pass = 0;
     public static final int sum = 1;
@@ -148,4 +148,10 @@ public class Query {
     }
 
 
+    @Override
+    public int compareTo(Object o) {
+        Query q = (Query) o;
+        return q.getOutputTitle().compareTo(this.getOutputTitle());
+
+    }
 }
