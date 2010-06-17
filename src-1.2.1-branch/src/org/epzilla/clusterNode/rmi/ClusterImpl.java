@@ -38,7 +38,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 
     static {
         try {
-            File f = new File("./src/settings/Accumulators.xml");
+            File f = new File("Accumulators.xml");
             BufferedReader br = new BufferedReader(new FileReader(f));
 
             org.epzilla.clusterNode.xml.XMLElement xe = new org.epzilla.clusterNode.xml.XMLElement();
@@ -139,7 +139,8 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         String derivedEvent = EventProcessor.getInstance().processEvent(event);
         try {
             for (String aip : accIpArray) {
-                DeriveEventSender.sendDeriveEvent(aip, derivedEvent.getBytes());
+          String result =      EventProcessor.getInstance().processEvent(event);
+                DeriveEventSender.sendDeriveEvent(aip, result.getBytes());
             }
         } catch (Exception e) {
             Logger.error("error adding event in cluster node", e);
