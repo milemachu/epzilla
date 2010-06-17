@@ -8,6 +8,7 @@ import java.util.HashSet;
 
 import org.epzilla.clusterNode.query.Query;
 import org.epzilla.clusterNode.query.QuerySyntaxException;
+import org.epzilla.testObjectGenerator.EventTriggerGenerator;
 import org.epzilla.util.Logger;
 
 /**
@@ -53,10 +54,18 @@ public class QueryExecuter {
 
     public static void main(String[] args) throws QuerySyntaxException {
         QueryParser qp = new QueryParser();
-        Query q = qp.parseQuery("SELECT avg(StockTrades.price), StockTrades.last  , min(StockTrades.price), StockTrades.amount RETAIN 10 EVENTS OUTPUT StkTrades");
+//        Query q = qp.parseQuery("SELECT avg(StockTrades.price), StockTrades.last  , min(StockTrades.price), StockTrades.amount RETAIN 10 EVENTS OUTPUT StkTrades");
+        Query q = qp.parseQuery(EventTriggerGenerator.generateStockDetailsTrigger());
          QueryExecuter qe = new QueryExecuter();
         qe.addQuery(q);
-        System.out.println("ev:" +qe.processEvent("StockTrades\nprice,amount\n100,2\n23,2"));
+
+
+        for (int i = 0; i<100; i++) {
+            qe.addQuery(EventTriggerGenerator.generateStockDetailsTrigger());
+        }
+
+        System.out.println("ev:" +qe.processEvent("DFCC\naskPrice,amount\n100,2\n23,2"));
+
 
     }
 
