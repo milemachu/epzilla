@@ -33,7 +33,19 @@ public class QueryParser {
         int retainIndex = query.indexOf("RETAIN");
 
 
-        String inputs = whereIndex <= 1 ? query.substring(7, retainIndex) : query.substring(7, whereIndex);
+        String inputs = null;
+        if (whereIndex < 1) {
+            if (retainIndex < 1) {
+                inputs = query.substring(7, outputIndex);
+
+            } else {
+                inputs = query.substring(7, retainIndex);
+
+            }
+        } else {
+            inputs = query.substring(7, whereIndex);
+
+        }
         String wherePart = null;
         if (whereIndex > 0) {
             wherePart = query.substring(whereIndex + 6, outputIndex);
@@ -47,7 +59,7 @@ public class QueryParser {
         String title = null;
 
         int[] ops = new int[parts.length];
-        for (int z = 0; z<parts.length; z++) {
+        for (int z = 0; z < parts.length; z++) {
             parts[z] = parts[z].trim();
         }
         q.setResultHeaders(parts);
