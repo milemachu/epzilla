@@ -132,7 +132,7 @@ public class DispatcherAsServer {
     }
 
     public static void loadPerformanceInfoList() {
-        DispatcherUIController.appendTextToStatus("Adding TransactedList for Load Balance Info...");
+        DispatcherUIController.appendTextToStatus("Shared Transacted List Added for Load Balance Info...");
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
             Site.getLocal().allowThread();
             Transaction transaction = Site.getLocal().startTransaction();
