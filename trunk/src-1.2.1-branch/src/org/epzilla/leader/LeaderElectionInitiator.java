@@ -421,7 +421,16 @@ public class LeaderElectionInitiator {
 		}
 		return null;
 	}
-	
+
+
+    public static Hashtable<Integer,String> getSubscribedClusterLeadersFromAnyDispatcher() {
+        if(Epzilla.getComponentType().equalsIgnoreCase(Component.DISPATCHER.name())){
+            return DispatcherClientManager.getClusterLeaderList();
+        }
+        return null;
+    }
+    
+
 	public static HashSet<String> getSubscribedNodeList(){
 		if(Epzilla.isLeader() && Epzilla.getComponentType().equalsIgnoreCase(Component.NODE.name())){
 			return NodeClientManager.getSubscribedNodeList();
