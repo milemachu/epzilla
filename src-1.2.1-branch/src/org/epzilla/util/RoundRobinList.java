@@ -32,6 +32,10 @@ public class RoundRobinList<E> {
         return success;
     }
 
+    public synchronized boolean contains(E item) {
+        return this.list.contains(item);
+    }
+
     public synchronized E next() {
         if (size == 0) {
             return null;
