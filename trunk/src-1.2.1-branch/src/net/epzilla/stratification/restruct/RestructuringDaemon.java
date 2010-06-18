@@ -22,14 +22,13 @@ public class RestructuringDaemon {
     private static boolean restructuring = false;
     public static int RESTRUCTURING_WAITING_TIME = 50000;
     public static int INITIAL_RESTRUCTURING_WAITING_TIME = 50000;
-
-
+    private static Thread daemonThread = null;
 
     static {
         try {
             File f = new File("restructuring.xml");
 
-            if (!f.exists())  {
+            if (!f.exists()) {
                 f = new File("restructuring.xml");
             }
 
@@ -81,20 +80,20 @@ public class RestructuringDaemon {
 
     public static void start() {
         alive = true;
-        Thread t = new Thread() {
+        daemonThread = new Thread() {
             public void run() {
                 try {
-                    Thread.sleep(RestructuringDaemon.RESTRUCTURING_WAITING_TIME);
+                    Thread.sleep(RestructuringDaemon.INITIAL_RESTRUCTURING_WAITING_TIME);
                 } catch (InterruptedException e) {
                     Logger.error("error sleeping", e);
                 }
 
                 while (alive) {
-                    System.out.println("SystemRestructure....");
+                    System.out.println("SystemRestructuring - starting....");
                     long st = System.currentTimeMillis();
                     try {
 
-                        HashSet<String> disp = (HashSet<String>) LeaderElectionInitiator.getDispatchers().clone();
+                        HashSet<String> disp = new HashSet<String>(LeaderElectionInitiator.getDispatchers());
 
                         for (String ip : disp) {
                             try {
@@ -166,7 +165,12 @@ public class RestructuringDaemon {
     }
 
     public static void stop() {
-        alive = false;
+        try {
+            alive = false;
+            daemonThread.interrupt();
+        } catch (Exception e) {
+            Logger.error("error trying to stop restructuring thread:", e);
+        }
     }
 
 
