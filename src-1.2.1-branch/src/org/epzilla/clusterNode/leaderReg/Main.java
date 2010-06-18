@@ -146,6 +146,7 @@ public class Main {
         }
         if (leader.equalsIgnoreCase(ipAddress)) {
             NodeController.setLeader(true);
+            NodeController.setLeaderIP(ipAddress);  //set the ip address of the leader
             NodeController.setUiVisible();
             NodeController.initSTM();
         } else {
