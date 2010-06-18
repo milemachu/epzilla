@@ -38,14 +38,18 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
             setDispatcherID();
         }
         try {
-            EventsCounter.setInEventCount();
-            String eventIn = event + ":" + clientID + ":" + eventsSeqID + getDispatcherID();
-            byte[] eventBuff = eventIn.getBytes();
-            EventManager.sendEvents(eventBuff, clientID);
-            eventsSeqID++;
-            return "OK";
+            if (RestructuringDaemon.isRestructuring()) {
+                return "RETRY";
+            } else {
+                EventsCounter.setInEventCount();
+                String eventIn = event + ":" + clientID + ":" + eventsSeqID + getDispatcherID();
+                byte[] eventBuff = eventIn.getBytes();
+                EventManager.sendEvents(eventBuff, clientID);
+                eventsSeqID++;
+                return "OK";
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error("event accepting error", e);
         }
         return null;
     }
@@ -54,14 +58,19 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     public String uploadTriggersToDispatcher(ArrayList<String> tList, String clientID, int triggerSeqID) throws RemoteException {
         String toReturn = null;
         try {
-            for (String x : tList) {
-                Logger.log(x);
-            }
+            // todo disable accepting queries while restructuring.
+//            if (RestructuringDaemon.isRestructuring()) {
+//                return "RETRY";
+//            } else {
+                for (String x : tList) {
+                    Logger.log(x);
+                }
 
-            TriggerManager.addAllTriggersToList(tList, clientID);
-            toReturn = "OK";
+                TriggerManager.addAllTriggersToList(tList, clientID);
+                toReturn = "OK";
+//            }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error("trigger accepting error", e);
         }
         return toReturn;
     }
