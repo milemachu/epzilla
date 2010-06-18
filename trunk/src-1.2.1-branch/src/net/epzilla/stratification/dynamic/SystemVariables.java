@@ -36,7 +36,13 @@ public class SystemVariables {
                 while (true) {
                     try {
 
-                        SystemVariables.setClusters(0, LeaderElectionInitiator.getSubscribedClusterLeadersFromDispatcher().size());
+                        Hashtable<Integer, String> hash = LeaderElectionInitiator.getSubscribedClusterLeadersFromDispatcher();
+                        if (hash != null) {
+                            SystemVariables.setClusters(0, hash.size());
+                            System.out.println("cluster leaders hash size:" + hash.size());
+                        } else {
+                            System.out.println("cluster leader list null");
+                        }
                         Thread.sleep(1000);
                     } catch (Exception e) {
                         Logger.error("", e);
