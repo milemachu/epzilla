@@ -19,37 +19,30 @@ import java.util.Iterator;
  * To change this template use File | Settings | File Templates.
  */
 public class WakeNode {
+    private static String serviceName = "CLUSTER_NODE";
 
     public static void wake() {
-        try{
-        HashSet<String> nodeList = new HashSet<String>();
-        nodeList=LeaderElectionInitiator.getNodes();
-         if (nodeList.size() < 3) {
-            String leaderIP = NodeController.getLeaderIP();
-            for (Iterator i = nodeList.iterator(); i.hasNext();) {
-                String ip = (String) i.next();
-                if (!ip.equalsIgnoreCase(leaderIP)) {
-                    nodeInit(ip);
+        try {
+            HashSet<String> nodeList = new HashSet<String>();
+            nodeList = LeaderElectionInitiator.getNodes();
+            if (nodeList.size() < 3) {
+                String leaderIP = NodeController.getLeaderIP();
+                for (Iterator i = nodeList.iterator(); i.hasNext();) {
+                    String ip = (String) i.next();
+                    if (!ip.equalsIgnoreCase(leaderIP)) {
+                        nodeInit(ip);
+                    }
                     break;
                 }
             }
-        }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static boolean getNodeDetails() {
-//        nodeList.clear();
-//        nodeList = LeaderElectionInitiator.getNodes();
-//        if (nodeList.size() < 3)
-//            return true;
-        return false;
-    }
-
     public static void nodeInit(String nodeIP) {
         try {
-            ClusterInterface nodeObj = initService(nodeIP, "CLUSTER_NODE");
+            ClusterInterface nodeObj = initService(nodeIP, serviceName);
             nodeObj.initNodeProcess();
         } catch (MalformedURLException e) {
             e.printStackTrace();
