@@ -450,11 +450,30 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         simulatorPanel.add(new JLabel());
 
 
-        simulatorPanel.add(new JLabel("Triggers:"));
+        simulatorPanel.add(new JLabel("Triggers:") );
         simulatorPanel.add(new JLabel());
-        simulatorPanel.add(new JButton("start"));
+
+        JButton jb1 = new JButton("start");
+        jb1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // todo - write code to start trigger generation
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
+        simulatorPanel.add(jb1);
         simulatorPanel.add(new JLabel());
-        simulatorPanel.add(new JButton("stop"));
+
+
+        JButton jb2 = new JButton("stop");
+        jb2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // todo - write code to stop trigger generation
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
+        simulatorPanel.add(jb2);
 
         simulatorPanel.add(new JLabel());
         simulatorPanel.add(new JLabel());
@@ -465,9 +484,30 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
         simulatorPanel.add(new JLabel("Events:"));
         simulatorPanel.add(new JLabel());
-        simulatorPanel.add(new JButton("start"));
+
+
+        JButton jb3 = new JButton("start");
+        jb3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // todo - write code to start event generation.
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
+
+        simulatorPanel.add(jb3);
         simulatorPanel.add(new JLabel());
-        simulatorPanel.add(new JButton("stop"));
+
+
+        JButton jb4 = new JButton("start");
+        jb4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // todo - write code for trigger generation
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
+        simulatorPanel.add(jb4);
 
         simulatorPanel.setLocation(new Point(15, 271));
         simulatorPanel.setSize(new Dimension(400, 80));
