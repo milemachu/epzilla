@@ -78,6 +78,9 @@ public class NodeUIController {
     public static void setEventCount(String text) {
         instance.getJTextAreaEventCount().setText(text);
     }
+    public static void deactiveUI(){
+        instance.setVisible(false);
+    }
     /*
     get node controler button
      */
