@@ -9,6 +9,7 @@ import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
 import org.epzilla.clusterNode.clusterInfoObjectModel.PerformanceInfoObject;
 import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.dataManager.ClusterIPManager;
+import org.epzilla.clusterNode.dataManager.EventsManager;
 import org.epzilla.clusterNode.dataManager.PerformanceInfoManager;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
 import org.epzilla.clusterNode.leaderReg.Main;
@@ -126,8 +127,7 @@ public class NodeAsLeader {
         }
         ClusterIPManager.getIpList().addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-
-
+                EventsManager.loadNodesDetails();
             }
         });
     }
