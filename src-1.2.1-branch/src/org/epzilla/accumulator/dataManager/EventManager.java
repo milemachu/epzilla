@@ -23,7 +23,8 @@ public class EventManager {
 
     public static void setEventSegement(String eventResultSegment) {
         try {
-            String eventID = getEventID(eventResultSegment);
+            // todo uncomment.
+//            String eventID = getEventID(eventResultSegment);
 
             if (eventList.containsKey(eventID)) {
                 eventList.get(eventID).addSegment(eventResultSegment);
