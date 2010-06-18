@@ -36,7 +36,7 @@ public class SystemVariables {
                 while (true) {
                     try {
 
-                        Hashtable<Integer, String> hash = LeaderElectionInitiator.getSubscribedClusterLeadersFromDispatcher();
+                        Hashtable<Integer, String> hash = LeaderElectionInitiator.getSubscribedClusterLeadersFromAnyDispatcher();
                         if (hash != null) {
                             SystemVariables.setClusters(0, hash.size());
                             System.out.println("cluster leaders hash size:" + hash.size());
