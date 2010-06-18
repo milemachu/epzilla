@@ -100,6 +100,9 @@ public class Main {
             DispatcherUIController.setUIVisibility(true);
             MainDispatcherController.runAsServer();
             Logger.log("running as server...");
+            if (RestructuringDaemon.isRestructuring()) {
+                RestructuringDaemon.forceRestructuring();
+            }
             RestructuringDaemon.start();
 
         } else {
