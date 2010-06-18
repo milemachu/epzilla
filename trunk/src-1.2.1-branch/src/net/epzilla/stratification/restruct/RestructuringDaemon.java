@@ -79,6 +79,7 @@ public class RestructuringDaemon {
     }
 
     public static void start() {
+        stop();  // make sure no two threads running
         alive = true;
         daemonThread = new Thread() {
             public void run() {
@@ -144,7 +145,7 @@ public class RestructuringDaemon {
                 }
             }
         };
-        t.start();
+        daemonThread.start();
     }
 
     /*
@@ -167,7 +168,9 @@ public class RestructuringDaemon {
     public static void stop() {
         try {
             alive = false;
-            daemonThread.interrupt();
+            if (daemonThread != null) {
+                daemonThread.interrupt();
+            }
         } catch (Exception e) {
             Logger.error("error trying to stop restructuring thread:", e);
         }
