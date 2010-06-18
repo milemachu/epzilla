@@ -2,6 +2,7 @@ package org.epzilla.clusterNode.dataManager;
 
 import org.epzilla.clusterNode.nodeControler.EventSender;
 import org.epzilla.util.CircularList;
+import org.epzilla.util.RoundRobinList;
 
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
@@ -22,7 +23,7 @@ public class EventsManager {
     private static ConcurrentLinkedQueue<String> eventQueue = new ConcurrentLinkedQueue<String>();
     private static boolean isInit = false;
     private static int count;
-    private static CircularList<String> lis = new CircularList();
+    private static RoundRobinList<String> lis = new RoundRobinList();
 
     public EventsManager() {
     }
@@ -41,7 +42,7 @@ public class EventsManager {
                             EventSender.sendEvents(lis.next(), event);
 //                            removeEvents(event);
                             count++;
-                            
+
                         }
 
 
@@ -76,13 +77,16 @@ public class EventsManager {
 
     }
 
-    private static void loadNodesDetails() {
+    public static void loadNodesDetails() {
         count = 0;
         ipArr = ClusterIPManager.getNodeIpList();
 
         for (String ips : ipArr) {
-            lis.add(ips);
+            if (!lis.contains(ips)) {
+                lis.add(ips);
+            }
         }
+        System.out.println("loaded cluster ip list:" + lis.size());
         isLoaded = true;
     }
 }
