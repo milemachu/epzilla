@@ -65,7 +65,8 @@ public class AccumulatorServiceImpl extends UnicastRemoteObject implements Accum
 
     public void receiveDeriveEvent(byte[] deriveEvent) throws RemoteException {
         String eventS = new String(deriveEvent);
-        EventManager.setEventSegement(eventS);
+                                    // todo uncomment.
+//        EventManager.setEventSegement(eventS);
 //        count++;
         AccumulatorUIControler.appendEventResults(eventS);
 //        AccumulatorUIControler.appendDeriveEventCount(count + "");
