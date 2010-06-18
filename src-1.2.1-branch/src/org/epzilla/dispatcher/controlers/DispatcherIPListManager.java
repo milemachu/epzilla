@@ -1,13 +1,10 @@
 package org.epzilla.dispatcher.controlers;
 
-import org.epzilla.common.discovery.dispatcher.DispatcherDiscoveryManager;
 import org.epzilla.dispatcher.dataManager.ClusterLeaderIpListManager;
-import org.epzilla.dispatcher.rmi.DispImpl;
 import org.epzilla.leader.LeaderElectionInitiator;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.rmi.RemoteException;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.TimerTask;
@@ -61,13 +58,13 @@ public class DispatcherIPListManager {
                 HashSet<String> ipList = LeaderElectionInitiator.getSubscribedNodeList();
 
                 if (ipList != null) {
-                    if (ipList==null) {
+                    if (ipList == null) {
                         try {
 //                            String currentList = DispatcherUIController.getIpList();
                             InetAddress inetAddress = InetAddress.getLocalHost();
                             String ipAddress = inetAddress.getHostAddress();
 //                            if (!currentList.contains(ipAddress))
-                                DispatcherUIController.appendDispatcherIPs(ipAddress);
+                            DispatcherUIController.appendDispatcherIPs(ipAddress);
                         } catch (UnknownHostException e) {
                             e.printStackTrace();
                         }
@@ -76,7 +73,7 @@ public class DispatcherIPListManager {
                         for (Object dispList : ipList) {
                             String ip = (String) dispList;
 //                            if (!currentList.contains(ip))
-                                DispatcherUIController.appendDispatcherIPs(ip);
+                            DispatcherUIController.appendDispatcherIPs(ip);
                         }
                         System.gc();
                     }
@@ -91,16 +88,17 @@ public class DispatcherIPListManager {
             @Override
             public void run() {
                 Hashtable<Integer, String> leaders = LeaderElectionInitiator.getSubscribedClusterLeadersFromDispatcher();
-                if(leaders !=null){
-				for (int key : leaders.keySet()) {
-                    ClusterLeaderIpListManager.removeIP(leaders.get(key));
-                    ClusterLeaderIpListManager.addIP("" + key, leaders.get(key));
+                if (leaders != null) {
+                    ClusterLeaderIpListManager.clearIPList();
+                    for (int key : leaders.keySet()) {
+//                    ClusterLeaderIpListManager.removeIP(leaders.get(key));
+                        ClusterLeaderIpListManager.addIP("" + key, leaders.get(key));
+                    }
                 }
-				}
 
                 System.gc();
 
             }
-        }, 5000, 30000);
+        }, 5000, 10000);
     }
 }
