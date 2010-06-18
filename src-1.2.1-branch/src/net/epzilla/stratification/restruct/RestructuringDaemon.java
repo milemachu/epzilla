@@ -90,51 +90,8 @@ public class RestructuringDaemon {
                 }
 
                 while (alive) {
-                    System.out.println("SystemRestructuring - starting....");
-                    long st = System.currentTimeMillis();
-                    try {
 
-                        HashSet<String> disp = new HashSet<String>(LeaderElectionInitiator.getDispatchers());
-
-                        for (String ip : disp) {
-                            try {
-                                String id = dispIdGen(ip);
-                                String serviceName = "DISPATCHER_SERVICE" + id;
-                                String url = "rmi://" + ip + "/" + serviceName;
-                                DispInterface obj = (DispInterface) Naming.lookup(url);
-                                RestructuringInfo ri = new RestructuringInfo();
-                                obj.restructuringStarted(ri);
-                            } catch (Exception e) {
-                                Logger.error("error sending command", e);
-                            }
-
-
-                        }
-
-                        SystemRestructure.getInstance().restructureSystem();
-                        SystemRestructure.getInstance().sendRestructureCommands();
-
-
-                        for (String ip : disp) {
-                            try {
-                                String id = dispIdGen(ip);
-                                String serviceName = "DISPATCHER_SERVICE" + id;
-                                String url = "rmi://" + ip + "/" + serviceName;
-                                DispInterface obj = (DispInterface) Naming.lookup(url);
-                                RestructuringInfo ri = new RestructuringInfo();
-                                obj.restructuringEnded(ri);
-                            } catch (NotBoundException e) {
-                                Logger.error("error sending command", e);
-                            }
-
-                        }
-
-                    } catch (Exception e) {
-                        Logger.error("Error: invalid syntax? ", e);
-
-                    }
-                    System.out.println("SystemRestructure ended....." + (System.currentTimeMillis() - st) + " ms");
-
+                    forceRestructuring();
 
                     try {
                         Thread.sleep(RestructuringDaemon.RESTRUCTURING_WAITING_TIME);
@@ -146,6 +103,54 @@ public class RestructuringDaemon {
             }
         };
         daemonThread.start();
+    }
+
+    public static void forceRestructuring() {
+        System.out.println("SystemRestructuring - starting....");
+        long st = System.currentTimeMillis();
+        try {
+
+            HashSet<String> disp = new HashSet<String>(LeaderElectionInitiator.getDispatchers());
+
+            for (String ip : disp) {
+                try {
+                    String id = dispIdGen(ip);
+                    String serviceName = "DISPATCHER_SERVICE" + id;
+                    String url = "rmi://" + ip + "/" + serviceName;
+                    DispInterface obj = (DispInterface) Naming.lookup(url);
+                    RestructuringInfo ri = new RestructuringInfo();
+                    obj.restructuringStarted(ri);
+                } catch (Exception e) {
+                    Logger.error("error sending command", e);
+                }
+
+
+            }
+
+            SystemRestructure.getInstance().restructureSystem();
+            SystemRestructure.getInstance().sendRestructureCommands();
+
+
+            for (String ip : disp) {
+                try {
+                    String id = dispIdGen(ip);
+                    String serviceName = "DISPATCHER_SERVICE" + id;
+                    String url = "rmi://" + ip + "/" + serviceName;
+                    DispInterface obj = (DispInterface) Naming.lookup(url);
+                    RestructuringInfo ri = new RestructuringInfo();
+                    obj.restructuringEnded(ri);
+                } catch (NotBoundException e) {
+                    Logger.error("error sending command", e);
+                }
+
+            }
+
+        } catch (Exception e) {
+            Logger.error("Error: invalid syntax? ", e);
+
+        }
+        System.out.println("SystemRestructure ended....." + (System.currentTimeMillis() - st) + " ms");
+
     }
 
     /*
