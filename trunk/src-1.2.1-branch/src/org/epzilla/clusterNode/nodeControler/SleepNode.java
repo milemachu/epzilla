@@ -2,6 +2,7 @@ package org.epzilla.clusterNode.nodeControler;
 
 import org.epzilla.clusterNode.NodeController;
 import org.epzilla.clusterNode.rmi.ClusterInterface;
+import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.leader.LeaderElectionInitiator;
 
 import java.net.MalformedURLException;
@@ -20,6 +21,7 @@ import java.util.Iterator;
  */
 public class SleepNode {
     private static String serviceName = "CLUSTER_NODE";
+    private static boolean success = false;
 
     public static void sleep() {
         try {
@@ -31,9 +33,14 @@ public class SleepNode {
                     String ip = (String) i.next();
                     if (!ip.equalsIgnoreCase(leaderIP)) {
                         sleepNode(ip);
+                        NodeUIController.appendTextToStatus("Sleep the Node: " + ip + " successfully");
+                        success = true;
                     }
                     break;
                 }
+            }
+            if (!success) {
+                NodeUIController.appendTextToStatus("There aren't any  Nodes to Sleep...");
             }
         } catch (Exception e) {
             e.printStackTrace();
