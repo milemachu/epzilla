@@ -19,37 +19,30 @@ import java.util.Iterator;
  * To change this template use File | Settings | File Templates.
  */
 public class SleepNode {
+    private static String serviceName = "CLUSTER_NODE";
 
     public static void sleep() {
-        try{
-        HashSet<String> nodeList = new HashSet<String>();
-        nodeList=LeaderElectionInitiator.getNodes();
-        if (nodeList.size() > 2) {
-            String leaderIP = NodeController.getLeaderIP();
-            for (Iterator i = nodeList.iterator(); i.hasNext();) {
-                String ip = (String) i.next();
-                if (!ip.equalsIgnoreCase(leaderIP)) {
-                    sleepNode(ip);
+        try {
+            HashSet<String> nodeList = new HashSet<String>();
+            nodeList = LeaderElectionInitiator.getNodes();
+            if (nodeList.size() > 2) {
+                String leaderIP = NodeController.getLeaderIP();
+                for (Iterator i = nodeList.iterator(); i.hasNext();) {
+                    String ip = (String) i.next();
+                    if (!ip.equalsIgnoreCase(leaderIP)) {
+                        sleepNode(ip);
+                    }
                     break;
                 }
             }
-        }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static boolean getNodeDetails() {
-//        nodeList.clear();
-//        nodeList = LeaderElectionInitiator.getNodes();
-//        if (nodeList.size() > 2)
-//            return true;
-        return false;
-    }
-
     public static void sleepNode(String nodeIP) {
         try {
-            ClusterInterface clusterObj = initService(nodeIP, "CLUSTER_NODE");
+            ClusterInterface clusterObj = initService(nodeIP, serviceName);
             clusterObj.sleepNodeProcess();
         } catch (MalformedURLException e) {
             e.printStackTrace();
