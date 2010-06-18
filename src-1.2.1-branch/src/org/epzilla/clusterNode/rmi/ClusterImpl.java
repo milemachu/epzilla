@@ -10,6 +10,7 @@ import org.epzilla.clusterNode.dataManager.EventsCounter;
 import org.epzilla.clusterNode.dataManager.EventsManager;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
 import org.epzilla.clusterNode.processor.EventProcessor;
+import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.dispatcher.rmi.TriggerRepresentation;
 import org.epzilla.dispatcher.xml.XMLElement;
 import org.epzilla.util.Logger;
@@ -200,7 +201,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 
     @Override
     public void sleepNodeProcess() throws RemoteException {
-        //sleep UI of the processing node
+        NodeUIController.deactiveUI();
     }
 //
 //    @Override
