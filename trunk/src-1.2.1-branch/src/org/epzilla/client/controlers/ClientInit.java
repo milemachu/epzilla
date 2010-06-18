@@ -1,5 +1,6 @@
 package org.epzilla.client.controlers;
 
+import org.epzilla.client.xml.ClientTimeSettings;
 import org.epzilla.dispatcher.rmi.DispInterface;
 import org.epzilla.testObjectGenerator.EventTriggerGenerator;
 import org.epzilla.util.Logger;
@@ -27,6 +28,10 @@ public class ClientInit extends Thread {
     private static volatile boolean isLive = true;
     private static int eventsSeqID = 1;
     private static boolean dynamicLookup = false;
+    private static int sendingIntervalEvent;
+    private static int initIntervalEvent;
+    private static int initIntervalTrigger;
+    private static int sendingIntervalTrigger;
 
     public ClientInit() {
     }
@@ -44,7 +49,8 @@ public class ClientInit extends Thread {
         lookUp(ip, name);
         ClientInit.clientID = clientID;
         isLive = true;
-        dynamicLookup =false;
+        dynamicLookup = false;
+        loadSettings();
         initSendTriggerStream(ip);
         initSendEventsStream(ip);
         trigger.start();
@@ -60,7 +66,7 @@ public class ClientInit extends Thread {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(initIntervalTrigger);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -104,7 +110,7 @@ public class ClientInit extends Thread {
                         ClientUIControler.appendResults("Dispatcher Received the Trigger Stream" + "\n");
                     }
                     try {
-                        Thread.sleep(30000);
+                        Thread.sleep(sendingIntervalTrigger);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -121,7 +127,7 @@ public class ClientInit extends Thread {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(initIntervalEvent);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -133,6 +139,11 @@ public class ClientInit extends Thread {
                     try {
                         response = di.uploadEventsToDispatcher(event, clientID, eventsSeqID);
                         eventsSeqID++;
+                        try {
+                            Thread.sleep(sendingIntervalEvent);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        }
                     } catch (RemoteException e) {
                         isLive = false;
                         ClientUIControler.appendResults("Connection to the Dispatcher service failed, events sending stoped, Perform Lookup operation.." + "\n");
@@ -152,6 +163,17 @@ public class ClientInit extends Thread {
 //            DynamicLookup.dynamicLookup();
 //            dynamicLookup = true;
 //        }
+    }
+
+    private static void loadSettings() {
+        ArrayList<String[]> settingsList = ClientTimeSettings.getClientTimeIntervals("client_timeIntervals.xml");
+        String[] settings = settingsList.get(0);
+        if (settings != null) {
+            initIntervalEvent = Integer.valueOf(settings[0]);
+            sendingIntervalEvent = Integer.valueOf(settings[1]);
+            initIntervalTrigger = Integer.valueOf(settings[2]);
+            sendingIntervalTrigger = Integer.valueOf(settings[3]);
+        }
     }
 
     public static void stopEventTriggerStream() {
