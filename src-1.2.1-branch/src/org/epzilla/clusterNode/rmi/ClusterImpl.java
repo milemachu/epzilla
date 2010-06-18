@@ -22,6 +22,7 @@ import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -58,6 +59,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
                 i++;
             }
 
+            System.out.println("accumulators:" + Arrays.toString(accIpArray));
             br.close();
 
         } catch (Exception e) {
