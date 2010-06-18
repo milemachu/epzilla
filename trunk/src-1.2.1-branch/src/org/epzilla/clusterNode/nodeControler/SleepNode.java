@@ -19,10 +19,12 @@ import java.util.Iterator;
  * To change this template use File | Settings | File Templates.
  */
 public class SleepNode {
-    private static HashSet<String> nodeList;
 
     public static void sleep() {
-        if (getNodeDetails()) {
+        try{
+        HashSet<String> nodeList = new HashSet<String>();
+        nodeList=LeaderElectionInitiator.getNodes();
+        if (nodeList.size() > 2) {
             String leaderIP = NodeController.getLeaderIP();
             for (Iterator i = nodeList.iterator(); i.hasNext();) {
                 String ip = (String) i.next();
@@ -32,13 +34,16 @@ public class SleepNode {
                 }
             }
         }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static boolean getNodeDetails() {
-        nodeList.clear();
-        nodeList = LeaderElectionInitiator.getNodes();
-        if (nodeList.size() > 2)
-            return true;
+//        nodeList.clear();
+//        nodeList = LeaderElectionInitiator.getNodes();
+//        if (nodeList.size() > 2)
+//            return true;
         return false;
     }
 
