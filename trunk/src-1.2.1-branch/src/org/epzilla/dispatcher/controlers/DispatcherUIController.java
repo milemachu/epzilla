@@ -119,7 +119,7 @@ public class DispatcherUIController {
     }
 
     private static void loadDiscoveryStatus() {
-        dispDiscoveryStatus("Leader Election service up and running...." + "\n" + "Dynamic Discovery process up and running....");
+        dispDiscoveryStatus("Leader election RMI successfully deployed and running" + "\n" + "Dynamic Discovery process up and running....");
 //         try {
 //            ArrayList<String[]> data = DiscoveryStatusReader.getDiscoveryStatus("./src/name.xml");
 //            String[] ar = data.get(0);
