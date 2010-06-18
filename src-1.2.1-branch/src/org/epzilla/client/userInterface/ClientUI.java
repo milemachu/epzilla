@@ -4,6 +4,7 @@ package org.epzilla.client.userInterface;
 import org.epzilla.client.controlers.ClientHandler;
 import org.epzilla.client.controlers.ClientInit;
 import org.epzilla.client.xml.ServerSettingsReader;
+import org.epzilla.dispatcher.ui.CustomGridLayout;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -175,7 +176,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             upload.add(getTxtDispIP1(), null);
             upload.add(lblDispatcherServiceName, null);
             upload.add(getTxtDispName(), null);
-
+            upload.add(getSimulatorPanel());
             JPanel results = new JPanel() {
                 public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
@@ -431,6 +432,47 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             txtDispName.setSize(new Dimension(325, 20));
         }
         return txtDispName;
+    }
+
+    JPanel simulatorPanel = null;
+
+    private JPanel getSimulatorPanel() {
+        if (simulatorPanel == null) {
+            simulatorPanel = new JPanel(new CustomGridLayout(new String[]{"40%", "10", "30%", "20", "30%"}, new String[]{"25", "50%", "10", "50%"}));
+        }
+
+        simulatorPanel.add(new JLabel("Simulations:"));
+        simulatorPanel.add(new JLabel());
+        simulatorPanel.add(new JLabel());
+        simulatorPanel.add(new JLabel());
+        simulatorPanel.add(new JLabel());
+
+        
+
+        simulatorPanel.add(new JLabel("Triggers:"));
+        simulatorPanel.add(new JLabel());
+        simulatorPanel.add(new JButton("start"));
+        simulatorPanel.add(new JLabel());
+        simulatorPanel.add(new JButton("stop"));
+
+        simulatorPanel.add(new JLabel());
+        simulatorPanel.add(new JLabel());
+        simulatorPanel.add(new JLabel());
+        simulatorPanel.add(new JLabel());
+        simulatorPanel.add(new JLabel());
+
+
+        simulatorPanel.add(new JLabel("Events:"));
+        simulatorPanel.add(new JLabel());
+        simulatorPanel.add(new JButton("start"));
+        simulatorPanel.add(new JLabel());
+        simulatorPanel.add(new JButton("stop"));
+
+        simulatorPanel.setLocation(new Point(15, 271));
+        simulatorPanel.setSize(new Dimension(400, 80));
+        simulatorPanel.setOpaque(false);
+
+        return simulatorPanel;
     }
 
     private void getDispatchers() throws MalformedURLException, RemoteException, NotBoundException {
