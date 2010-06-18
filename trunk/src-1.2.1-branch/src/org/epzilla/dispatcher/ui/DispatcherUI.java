@@ -152,17 +152,17 @@ public class DispatcherUI extends JFrame implements ActionListener {
         if (mainSettings == null) {
 
             JLabel lblStatus = new JLabel();
-            lblStatus.setBounds(new Rectangle(15, 340, 71, 23));
+            lblStatus.setBounds(new Rectangle(15, 340, 71, 25));
             lblStatus.setText("Status :");
             JLabel lblName = new JLabel();
             lblName.setText("Service Name :");
             lblName.setLocation(new Point(30, 203));
-            lblName.setSize(new Dimension(94, 16));
+            lblName.setSize(new Dimension(94, 25));
             JLabel lblDisp = new JLabel();
             lblDisp.setText("Dispatcher Details ");
             lblDisp.setLocation(new Point(15, 171));
             lblDisp.setFont(new Font("Dialog", Font.BOLD, 12));
-            lblDisp.setSize(new Dimension(175, 22));
+            lblDisp.setSize(new Dimension(175, 25));
             mainSettings = new JPanel() {
                 public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
@@ -197,25 +197,25 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JPanel getSummeryTab() {
         if (summary == null) {
             JLabel lblClusterPer = new JLabel();
-            lblClusterPer.setBounds(new Rectangle(713, 313, 151, 16));
+            lblClusterPer.setBounds(new Rectangle(713, 313, 151,25 ));
             lblClusterPer.setText("Cluster Performance:");
             JLabel lblOutEC = new JLabel();
-            lblOutEC.setBounds(new Rectangle(220, 553, 138, 22));
+            lblOutEC.setBounds(new Rectangle(220, 553, 138, 25));
             lblOutEC.setText("Outgoing Event Count :");
             JLabel lblInEC = new JLabel();
-            lblInEC.setBounds(new Rectangle(15, 553, 140, 22));
+            lblInEC.setBounds(new Rectangle(15, 553, 140, 25));
             lblInEC.setText("Incoming Event Count :");
             JLabel lblEDR = new JLabel();
-            lblEDR.setBounds(new Rectangle(420, 553, 200, 22));
-            lblEDR.setText("Event Dispatch rate (E/s):");
+            lblEDR.setBounds(new Rectangle(420, 553, 200, 25));
+            lblEDR.setText("Event Dispatch rate (Evt/sec):");
             JLabel lblIPs = new JLabel();
-            lblIPs.setBounds(new Rectangle(713, 17, 150, 16));
+            lblIPs.setBounds(new Rectangle(713, 17, 150, 25));
             lblIPs.setText("Cluster Leader IP List :");
             JLabel lblEvents = new JLabel();
-            lblEvents.setBounds(new Rectangle(15, 21, 117, 16));
+            lblEvents.setBounds(new Rectangle(15, 21, 117, 25));
             lblEvents.setText("Status :");
             JLabel lblTriggers = new JLabel();
-            lblTriggers.setBounds(new Rectangle(15, 313, 116, 16));
+            lblTriggers.setBounds(new Rectangle(15, 313, 116, 25));
             lblTriggers.setText("Trigger List :");
             summary = new JPanel() {
                 public void paintComponent(Graphics g) {
@@ -253,19 +253,19 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JPanel getDispStatusTab() {
         if (dispStatus == null) {
             JLabel lblRecTriggers = new JLabel();
-            lblRecTriggers.setBounds(new Rectangle(10, 350, 124, 20));
+            lblRecTriggers.setBounds(new Rectangle(10, 350, 124, 25));
             lblRecTriggers.setText("Recovered Triggers:");
             JLabel lblDiscoveryStatus = new JLabel();
             lblDiscoveryStatus.setBounds(new Rectangle(10, 10, 200, 25));
             lblDiscoveryStatus.setText("Dispatcher Discovery Status :");
             JLabel lblDispIps = new JLabel();
-            lblDispIps.setBounds(new Rectangle(320, 350, 124, 20));
+            lblDispIps.setBounds(new Rectangle(320, 350, 124, 25));
             lblDispIps.setText("Dispatcher IP set:");
             JLabel lblMemory = new JLabel();
-            lblMemory.setBounds(700, 355, 120, 20);
-            lblMemory.setText("Memory Usage:");
+            lblMemory.setBounds(700, 355, 160, 25);
+            lblMemory.setText("Event Dispatch Rate (Evt/sec):");
             JLabel lblCPU = new JLabel();
-            lblCPU.setBounds(new Rectangle(700, 10, 125, 20));
+            lblCPU.setBounds(new Rectangle(700, 10, 125, 25));
             lblCPU.setText("CPU Usage:");
             dispStatus = new JPanel() {
                 public void paintComponent(Graphics g) {
