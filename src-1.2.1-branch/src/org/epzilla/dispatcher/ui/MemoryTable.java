@@ -1,6 +1,6 @@
 package org.epzilla.dispatcher.ui;
 
-import org.epzilla.dispatcher.loadAnalyzer.CpuMemAnalyzer;
+import org.epzilla.dispatcher.dataManager.EventsCounter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -77,13 +77,14 @@ public class MemoryTable extends JPanel {
             graphics.setBackground(getBackground());
             graphics.clearRect(0, 0, w, h);
 
-            float freeMemory = (float) CpuMemAnalyzer.getFreeMemory();
-            float totalMemory = (float) CpuMemAnalyzer.getTotalMemory();
+            float currentRate = EventsCounter.getEventDispatchRate();
+            float maxRate = EventsCounter.getMaxRate();
+            float free = maxRate-currentRate;
 
             graphics.setColor(GREEN);
-            graphics.drawString(String.valueOf((int) totalMemory / 1048576) + "MB allocated", 4.0f, (float) aH + 0.5f);
-            name = String.valueOf(((int) (totalMemory - freeMemory)) / 1048576)
-                    + "MB used";
+            graphics.drawString(String.valueOf((int) maxRate) + " Maximun (Evt/sec)", 4.0f, (float) aH + 0.5f);
+            name = String.valueOf(((int) (maxRate - free)))
+                    + " (Evt/sec)";
             graphics.drawString(name, 4, h - dH);
 
             float ssH = aH + dH;
@@ -92,7 +93,7 @@ public class MemoryTable extends JPanel {
             float blockWidth = 20.0f;
 
             graphics.setColor(plotColor);
-            int MemUsage = (int) ((freeMemory / totalMemory) * 10);
+            int MemUsage = (int) ((free / maxRate) * 10);
             int i = 0;
             for (; i < MemUsage; i++) {
                 rect2.setRect(5, ssH + i * blockHeight,
@@ -153,7 +154,7 @@ public class MemoryTable extends JPanel {
                 System.arraycopy(tmp, 0, points, 0, tmp.length);
             } else {
                 graphics.setColor(YELLOW);
-                points[nums] = (int) (graphY + graphH * (freeMemory / totalMemory));
+                points[nums] = (int) (graphY + graphH * (free / maxRate));
                 for (int j = graphX + graphW - nums, k = 0; k < nums; k++, j++) {
                     if (k != 0) {
                         if (points[k] != points[k - 1]) {
