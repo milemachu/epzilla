@@ -57,6 +57,9 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private static ServerSettingsReader reader;
     private JTextField txtNotiCount = null;
     private JTextArea txtNotifications = null;
+    JPanel simulatorPanel = null;
+    private JPanel workBenchPanel = null;
+    JButton sendQueryBtn = new JButton();
 
     public ClientUI() {
         super();
@@ -76,7 +79,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         this.setPreferredSize(new Dimension(1024, 768));
         this.setContentPane(getMyTabbedPane());
         this.setJMenuBar(getmyMenuBar());
-        this.setTitle("Epzilla DS");
+        this.setTitle("Epzilla Client");
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent evt) {
                 int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Confirm Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -177,6 +180,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             upload.add(lblDispatcherServiceName, null);
             upload.add(getTxtDispName(), null);
             upload.add(getSimulatorPanel());
+            upload.add(getWorkBenchPanel());
             JPanel results = new JPanel() {
                 public void paintComponent(Graphics g) {
                     Graphics2D g2d = (Graphics2D) g;
@@ -434,8 +438,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         return txtDispName;
     }
 
-    JPanel simulatorPanel = null;
-
     private JPanel getSimulatorPanel() {
         if (simulatorPanel == null) {
             simulatorPanel = new JPanel(new CustomGridLayout(new String[]{"40%", "10", "30%", "20", "30%"}, new String[]{"25", "50%", "10", "50%"}));
@@ -447,7 +449,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         simulatorPanel.add(new JLabel());
         simulatorPanel.add(new JLabel());
 
-        
 
         simulatorPanel.add(new JLabel("Triggers:"));
         simulatorPanel.add(new JLabel());
@@ -473,6 +474,34 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         simulatorPanel.setOpaque(false);
 
         return simulatorPanel;
+    }
+  //work bench panel
+    private JPanel getWorkBenchPanel() {
+        if (workBenchPanel == null) {
+            workBenchPanel = new JPanel();
+        }
+
+        JLabel lblQuery = new JLabel("Enter query:");
+        lblQuery.setBounds(new Rectangle(10, 410, 100, 20));
+
+        JTextArea txtQuery = new JTextArea();
+        txtQuery.setBounds(10, 435, 300, 100);
+        txtQuery.setBackground(Color.BLACK);
+        txtQuery.setForeground(Color.GREEN);
+        txtQuery.setWrapStyleWord(true);
+        txtQuery.setLineWrap(true);
+
+        sendQueryBtn.setText("Send Query");
+        sendQueryBtn.setBounds(new Rectangle(10, 540, 20, 100));
+        sendQueryBtn.addActionListener(this);
+
+        workBenchPanel.add(lblQuery);
+        workBenchPanel.add(txtQuery);
+        workBenchPanel.add(sendQueryBtn);
+        workBenchPanel.setBounds(new Rectangle(5, 400, 500, 300));
+        workBenchPanel.setOpaque(false);
+
+        return workBenchPanel;
     }
 
     private void getDispatchers() throws MalformedURLException, RemoteException, NotBoundException {
@@ -706,6 +735,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             systemExit();
         } else if (source == about) {
             showAbout();
+        } else if (source == sendQueryBtn) {
+            //logic to send query
         }
     }
 
