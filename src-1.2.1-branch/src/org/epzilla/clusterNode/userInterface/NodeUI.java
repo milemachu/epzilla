@@ -304,7 +304,7 @@ public class NodeUI extends JFrame implements ActionListener {
         if (btnAddNode == null) {
             ImageIcon logsIcon = new ImageIcon("images//register.jpg");
             btnAddNode = new JButton(logsIcon);
-            btnAddNode.setBounds(new Rectangle(46, 700, 120, 25));
+            btnAddNode.setBounds(new Rectangle(46, 690, 120, 20));
             btnAddNode.setText("Add Node");
             btnAddNode.addActionListener(this);
         }
@@ -315,7 +315,7 @@ public class NodeUI extends JFrame implements ActionListener {
         if (btnRemoveNode == null) {
             ImageIcon logsIcon = new ImageIcon("images//close.jpg");
             btnRemoveNode = new JButton(logsIcon);
-            btnRemoveNode.setBounds(new Rectangle(200, 700, 120, 25));
+            btnRemoveNode.setBounds(new Rectangle(200, 690, 120, 20));
             btnRemoveNode.setText("Remove Node");
             btnRemoveNode.addActionListener(this);
         }
