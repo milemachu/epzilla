@@ -94,7 +94,7 @@ public class RestructuringDaemon {
                     long st = System.currentTimeMillis();
                     try {
 
-                        HashSet<String> disp = LeaderElectionInitiator.getDispatchers();
+                        HashSet<String> disp = (HashSet<String>) LeaderElectionInitiator.getDispatchers().clone();
 
                         for (String ip : disp) {
                             try {
