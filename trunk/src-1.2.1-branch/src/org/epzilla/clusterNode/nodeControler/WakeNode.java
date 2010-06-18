@@ -2,6 +2,7 @@ package org.epzilla.clusterNode.nodeControler;
 
 import org.epzilla.clusterNode.NodeController;
 import org.epzilla.clusterNode.rmi.ClusterInterface;
+import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.leader.LeaderElectionInitiator;
 
 import java.net.MalformedURLException;
@@ -20,6 +21,7 @@ import java.util.Iterator;
  */
 public class WakeNode {
     private static String serviceName = "CLUSTER_NODE";
+    private static boolean success = false;
 
     public static void wake() {
         try {
@@ -31,13 +33,19 @@ public class WakeNode {
                     String ip = (String) i.next();
                     if (!ip.equalsIgnoreCase(leaderIP)) {
                         nodeInit(ip);
+                        NodeUIController.appendTextToStatus("Wake the Node: " + ip + " successfully");
+                        success = true;
                     }
                     break;
                 }
             }
+            if (!success) {
+                NodeUIController.appendTextToStatus("There are no idle Nodes to wake up...");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        success = false;
     }
 
     public static void nodeInit(String nodeIP) {
