@@ -82,10 +82,11 @@ public class EventProcessor {
         String clientId = tok.nextToken();
         String eventId = tok.nextToken();
         System.out.println("processing event: " +  clientId + " : " + eventId);
+        System.out.println("event: " +  cont);
 
         QueryExecuter q = this.clientExecutors.get(clientId);
         if (q != null) {
-            String res = q.processEvents(cont);
+            String res = q.processEvent(cont);
             StringBuilder sb = new StringBuilder("");
             sb.append(res);
             sb.append(":");
