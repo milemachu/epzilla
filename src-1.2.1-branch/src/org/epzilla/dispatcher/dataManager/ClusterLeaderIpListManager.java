@@ -92,6 +92,24 @@ public class ClusterLeaderIpListManager {
         }
         printIPList();
     }
+
+    public static void clearIPList() {
+        if (getIpList() != null) {
+            try {
+                if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                    Site.getLocal().allowThread();
+                    Transaction transaction = Site.getLocal().startTransaction();
+                    ipList.clear();
+                    transaction.commit();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        printIPList();
+    }
+
+
     //add by chathura to get cluster leader ip list
 
     public static ArrayList<String> getClusterIpList() {
