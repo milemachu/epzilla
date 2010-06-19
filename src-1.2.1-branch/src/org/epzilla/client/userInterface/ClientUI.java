@@ -92,6 +92,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
         loadSettings();
         btnClear.setVisible(false);
+        btnCancelSend.setVisible(false);
 
     }
 
@@ -311,12 +312,13 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         if (btnSend == null) {
             ImageIcon startIcon = new ImageIcon("images//start.jpg");
             btnSend = new JButton(startIcon);
-            btnSend.setText("Start");
-            btnSend.setBounds(new Rectangle(216, 220, 90, 20));
+            btnSend.setText("Connect");
+            btnSend.setBounds(new Rectangle(165, 220, 120, 20));
             btnSend.addActionListener(this);
         }
         return btnSend;
     }
+
 
     private JButton getBtnCancelSend() {
         if (btnCancelSend == null) {
@@ -453,24 +455,24 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         simulatorPanel.add(new JLabel("Triggers:"));
         simulatorPanel.add(new JLabel());
 
-        JButton jb1 = new JButton("start");
+        JButton jb1 = new JButton("Start");
         jb1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // todo - write code to start trigger generation
-                //To change body of implemented methods use File | Settings | File Templates.
+                // code to start trigger generation
+                ClientInit.initTrigers();
             }
         });
         simulatorPanel.add(jb1);
         simulatorPanel.add(new JLabel());
 
 
-        JButton jb2 = new JButton("stop");
+        JButton jb2 = new JButton("Stop");
         jb2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // todo - write code to stop trigger generation
-                //To change body of implemented methods use File | Settings | File Templates.
+                // code to stop trigger generation
+                ClientInit.stopTriggerStream();
             }
         });
         simulatorPanel.add(jb2);
@@ -486,12 +488,12 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         simulatorPanel.add(new JLabel());
 
 
-        JButton jb3 = new JButton("start");
+        JButton jb3 = new JButton("Start");
         jb3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // todo - write code to start event generation.
-                //To change body of implemented methods use File | Settings | File Templates.
+                //code for event generation
+                ClientInit.initEvents();
             }
         });
 
@@ -499,12 +501,12 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         simulatorPanel.add(new JLabel());
 
 
-        JButton jb4 = new JButton("start");
+        JButton jb4 = new JButton("Stop");
         jb4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // todo - write code for trigger generation
-                //To change body of implemented methods use File | Settings | File Templates.
+                // code for stop event generation
+                ClientInit.stopEventStream();
             }
         });
         simulatorPanel.add(jb4);
