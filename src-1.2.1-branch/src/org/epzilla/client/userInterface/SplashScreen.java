@@ -1,12 +1,10 @@
 package org.epzilla.client.userInterface;
 
 import org.epzilla.client.controlers.ClientUIControler;
+import org.epzilla.util.Logger;
 
 import javax.swing.*;
-
 import java.awt.*;
-import java.awt.Color;
-import java.awt.SystemColor;
 
 
 public class SplashScreen extends JWindow {
@@ -20,8 +18,8 @@ public class SplashScreen extends JWindow {
         duration = d;
     }
 
-    public void showSplash() { 
-    	
+    public void showSplash() {
+
         JPanel panel = new JPanel();
         int width = 425;
         int height = 240;
@@ -51,12 +49,20 @@ public class SplashScreen extends JWindow {
         setVisible(false);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-       }
-       catch (UnsupportedLookAndFeelException e) {}
-       catch (ClassNotFoundException e) {}
-       catch (InstantiationException e) {}
-       catch (IllegalAccessException e) {}
-       
+        }
+        catch (UnsupportedLookAndFeelException e) {
+            Logger.error("", e);
+        }
+        catch (ClassNotFoundException e) {
+            Logger.error("", e);
+        }
+        catch (InstantiationException e) {
+            Logger.error("", e);
+        }
+        catch (IllegalAccessException e) {
+            Logger.error("", e);
+        }
+
     }
 
     public void iterate() {

@@ -1,5 +1,7 @@
 package org.epzilla.client.xml;
 
+import org.epzilla.util.Logger;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class ClientTimeSettings {
                 lis.add(items);
             }
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+           Logger.error("File reder error:",e);
         }
         return lis;
     }
