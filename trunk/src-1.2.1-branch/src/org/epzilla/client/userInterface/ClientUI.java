@@ -92,7 +92,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
         loadSettings();
         btnClear.setVisible(false);
-        btnCancelSend.setVisible(false);
+
     }
 
     private JTabbedPane getMyTabbedPane() {
@@ -311,8 +311,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         if (btnSend == null) {
             ImageIcon startIcon = new ImageIcon("images//start.jpg");
             btnSend = new JButton(startIcon);
-            btnSend.setText("Connect");
-            btnSend.setBounds(new Rectangle(165, 220, 120, 20));
+            btnSend.setText("Start");
+            btnSend.setBounds(new Rectangle(216, 220, 90, 20));
             btnSend.addActionListener(this);
         }
         return btnSend;
@@ -450,27 +450,27 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         simulatorPanel.add(new JLabel());
 
 
-        simulatorPanel.add(new JLabel("Triggers:") );
+        simulatorPanel.add(new JLabel("Triggers:"));
         simulatorPanel.add(new JLabel());
 
-        JButton jb1 = new JButton("Start");
+        JButton jb1 = new JButton("start");
         jb1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // code to start trigger generation
-                ClientInit.initTrigers();
+                // todo - write code to start trigger generation
+                //To change body of implemented methods use File | Settings | File Templates.
             }
         });
         simulatorPanel.add(jb1);
         simulatorPanel.add(new JLabel());
 
 
-        JButton jb2 = new JButton("Stop");
+        JButton jb2 = new JButton("stop");
         jb2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // code to stop trigger generation
-                ClientInit.stopTriggerStream();
+                // todo - write code to stop trigger generation
+                //To change body of implemented methods use File | Settings | File Templates.
             }
         });
         simulatorPanel.add(jb2);
@@ -486,12 +486,12 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         simulatorPanel.add(new JLabel());
 
 
-        JButton jb3 = new JButton("Start");
+        JButton jb3 = new JButton("start");
         jb3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //code for event generation
-                ClientInit.initEvents();
+                // todo - write code to start event generation.
+                //To change body of implemented methods use File | Settings | File Templates.
             }
         });
 
@@ -499,12 +499,12 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         simulatorPanel.add(new JLabel());
 
 
-        JButton jb4 = new JButton("Stop");
+        JButton jb4 = new JButton("start");
         jb4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // code for stop event generation
-                ClientInit.stopEventStream();
+                // todo - write code for trigger generation
+                //To change body of implemented methods use File | Settings | File Templates.
             }
         });
         simulatorPanel.add(jb4);
@@ -515,30 +515,43 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
         return simulatorPanel;
     }
-  //work bench panel
+
+    //work bench panel
     private JPanel getWorkBenchPanel() {
         if (workBenchPanel == null) {
             workBenchPanel = new JPanel();
         }
 
+        workBenchPanel.setLayout(new CustomGridLayout(new String[]{"80", "5", "100%", "10", "90"}, new String[]{"100%"}));
+        JPanel sendPanel = new JPanel(new CustomGridLayout(new String[]{"100%"}, new String[]{"30", "100%"}));
+        sendPanel.setOpaque(false);
+
+        JPanel labelPanel = new JPanel(new CustomGridLayout(new String[]{"100%"}, new String[]{"30", "100%"}));
+        labelPanel.setOpaque(false);
+
         JLabel lblQuery = new JLabel("Enter query:");
-        lblQuery.setBounds(new Rectangle(10, 410, 100, 20));
 
         JTextArea txtQuery = new JTextArea();
-        txtQuery.setBounds(10, 435, 300, 100);
         txtQuery.setBackground(Color.BLACK);
         txtQuery.setForeground(Color.GREEN);
         txtQuery.setWrapStyleWord(true);
         txtQuery.setLineWrap(true);
 
         sendQueryBtn.setText("Send Query");
-        sendQueryBtn.setBounds(new Rectangle(10, 540, 20, 100));
         sendQueryBtn.addActionListener(this);
 
-        workBenchPanel.add(lblQuery);
+        sendPanel.add(sendQueryBtn);
+        labelPanel.add(lblQuery);
+        workBenchPanel.add(labelPanel);
+        JLabel jlx = new JLabel();
+        jlx.setOpaque(false);
+        workBenchPanel.add(jlx);
         workBenchPanel.add(txtQuery);
-        workBenchPanel.add(sendQueryBtn);
-        workBenchPanel.setBounds(new Rectangle(5, 400, 500, 300));
+        jlx = new JLabel();
+        jlx.setOpaque(false);
+        workBenchPanel.add(jlx);
+        workBenchPanel.add(sendPanel);
+        workBenchPanel.setBounds(new Rectangle(5, 400, 500, 100));
         workBenchPanel.setOpaque(false);
 
         return workBenchPanel;
@@ -567,7 +580,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel the Process", "Epzilla", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == JOptionPane.YES_OPTION) {
             btnCancelSend.setEnabled(false);
-            ClientInit.stopTriggerStream();
+            ClientInit.stopEventTriggerStream();
         }
 
     }
@@ -661,9 +674,12 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     }
 
+    String dispIP = null;
+    String dispName = null;
+
     public void initProcess() {
-        String dispIP = txtDispIP.getText();
-        String dispName = txtDispName.getText();
+        dispIP = txtDispIP.getText();
+        dispName = txtDispName.getText();
 
         if ((dispIP.length() == 0) && (dispName.length() == 0)) {
             JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Epzilla", JOptionPane.ERROR_MESSAGE);
@@ -673,7 +689,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             try {
                 ClientInit.initSend(dispIP, dispName, clientID);
                 btnCancelSend.setEnabled(true);
-                JOptionPane.showMessageDialog(null, "Successfully connected to the Dispatcher", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
             } catch (MalformedURLException e) {
                 JOptionPane.showMessageDialog(null, "Error in file send process.", "Epzilla", JOptionPane.ERROR_MESSAGE);
             } catch (NotBoundException e) {
