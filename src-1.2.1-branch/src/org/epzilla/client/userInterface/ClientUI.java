@@ -92,7 +92,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
         loadSettings();
         btnClear.setVisible(false);
-
+        btnCancelSend.setVisible(false);
     }
 
     private JTabbedPane getMyTabbedPane() {
@@ -311,8 +311,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         if (btnSend == null) {
             ImageIcon startIcon = new ImageIcon("images//start.jpg");
             btnSend = new JButton(startIcon);
-            btnSend.setText("Start");
-            btnSend.setBounds(new Rectangle(216, 220, 90, 20));
+            btnSend.setText("Connect");
+            btnSend.setBounds(new Rectangle(165, 220, 120, 20));
             btnSend.addActionListener(this);
         }
         return btnSend;
@@ -453,24 +453,24 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         simulatorPanel.add(new JLabel("Triggers:") );
         simulatorPanel.add(new JLabel());
 
-        JButton jb1 = new JButton("start");
+        JButton jb1 = new JButton("Start");
         jb1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // todo - write code to start trigger generation
-                //To change body of implemented methods use File | Settings | File Templates.
+                // code to start trigger generation
+                ClientInit.initTrigers();
             }
         });
         simulatorPanel.add(jb1);
         simulatorPanel.add(new JLabel());
 
 
-        JButton jb2 = new JButton("stop");
+        JButton jb2 = new JButton("Stop");
         jb2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // todo - write code to stop trigger generation
-                //To change body of implemented methods use File | Settings | File Templates.
+                // code to stop trigger generation
+                ClientInit.stopTriggerStream();
             }
         });
         simulatorPanel.add(jb2);
@@ -486,12 +486,12 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         simulatorPanel.add(new JLabel());
 
 
-        JButton jb3 = new JButton("start");
+        JButton jb3 = new JButton("Start");
         jb3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // todo - write code to start event generation.
-                //To change body of implemented methods use File | Settings | File Templates.
+                //code for event generation
+                ClientInit.initEvents();
             }
         });
 
@@ -499,12 +499,12 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         simulatorPanel.add(new JLabel());
 
 
-        JButton jb4 = new JButton("start");
+        JButton jb4 = new JButton("Stop");
         jb4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // todo - write code for trigger generation
-                //To change body of implemented methods use File | Settings | File Templates.
+                // code for stop event generation
+                ClientInit.stopEventStream();
             }
         });
         simulatorPanel.add(jb4);
@@ -567,7 +567,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel the Process", "Epzilla", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == JOptionPane.YES_OPTION) {
             btnCancelSend.setEnabled(false);
-            ClientInit.stopEventTriggerStream();
+            ClientInit.stopTriggerStream();
         }
 
     }
@@ -673,6 +673,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             try {
                 ClientInit.initSend(dispIP, dispName, clientID);
                 btnCancelSend.setEnabled(true);
+                JOptionPane.showMessageDialog(null, "Successfully connected to the Dispatcher", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
             } catch (MalformedURLException e) {
                 JOptionPane.showMessageDialog(null, "Error in file send process.", "Epzilla", JOptionPane.ERROR_MESSAGE);
             } catch (NotBoundException e) {
