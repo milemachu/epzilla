@@ -5,6 +5,7 @@ import org.epzilla.client.controlers.ClientHandler;
 import org.epzilla.client.controlers.ClientInit;
 import org.epzilla.client.xml.ServerSettingsReader;
 import org.epzilla.dispatcher.ui.CustomGridLayout;
+import org.epzilla.util.Logger;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -593,10 +594,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         }
     }
 
-    public void setResults(String str) {
-        txtResults.setText(str);
-    }
-
     public void cancelSend() {
         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel the Process", "Epzilla", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == JOptionPane.YES_OPTION) {
@@ -618,13 +615,13 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
                 ClientHandler.registerClient(clientIP, clientID);
                 isRegister = true;
             } catch (RemoteException e) {
-//                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
+                Logger.error("Remote: ", e);
             } catch (MalformedURLException e) {
-//                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
+                Logger.error("Malformed: ", e);
             } catch (NotBoundException e) {
-//                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
+                Logger.error("Not bound: ", e);
             } catch (UnknownHostException e) {
-//                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
+                Logger.error("Host: ", e);
             }
         }
     }
@@ -729,7 +726,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             txtPort.setText(ar[1]);
             txtName.setText(ar[2]);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.error("Error in load setings: ", e);
         }
     }
 
@@ -746,7 +743,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         try {
             inetAddress = InetAddress.getLocalHost();
         } catch (java.net.UnknownHostException e) {
-            e.printStackTrace();
+            Logger.error("Error in getting IP address: ", e);
         }
         assert inetAddress != null;
         clientIP = inetAddress.getHostAddress();
