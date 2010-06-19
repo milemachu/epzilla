@@ -16,6 +16,8 @@ import java.rmi.Naming;
  */
 public class ClientStartup {
     private static String serviceName = "CLIENT";
+    private static int SPALSH_TIME = 3000;
+    private static int SLEEP_TIME = 1000;
     static ClientInterface obj;
 
     public static void bindClient() {
@@ -31,26 +33,26 @@ public class ClientStartup {
             Naming.rebind(url, obj);
             Logger.log("Client successfully deployed");
         } catch (Exception e) {
-            Logger.error("Client Start up:",e);
+            Logger.error("Client Start up:", e);
         }
     }
 
     private static void startRegistry() {
         try {
             Runtime.getRuntime().exec("rmiregistry");
-            Thread.sleep(1000);
+            Thread.sleep(SLEEP_TIME);
         }
         catch (IOException ex) {
-            Logger.error("RMI registry start:",ex);
+            Logger.error("RMI registry start:", ex);
         }
         catch (InterruptedException exc) {
-            Logger.error("RMI registry start: ",exc);
+            Logger.error("RMI registry start: ", exc);
         }
     }
 
     public static void main(String[] args) {
         bindClient();
-        SplashScreen sc = new SplashScreen(3000);
+        SplashScreen sc = new SplashScreen(SPALSH_TIME);
         sc.showSplashAndExit();
     }
 }
