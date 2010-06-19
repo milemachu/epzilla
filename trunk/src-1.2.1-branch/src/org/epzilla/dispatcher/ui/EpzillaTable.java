@@ -1,11 +1,7 @@
 package org.epzilla.dispatcher.ui;
 
 import javax.swing.*;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.util.Enumeration;
 
 public class EpzillaTable extends JPanel {
 
@@ -17,7 +13,7 @@ public class EpzillaTable extends JPanel {
         jt.setBackground(Color.black);
 //        jt.getTableHeader().setBackground(Color.black);
 //        jt.getTableHeader().setForeground(Color.white);
-        
+
         jt.setForeground(Color.white);
         jt.setDefaultRenderer(Object.class, new TableRenderer());
         jt.setDefaultRenderer(Integer.class, new TableRenderer());
@@ -26,10 +22,9 @@ public class EpzillaTable extends JPanel {
 //        jt.setDefaultRenderer(JTableHeader.class, new HeaderRenderer());
         jt.getTableHeader().setDefaultRenderer(new HeaderRenderer());
 //        jt.setBounds(new Rectangle(713, 340, 281, 170));
-        
+
         jt.setDragEnabled(false);
 
-      
 
         JScrollPane jsp = new JScrollPane(jt);
         jt.setFillsViewportHeight(true);
@@ -45,7 +40,7 @@ public class EpzillaTable extends JPanel {
 //            tc.setMaxWidth(80);
 //        }
 //        jsp.setBounds(new Rectangle(713, 340, 281, 170));
-                                     super.setBackground(Color.black);
+        super.setBackground(Color.black);
         super.add(jsp);
     }
 
