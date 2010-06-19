@@ -20,7 +20,7 @@ import java.util.HashMap;
  */
 public class TriggerSender {
     private static HashMap idMap = new HashMap<String, String>();
-//    private static ClusterInterface clusterObj;
+    private static String serviceName = "CLUSTER_NODE";
     private static String response = null;
     private static TriggerSender instance = new TriggerSender();
 
@@ -36,12 +36,11 @@ public class TriggerSender {
             ClusterInterface clusterObj = (ClusterInterface) idMap.get(serverIp);
             sendTriggers(clusterObj, triggers, clusterID, clientID);
         } else {
-            ClusterInterface clusterObj = initCluster(serverIp, "CLUSTER_NODE");
+            ClusterInterface clusterObj = initCluster(serverIp, serviceName);
             sendTriggers(clusterObj, triggers, clusterID, clientID);
         }
 
     }
-
 
 
     public static void requestTriggerDeletion(String serverIp, String clusterID, ArrayList<TriggerRepresentation> triggers, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
@@ -49,7 +48,7 @@ public class TriggerSender {
             ClusterInterface clusterObj = (ClusterInterface) idMap.get(serverIp);
             deleteTriggers(clusterObj, triggers, clusterID, clientID);
         } else {
-            ClusterInterface clusterObj = initCluster(serverIp, "CLUSTER_NODE");
+            ClusterInterface clusterObj = initCluster(serverIp, serviceName);
             deleteTriggers(clusterObj, triggers, clusterID, clientID);
         }
 
@@ -65,7 +64,7 @@ public class TriggerSender {
 
     private static void sendTriggers(ClusterInterface co, ArrayList<TriggerRepresentation> triggers, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
         String response = co.acceptTiggerStream(triggers);
-        TriggerLog.writeTolog(clientID,clusterID, triggers);
+        TriggerLog.writeTolog(clientID, clusterID, triggers);
         if (response != null) {
             Logger.log("Triggers send to the cluster");
         } else {
