@@ -11,13 +11,6 @@ import java.util.TimerTask;
 
 import static java.awt.Color.*;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Chathura
- * Date: Jun 14, 2010
- * Time: 8:20:02 PM
- * To change this template use File | Settings | File Templates.
- */
 public class CpuAnalyzer extends JPanel {
 
     public CpuAnalyzer() {
@@ -47,6 +40,9 @@ public class CpuAnalyzer extends JPanel {
         private Color gColor = new Color(46, 139, 87);
         private Color plotColor = new Color(0, 100, 0);
         java.util.Timer timer = new java.util.Timer();
+        private int UPDATE_SERVICE_RUNNING_TIME = 500;
+        private int INITIAL_START_TIME = 100;
+
 
         public DisplayPanel() {
             setBackground(BLACK);
@@ -71,7 +67,7 @@ public class CpuAnalyzer extends JPanel {
                     }
                     repaint();
                 }
-            }, 10, 500);
+            }, INITIAL_START_TIME, UPDATE_SERVICE_RUNNING_TIME);
         }
 
         public void paint(Graphics g) {
@@ -86,11 +82,11 @@ public class CpuAnalyzer extends JPanel {
             //get the CPU usage of the machine
             float cpuUsage = (float) CpuMemAnalyzer.getCpuUsage();
             float total = 100;
-            float freeCpu = total-cpuUsage;
+            float freeCpu = total - cpuUsage;
 
             graphics.setColor(GREEN);
 //            graphics.drawString(String.valueOf((int) total / 1024) + "K allocated", 4.0f, (float) aH + 0.5f);
-            name = String.valueOf(((int) (total-freeCpu)) )
+            name = String.valueOf(((int) (total - freeCpu)))
                     + " % ";
             graphics.drawString(name, 4, h - dH);
 

@@ -5,6 +5,7 @@ import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.dispatcher.dataManager.RecoveredTriggers;
 import org.epzilla.dispatcher.logs.ReadLog;
 import org.epzilla.dispatcher.xml.ServerSettingsReader;
+import org.epzilla.util.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -102,17 +103,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
         });
     }
 
-    private JPanel getMainPanel() {
-//           if (mainPanel == null) {
-//               JPanel tabPanel = new JPanel();
-//               JPanel dataPanel = new JPanel();
-//               tabPanel.add(getMyTabbedPane());
-//               tabPanel.setBounds(0,0,700,768);
-//               dataPanel.setBounds(700,0,324,768);
-//           }
-        return mainPanel;
-    }
-
     private JTabbedPane getMyTabbedPane() {
         if (tabbedPane == null) {
             ImageIcon settingsIcon = new ImageIcon("images//settings.jpg");
@@ -197,7 +187,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JPanel getSummeryTab() {
         if (summary == null) {
             JLabel lblClusterPer = new JLabel();
-            lblClusterPer.setBounds(new Rectangle(713, 313, 151,25 ));
+            lblClusterPer.setBounds(new Rectangle(713, 313, 151, 25));
             lblClusterPer.setText("Cluster Performance:");
             JLabel lblOutEC = new JLabel();
             lblOutEC.setBounds(new Rectangle(220, 553, 138, 25));
@@ -768,12 +758,13 @@ public class DispatcherUI extends JFrame implements ActionListener {
                 } else
                     JOptionPane.showMessageDialog(null, "Dispatcher already registered", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
             } catch (MalformedURLException e) {
+                Logger.error("Dispatcher registration error:", e);
             } catch (RemoteException e) {
                 DispatcherUIController.appendResults("Name Service not working...");
             } catch (UnknownHostException e) {
-//                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
+                Logger.error("Dispatcher registration error:", e);
             } catch (NotBoundException e) {
-//                JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
+                Logger.error("Dispatcher registration error:", e);
             }
 
         }

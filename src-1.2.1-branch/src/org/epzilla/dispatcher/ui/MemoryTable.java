@@ -41,6 +41,9 @@ public class MemoryTable extends JPanel {
         private Color gColor = new Color(46, 139, 87);
         private Color plotColor = new Color(0, 100, 0);
         java.util.Timer timer = new java.util.Timer();
+        private int UPDATE_SERVICE_RUNNING_TIME = 500;
+        private int INITIAL_START_TIME = 3000;
+
 
         public DisplayPanel() {
             setBackground(BLACK);
@@ -65,7 +68,7 @@ public class MemoryTable extends JPanel {
                     }
                     repaint();
                 }
-            }, 3000, 500);
+            }, INITIAL_START_TIME, UPDATE_SERVICE_RUNNING_TIME);
         }
 
         public void paint(Graphics g) {
@@ -79,7 +82,7 @@ public class MemoryTable extends JPanel {
 
             float currentRate = EventsCounter.getEventDispatchRate();
             float maxRate = EventsCounter.getMaxRate();
-            float free = maxRate-currentRate;
+            float free = maxRate - currentRate;
 
             graphics.setColor(GREEN);
 //            graphics.drawString(String.valueOf((int) maxRate) + " Maximun (Evt/sec)", 4.0f, (float) aH + 0.5f);
