@@ -90,9 +90,9 @@ public class NodeUIController {
     public static void getRemoveNodeBtn(){
         instance.getRemoveNodeButton().setVisible(false);
     }
-//    public static void main(String[] args){
-//        InitializeUI();
-//    }
+    public static void main(String[] args){
+        InitializeUI();
+    }
 }
 
 
