@@ -24,6 +24,8 @@ public class NotificationManager {
 }
 
 class TimerTaskN {
+    private int INITIAL_TIME_INTERVAL = 10000;
+    private int UPDATE_TIME_INTERVAL = 10000;
 
     public TimerTaskN() {
         final java.util.Timer timer1 = new java.util.Timer();
@@ -34,7 +36,7 @@ class TimerTaskN {
                 AccumulatorUIControler.appendEventprocessed(text);
                 System.gc();
             }
-        }, 10000, 10000);
+        }, INITIAL_TIME_INTERVAL, UPDATE_TIME_INTERVAL);
 
 
     }

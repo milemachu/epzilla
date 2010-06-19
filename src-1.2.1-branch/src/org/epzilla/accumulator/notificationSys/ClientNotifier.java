@@ -25,6 +25,9 @@ public class ClientNotifier {
     private static ConcurrentLinkedQueue<String> alertQueue = new ConcurrentLinkedQueue<String>();
     private static Thread runner;
     private static boolean isInit = false;
+    private static int INITIAL_TIME_INTERVAL = 0;
+    private static int UPDATE_TIME_INTERVAL = 10000;
+    private static String serviceName = "CLIENT";
 
     public ClientNotifier() {
 
@@ -60,7 +63,7 @@ public class ClientNotifier {
             }
         } else {
             String clientIP = generateClientIP(clientID);
-            ClientInterface clientObj = initClient(clientID, clientIP, "CLIENT");
+            ClientInterface clientObj = initClient(clientID, clientIP, serviceName);
             response = clientObj.notifyClient(notification);
             if (response != null) {
                 Logger.log("Notifications send to the client");
@@ -72,7 +75,7 @@ public class ClientNotifier {
     }
 
     public static void initSendAlert() {
-        isInit  = true;
+        isInit = true;
         runner = new Thread(new Runnable() {
             public void run() {
                 while (true) {
@@ -84,17 +87,17 @@ public class ClientNotifier {
                             String alert = st.nextToken();
                             String id = st.nextToken();
                             sendAlertMsg(alert, id);
-                            Thread.sleep(0, 10000);
+                            Thread.sleep(INITIAL_TIME_INTERVAL, UPDATE_TIME_INTERVAL);
                         }
 
                     } catch (RemoteException e) {
-//                        e.printStackTrace();
+                        Logger.error("", e);
                     } catch (MalformedURLException e) {
-//                        e.printStackTrace();
+                        Logger.error("", e);
                     } catch (NotBoundException e) {
-//                        e.printStackTrace();
+                        Logger.error("", e);
                     } catch (InterruptedException e) {
-//                        e.printStackTrace();
+                        Logger.error("", e);
                     }
                 }
             }
@@ -127,19 +130,5 @@ public class ClientNotifier {
         }
         clientIp = cIP.toString();
         return clientIp;
-    }
-    //method for testing the notification system
-
-    public static void main(String[] args) {
-
-        try {
-            for (int i = 0; i < 10; i++) {
-                addAlertMessage("Alert " + i, "127000000001");
-                Thread.sleep(100);
-            }
-            initSendAlert();
-        } catch (InterruptedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
     }
 }
