@@ -24,8 +24,10 @@ public class ClientInit extends Thread {
     private static DispInterface di;
     private static Thread trigger;
     private static Thread events;
+    private static String dispIP;
     private static HashMap<String, Object> dispMap = new HashMap<String, Object>();
-    private static volatile boolean isLive = true;
+    private static volatile boolean isTriggersLive = true;
+    private static volatile boolean isEventsLive = true;
     private static int eventsSeqID = 1;
     private static boolean dynamicLookup = false;
     private static int sendingIntervalEvent;
@@ -48,14 +50,28 @@ public class ClientInit extends Thread {
     public static void initSend(String ip, String name, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         lookUp(ip, name);
         ClientInit.clientID = clientID;
-        isLive = true;
-        dynamicLookup = false;
+        ClientInit.dispIP = ip;
         loadSettings();
-        initSendTriggerStream(ip);
-        initSendEventsStream(ip);
+//        isTriggersLive = true;
+//        dynamicLookup = false;
+//        initSendTriggerStream(ip);
+//        initSendEventsStream(ip);
+//        trigger.start();
+//        events.start();
+    }
+
+    public static void initTrigers() {
+        isTriggersLive = true;
+        initSendTriggerStream(dispIP);
         trigger.start();
+        ClientUIControler.appendResults("Start Trigger sending process....");
+    }
+
+    public static void initEvents() {
+        isEventsLive = true;
+        initSendEventsStream(dispIP);
         events.start();
-        ClientUIControler.appendResults("Start Event/ Trigger sending process....");
+        ClientUIControler.appendResults("Start Event sending process....");
     }
 
     public static void initSendTriggerStream(final String ip) {
@@ -80,7 +96,7 @@ public class ClientInit extends Thread {
                     response = di.uploadTriggersToDispatcher(triggers, clientID, triggerSeqID);
                 } catch (RemoteException e) {
                     ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
-                    isLive = false;
+                    isTriggersLive = false;
                 }
 
                 if (response != null) {
@@ -93,7 +109,7 @@ public class ClientInit extends Thread {
                 }
 
 
-                while (isLive) {
+                while (isTriggersLive) {
                     triggers = new ArrayList<String>();
                     for (int i = 0; i < 5; i++) {
                         triggers.add(EventTriggerGenerator.getNextTrigger());
@@ -102,7 +118,7 @@ public class ClientInit extends Thread {
                         response = di.uploadTriggersToDispatcher(triggers, clientID, triggerSeqID);
                     } catch (RemoteException e) {
                         ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
-                        isLive = false;
+                        isTriggersLive = false;
                         initDLookup();
                     }
 
@@ -134,7 +150,7 @@ public class ClientInit extends Thread {
 
                 di = (DispInterface) dispMap.get(ip);
 
-                while (isLive) {
+                while (isEventsLive) {
                     String event = EventTriggerGenerator.getNextEvent();
                     try {
                         response = di.uploadEventsToDispatcher(event, clientID, eventsSeqID);
@@ -142,10 +158,9 @@ public class ClientInit extends Thread {
                         try {
                             Thread.sleep(sendingIntervalEvent);
                         } catch (InterruptedException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                         }
                     } catch (RemoteException e) {
-                        isLive = false;
+                        isEventsLive = false;
                         ClientUIControler.appendResults("Connection to the Dispatcher service failed, events sending stoped, Perform Lookup operation.." + "\n");
                         initDLookup();
                     }
@@ -176,8 +191,12 @@ public class ClientInit extends Thread {
         }
     }
 
-    public static void stopEventTriggerStream() {
-        isLive = false;
+    public static void stopTriggerStream() {
+        isTriggersLive = false;
+    }
+
+    public static void stopEventStream() {
+        isEventsLive = false;
     }
 
     private static void setDispatcherObj(Object obj) {
