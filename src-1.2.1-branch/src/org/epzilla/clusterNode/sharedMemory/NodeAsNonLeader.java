@@ -8,12 +8,12 @@ import jstm.transports.clientserver.ConnectionInfo;
 import java.util.Set;
 import java.util.TimerTask;
 
-import net.epzilla.node.query.QuerySyntaxException;
 import org.epzilla.clusterNode.clusterInfoObjectModel.ClusterObjectModel;
 import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
 import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
 import org.epzilla.clusterNode.clusterInfoObjectModel.PerformanceInfoObject;
 import org.epzilla.clusterNode.NodeController;
+import org.epzilla.clusterNode.leaderReg.ClusterStartup;
 import org.epzilla.clusterNode.processor.EventProcessor;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
@@ -186,8 +186,8 @@ public class NodeAsNonLeader {
                     this.cancel();
                     isActive=false;
                     //Initializing LE
-                    org.epzilla.clusterNode.leaderReg.Main.triggerLEFromRemote();
-                    org.epzilla.clusterNode.leaderReg.Main.startSTM();
+                    ClusterStartup.triggerLEFromRemote();
+                    ClusterStartup.startSTM();
                 }
             }
         }, 10, 1000);

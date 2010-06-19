@@ -12,7 +12,7 @@ import org.epzilla.clusterNode.dataManager.ClusterIPManager;
 import org.epzilla.clusterNode.dataManager.EventsManager;
 import org.epzilla.clusterNode.dataManager.PerformanceInfoManager;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
-import org.epzilla.clusterNode.leaderReg.Main;
+import org.epzilla.clusterNode.leaderReg.ClusterStartup;
 import org.epzilla.clusterNode.processor.EventProcessor;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.clusterNode.xml.ClusterSettingsReader;
@@ -230,7 +230,7 @@ public class NodeAsLeader {
 
                     //send perfomance info
                     try {
-                        Main.sendInfo(cpuResult, memResult);
+                        ClusterStartup.sendInfo(cpuResult, memResult);
                         NodeUIController.appendTextToStatus("Performance Info Sent to Dispatcher...");
                     } catch (Exception e) {
                         NodeUIController.appendTextToStatus("Cannot Reach Dispatcher");
