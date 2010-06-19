@@ -82,7 +82,7 @@ public class MemoryTable extends JPanel {
             float free = maxRate-currentRate;
 
             graphics.setColor(GREEN);
-            graphics.drawString(String.valueOf((int) maxRate) + " Maximun (Evt/sec)", 4.0f, (float) aH + 0.5f);
+//            graphics.drawString(String.valueOf((int) maxRate) + " Maximun (Evt/sec)", 4.0f, (float) aH + 0.5f);
             name = String.valueOf(((int) (maxRate - free)))
                     + " (Evt/sec)";
             graphics.drawString(name, 4, h - dH);
