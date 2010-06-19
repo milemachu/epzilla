@@ -43,7 +43,8 @@ public class WakeNode {
                 NodeUIController.appendTextToStatus("There are no idle Nodes to wake up...");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+             NodeUIController.appendTextToStatus("There are no idle Nodes to wake up...");
         }
         success = false;
     }

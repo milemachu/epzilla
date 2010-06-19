@@ -43,7 +43,8 @@ public class SleepNode {
                 NodeUIController.appendTextToStatus("There aren't any  Nodes to Sleep...");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            NodeUIController.appendTextToStatus("There aren't any  Nodes to Sleep...");
         }
     }
 
