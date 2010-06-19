@@ -1,11 +1,13 @@
 package org.epzilla.dispatcher.dataManager;
 
 import org.epzilla.dispatcher.clusterHandler.EventSender;
+import org.epzilla.util.Logger;
 
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,12 +20,13 @@ public class EventManager {
     private static ArrayList<String> ipArr = new ArrayList<String>();
     private static ArrayList<String> idArr = new ArrayList<String>();
     private static boolean isLoaded = false;
+    static java.util.Timer timer = new java.util.Timer();
+    private static int UPDATE_SERVICE_RUNNING_TIME = 60000;
+    private static int INITIAL_START_TIME = 3000;
+
 
     public static void sendEvents(byte[] event, String clientID) {
-        if (!isLoaded) {
-            loadClusterDetails();
-        }
-
+        loadClusterDetails();
         try {
             for (int i = 0; i < ipArr.size(); i++) {
                 EventSender.sendEvent(event, ipArr.get(i), idArr.get(i), clientID);
@@ -31,19 +34,24 @@ public class EventManager {
             EventsCounter.setOutEventCount();
 
         } catch (MalformedURLException e) {
-            System.err.println(e);
+            Logger.error("Event send error:", e);
         } catch (NotBoundException e) {
-            System.err.println(e);
+            Logger.error("Event send error:", e);
         } catch (RemoteException e) {
-            System.err.println(e);
+            Logger.error("Event send error:", e);
         }
 
     }
 
-    private static void loadClusterDetails() {
+    public static void loadClusterDetails() {
 
-        ipArr = ClusterLeaderIpListManager.getClusterIpList();
-        idArr = ClusterLeaderIpListManager.getClusterIdList();
-        isLoaded = true;
+        timer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                ipArr = ClusterLeaderIpListManager.getClusterIpList();
+                idArr = ClusterLeaderIpListManager.getClusterIdList();
+            }
+        }, INITIAL_START_TIME, UPDATE_SERVICE_RUNNING_TIME);
     }
+
+
 }
