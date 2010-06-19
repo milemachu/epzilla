@@ -1,6 +1,7 @@
 package org.epzilla.client.rmi;
 
 import org.epzilla.client.controlers.ClientUIControler;
+import org.epzilla.util.Logger;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -19,7 +20,7 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface {
     public ClientImpl() throws RemoteException {
     }
 
-   
+
     public String notifyClient(byte[] notifications) {
         try {
             String alert = new String(notifications);
@@ -29,7 +30,7 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface {
             t.start();
             return "OK";
         } catch (Exception ex) {
-
+            Logger.error("", ex);
         }
         return null;
     }
