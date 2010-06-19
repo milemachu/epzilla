@@ -531,7 +531,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             workBenchPanel = new JPanel();
         }
 
-        workBenchPanel.setLayout(new CustomGridLayout(new String[]{"80", "5", "100%", "10", "90"}, new String[]{"100%"}));
+        workBenchPanel.setLayout(new CustomGridLayout(new String[]{"10", "150", "100%", "10", "90"}, new String[]{"100%"}));
         JPanel sendPanel = new JPanel(new CustomGridLayout(new String[]{"100%"}, new String[]{"30", "100%"}));
         sendPanel.setOpaque(false);
 
@@ -551,16 +551,17 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
         sendPanel.add(sendQueryBtn);
         labelPanel.add(lblQuery);
-        workBenchPanel.add(labelPanel);
         JLabel jlx = new JLabel();
         jlx.setOpaque(false);
         workBenchPanel.add(jlx);
+        workBenchPanel.add(labelPanel);
+        
         workBenchPanel.add(txtQuery);
         jlx = new JLabel();
         jlx.setOpaque(false);
         workBenchPanel.add(jlx);
         workBenchPanel.add(sendPanel);
-        workBenchPanel.setBounds(new Rectangle(5, 400, 500, 100));
+        workBenchPanel.setBounds(new Rectangle(5, 400, 550, 100));
         workBenchPanel.setOpaque(false);
 
         return workBenchPanel;
