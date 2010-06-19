@@ -2,6 +2,7 @@ package org.epzilla.dispatcher.clusterHandler;
 
 import org.epzilla.dispatcher.logs.WriteLog;
 import org.epzilla.dispatcher.rmi.TriggerRepresentation;
+import org.epzilla.util.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class TriggerLog {
             }
             WriteLog.writeInit(list, clientID, clusterID);
         } catch (IOException e) {
+            Logger.error("Logging Error: ",e);
         }
 
     }
