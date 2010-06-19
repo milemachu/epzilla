@@ -46,20 +46,6 @@ public class RBLoadBalancer {
         Arrays.sort(myArray, myComparator);
         return (String) ((Map.Entry) myArray[0]).getKey();
     }
-
-//    private static void updateProcess(final String ipAddress) {
-//        runner = new Thread(new Runnable() {
-//            public void run() {
-//                if (ipTable.containsKey(ipAddress)) {
-//                    loadFactor = ipTable.get(ipAddress);
-//                    loadFactor++;
-//                }
-//                ipTable.remove(ipAddress);
-//                ipTable.put(ipAddress, loadFactor);
-//
-//            }
-//        });
-//    }
 }
 
 class IpComparator implements Comparator {
