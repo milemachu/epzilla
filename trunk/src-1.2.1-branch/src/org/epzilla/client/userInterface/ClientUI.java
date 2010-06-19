@@ -444,6 +444,9 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         if (simulatorPanel == null) {
             simulatorPanel = new JPanel(new CustomGridLayout(new String[]{"40%", "10", "30%", "20", "30%"}, new String[]{"25", "50%", "10", "50%"}));
         }
+        dispIP = txtDispIP.getText();
+        dispName = txtDispName.getText();
+
         ImageIcon cancelIcon = new ImageIcon("images//cancel.jpg");
         ImageIcon startIcon = new ImageIcon("images//start.jpg");
 
@@ -463,6 +466,10 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             @Override
             public void actionPerformed(ActionEvent e) {
                 // code to start trigger generation
+                if ((dispIP.length() == 0) && (dispName.length() == 0)) {
+                    JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 ClientInit.initTrigers();
             }
         });
@@ -497,6 +504,10 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             @Override
             public void actionPerformed(ActionEvent e) {
                 //code for event generation
+                if ((dispIP.length() == 0) && (dispName.length() == 0)) {
+                    JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 ClientInit.initEvents();
             }
         });
@@ -555,7 +566,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         jlx.setOpaque(false);
         workBenchPanel.add(jlx);
         workBenchPanel.add(labelPanel);
-        
+
         workBenchPanel.add(txtQuery);
         jlx = new JLabel();
         jlx.setOpaque(false);
@@ -698,7 +709,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         if ((dispIP.length() != 0) && (dispName.length() != 0)) {
             try {
                 ClientInit.initSend(dispIP, dispName, clientID);
-                btnCancelSend.setEnabled(true);
+                JOptionPane.showMessageDialog(null, "Successfully connected to the Dispatcher", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
             } catch (MalformedURLException e) {
                 JOptionPane.showMessageDialog(null, "Error in file send process.", "Epzilla", JOptionPane.ERROR_MESSAGE);
             } catch (NotBoundException e) {
@@ -802,10 +813,14 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         } else if (source == about) {
             showAbout();
         } else if (source == sendQueryBtn) {
-            if (!txtQuery.getText().equalsIgnoreCase("")) {
-                ClientInit.sendCustomTriggers(this.txtQuery.getText());
-            } else if (txtQuery.getText().equalsIgnoreCase("")) {
-                JOptionPane.showMessageDialog(null, "Enter a query to proceed..", "Epzilla", JOptionPane.ERROR_MESSAGE);
+            dispIP = txtDispIP.getText();
+            dispName = txtDispName.getText();
+            if ((dispIP.length() != 0) && (dispName.length() != 0)) {
+                if (!txtQuery.getText().equalsIgnoreCase("")) {
+                    ClientInit.sendCustomTriggers(this.txtQuery.getText());
+                } else if (txtQuery.getText().equalsIgnoreCase("")) {
+                    JOptionPane.showMessageDialog(null, "Enter a query to proceed..", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }
