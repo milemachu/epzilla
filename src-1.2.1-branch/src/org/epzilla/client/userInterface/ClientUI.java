@@ -444,6 +444,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         if (simulatorPanel == null) {
             simulatorPanel = new JPanel(new CustomGridLayout(new String[]{"40%", "10", "30%", "20", "30%"}, new String[]{"25", "50%", "10", "50%"}));
         }
+        ImageIcon cancelIcon = new ImageIcon("images//cancel.jpg");
+        ImageIcon startIcon = new ImageIcon("images//start.jpg");
 
         simulatorPanel.add(new JLabel("Simulations:"));
         simulatorPanel.add(new JLabel());
@@ -455,7 +457,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         simulatorPanel.add(new JLabel("Triggers:"));
         simulatorPanel.add(new JLabel());
 
-        JButton jb1 = new JButton("Start");
+        JButton jb1 = new JButton(startIcon);
+        jb1.setText("Start");
         jb1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -466,8 +469,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         simulatorPanel.add(jb1);
         simulatorPanel.add(new JLabel());
 
-
-        JButton jb2 = new JButton("Stop");
+        JButton jb2 = new JButton(cancelIcon);
+        jb2.setText("Stop");
         jb2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -488,7 +491,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         simulatorPanel.add(new JLabel());
 
 
-        JButton jb3 = new JButton("Start");
+        JButton jb3 = new JButton(startIcon);
+        jb3.setText("Start");
         jb3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -501,7 +505,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         simulatorPanel.add(new JLabel());
 
 
-        JButton jb4 = new JButton("Stop");
+        JButton jb4 = new JButton(cancelIcon);
+        jb4.setText("Stop");
         jb4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -796,7 +801,11 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         } else if (source == about) {
             showAbout();
         } else if (source == sendQueryBtn) {
-            ClientInit.sendCustomTriggers(this.txtQuery.getText());
+            if (!txtQuery.getText().equalsIgnoreCase("")) {
+                ClientInit.sendCustomTriggers(this.txtQuery.getText());
+            } else if (txtQuery.getText().equalsIgnoreCase("")) {
+                JOptionPane.showMessageDialog(null, "Enter a query to proceed..", "Epzilla", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
