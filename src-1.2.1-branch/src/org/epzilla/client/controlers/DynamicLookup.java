@@ -1,6 +1,7 @@
 package org.epzilla.client.controlers;
 
 import org.epzilla.nameserver.NameService;
+import org.epzilla.util.Logger;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -33,7 +34,7 @@ public class DynamicLookup {
                 }
             }
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Logger.error("",e);
         }
     }
 
