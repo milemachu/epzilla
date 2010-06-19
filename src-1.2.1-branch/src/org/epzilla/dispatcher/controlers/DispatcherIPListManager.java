@@ -15,6 +15,9 @@ import java.util.TimerTask;
  * To change this template use File | Settings | File Templates.
  */
 public class DispatcherIPListManager {
+    private static int UPDATE_SERVICE_RUNNING_TIME = 30000;
+    private static int INITIAL_START_TIME = 5000;
+
     public static void Initialize() {
         addDispatcherIps();
         addClusterIps();
@@ -48,7 +51,7 @@ public class DispatcherIPListManager {
 //                    }
                 }
             }
-        }, 5000, 30000);
+        }, INITIAL_START_TIME, UPDATE_SERVICE_RUNNING_TIME);
     }
 
     public static void addClusterIps() {
@@ -68,6 +71,6 @@ public class DispatcherIPListManager {
                 System.gc();
 
             }
-        }, 5000, 10000);
+        }, INITIAL_START_TIME, UPDATE_SERVICE_RUNNING_TIME);
     }
 }
