@@ -178,10 +178,12 @@ public class ClientInit extends Thread {
 
     public static void sendCustomTriggers(String trigger) {
         String response = null;
-        di = (DispInterface) dispMap.get(dispIP);
-        ArrayList<String> triggers = new ArrayList<String>();
-        triggers.add(trigger);
+        
         try {
+
+            di = (DispInterface) dispMap.get(dispIP);
+            ArrayList<String> triggers = new ArrayList<String>();
+            triggers.add(trigger);
             response = di.uploadTriggersToDispatcher(triggers, clientID, 1);
         } catch (RemoteException e) {
             ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
