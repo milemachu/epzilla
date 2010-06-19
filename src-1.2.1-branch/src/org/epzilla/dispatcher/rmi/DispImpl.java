@@ -157,7 +157,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
             ClusterLeaderIpListManager.addIP("" + id, ip);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error("Cluster Leader IP:",e);
         }
     }
 
@@ -171,7 +171,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
             dispID = dispatcherID;
             isIDGen = true;
         } catch (UnknownHostException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            Logger.error("Generating Dispatcher ID:",e);
         }
 
     }
