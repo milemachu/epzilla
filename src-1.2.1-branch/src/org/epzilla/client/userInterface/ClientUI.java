@@ -582,7 +582,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel the Process", "Epzilla", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == JOptionPane.YES_OPTION) {
             btnCancelSend.setEnabled(false);
-            ClientInit.stopEventTriggerStream();
+//            ClientInit.stopEventTriggerStream();
         }
 
     }
