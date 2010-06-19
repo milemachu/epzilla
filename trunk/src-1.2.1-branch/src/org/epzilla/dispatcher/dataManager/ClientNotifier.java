@@ -20,13 +20,14 @@ public class ClientNotifier {
     private static HashMap clientMap = new HashMap<String, String>();
     private static ClientInterface clientObj;
     private static String response = null;
+    private static String SERVICE_NAME = "CLIENT";
 
-    public static void acceptNotifications(String serverIp,String notifications) throws MalformedURLException, NotBoundException, RemoteException {
+    public static void acceptNotifications(String serverIp, String notifications) throws MalformedURLException, NotBoundException, RemoteException {
         if (clientMap.containsKey(serverIp)) {
-            clientObj= (ClientInterface) clientMap.get(serverIp);
+            clientObj = (ClientInterface) clientMap.get(serverIp);
             sendNotifications(notifications);
         } else {
-            initClient(serverIp, "CLIENT");
+            initClient(serverIp, SERVICE_NAME);
             sendNotifications(notifications);
         }
     }
