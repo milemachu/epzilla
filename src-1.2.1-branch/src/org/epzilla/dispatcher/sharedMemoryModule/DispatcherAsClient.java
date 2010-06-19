@@ -9,11 +9,10 @@ import java.util.TimerTask;
 
 
 import net.epzilla.stratification.dynamic.DynamicDependencyManager;
-import org.epzilla.dispatcher.Main;
+import org.epzilla.dispatcher.DispatcherStartup;
 import org.epzilla.dispatcher.dataManager.*;
 import org.epzilla.dispatcher.controlers.*;
 import org.epzilla.dispatcher.dispatcherObjectModel.*;
-import org.epzilla.dispatcher.rmi.DispatcherService;
 
 
 /**
@@ -193,8 +192,8 @@ public class DispatcherAsClient {
                     DispatcherUIController.appendTextToStatus("Server Status..." + client.getStatus().toString());
                     this.cancel();
                     isActive = false;
-                    Main.triggerLEFromRemote();
-                    Main.InitSTM();
+                    DispatcherStartup.triggerLEFromRemote();
+                    DispatcherStartup.InitSTM();
                 }
             }
         }, 10, 1000);
