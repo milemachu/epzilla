@@ -18,7 +18,7 @@ public class EventsCounter {
     public static int lastOut = 0;
     static TimerTaskC timer = new TimerTaskC();
     public static int dispatchRate;
-    public static int maxDispatchRate=1000;
+    public static int maxDispatchRate = 1000;
 
     public EventsCounter() {
     }
@@ -49,6 +49,8 @@ public class EventsCounter {
 }
 
 class TimerTaskC {
+    private int UPDATE_SERVICE_RUNNING_TIME = 10000;
+    private int INITIAL_START_TIME = 10;
 
     public TimerTaskC() {
         final java.util.Timer timer1 = new java.util.Timer();
@@ -56,7 +58,7 @@ class TimerTaskC {
             @Override
             public void run() {
                 int rate = (EventsCounter.countOut - EventsCounter.lastOut) / 10;
-                if(rate>EventsCounter.getMaxRate()) {
+                if (rate > EventsCounter.getMaxRate()) {
                     EventsCounter.setMaxRate(rate);
                 }
                 String textRate;
@@ -76,7 +78,7 @@ class TimerTaskC {
                 EventsCounter.lastOut = EventsCounter.countOut;
                 System.gc();
             }
-        }, 10, 10000);
+        }, INITIAL_START_TIME, UPDATE_SERVICE_RUNNING_TIME);
 
 
     }
