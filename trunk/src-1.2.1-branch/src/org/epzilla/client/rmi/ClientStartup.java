@@ -31,7 +31,7 @@ public class ClientStartup {
             Naming.rebind(url, obj);
             Logger.log("Client successfully deployed");
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error("Client Start up:",e);
         }
     }
 
@@ -41,8 +41,10 @@ public class ClientStartup {
             Thread.sleep(1000);
         }
         catch (IOException ex) {
+            Logger.error("RMI registry start:",ex);
         }
         catch (InterruptedException exc) {
+            Logger.error("RMI registry start: ",exc);
         }
     }
 
