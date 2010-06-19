@@ -60,12 +60,16 @@ public class ClientInit extends Thread {
 //        events.start();
     }
 
+    //initialize trigger simulation
+
     public static void initTrigers() {
         isTriggersLive = true;
         initSendTriggerStream(dispIP);
         trigger.start();
         ClientUIControler.appendResults("Start Trigger sending process....");
     }
+
+    //initialize the events simulation
 
     public static void initEvents() {
         isEventsLive = true;
@@ -119,7 +123,6 @@ public class ClientInit extends Thread {
                     } catch (RemoteException e) {
                         ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
                         isTriggersLive = false;
-                        initDLookup();
                     }
 
                     if (response != null) {
@@ -162,7 +165,6 @@ public class ClientInit extends Thread {
                     } catch (RemoteException e) {
                         isEventsLive = false;
                         ClientUIControler.appendResults("Connection to the Dispatcher service failed, events sending stoped, Perform Lookup operation.." + "\n");
-                        initDLookup();
                     }
 
                     if (response != null) {
@@ -171,6 +173,23 @@ public class ClientInit extends Thread {
                 }
             }
         });
+    }
+    // accept use input triggers
+
+    public static void sendCustomTriggers(String trigger) {
+        String response = null;
+        di = (DispInterface) dispMap.get(dispIP);
+        ArrayList<String> triggers = new ArrayList<String>();
+        triggers.add(trigger);
+        try {
+            response = di.uploadTriggersToDispatcher(triggers, clientID, 1);
+        } catch (RemoteException e) {
+            ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
+        }
+
+        if (response != null) {
+            ClientUIControler.appendResults("Dispatcher Received the Trigger Stream" + "\n");
+        }
     }
 
     private static void initDLookup() {
