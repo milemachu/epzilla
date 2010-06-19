@@ -39,7 +39,7 @@ public class ClientTimeSettings {
                 lis.add(items);
             }
         } catch (Exception e) {
-           Logger.error("File reder error:",e);
+           Logger.error("File reader error:",e);
         }
         return lis;
     }
