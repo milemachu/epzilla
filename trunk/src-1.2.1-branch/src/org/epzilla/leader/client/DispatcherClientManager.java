@@ -8,6 +8,7 @@ import java.util.Hashtable;
 
 import org.epzilla.common.discovery.dispatcher.DispatcherDiscoveryManager;
 import org.epzilla.leader.Epzilla;
+import org.epzilla.util.Logger;
 
 
 public class DispatcherClientManager {
@@ -38,7 +39,7 @@ public class DispatcherClientManager {
 				DispatcherDiscoveryManager.setLeader(false);
 			DispatcherDiscoveryManager.setDispatcherLeader(dispatcherLeader);
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			Logger.error("",e);
 		}	
 	}
 	
@@ -72,7 +73,7 @@ public class DispatcherClientManager {
 			myIp=InetAddress.getLocalHost().getHostAddress();
 			discoveredSet.add(myIp);
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+            Logger.error("",e);
 		}
 		staticIpList.retainAll(discoveredSet);
 //		ArrayList<String> liveIpList=new ArrayList<String>(staticHT.values());
