@@ -109,7 +109,7 @@ public class ClientInit extends Thread {
                 try {
                     Thread.sleep(10000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Logger.error("Interrupted :",e);
                 }
 
 
@@ -131,7 +131,7 @@ public class ClientInit extends Thread {
                     try {
                         Thread.sleep(sendingIntervalTrigger);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Logger.error("Interrupted: ",e);
                     }
                 }
             }
@@ -148,7 +148,7 @@ public class ClientInit extends Thread {
                 try {
                     Thread.sleep(initIntervalEvent);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Logger.error("",e);
                 }
 
                 di = (DispInterface) dispMap.get(ip);
@@ -161,6 +161,7 @@ public class ClientInit extends Thread {
                         try {
                             Thread.sleep(sendingIntervalEvent);
                         } catch (InterruptedException e) {
+                            Logger.error("",e);
                         }
                     } catch (RemoteException e) {
                         isEventsLive = false;
