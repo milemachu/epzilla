@@ -2,6 +2,7 @@ package org.epzilla.dispatcher.rmi;
 
 import org.epzilla.dispatcher.xml.ServerSettingsReader;
 import org.epzilla.nameserver.NameService;
+import org.epzilla.util.Logger;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -50,7 +51,7 @@ public class DispLoadBalance {
             port = ar[1];
             serviceName = ar[2];
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.error("", e);
         }
     }
 }
