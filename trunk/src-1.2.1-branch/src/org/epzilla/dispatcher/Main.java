@@ -84,7 +84,7 @@ public class Main {
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error("",e);
         }
     }
 
