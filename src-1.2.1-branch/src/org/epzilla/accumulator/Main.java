@@ -3,10 +3,10 @@ package org.epzilla.accumulator;
 
 import org.epzilla.accumulator.service.AccumulatorService;
 import org.epzilla.accumulator.service.AccumulatorServiceImpl;
+import org.epzilla.accumulator.stm.AccumulatorAsClient;
+import org.epzilla.accumulator.stm.AccumulatorAsServer;
 import org.epzilla.accumulator.userinterface.AccumulatorUIControler;
 import org.epzilla.accumulator.util.OpenSecurityManager;
-import org.epzilla.accumulator.stm.AccumulatorAsServer;
-import org.epzilla.accumulator.stm.AccumulatorAsClient;
 import org.epzilla.util.Logger;
 
 import java.io.IOException;
@@ -22,15 +22,19 @@ import java.rmi.Naming;
  */
 public class Main {
     private static boolean isServer = true;
+    private static String SERVICE_NAME = "ACCUMULATOR_SERVICE";
+    private static int SLEEP_TIME = 1000;
 
     private static void startRegistry() {
         try {
             Runtime.getRuntime().exec("rmiregistry");
-            Thread.sleep(1000);
+            Thread.sleep(SLEEP_TIME);
         }
         catch (IOException ex) {
+            Logger.error("", ex);
         }
         catch (InterruptedException exc) {
+            Logger.error("", exc);
         }
     }
 
@@ -43,12 +47,12 @@ public class Main {
         try {
             InetAddress inetAddress = InetAddress.getLocalHost();
             String ipAddress = inetAddress.getHostAddress();
-            String url = "rmi://" + ipAddress + "/" + "ACCUMULATOR_SERVICE";
+            String url = "rmi://" + ipAddress + "/" + SERVICE_NAME;
             AccumulatorService obj = new AccumulatorServiceImpl();
             Naming.rebind(url, obj);
             Logger.log("Accumulator Service successfully deployed");
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error("", e);
         }
 
         AccumulatorUIControler.InitializeUI();

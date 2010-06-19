@@ -24,11 +24,11 @@ public class NotificationManager {
 }
 
 class TimerTaskN {
-    private int INITIAL_TIME_INTERVAL = 10000;
-    private int UPDATE_TIME_INTERVAL = 10000;
 
     public TimerTaskN() {
         final java.util.Timer timer1 = new java.util.Timer();
+        int INITIAL_TIME_INTERVAL = 10000;
+        int UPDATE_TIME_INTERVAL = 10000;
         timer1.schedule(new TimerTask() {
             @Override
             public void run() {
