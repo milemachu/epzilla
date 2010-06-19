@@ -518,6 +518,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         return simulatorPanel;
     }
 
+    private JTextArea txtQuery;
+
     //work bench panel
     private JPanel getWorkBenchPanel() {
         if (workBenchPanel == null) {
@@ -533,7 +535,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
         JLabel lblQuery = new JLabel("Enter query:");
 
-        JTextArea txtQuery = new JTextArea();
+        txtQuery = new JTextArea();
         txtQuery.setBackground(Color.BLACK);
         txtQuery.setForeground(Color.GREEN);
         txtQuery.setWrapStyleWord(true);
@@ -794,7 +796,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         } else if (source == about) {
             showAbout();
         } else if (source == sendQueryBtn) {
-            //logic to send query
+            ClientInit.sendCustomTriggers(this.txtQuery.getText());
         }
     }
 
