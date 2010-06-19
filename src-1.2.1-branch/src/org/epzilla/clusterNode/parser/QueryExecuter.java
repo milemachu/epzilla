@@ -52,24 +52,27 @@ public class QueryExecuter {
 
     public static void main(String[] args) throws QuerySyntaxException {
         QueryParser qp = new QueryParser();
-//        Query q = qp.parseQuery("SELECT avg(StockTrades.price), StockTrades.last  , min(StockTrades.price), StockTrades.amount RETAIN 10 EVENTS OUTPUT StkTrades");
-        Query q = qp.parseQuery(EventTriggerGenerator.generateStockDetailsTrigger());
+        Query q = qp.parseQuery("SELECT avg(StockTrades.price), StockTrades.last  , min(StockTrades.price), StockTrades.amount WHERE StockTrades.amound > 0 OUTPUT StkTrades");
+        for (String[] x : q.getConditions()) {
+            System.out.println(Arrays.toString(x));
+        }
+//        Query q = qp.parseQuery(EventTriggerGenerator.generateStockDetailsTrigger());
         QueryExecuter qe = new QueryExecuter();
         qe.addQuery(q);
 
 
-        for (int i = 0; i < 100; i++) {
-            qe.addQuery(EventTriggerGenerator.generateStockDetailsTrigger());
-        }
-
-        for (int i = 10; i > 0; i--) {
-            String x = EventTriggerGenerator.generateStockEvent();
-            System.out.println(x);
-            System.out.println("processed:");
-            System.out.println(qe.processEvent(x));
-        }
-
-        System.out.println("ev:" + qe.processEvent("DFCC\naskPrice,amount\n100,2\n23,2"));
+//        for (int i = 0; i < 100; i++) {
+//            qe.addQuery(EventTriggerGenerator.generateStockDetailsTrigger());
+//        }
+//
+//        for (int i = 10; i > 0; i--) {
+//            String x = EventTriggerGenerator.generateStockEvent();
+//            System.out.println(x);
+//            System.out.println("processed:");
+//            System.out.println(qe.processEvent(x));
+//        }
+//
+//        System.out.println("ev:" + qe.processEvent("DFCC\naskPrice,amount\n100,2\n23,2"));
 
 
     }
@@ -115,7 +118,7 @@ public class QueryExecuter {
                 if (lastOutputTitle == null || !q.getOutputTitle().equals(lastOutputTitle)) {
                     sb.append(q.getOutputTitle());
                     sb.append("\n");
-                    
+
                 }
                 lastOutputTitle = q.getOutputTitle();
                 String[] resHeaders = q.getResultHeaders();

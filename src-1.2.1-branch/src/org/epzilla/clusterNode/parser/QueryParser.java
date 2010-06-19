@@ -47,8 +47,12 @@ public class QueryParser {
 
         }
         String wherePart = null;
+        int tempIndex = outputIndex;
+        if (retainIndex > 0 && retainIndex < outputIndex) {
+            tempIndex = retainIndex;
+        }
         if (whereIndex > 0) {
-            wherePart = query.substring(whereIndex + 6, outputIndex);
+            wherePart = query.substring(whereIndex + 6, tempIndex);
         }
         String output = query.substring(outputIndex + 10, query.length());
 
