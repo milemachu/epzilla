@@ -142,7 +142,7 @@ public class NodeUI extends JFrame implements ActionListener {
     private JScrollPane getJScrollPane1() {
         if (jScrollPane1 == null) {
             jScrollPane1 = new JScrollPane();
-            jScrollPane1.setBounds(new Rectangle(46, 386, 643, 295));
+            jScrollPane1.setBounds(new Rectangle(46, 386, 643, 285));
             jScrollPane1.setViewportView(getJTextAreaTriggers());
         }
         return jScrollPane1;
@@ -304,7 +304,7 @@ public class NodeUI extends JFrame implements ActionListener {
         if (btnAddNode == null) {
             ImageIcon logsIcon = new ImageIcon("images//register.jpg");
             btnAddNode = new JButton(logsIcon);
-            btnAddNode.setBounds(new Rectangle(46, 690, 120, 20));
+            btnAddNode.setBounds(new Rectangle(46, 680, 120, 20));
             btnAddNode.setText("Add Node");
             btnAddNode.addActionListener(this);
         }
@@ -315,7 +315,7 @@ public class NodeUI extends JFrame implements ActionListener {
         if (btnRemoveNode == null) {
             ImageIcon logsIcon = new ImageIcon("images//close.jpg");
             btnRemoveNode = new JButton(logsIcon);
-            btnRemoveNode.setBounds(new Rectangle(200, 690, 120, 20));
+            btnRemoveNode.setBounds(new Rectangle(200, 680, 120, 20));
             btnRemoveNode.setText("Remove Node");
             btnRemoveNode.addActionListener(this);
         }
