@@ -98,7 +98,7 @@ public class ClientInit extends Thread {
                 }
                 try {
                     response = di.uploadTriggersToDispatcher(triggers, clientID, triggerSeqID);
-                } catch (RemoteException e) {
+                } catch (Exception e) {
                     ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
                     isTriggersLive = false;
                 }
@@ -120,7 +120,7 @@ public class ClientInit extends Thread {
                     }
                     try {
                         response = di.uploadTriggersToDispatcher(triggers, clientID, triggerSeqID);
-                    } catch (RemoteException e) {
+                    } catch (Exception e) {
                         ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
                         isTriggersLive = false;
                     }
@@ -187,6 +187,8 @@ public class ClientInit extends Thread {
             response = di.uploadTriggersToDispatcher(triggers, clientID, 1);
         } catch (RemoteException e) {
             ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
+        }catch(NullPointerException ex){
+             ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
         }
 
         if (response != null) {
