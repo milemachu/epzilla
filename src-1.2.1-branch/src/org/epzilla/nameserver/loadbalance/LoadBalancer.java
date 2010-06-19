@@ -39,7 +39,7 @@ public class LoadBalancer {
         } else if (!ipTable.containsKey(clientID)) {
             ipAddress = insertIntoTable(clientID, ipAddrs, dirsize);
         }
-        if (isValidIp(ipAddress) == false) {
+        if (!isValidIp(ipAddress)) {
             ipTable.remove(clientID);
             System.err.println(ipAddress);
             search(clientID, dirsize, ipAddrs);
@@ -60,7 +60,9 @@ public class LoadBalancer {
             status = InetAddress.getByName(ip).isReachable(timeOut);
 
         } catch (UnknownHostException e) {
+            Logger.error("", e);
         } catch (IOException e) {
+            Logger.error("", e);
         }
         return status;
     }
