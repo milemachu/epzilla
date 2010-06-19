@@ -2,6 +2,8 @@ package org.epzilla.clusterNode.parser;
 
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.epzilla.clusterNode.query.Query;
 import org.epzilla.clusterNode.query.QuerySyntaxException;
@@ -22,6 +24,7 @@ public class QueryExecuter {
     private QueryParser parser = new QueryParser();
     private HashSet<String> querySet = new HashSet<String>();
 
+    static Pattern p = Pattern.compile("(\\d)+");
 
     public void addQuery(Query q) {
         synchronized (lock) {
@@ -52,10 +55,12 @@ public class QueryExecuter {
 
     public static void main(String[] args) throws QuerySyntaxException {
         QueryParser qp = new QueryParser();
-        Query q = qp.parseQuery("SELECT avg(StockTrades.price), StockTrades.last  , min(StockTrades.price), StockTrades.amount WHERE StockTrades.amound > 0 OUTPUT StkTrades");
+        Query q = qp.parseQuery("SELECT avg(StockTrades.price), StockTrades.last  , min(StockTrades.price), StockTrades.amount OUTPUT StkTrades");
+        System.out.println(q.getConditions() == null);
         for (String[] x : q.getConditions()) {
             System.out.println(Arrays.toString(x));
         }
+       
 //        Query q = qp.parseQuery(EventTriggerGenerator.generateStockDetailsTrigger());
         QueryExecuter qe = new QueryExecuter();
         qe.addQuery(q);
@@ -115,6 +120,23 @@ public class QueryExecuter {
         String lastOutputTitle = null;
         for (Query q : queryRef) {
             if (title.equals(q.getInputTitle())) {
+
+                String[][] con = q.getConditions();
+                String att1 = con[0][0];
+                String op = con[0][1];
+                String att2 = con[0][2];
+
+                double r = Double.MAX_VALUE;
+                try {
+                    Matcher m = p.matcher(att2);
+                    if (m.find()) {
+                        r = Double.parseDouble(att2);
+                    }
+                } catch (Exception e) {
+                    r = Double.parseDouble(att2);
+                }
+
+
                 if (lastOutputTitle == null || !q.getOutputTitle().equals(lastOutputTitle)) {
                     sb.append(q.getOutputTitle());
                     sb.append("\n");
