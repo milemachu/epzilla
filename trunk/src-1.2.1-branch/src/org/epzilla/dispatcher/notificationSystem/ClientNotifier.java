@@ -19,6 +19,7 @@ import java.util.HashMap;
 public class ClientNotifier {
     private static HashMap clientMap = new HashMap<String, String>();
     private static String response = null;
+    private static String SERVICE_NAME = "CLIENT";
 
     public static void getNotifications(String serverIp, String notifications) throws MalformedURLException, NotBoundException, RemoteException {
         byte[] msg = notifications.getBytes();
@@ -31,7 +32,7 @@ public class ClientNotifier {
             else
                 Logger.log("Notifications not sent");
         } else {
-            ClientInterface clientObj = initClient(serverIp, "CLIENT");
+            ClientInterface clientObj = initClient(serverIp, SERVICE_NAME);
             response = clientObj.notifyClient(msg);
             if (response != null)
                 Logger.log("Notifications send to the client");
