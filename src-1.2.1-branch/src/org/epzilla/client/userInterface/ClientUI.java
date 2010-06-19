@@ -310,7 +310,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     private JButton getBtnSend() {
         if (btnSend == null) {
-            ImageIcon startIcon = new ImageIcon("images//start.jpg");
+            ImageIcon startIcon = new ImageIcon("images//reload.jpg");
             btnSend = new JButton(startIcon);
             btnSend.setText("Connect");
             btnSend.setBounds(new Rectangle(165, 220, 120, 20));
