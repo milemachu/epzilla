@@ -34,6 +34,42 @@ public class ClusterIPManager {
         }
     }
 
+    public static void setNodeStatus(String nodeIP, boolean status) {
+        if (getIpList() != null) {
+            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                Site.getLocal().allowThread();
+                Transaction transaction = Site.getLocal().startTransaction();
+                for (int i = 0; i < getIpList().size(); i++) {
+                    if (getIpList().get(i).getIP().equals(nodeIP)) {
+                        getIpList().get(i).setIsActive(status);
+                        break;
+                    }
+                }
+                transaction.commit();
+
+            }
+        }
+    }
+
+    public static boolean getNodeStatus(String nodeIP) {
+        boolean status = false;
+        if (getIpList() != null) {
+            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                Site.getLocal().allowThread();
+                Transaction transaction = Site.getLocal().startTransaction();
+                for (int i = 0; i < getIpList().size(); i++) {
+                    if (getIpList().get(i).getIP().equals(nodeIP)) {
+                        status = getIpList().get(i).getIsActive();
+                        break;
+                    }
+                }
+                transaction.commit();
+            }
+        }
+        return status;
+    }
+
+
     public static void removeIP(String ip) {
         if (getIpList() != null) {
             if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
