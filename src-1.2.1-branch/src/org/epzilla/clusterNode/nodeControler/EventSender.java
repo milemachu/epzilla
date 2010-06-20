@@ -19,14 +19,14 @@ public class EventSender {
     private static ClusterInterface clusterObj;
     private static String response = null;
     private static Hashtable<String, Object> nodesList = new Hashtable<String, Object>();
-
+    private static String SERVICE_NAME = "CLUSTER_NODE";
 
     public EventSender() {
     }
 
     public static void sendEvents(String serverIp, String event) throws RemoteException, MalformedURLException, NotBoundException {
         if (!nodesList.containsKey(serverIp)) {
-            initNode(serverIp, "CLUSTER_NODE");
+            initNode(serverIp, SERVICE_NAME);
             clusterObj = (ClusterInterface) nodesList.get(serverIp);
             clusterObj.addEventStream(event);
             System.out.println("calling add event stream.");
