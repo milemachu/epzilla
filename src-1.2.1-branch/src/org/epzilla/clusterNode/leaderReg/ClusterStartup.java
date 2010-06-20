@@ -22,6 +22,7 @@ public class ClusterStartup {
     private static int clusterID;
     private static String nodeStatus;
     private static String serviceName = "CLUSTER_NODE";
+    private static String dispatcherName = "DISPATCHER_SERVICE";
     private static DispInterface disObj;
     private static String ipAddress;
     private static LeaderElectionInitiator leaderElectionInitiator;
@@ -42,7 +43,7 @@ public class ClusterStartup {
 
     private static void register(String ip) throws RemoteException, MalformedURLException, NotBoundException, UnknownHostException {
         String id = dispIdGen(ip);
-        String url = "rmi://" + ip + "/" + "DISPATCHER_SERVICE" + id;
+        String url = "rmi://" + ip + "/" + dispatcherName + id;
         DispInterface service;
         service = (DispInterface) Naming.lookup(url);
 //        InetAddress inetAddress = InetAddress.getLocalHost();
@@ -56,7 +57,7 @@ public class ClusterStartup {
 //        NodeDiscoveryManager.setClusterLeader(InetAddress.getLocalHost().getHostAddress());
     }
 
- private static String dispIdGen(String addr) {
+    private static String dispIdGen(String addr) {
         String[] addrArray = addr.split("\\.");
         String temp = "";
         String value = "";
@@ -69,7 +70,7 @@ public class ClusterStartup {
         }
         return value;
     }
-    
+
     public static void setDispObject(Object obj) {
         disObj = (DispInterface) obj;
     }
@@ -84,20 +85,20 @@ public class ClusterStartup {
         HashSet<String> leader = LeaderElectionInitiator.getDispatchers();
         clusterID = LeaderElectionInitiator.getClusterId();
         Iterator it = leader.iterator();
-            while (it.hasNext()) {
-                try {
-                    register((String) it.next());
-                     disObj.performanceInfo(clusterID, cpuUsg, mmUsg);   //cluster ID taken from the setting file clusterID_settings
-                } catch (RemoteException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (NotBoundException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (UnknownHostException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
+        while (it.hasNext()) {
+            try {
+                register((String) it.next());
+                disObj.performanceInfo(clusterID, cpuUsg, mmUsg);   //cluster ID taken from the setting file clusterID_settings
+            } catch (RemoteException e) {
+                Logger.error("", e);
+            } catch (MalformedURLException e) {
+                Logger.error("", e);
+            } catch (NotBoundException e) {
+                Logger.error("", e);
+            } catch (UnknownHostException e) {
+                Logger.error("", e);
             }
+        }
     }
 
     private static void loadSettings() {
@@ -107,7 +108,7 @@ public class ClusterStartup {
             ipAddress = inetAddress.getHostAddress();
             NodeController.setThisIP(ipAddress);
         } catch (UnknownHostException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            Logger.error("", e);
         }
     }
 
@@ -115,11 +116,11 @@ public class ClusterStartup {
         try {
             bindClusterNode(serviceName);
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+            Logger.error("", e);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Logger.error("", e);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Logger.error("", e);
         }
         loadSettings();
 //            if (nodeStatus == "default") {
@@ -129,8 +130,6 @@ public class ClusterStartup {
         LeaderElectionInitiator.mainMethod();
         NodeController.initUI();
         startSTM();
-
-//            register();
     }
 
     public static boolean triggerLEFromRemote() {
