@@ -3,6 +3,7 @@ package org.epzilla.clusterNode.nodeControler;
 import org.epzilla.clusterNode.NodeController;
 import org.epzilla.clusterNode.rmi.ClusterInterface;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
+import org.epzilla.daemon.services.DaemonSleepCaller;
 import org.epzilla.leader.LeaderElectionInitiator;
 
 import java.net.MalformedURLException;
@@ -32,9 +33,12 @@ public class SleepNode {
                 for (Iterator i = nodeList.iterator(); i.hasNext();) {
                     String ip = (String) i.next();
                     if (!ip.equalsIgnoreCase(leaderIP)) {
-                        sleepNode(ip);
+//                        sleepNode(ip);
+                        DaemonSleepCaller sleepingAgent=new DaemonSleepCaller();
+                        success = sleepingAgent.callSleep(ip);
+                        if(success)
                         NodeUIController.appendTextToStatus("Sleep the Node: " + ip + " successfully");
-                        success = true;
+//                        success = true;
                     }
                     break;
                 }
