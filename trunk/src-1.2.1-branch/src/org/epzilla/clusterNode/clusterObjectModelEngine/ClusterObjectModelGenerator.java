@@ -25,6 +25,7 @@ public class ClusterObjectModelGenerator {
         ip.Fields.add(new Field(String.class, "nodeID"));
         ip.Fields.add(new Field(String.class, "clusterID"));
         ip.Fields.add(new Field(String.class, "IP"));
+         ip.Fields.add(new Field(Boolean.class, "IsActive"));
 
         Structure performanceInfo = new Structure("PerformanceInfoObject");
         performanceInfo.Fields.add(new Field(String.class, "nodeIP"));

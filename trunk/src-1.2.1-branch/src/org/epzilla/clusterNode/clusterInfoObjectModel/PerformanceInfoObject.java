@@ -93,7 +93,7 @@ public class PerformanceInfoObject extends jstm.core.TransactedStructure {
 
     @Override
     public String getObjectModelUID() {
-        return "Th6IIoiYIODUOFwhHFoIHQ";
+        return "uQWTU8Mg7PUU1VKc0lWFgA";
     }
 
     private static final int[] NON_TRANSIENT_FIELDS = new int[] {  };

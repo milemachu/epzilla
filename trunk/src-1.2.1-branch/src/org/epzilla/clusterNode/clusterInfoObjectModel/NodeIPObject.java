@@ -38,6 +38,14 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
         setField(2, value);
     }
 
+    public Boolean getIsActive() {
+        return (Boolean) getField(3);
+    }
+
+    public void setIsActive(Boolean value) {
+        setField(3, value);
+    }
+
     public static final int NODEID_INDEX = 0;
 
     public static final String NODEID_NAME = "nodeID";
@@ -50,7 +58,11 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
 
     public static final String IP_NAME = "IP";
 
-    public static final int FIELD_COUNT = 3;
+    public static final int ISACTIVE_INDEX = 3;
+
+    public static final String ISACTIVE_NAME = "IsActive";
+
+    public static final int FIELD_COUNT = 4;
 
     @Override
     public String getFieldName(int index) {
@@ -65,6 +77,8 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
                 return "clusterID";
             case 2:
                 return "IP";
+            case 3:
+                return "IsActive";
             default:
                 throw new java.lang.IllegalArgumentException();
         }
@@ -79,7 +93,7 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
 
     @Override
     public String getObjectModelUID() {
-        return "Th6IIoiYIODUOFwhHFoIHQ";
+        return "uQWTU8Mg7PUU1VKc0lWFgA";
     }
 
     private static final int[] NON_TRANSIENT_FIELDS = new int[] {  };
@@ -97,7 +111,7 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
         if (reads != null) {
             writer.writeShort(Short.MAX_VALUE);
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
                 writer.writeBoolean(reads[i]);
         }
 
@@ -128,6 +142,15 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
                     writer.writeString((String) values[2]);
                 }
             }
+
+            if (values[3] != null) {
+                if (values[3] == Removal.Instance)
+                    writer.writeShort((short) -4);
+                else {
+                    writer.writeShort((short) 4);
+                    writer.writeBoolean(((java.lang.Boolean) values[3]).booleanValue());
+                }
+            }
         }
 
         writer.writeShort((short) 0);
@@ -142,9 +165,9 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
         short index = reader.readShort();
 
         if (index == Short.MAX_VALUE) {
-            reads = new boolean[3];
+            reads = new boolean[4];
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
                 reads[i] = reader.readBoolean();
 
             index = reader.readShort();
@@ -152,13 +175,13 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
 
         if (index == 1) {
             if (values == null)
-                values = new Object[3];
+                values = new Object[4];
 
             values[0] = reader.readString();
             index = reader.readShort();
         } else if (index == -1) {
             if (values == null)
-                values = new Object[3];
+                values = new Object[4];
 
             values[0] = Removal.Instance;
             index = reader.readShort();
@@ -166,13 +189,13 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
 
         if (index == 2) {
             if (values == null)
-                values = new Object[3];
+                values = new Object[4];
 
             values[1] = reader.readString();
             index = reader.readShort();
         } else if (index == -2) {
             if (values == null)
-                values = new Object[3];
+                values = new Object[4];
 
             values[1] = Removal.Instance;
             index = reader.readShort();
@@ -180,15 +203,29 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
 
         if (index == 3) {
             if (values == null)
-                values = new Object[3];
+                values = new Object[4];
 
             values[2] = reader.readString();
             index = reader.readShort();
         } else if (index == -3) {
             if (values == null)
-                values = new Object[3];
+                values = new Object[4];
 
             values[2] = Removal.Instance;
+            index = reader.readShort();
+        }
+
+        if (index == 4) {
+            if (values == null)
+                values = new Object[4];
+
+            values[3] = new java.lang.Boolean(reader.readBoolean());
+            index = reader.readShort();
+        } else if (index == -4) {
+            if (values == null)
+                values = new Object[4];
+
+            values[3] = Removal.Instance;
             index = reader.readShort();
         }
 
