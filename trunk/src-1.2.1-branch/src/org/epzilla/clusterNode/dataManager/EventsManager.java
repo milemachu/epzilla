@@ -88,11 +88,11 @@ public class EventsManager {
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 ipArr = ClusterIPManager.getNodeIpList();
-
+                lis.clear();
                 for (String ips : ipArr) {
-                    if (!lis.contains(ips)) {
+//                    if (!lis.contains(ips)) {
                         lis.add(ips);
-                    }
+//                    }
                 }
                 System.out.println("loaded cluster ip list:" + lis.size());
             }
