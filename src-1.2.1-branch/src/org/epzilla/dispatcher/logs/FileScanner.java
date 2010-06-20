@@ -112,7 +112,6 @@ public class FileScanner implements Runnable {
         setTriggerList(recoverArr);
         long end = System.currentTimeMillis();
         Logger.log("Time: " + (end - start));
-        DispatcherUIController.appendTriggers(recoverArr);
         return recoverArr;
     }
 
