@@ -3,6 +3,7 @@ package org.epzilla.clusterNode.nodeControler;
 import org.epzilla.clusterNode.NodeController;
 import org.epzilla.clusterNode.rmi.ClusterInterface;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
+import org.epzilla.daemon.services.DaemonWakeCaller;
 import org.epzilla.leader.LeaderElectionInitiator;
 
 import java.net.MalformedURLException;
@@ -32,9 +33,12 @@ public class WakeNode {
                 for (Iterator i = nodeList.iterator(); i.hasNext();) {
                     String ip = (String) i.next();
                     if (!ip.equalsIgnoreCase(leaderIP)) {
-                        nodeInit(ip);
+//                        nodeInit(ip);
+                        DaemonWakeCaller wakingAgent=new DaemonWakeCaller();
+                       success = wakingAgent.callWake(ip);
+                       if(success)
                         NodeUIController.appendTextToStatus("Wake the Node: " + ip + " successfully");
-                        success = true;
+//                        success = true;
                     }
                     break;
                 }
