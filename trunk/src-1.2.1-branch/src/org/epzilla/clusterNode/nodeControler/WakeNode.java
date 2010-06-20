@@ -1,16 +1,16 @@
 package org.epzilla.clusterNode.nodeControler;
 
-import org.epzilla.clusterNode.NodeController;
+import org.epzilla.clusterNode.dataManager.ClusterIPManager;
 import org.epzilla.clusterNode.rmi.ClusterInterface;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.daemon.services.DaemonWakeCaller;
-import org.epzilla.leader.LeaderElectionInitiator;
+import org.epzilla.util.Logger;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -23,23 +23,22 @@ import java.util.Iterator;
 public class WakeNode {
     private static String serviceName = "CLUSTER_NODE";
     private static boolean success = false;
+    private static ArrayList<String> nodeIPList = new ArrayList<String>();
 
     public static void wake() {
         try {
-            HashSet<String> nodeList = new HashSet<String>();
-            nodeList = LeaderElectionInitiator.getNodes();
-            if (nodeList.size() < 3) {
-                String leaderIP = NodeController.getLeaderIP();
-                for (Iterator i = nodeList.iterator(); i.hasNext();) {
-                    String ip = (String) i.next();
-                    if (!ip.equalsIgnoreCase(leaderIP)) {
-//                        nodeInit(ip);
-                        DaemonWakeCaller wakingAgent=new DaemonWakeCaller();
-                       success = wakingAgent.callWake(ip);
-                       if(success)
+            nodeIPList.clear();
+            nodeIPList = ClusterIPManager.getNodeIpList();
+
+            for (Iterator i = nodeIPList.iterator(); i.hasNext();) {
+                String ip = (String) i.next();
+                boolean status = ClusterIPManager.getNodeStatus(ip);
+
+                if (!status) {
+                    DaemonWakeCaller wakingAgent = new DaemonWakeCaller();
+                    success = wakingAgent.callWake(ip);
+                    if (success)
                         NodeUIController.appendTextToStatus("Wake the Node: " + ip + " successfully");
-//                        success = true;
-                    }
                     break;
                 }
             }
@@ -47,8 +46,7 @@ public class WakeNode {
                 NodeUIController.appendTextToStatus("There are no idle Nodes to wake up...");
             }
         } catch (Exception e) {
-//            e.printStackTrace();
-             NodeUIController.appendTextToStatus("There are no idle Nodes to wake up...");
+            NodeUIController.appendTextToStatus("There are no idle Nodes to wake up...");
         }
         success = false;
     }
@@ -58,11 +56,11 @@ public class WakeNode {
             ClusterInterface nodeObj = initService(nodeIP, serviceName);
             nodeObj.initNodeProcess();
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Logger.error("", e);
         } catch (NotBoundException e) {
-            e.printStackTrace();
+            Logger.error("", e);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Logger.error("", e);
         }
     }
 
