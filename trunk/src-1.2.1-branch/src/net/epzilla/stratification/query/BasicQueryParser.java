@@ -7,6 +7,8 @@ import java.util.HashSet;
 
 public class BasicQueryParser implements QueryParser {
 
+
+
     QueryType type;
 
     String inputString, outputString;
@@ -17,7 +19,7 @@ public class BasicQueryParser implements QueryParser {
 
     public static void main(String[] args) throws InvalidSyntaxException {
         BasicQueryParser bqp = new BasicQueryParser();
-        Query  q = bqp.parseString("SELECT avg(StockTrades.price), min(StockTrades.price) OUTPUT AS StkTrades");
+        Query  q = bqp.parseString("SELECT avg(StockTrades.price), min(StockTrades.price) WHERE x = 2 RETAIN 10 EVENTS OUTPUT AS StkTrades");
         System.out.println(q);
         
     }
