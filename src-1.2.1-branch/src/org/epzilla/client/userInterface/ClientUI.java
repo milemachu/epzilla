@@ -609,7 +609,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         workBenchPanel.add(jlx);
         workBenchPanel.add(lowerPanel);
 
-        workBenchPanel.setBounds(new Rectangle(5, 400, 550, 150));
+        workBenchPanel.setBounds(new Rectangle(5, 400, 490, 150));
 
         return workBenchPanel;
     }
