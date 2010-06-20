@@ -24,6 +24,12 @@ public class RoundRobinList<E> {
         return this.size;
     }
 
+    public synchronized void clear() {
+        list.clear();
+        size = 0;
+        current = 0;
+    }
+
     public synchronized boolean remove(E item) {
         boolean success = list.remove(item);
         if (success) {
