@@ -54,17 +54,12 @@ public class ClusterIPManager {
     public static boolean getNodeStatus(String nodeIP) {
         boolean status = false;
         if (getIpList() != null) {
-            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
-                Site.getLocal().allowThread();
-                Transaction transaction = Site.getLocal().startTransaction();
                 for (int i = 0; i < getIpList().size(); i++) {
                     if (getIpList().get(i).getIP().equals(nodeIP)) {
                         status = getIpList().get(i).getIsActive();
                         break;
                     }
-                }
-                transaction.commit();
-            }
+                }           
         }
         return status;
     }
