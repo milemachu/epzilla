@@ -4,6 +4,7 @@ import jstm.core.Site;
 import jstm.core.TransactedList;
 import jstm.core.Transaction;
 import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
+import org.epzilla.util.Logger;
 
 import java.util.ArrayList;
 
@@ -83,7 +84,24 @@ public class ClusterIPManager {
             }
         }
     }
+    /*
+   method to clear the cluster ip list
+    */
 
+    public static void clearIPList() {
+        if (getIpList() != null) {
+            try {
+                if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+                    Site.getLocal().allowThread();
+                    Transaction transaction = Site.getLocal().startTransaction();
+                    ipList.clear();
+                    transaction.commit();
+                }
+            } catch (Exception e) {
+                Logger.error("", e);
+            }
+        }
+    }
     //add by chathura
 
     public static ArrayList<String> getNodeIpList() {
