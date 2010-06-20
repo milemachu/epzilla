@@ -25,20 +25,20 @@ import java.util.Iterator;
 public class WakeNode {
     private static String serviceName = "CLUSTER_NODE";
     private static boolean success = false;
-    private static TransactedList<NodeIPObject> nodeIPList = new TransactedList<NodeIPObject>();
+    private static ArrayList<String> nodeIPList = new ArrayList<String>();
 
     public static void wake() {
         try {
             nodeIPList.clear();
-            nodeIPList = ClusterIPManager.getIpList();
+            nodeIPList = ClusterIPManager.getNodeIpList();
 
             for (Iterator i = nodeIPList.iterator(); i.hasNext();) {
                 String ip = (String) i.next();
                 boolean status = ClusterIPManager.getNodeStatus(ip);
-
                 if (!status) {
                     DaemonWakeCaller wakingAgent = new DaemonWakeCaller();
                     success = wakingAgent.callWake(ip);
+                    ClusterIPManager.setNodeStatus(ip,true);
                     if (success)
                         NodeUIController.appendTextToStatus("Wake the Node: " + ip + " successfully");
                     break;
