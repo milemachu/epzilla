@@ -1,12 +1,13 @@
 package org.epzilla.clusterNode.dataManager;
 
 import org.epzilla.clusterNode.nodeControler.EventSender;
-import org.epzilla.util.CircularList;
+import org.epzilla.util.Logger;
 import org.epzilla.util.RoundRobinList;
 
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.util.ArrayList;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -24,6 +25,11 @@ public class EventsManager {
     private static boolean isInit = false;
     private static int count;
     private static RoundRobinList<String> lis = new RoundRobinList();
+    private static int UPDATE_SERVICE_RUNNING_TIME = 60000;
+    private static int INITIAL_START_TIME = 1000;
+    private static int DISPATCH_INIT_TIME = 0;
+    private static int DISPATCH_UPDATE_TIME = 1000;
+    static java.util.Timer timer = new java.util.Timer();
 
     public EventsManager() {
     }
@@ -54,9 +60,9 @@ public class EventsManager {
                         org.epzilla.util.Logger.error("queue poll returns null", e);
                     }
                     try {
-                        Thread.sleep(0, 1000);
+                        Thread.sleep(DISPATCH_INIT_TIME, DISPATCH_UPDATE_TIME);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Logger.error("", e);
                     }
                 }
             }
@@ -79,14 +85,19 @@ public class EventsManager {
 
     public static void loadNodesDetails() {
         count = 0;
-        ipArr = ClusterIPManager.getNodeIpList();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                ipArr = ClusterIPManager.getNodeIpList();
 
-        for (String ips : ipArr) {
-            if (!lis.contains(ips)) {
-                lis.add(ips);
+                for (String ips : ipArr) {
+                    if (!lis.contains(ips)) {
+                        lis.add(ips);
+                    }
+                }
+                System.out.println("loaded cluster ip list:" + lis.size());
             }
-        }
-        System.out.println("loaded cluster ip list:" + lis.size());
+        }, INITIAL_START_TIME, UPDATE_SERVICE_RUNNING_TIME);
+
         isLoaded = true;
     }
 }
