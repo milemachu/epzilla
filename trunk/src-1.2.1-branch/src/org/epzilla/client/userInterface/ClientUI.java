@@ -59,7 +59,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private JTextField txtNotiCount = null;
     private JTextArea txtNotifications = null;
     JPanel simulatorPanel = null;
-    private JPanel workBenchPanel = null;
+    private JPanel workBenchUpperPanel = null;
     JButton sendQueryBtn = new JButton();
 
     public ClientUI() {
@@ -536,45 +536,80 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     }
 
     private JTextArea txtQuery;
+    private JPanel workBenchPanel;
+    private JButton clearQueryBtn = null;
 
     //work bench panel
     private JPanel getWorkBenchPanel() {
         if (workBenchPanel == null) {
             workBenchPanel = new JPanel();
         }
-
-        workBenchPanel.setLayout(new CustomGridLayout(new String[]{"10", "150", "100%", "10", "90"}, new String[]{"100%"}));
-        JPanel sendPanel = new JPanel(new CustomGridLayout(new String[]{"100%"}, new String[]{"30", "100%"}));
-        sendPanel.setOpaque(false);
+        workBenchUpperPanel = new JPanel();
+        workBenchPanel.setLayout(new CustomGridLayout(new String[]{"100%"}, new String[]{"100%", "10", "22"}));
+        workBenchPanel.setOpaque(false);
+        workBenchUpperPanel.setLayout(new CustomGridLayout(new String[]{"10", "150", "100%"}, new String[]{"100%"}));
+        JPanel lowerPanel = new JPanel(new CustomGridLayout(new String[]{"50%", "25%", "10", "25%"}, new String[]{"100%"}));
+        lowerPanel.setOpaque(false);
 
         JPanel labelPanel = new JPanel(new CustomGridLayout(new String[]{"100%"}, new String[]{"30", "100%"}));
         labelPanel.setOpaque(false);
 
         JLabel lblQuery = new JLabel("Enter query:");
 
+
         txtQuery = new JTextArea();
         txtQuery.setBackground(Color.BLACK);
         txtQuery.setForeground(Color.GREEN);
         txtQuery.setWrapStyleWord(true);
         txtQuery.setLineWrap(true);
+        txtQuery.setEditable(true);
+        txtQuery.setOpaque(true);
+
+        JScrollPane jsp = new JScrollPane(txtQuery);
+        jsp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        jsp.setOpaque(false);
+
 
         sendQueryBtn.setText("Send Query");
         sendQueryBtn.addActionListener(this);
 
-        sendPanel.add(sendQueryBtn);
-        labelPanel.add(lblQuery);
+        clearQueryBtn = new JButton();
+        clearQueryBtn.setText("Clear");
+        clearQueryBtn.addActionListener(this);
+
         JLabel jlx = new JLabel();
         jlx.setOpaque(false);
-        workBenchPanel.add(jlx);
-        workBenchPanel.add(labelPanel);
+        lowerPanel.add(jlx);
+        lowerPanel.add(sendQueryBtn);
+        jlx = new JLabel();
+        jlx.setOpaque(false);
+        lowerPanel.add(jlx);
+        lowerPanel.add(clearQueryBtn);
 
-        workBenchPanel.add(txtQuery);
+
+        labelPanel.add(lblQuery);
+
+        jlx = new JLabel();
+        jlx.setOpaque(false);
+        workBenchUpperPanel.add(jlx);
+        workBenchUpperPanel.add(labelPanel);
+
+//        workBenchUpperPanel.add(txtQuery);
+        workBenchUpperPanel.add(jsp);
+        jlx = new JLabel();
+        jlx.setOpaque(false);
+        workBenchUpperPanel.add(jlx);
+//        workBenchUpperPanel.add(lowerPanel);
+        workBenchUpperPanel.setOpaque(false);
+        workBenchPanel.add(workBenchUpperPanel);
+
         jlx = new JLabel();
         jlx.setOpaque(false);
         workBenchPanel.add(jlx);
-        workBenchPanel.add(sendPanel);
-        workBenchPanel.setBounds(new Rectangle(5, 400, 550, 100));
-        workBenchPanel.setOpaque(false);
+        workBenchPanel.add(lowerPanel);
+
+        workBenchPanel.setBounds(new Rectangle(5, 400, 550, 150));
 
         return workBenchPanel;
     }
@@ -776,49 +811,55 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        Object source = event.getSource();
-        if (source == btnSend) {
-            initProcess();
-        } else if (source == btnCancelSend) {
-            cancelSend();
-        } else if (source == btnClear) {
-            unregisterCallbackLocal();
-        } else if (source == btnLookup) {
-            try {
-                getDispatchers();
-                getClientID();
-                if (ips.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "No active Dispatchers available, make sure settings details are correct", "Epzilla", JOptionPane.ERROR_MESSAGE);
+        try {
+            Object source = event.getSource();
+            if (source == btnSend) {
+                initProcess();
+            } else if (source == btnCancelSend) {
+                cancelSend();
+            } else if (source == btnClear) {
+                unregisterCallbackLocal();
+            } else if (source == btnLookup) {
+                try {
+                    getDispatchers();
+                    getClientID();
+                    if (ips.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "No active Dispatchers available, make sure settings details are correct", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (MalformedURLException e) {
+                    JOptionPane.showMessageDialog(null, "NameService IP Address incorrect", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                } catch (RemoteException e) {
+                    JOptionPane.showMessageDialog(null, "Invalid NameService name, make sure settings details are correct", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                    txtDispName.setText("");
+                    txtDispIP.setText("");
+                    listLookup.removeAll();
+                    listLookup.repaint();
+                } catch (NotBoundException e) {
+                    JOptionPane.showMessageDialog(null, "Invalid NameService name, make sure settings details are correct", "Epzilla", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (MalformedURLException e) {
-                JOptionPane.showMessageDialog(null, "NameService IP Address incorrect", "Epzilla", JOptionPane.ERROR_MESSAGE);
-            } catch (RemoteException e) {
-                JOptionPane.showMessageDialog(null, "Invalid NameService name, make sure settings details are correct", "Epzilla", JOptionPane.ERROR_MESSAGE);
-                txtDispName.setText("");
-                txtDispIP.setText("");
-                listLookup.removeAll();
-                listLookup.repaint();
-            } catch (NotBoundException e) {
-                JOptionPane.showMessageDialog(null, "Invalid NameService name, make sure settings details are correct", "Epzilla", JOptionPane.ERROR_MESSAGE);
-            }
-        } else if (source == adminSettings) {
-            tabbedPane.setVisible(true);
-        } else if (source == closetabs) {
-            tabbedPane.setVisible(false);
-        } else if (source == exit) {
-            systemExit();
-        } else if (source == about) {
-            showAbout();
-        } else if (source == sendQueryBtn) {
-            dispIP = txtDispIP.getText();
-            dispName = txtDispName.getText();
-            if ((dispIP.length() != 0) && (dispName.length() != 0)) {
-                if (!txtQuery.getText().equalsIgnoreCase("")) {
-                    ClientInit.sendCustomTriggers(this.txtQuery.getText());
-                } else if (txtQuery.getText().equalsIgnoreCase("")) {
-                    JOptionPane.showMessageDialog(null, "Enter a query to proceed..", "Epzilla", JOptionPane.ERROR_MESSAGE);
+            } else if (source == adminSettings) {
+                tabbedPane.setVisible(true);
+            } else if (source == closetabs) {
+                tabbedPane.setVisible(false);
+            } else if (source == exit) {
+                systemExit();
+            } else if (source == about) {
+                showAbout();
+            } else if (source == sendQueryBtn) {
+                dispIP = txtDispIP.getText();
+                dispName = txtDispName.getText();
+                if ((dispIP.length() != 0) && (dispName.length() != 0)) {
+                    if (!txtQuery.getText().equalsIgnoreCase("")) {
+                        ClientInit.sendCustomTriggers(this.txtQuery.getText());
+                    } else if (txtQuery.getText().equalsIgnoreCase("")) {
+                        JOptionPane.showMessageDialog(null, "Enter a query to proceed..", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
+            } else if (source == this.clearQueryBtn) {
+                this.txtQuery.setText("");
             }
+        } catch (HeadlessException e) {
+            Logger.error("error in action performed", e);
         }
     }
 
