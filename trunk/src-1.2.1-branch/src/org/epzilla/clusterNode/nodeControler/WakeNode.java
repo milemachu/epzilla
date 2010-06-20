@@ -1,5 +1,7 @@
 package org.epzilla.clusterNode.nodeControler;
 
+import jstm.core.TransactedList;
+import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
 import org.epzilla.clusterNode.dataManager.ClusterIPManager;
 import org.epzilla.clusterNode.rmi.ClusterInterface;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
@@ -23,12 +25,12 @@ import java.util.Iterator;
 public class WakeNode {
     private static String serviceName = "CLUSTER_NODE";
     private static boolean success = false;
-    private static ArrayList<String> nodeIPList = new ArrayList<String>();
+    private static TransactedList<NodeIPObject> nodeIPList = new TransactedList<NodeIPObject>();
 
     public static void wake() {
         try {
             nodeIPList.clear();
-            nodeIPList = ClusterIPManager.getNodeIpList();
+            nodeIPList = ClusterIPManager.getIpList();
 
             for (Iterator i = nodeIPList.iterator(); i.hasNext();) {
                 String ip = (String) i.next();
