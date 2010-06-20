@@ -26,7 +26,7 @@ public class RecoveredTriggers {
      */
 
     public static void getRecTriggerList(ArrayList<String> triggers) {
-
+        tList.clear();
         String trigger = "", clientID = "", clusterID = "";
         try {
             for (String tr : triggers) {
@@ -38,7 +38,7 @@ public class RecoveredTriggers {
                 Logger.log("Trigger: " + trigger + " Client: " + clientID + " Cluster: " + clusterID);
             }
             TriggerManager.addAllTriggersToList(tList, clientID);
-             DispatcherUIController.appendTriggers(tList);
+            DispatcherUIController.appendTriggers(tList);
         } catch (Exception e) {
             Logger.error("File read error; ", e);
         }
