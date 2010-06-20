@@ -17,7 +17,6 @@ import java.util.TimerTask;
 public class IpListManager {
     private static int INIT_TIME_INTERVAL = 10000;
     private static int UPDATE_TIME_INTERVAL = 60000;
-    private static String DEFAULT_ID = "1";
 
     public static void Initialize() {
 //        initClientIpList();
@@ -53,13 +52,14 @@ public class IpListManager {
             @Override
             public void run() {
                 HashSet<String> nodeList = LeaderElectionInitiator.getSubscribedNodeList();
+                int clusterID = LeaderElectionInitiator.getClusterId();
                 if (nodeList != null) {
                     NodeUIController.clearNodeList();
                     ClusterIPManager.clearIPList();
                     for (Iterator i = nodeList.iterator(); i.hasNext();) {
                         String ip = (String) i.next();
                         NodeUIController.appendTextToNodeList(ip);
-                        ClusterIPManager.addIP(DEFAULT_ID, ip);
+                        ClusterIPManager.addIP("" + clusterID, ip);
                     }
                     System.gc();
                 }
