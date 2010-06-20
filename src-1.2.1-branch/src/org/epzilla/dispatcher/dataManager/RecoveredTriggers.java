@@ -1,5 +1,6 @@
 package org.epzilla.dispatcher.dataManager;
 
+import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.util.Logger;
 
 import java.util.ArrayList;
@@ -34,9 +35,10 @@ public class RecoveredTriggers {
                 clientID = st.nextToken(); //client ID
                 clusterID = st.nextToken();//cluster id
                 tList.add(trigger);
-                System.out.println("Trigger: " + trigger + " Client: " + clientID + " Cluster: " + clusterID);
+                Logger.log("Trigger: " + trigger + " Client: " + clientID + " Cluster: " + clusterID);
             }
             TriggerManager.addAllTriggersToList(tList, clientID);
+             DispatcherUIController.appendTriggers(tList);
         } catch (Exception e) {
             Logger.error("File read error; ", e);
         }
