@@ -1,10 +1,12 @@
 package org.epzilla.clusterNode.nodeControler;
 
 import org.epzilla.clusterNode.NodeController;
+import org.epzilla.clusterNode.dataManager.ClusterIPManager;
 import org.epzilla.clusterNode.rmi.ClusterInterface;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.daemon.services.DaemonSleepCaller;
 import org.epzilla.leader.LeaderElectionInitiator;
+import org.epzilla.util.Logger;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -33,12 +35,11 @@ public class SleepNode {
                 for (Iterator i = nodeList.iterator(); i.hasNext();) {
                     String ip = (String) i.next();
                     if (!ip.equalsIgnoreCase(leaderIP)) {
-//                        sleepNode(ip);
-                        DaemonSleepCaller sleepingAgent=new DaemonSleepCaller();
+                        DaemonSleepCaller sleepingAgent = new DaemonSleepCaller();
                         success = sleepingAgent.callSleep(ip);
-                        if(success)
-                        NodeUIController.appendTextToStatus("Sleep the Node: " + ip + " successfully");
-//                        success = true;
+                        ClusterIPManager.setNodeStatus(ip, false);
+                        if (success)
+                            NodeUIController.appendTextToStatus("Sleep the Node: " + ip + " successfully");
                     }
                     break;
                 }
@@ -47,7 +48,6 @@ public class SleepNode {
                 NodeUIController.appendTextToStatus("There aren't any  Nodes to Sleep...");
             }
         } catch (Exception e) {
-//            e.printStackTrace();
             NodeUIController.appendTextToStatus("There aren't any  Nodes to Sleep...");
         }
     }
@@ -57,11 +57,11 @@ public class SleepNode {
             ClusterInterface clusterObj = initService(nodeIP, serviceName);
             clusterObj.sleepNodeProcess();
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Logger.error("", e);
         } catch (NotBoundException e) {
-            e.printStackTrace();
+            Logger.error("", e);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Logger.error("", e);
         }
     }
 
