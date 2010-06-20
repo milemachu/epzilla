@@ -26,7 +26,9 @@ public class EventManager {
 
 
     public static void sendEvents(byte[] event, String clientID) {
-        loadClusterDetails();
+        if (!isLoaded) {
+            loadClusterDetails();
+        }
         try {
             for (int i = 0; i < ipArr.size(); i++) {
                 EventSender.sendEvent(event, ipArr.get(i), idArr.get(i), clientID);
@@ -51,6 +53,8 @@ public class EventManager {
                 idArr = ClusterLeaderIpListManager.getClusterIdList();
             }
         }, INITIAL_START_TIME, UPDATE_SERVICE_RUNNING_TIME);
+
+        isLoaded = true;
     }
 
 
