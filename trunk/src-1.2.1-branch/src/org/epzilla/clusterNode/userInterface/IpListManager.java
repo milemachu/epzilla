@@ -14,6 +14,8 @@ import java.util.TimerTask;
  * To change this template use File | Settings | File Templates.
  */
 public class IpListManager {
+    private static int INIT_TIME_INTERVAL = 10000;
+    private static int UPDATE_TIME_INTERVAL = 60000;
 
     public static void Initialize() {
 //        initClientIpList();
@@ -40,7 +42,7 @@ public class IpListManager {
                 }
                 System.gc();
             }
-        }, 10000, 60000);
+        }, INIT_TIME_INTERVAL, UPDATE_TIME_INTERVAL);
     }
 
     private static void initNodeIpList() {
@@ -59,6 +61,6 @@ public class IpListManager {
                 }
                 System.gc();
             }
-        }, 10000, 60000);
+        }, INIT_TIME_INTERVAL,UPDATE_TIME_INTERVAL);
     }
 }
