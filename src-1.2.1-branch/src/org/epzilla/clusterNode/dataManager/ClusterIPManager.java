@@ -53,13 +53,15 @@ public class ClusterIPManager {
 
     public static boolean getNodeStatus(String nodeIP) {
         boolean status = false;
-        if (getIpList() != null) {
+        synchronized (ipList) {
+            if (getIpList() != null && nodeIP != null) {
                 for (int i = 0; i < getIpList().size(); i++) {
                     if (getIpList().get(i).getIP().equals(nodeIP)) {
                         status = getIpList().get(i).getIsActive();
                         break;
                     }
-                }           
+                }
+            }
         }
         return status;
     }
