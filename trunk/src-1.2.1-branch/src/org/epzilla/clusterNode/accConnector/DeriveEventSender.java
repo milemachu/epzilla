@@ -19,6 +19,7 @@ public class DeriveEventSender {
     private static AccumulatorService accObj;
     private static String response = null;
     private static Hashtable<String, Object> accList = new Hashtable<String, Object>();
+    private static String SERVICE_NAME = "ACCUMULATOR_SERVICE";
 
     public DeriveEventSender() {
     }
@@ -26,7 +27,7 @@ public class DeriveEventSender {
     public static void sendDeriveEvent(String serverIP, byte[] deriveEvent) throws MalformedURLException, NotBoundException, RemoteException {
 
         if (!accList.containsKey(serverIP)) {
-            initAccumulator(serverIP, "ACCUMULATOR_SERVICE");
+            initAccumulator(serverIP, SERVICE_NAME);
             accObj.receiveDeriveEvent(deriveEvent);
         } else {
             accObj = (AccumulatorService) accList.get(serverIP);
