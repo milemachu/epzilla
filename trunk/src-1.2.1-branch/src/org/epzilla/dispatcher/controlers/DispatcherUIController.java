@@ -71,6 +71,12 @@ public class DispatcherUIController {
         }
     }
 
+    public static void clearTriggerList() {
+         instance.getTxtTriggers().setText("");
+     }
+
+
+
     public static void appendIP(String text) {
         instance.getTxtIPSet().append(text + "\n");
     }
