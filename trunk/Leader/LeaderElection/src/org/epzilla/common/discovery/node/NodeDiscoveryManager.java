@@ -144,7 +144,7 @@ public class NodeDiscoveryManager {
 		NodeDiscoveryManager.clusterLeader=clusterLeader;
 	}
 	
-	
+	 //TEST
 	@SuppressWarnings({ "static-access", "unchecked" })
 	public static void main(String[] args) {
 		NodeDiscoveryManager nodeMan=new NodeDiscoveryManager(5);
