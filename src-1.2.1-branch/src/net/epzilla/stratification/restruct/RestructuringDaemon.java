@@ -90,9 +90,9 @@ public class RestructuringDaemon {
                 }
 
                 while (alive) {
-
+                    restructuring = true;
                     forceRestructuring();
-
+                    restructuring = false;
                     try {
                         Thread.sleep(RestructuringDaemon.RESTRUCTURING_WAITING_TIME);
                     } catch (InterruptedException e) {
@@ -176,8 +176,12 @@ public class RestructuringDaemon {
             if (daemonThread != null) {
                 daemonThread.interrupt();
             }
+
         } catch (Exception e) {
             Logger.error("error trying to stop restructuring thread:", e);
+
+        } finally {
+            restructuring = false;
         }
     }
 
