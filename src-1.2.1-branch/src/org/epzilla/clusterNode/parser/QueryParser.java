@@ -5,6 +5,8 @@ import org.epzilla.clusterNode.query.QuerySyntaxException;
 import org.epzilla.clusterNode.query.QueryType;
 
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,6 +17,7 @@ import java.util.Arrays;
  */
 public class QueryParser {
     static String[] operators = new String[]{">=", "<=", "!=", "<", ">", "="};
+    static Pattern p = Pattern.compile("(\\d)+");
 
     public Query parseQuery(String query) throws QuerySyntaxException {
         query = query.trim();
@@ -130,7 +133,14 @@ public class QueryParser {
             temp2 = temp[0].trim().split("\\.");
             conditions[0][0] = temp2[1].trim();
             conditions[0][1] = delim;
-            conditions[0][2] = temp[1].trim();
+            Matcher m = p.matcher(temp[1]);
+            temp[1] = temp[1].trim();
+            if ((!temp[1].contains("'")) && (!m.find()) && (temp[1].contains("."))) {
+                conditions[0][2] = temp[1].split("\\.")[1].trim();
+
+            } else {
+                conditions[0][2] = temp[1];
+            }
         }
         q.setConditions(conditions);
 
