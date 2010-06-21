@@ -11,6 +11,7 @@ public class MulticastMessageDecoder implements Runnable {
     private static String DISPATCHER_SERVICE_NAME= "DISPATCHER_SERVICE";
     private static String NODE_SERVICE_NAME= "NODE_SERVICE";
     private static String SUBSCRIBE_PREFIX = "SUBSCRIBE_";
+	@SuppressWarnings("unused")
 	private static String UNSUBSCRIBE_PREFIX = "UNSUBSCRIBE_";
 	
 	public MulticastMessageDecoder(String message) {
