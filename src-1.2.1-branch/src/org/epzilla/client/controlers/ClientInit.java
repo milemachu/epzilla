@@ -30,11 +30,13 @@ public class ClientInit extends Thread {
     private static volatile boolean isEventsLive = true;
     private static int eventsSeqID = 1;
     private static boolean dynamicLookup = false;
-    private static int sendingIntervalEvent;
-    private static int initIntervalEvent;
-    private static int initIntervalTrigger;
-    private static int sendingIntervalTrigger;
-    private static int triggerSleepTime;
+    private static int SENDING_INTERVAL_TIME;
+    private static int INIT_INTERVAL_TIME;
+    private static int INIT_INTERVAL_TRIGGER;
+    private static int SENDING_INTERVAL_TRIGGER;
+    private static int TRIGGER_SLEEP_TIME;
+    private static int INIT_TRIGGER_LOOP;
+    private static int PRIOR_TRIGGER_LOOP;
 
     public ClientInit() {
     }
@@ -87,17 +89,17 @@ public class ClientInit extends Thread {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(initIntervalTrigger);
+                    Thread.sleep(INIT_INTERVAL_TRIGGER);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 di = (DispInterface) dispMap.get(ip);
 
                 ArrayList<String> triggers = new ArrayList<String>();
-                for (int i = 0; i < 100; i++) {
+                for (int i = 0; i < INIT_TRIGGER_LOOP; i++) {
                     triggers.add(EventTriggerGenerator.getNextTrigger());
                     try {
-                        Thread.sleep(triggerSleepTime);
+                        Thread.sleep(TRIGGER_SLEEP_TIME);
                     } catch (InterruptedException e) {
                         Logger.error("Interrupted: ", e);
                     }
@@ -113,7 +115,7 @@ public class ClientInit extends Thread {
                     ClientUIControler.appendResults("Dispatcher Received the Trigger Stream" + "\n");
                 }
                 try {
-                    Thread.sleep(sendingIntervalTrigger);
+                    Thread.sleep(SENDING_INTERVAL_TRIGGER);
                 } catch (InterruptedException e) {
                     Logger.error("Interrupted :", e);
                 }
@@ -121,7 +123,7 @@ public class ClientInit extends Thread {
 
                 while (isTriggersLive) {
                     triggers = new ArrayList<String>();
-                    for (int i = 0; i < 5; i++) {
+                    for (int i = 0; i < PRIOR_TRIGGER_LOOP; i++) {
                         triggers.add(EventTriggerGenerator.getNextTrigger());
                     }
                     try {
@@ -135,7 +137,7 @@ public class ClientInit extends Thread {
                         ClientUIControler.appendResults("Dispatcher Received the Trigger Stream" + "\n");
                     }
                     try {
-                        Thread.sleep(sendingIntervalTrigger);
+                        Thread.sleep(SENDING_INTERVAL_TRIGGER);
                     } catch (InterruptedException e) {
                         Logger.error("Interrupted: ", e);
                     }
@@ -152,7 +154,7 @@ public class ClientInit extends Thread {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(initIntervalEvent);
+                    Thread.sleep(INIT_INTERVAL_TIME);
                 } catch (InterruptedException e) {
                     Logger.error("", e);
                 }
@@ -165,7 +167,7 @@ public class ClientInit extends Thread {
                         response = di.uploadEventsToDispatcher(event, clientID, eventsSeqID);
                         eventsSeqID++;
                         try {
-                            Thread.sleep(sendingIntervalEvent);
+                            Thread.sleep(SENDING_INTERVAL_TIME);
                         } catch (InterruptedException e) {
                             Logger.error("", e);
                         }
@@ -214,11 +216,13 @@ public class ClientInit extends Thread {
         ArrayList<String[]> settingsList = ClientTimeSettings.getClientTimeIntervals("client_timeIntervals.xml");
         String[] settings = settingsList.get(0);
         if (settings != null) {
-            initIntervalEvent = Integer.valueOf(settings[0]);
-            sendingIntervalEvent = Integer.valueOf(settings[1]);
-            initIntervalTrigger = Integer.valueOf(settings[2]);
-            sendingIntervalTrigger = Integer.valueOf(settings[3]);
-            triggerSleepTime = Integer.valueOf(settings[4]);
+            INIT_INTERVAL_TIME = Integer.valueOf(settings[0]);
+            SENDING_INTERVAL_TIME = Integer.valueOf(settings[1]);
+            INIT_INTERVAL_TRIGGER = Integer.valueOf(settings[2]);
+            SENDING_INTERVAL_TRIGGER = Integer.valueOf(settings[3]);
+            TRIGGER_SLEEP_TIME = Integer.valueOf(settings[4]);
+            INIT_TRIGGER_LOOP = Integer.valueOf(settings[5]);
+            PRIOR_TRIGGER_LOOP = Integer.valueOf(settings[6]);
         }
     }
 
