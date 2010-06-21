@@ -1,6 +1,7 @@
 package net.epzilla.stratification.query;
 
 import net.epzilla.stratification.query.InvalidSyntaxException;
+import org.epzilla.testObjectGenerator.EventTriggerGenerator;
 
 import java.util.HashSet;
 
@@ -21,6 +22,12 @@ public class BasicQueryParser implements QueryParser {
         BasicQueryParser bqp = new BasicQueryParser();
         Query  q = bqp.parseString("SELECT avg(StockTrades.price), min(StockTrades.price) WHERE x = 2 RETAIN 10 EVENTS OUTPUT AS StkTrades");
         System.out.println(q);
+
+        for (int i = 0; i<100;i++) {
+       String tr =    org.epzilla.testObjectGenerator.EventTriggerGenerator.generateStockDetailsTrigger();
+         q=    bqp.parseString(tr);
+            System.out.println(q);
+        }
         
     }
 
@@ -59,7 +66,7 @@ public class BasicQueryParser implements QueryParser {
             } else {
                 outindex += 11;
             }
-            outputString = query.substring(outindex, query.length() - 1);
+            outputString = query.substring(outindex, query.length() );
 
             parseInputs();
             parseOutputs();
