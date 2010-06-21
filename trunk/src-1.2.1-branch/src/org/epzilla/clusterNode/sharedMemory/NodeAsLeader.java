@@ -13,6 +13,8 @@ import org.epzilla.clusterNode.dataManager.EventsManager;
 import org.epzilla.clusterNode.dataManager.PerformanceInfoManager;
 import org.epzilla.clusterNode.dataManager.TriggerManager;
 import org.epzilla.clusterNode.leaderReg.ClusterStartup;
+import org.epzilla.clusterNode.nodeControler.SleepNode;
+import org.epzilla.clusterNode.nodeControler.WakeNode;
 import org.epzilla.clusterNode.processor.EventProcessor;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.clusterNode.xml.ClusterSettingsReader;
@@ -219,13 +221,12 @@ public class NodeAsLeader {
                     NodeUIController.appendTextToStatus("Average CPU usage of the cluster: " + cpuResult + "%");
                     NodeUIController.appendTextToStatus("Average Memory usage of the cluster: " + memResult + "%");
 
-                    if (cpuResult >= cpuUpperThreshHold && memResult >= memUpperThreshHold) {
+                    if (cpuResult >= cpuUpperThreshHold || memResult >= memUpperThreshHold) {
                         // Add node
-
+                        WakeNode.wake();
                     } else if (cpuResult < cpuLowerThreshHold) {
                         //Remove Node
-
-
+                        SleepNode.sleep();
                     }
 
                     //send perfomance info
