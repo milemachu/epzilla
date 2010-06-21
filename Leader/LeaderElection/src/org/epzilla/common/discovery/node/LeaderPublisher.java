@@ -7,14 +7,16 @@ import org.epzilla.common.discovery.IServicePublisher;
 import org.epzilla.common.discovery.multicast.MulticastSender;
 
 public class LeaderPublisher implements IServicePublisher {
-	private String serviceName = "LEADER_SERVICE";
+	private static String LEADER_SERVICE_NAME = "LEADER_SERVICE";
 	private String multicastGroupIp = "224.0.0.2";
+    private static String SUBSCRIBE_PREFIX = "SUBSCRIBE_";
+	private static String UNSUBSCRIBE_PREFIX = "UNSUBSCRIBE_";
 	private int multicastPort = 5005;
 	private HashSet<String> clusterNodeIp = new HashSet<String>();
 	private HashSet<String> dispatcherIp = new HashSet<String>();
 
 	public boolean addSubscription(String serviceClient, String serviceName) {
-		if (serviceName.equalsIgnoreCase("SUBSCRIBE_" + this.serviceName)) {
+		if (serviceName.equalsIgnoreCase(SUBSCRIBE_PREFIX + LEADER_SERVICE_NAME)) {
 			synchronized (clusterNodeIp) {				
 				clusterNodeIp.add(serviceClient);
 				System.out.println("New Cluster Node Discovered by Cluster Leader : "+serviceClient);
@@ -26,18 +28,18 @@ public class LeaderPublisher implements IServicePublisher {
 
 	public boolean publishService() {
 		MulticastSender broadcaster = new MulticastSender(multicastGroupIp,multicastPort);
-		broadcaster.broadcastMessage(serviceName);
+		broadcaster.broadcastMessage(LEADER_SERVICE_NAME);
 		return true;
 	}
 	
 	public boolean publishService(int clusterId){
 		MulticastSender broadcaster = new MulticastSender(multicastGroupIp,multicastPort);
-		broadcaster.broadcastMessage(serviceName+Constants.CLUSTER_ID_DELIMITER+clusterId);
+		broadcaster.broadcastMessage(LEADER_SERVICE_NAME+Constants.CLUSTER_ID_DELIMITER+clusterId);
 		return true;
 	}
 
 	public boolean removeSubscrition(String serviceClient, String serviceName) {
-		if (serviceName.equalsIgnoreCase("UNSUBSCRIBE_" + this.serviceName)) {
+		if (serviceName.equalsIgnoreCase(UNSUBSCRIBE_PREFIX + LEADER_SERVICE_NAME)) {
 			synchronized (clusterNodeIp) {
 				clusterNodeIp.remove(serviceClient);
 				return true;

@@ -5,7 +5,10 @@ import org.epzilla.common.discovery.Constants;
 public class TCPMessageDecoder implements Runnable {
 
 	private String message;
-	
+    private static String LEADER_SERVICE_NAME= "LEADER_SERVICE";
+    private static String SUBSCRIBE_PREFIX = "SUBSCRIBE_";
+	private static String UNSUBSCRIBE_PREFIX = "UNSUBSCRIBE_";
+
 	public TCPMessageDecoder(String message) {
 		this.message=message;
 	}
@@ -13,11 +16,11 @@ public class TCPMessageDecoder implements Runnable {
 	public void run() {
 		//0=message,1=ip
 		String []tcpArr=message.split(Constants.TCP_UNICAST_DELIMITER);
-		if(tcpArr[0].equalsIgnoreCase("SUBSCRIBE_LEADER_SERVICE") && NodeDiscoveryManager.isLeader() /*&&  !NodeDiscoveryManager.getLeaderPublisher().getSubscribers().contains(tcpArr[1])*/){
+		if(tcpArr[0].equalsIgnoreCase(SUBSCRIBE_PREFIX+LEADER_SERVICE_NAME) && NodeDiscoveryManager.isLeader() /*&&  !NodeDiscoveryManager.getLeaderPublisher().getSubscribers().contains(tcpArr[1])*/){
 			
 				NodeDiscoveryManager.getLeaderPublisher().addSubscription(tcpArr[1], tcpArr[0]);
 			
-		}else if(tcpArr[0].equalsIgnoreCase("UNSUBSCRIBE_LEADER_SERVICE") && NodeDiscoveryManager.isLeader()){
+		}else if(tcpArr[0].equalsIgnoreCase(UNSUBSCRIBE_PREFIX+LEADER_SERVICE_NAME) && NodeDiscoveryManager.isLeader()){
 			NodeDiscoveryManager.getLeaderPublisher().removeSubscrition(tcpArr[1], tcpArr[0]);
 		}
 	}

@@ -114,6 +114,7 @@ public class DispatcherDiscoveryManager {
 		DispatcherDiscoveryManager.dispatcherLeader = dispatcherLeader;
 	}
 
+    //test
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
