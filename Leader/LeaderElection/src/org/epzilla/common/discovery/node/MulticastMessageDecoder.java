@@ -1,7 +1,10 @@
 package org.epzilla.common.discovery.node;
 
+import java.util.HashSet;
+
 import org.epzilla.common.discovery.Constants;
 import org.epzilla.common.discovery.unicast.TCPSender;
+import org.epzilla.leader.Epzilla;
 
 public class MulticastMessageDecoder implements Runnable {
 
@@ -13,6 +16,7 @@ public class MulticastMessageDecoder implements Runnable {
     private static String SUBSCRIBE_PREFIX = "SUBSCRIBE_";
 	@SuppressWarnings("unused")
 	private static String UNSUBSCRIBE_PREFIX = "UNSUBSCRIBE_";
+	private HashSet<String> authorizedNodeList=new HashSet<String>(Epzilla.getComponentIpList().values());
 	
 	public MulticastMessageDecoder(String message) {
 	this.message=message;
@@ -31,7 +35,8 @@ public class MulticastMessageDecoder implements Runnable {
 				//Now update the dispatcher list in the leader service.
 				NodeDiscoveryManager.getLeaderPublisher().updateDispatcherList(mcArr[1]);
 			}
-		}else if(mcArr[0].startsWith(LEADER_SERVICE_NAME)){
+			//Checking auth list for security.
+		}else if(mcArr[0].startsWith(LEADER_SERVICE_NAME)  && authorizedNodeList.contains(mcArr[1])){
 			//if this is a node client subscribe it.else forget it.
 			//Send the TCP connection.
 			if(!NodeDiscoveryManager.isLeader()){
@@ -47,7 +52,8 @@ public class MulticastMessageDecoder implements Runnable {
 					ts.sendMessage(SUBSCRIBE_PREFIX+LEADER_SERVICE_NAME);
 				}
 			}
-		}else if(mcArr[0].startsWith(NODE_SERVICE_NAME)){
+			//Checking auth list for security.
+		}else if(mcArr[0].startsWith(NODE_SERVICE_NAME)  && authorizedNodeList.contains(mcArr[1])){
 			//message from another node. Add this to our node list.
 			//0-NODE_SERVICE;1-ClusterId
 			String []info=mcArr[0].split(Constants.CLUSTER_ID_DELIMITER);
