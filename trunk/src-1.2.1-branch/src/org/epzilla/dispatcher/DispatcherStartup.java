@@ -99,9 +99,6 @@ public class DispatcherStartup {
             DispatcherUIController.setUIVisibility(true);
             MainDispatcherController.runAsServer();
             Logger.log("running as server...");
-            if (RestructuringDaemon.isRestructuring()) {
-                RestructuringDaemon.forceRestructuring();
-            }
             try {
                 if (RestructuringDaemon.isRestructuring()) {
                     RestructuringDaemon.forceRestructuring();
