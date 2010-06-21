@@ -1,6 +1,7 @@
 package org.epzilla.daemon.services;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.RemoteException;
@@ -53,7 +54,8 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonInterface {
 					processMap.put(Integer.parseInt(proc[0]), proc[1]);
 					System.out.println(line);
 					if(proc[1].equalsIgnoreCase("ClusterStartup")){
-						String[] commands = {"cmd", "/c", "start", "Taskkill.bat","Taskkill.bat "+proc[0]};
+						writeToBatFile(Integer.parseInt(proc[0]));
+						String[] commands = {"cmd", "/c", "start", "Taskkill.bat","Sleep.bat"};
 //						Runtime.getRuntime().exec("taskkill /f /PID "+proc[0]);
 						Runtime.getRuntime().exec(commands);
 						break;
@@ -94,6 +96,20 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonInterface {
 			String[] proc=line.split(" ");
 			processMap.put(Integer.parseInt(proc[0]), proc[1]);
 			System.out.println(line);
+		}
+		
+	}
+	
+	private void writeToBatFile(int procId){
+		try {
+			FileWriter writer=new FileWriter("Sleep.bat",false);
+			writer.write("Taskkill /F /PID "+procId);
+			writer.flush();
+			writer.close();
+			writer=null;
+			System.gc();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
 	}
