@@ -20,6 +20,8 @@ public class CpuMemAnalyzer {
     private static int memUsage;
     private static int totalMemory;
     private static int freeMemory;
+    private static int INITIAL_DELAY = 100;
+    private static int UPDATING_DELAY = 1000;
 
     public static void Initialize() {
         final JavaSysMon mon = new JavaSysMon();
@@ -65,7 +67,7 @@ public class CpuMemAnalyzer {
                 NodeUIController.appendTextToPerformanceInfo("Memory Usage Percentage: " + (mem * 100 / mon.physical().getTotalBytes()) + " %");
                 oldTime = newTime;
             }
-        }, 100, 1000);
+        }, INITIAL_DELAY,UPDATING_DELAY);
 
     }
 
