@@ -3,6 +3,7 @@ package org.epzilla.clusterNode.leaderReg;
 import org.epzilla.clusterNode.NodeController;
 import org.epzilla.clusterNode.rmi.ClusterImpl;
 import org.epzilla.clusterNode.rmi.ClusterInterface;
+import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.clusterNode.xml.ClusterSettingsReader;
 import org.epzilla.dispatcher.rmi.DispInterface;
 import org.epzilla.leader.LeaderElectionInitiator;
@@ -148,11 +149,16 @@ public class ClusterStartup {
             NodeController.setLeaderIP(ipAddress);  //set the ip address of the leader
             NodeController.setUiVisible();
             NodeController.initSTM();
+            NodeUIController.setAddNodeButtonStatus(true);
+            NodeUIController.setRemoveNodeBtnStatus(true);
+
         } else {
             NodeController.setLeader(false);
             NodeController.setLeaderIP(leader);
             NodeController.setUiVisible();
             NodeController.initSTM();
+            NodeUIController.setAddNodeButtonStatus(false);
+            NodeUIController.setRemoveNodeBtnStatus(false);
         }
 
     }
