@@ -1,6 +1,9 @@
 package org.epzilla.common.discovery.dispatcher;
 
+import java.util.HashSet;
+
 import org.epzilla.common.discovery.Constants;
+import org.epzilla.leader.Epzilla;
 
 public class TCPMessageDecoder implements Runnable {
 
@@ -9,6 +12,7 @@ public class TCPMessageDecoder implements Runnable {
     private static String DISPATCHER_LEADER_SERVICE_NAME="DISPATCHER_LEADER_SERVICE";
     private static String SUBSCRIBE_PREFIX="SUBSCRIBE_";
     private static String UNSUBSCRIBE_PREFIX="UNSUBSCRIBE_";
+    private HashSet<String> authorizedList=new HashSet<String>(Epzilla.getComponentIpList().values());
 	
 	public TCPMessageDecoder(String message) {
 		this.message=message;
@@ -18,9 +22,9 @@ public class TCPMessageDecoder implements Runnable {
 	public void run() {
 		//0=message,1=ip
 		String []tcpArr=message.split(Constants.TCP_UNICAST_DELIMITER);
-		if(tcpArr[0].equalsIgnoreCase(SUBSCRIBE_PREFIX+DISPATCHER_LEADER_SERVICE_NAME) && DispatcherDiscoveryManager.isLeader()){
+		if(tcpArr[0].equalsIgnoreCase(SUBSCRIBE_PREFIX+DISPATCHER_LEADER_SERVICE_NAME) && DispatcherDiscoveryManager.isLeader() && authorizedList.contains(tcpArr[1])){
 			DispatcherDiscoveryManager.getLeaderPublisher().addSubscription(tcpArr[1], tcpArr[0]);
-		}else if(tcpArr[0].equalsIgnoreCase(UNSUBSCRIBE_PREFIX+DISPATCHER_LEADER_SERVICE_NAME) && DispatcherDiscoveryManager.isLeader()){
+		}else if(tcpArr[0].equalsIgnoreCase(UNSUBSCRIBE_PREFIX+DISPATCHER_LEADER_SERVICE_NAME) && DispatcherDiscoveryManager.isLeader() && authorizedList.contains(tcpArr[1])){
 			DispatcherDiscoveryManager.getLeaderPublisher().removeSubscrition(tcpArr[1], tcpArr[0]);
 		}else{
 			//0=cluster id,1=service name
