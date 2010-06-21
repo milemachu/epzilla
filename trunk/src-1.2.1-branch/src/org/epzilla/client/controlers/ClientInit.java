@@ -34,6 +34,7 @@ public class ClientInit extends Thread {
     private static int initIntervalEvent;
     private static int initIntervalTrigger;
     private static int sendingIntervalTrigger;
+    private static int triggerSleepTime;
 
     public ClientInit() {
     }
@@ -95,6 +96,11 @@ public class ClientInit extends Thread {
                 ArrayList<String> triggers = new ArrayList<String>();
                 for (int i = 0; i < 100; i++) {
                     triggers.add(EventTriggerGenerator.getNextTrigger());
+                    try {
+                        Thread.sleep(triggerSleepTime);
+                    } catch (InterruptedException e) {
+                        Logger.error("Interrupted: ", e);
+                    }
                 }
                 try {
                     response = di.uploadTriggersToDispatcher(triggers, clientID, triggerSeqID);
@@ -107,9 +113,9 @@ public class ClientInit extends Thread {
                     ClientUIControler.appendResults("Dispatcher Received the Trigger Stream" + "\n");
                 }
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(sendingIntervalTrigger);
                 } catch (InterruptedException e) {
-                    Logger.error("Interrupted :",e);
+                    Logger.error("Interrupted :", e);
                 }
 
 
@@ -131,7 +137,7 @@ public class ClientInit extends Thread {
                     try {
                         Thread.sleep(sendingIntervalTrigger);
                     } catch (InterruptedException e) {
-                        Logger.error("Interrupted: ",e);
+                        Logger.error("Interrupted: ", e);
                     }
                 }
             }
@@ -148,7 +154,7 @@ public class ClientInit extends Thread {
                 try {
                     Thread.sleep(initIntervalEvent);
                 } catch (InterruptedException e) {
-                    Logger.error("",e);
+                    Logger.error("", e);
                 }
 
                 di = (DispInterface) dispMap.get(ip);
@@ -161,7 +167,7 @@ public class ClientInit extends Thread {
                         try {
                             Thread.sleep(sendingIntervalEvent);
                         } catch (InterruptedException e) {
-                            Logger.error("",e);
+                            Logger.error("", e);
                         }
                     } catch (RemoteException e) {
                         isEventsLive = false;
@@ -179,7 +185,7 @@ public class ClientInit extends Thread {
 
     public static void sendCustomTriggers(String trigger) {
         String response = null;
-        
+
         try {
 
             di = (DispInterface) dispMap.get(dispIP);
@@ -188,8 +194,8 @@ public class ClientInit extends Thread {
             response = di.uploadTriggersToDispatcher(triggers, clientID, 1);
         } catch (RemoteException e) {
             ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
-        }catch(NullPointerException ex){
-             ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
+        } catch (NullPointerException ex) {
+            ClientUIControler.appendResults("Connection to the Dispatcher service failed, trigger sending stoped, Perform Lookup operation..." + "\n");
         }
 
         if (response != null) {
@@ -212,6 +218,7 @@ public class ClientInit extends Thread {
             sendingIntervalEvent = Integer.valueOf(settings[1]);
             initIntervalTrigger = Integer.valueOf(settings[2]);
             sendingIntervalTrigger = Integer.valueOf(settings[3]);
+            triggerSleepTime = Integer.valueOf(settings[4]);
         }
     }
 
