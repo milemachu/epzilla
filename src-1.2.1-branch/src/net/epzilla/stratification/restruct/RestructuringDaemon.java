@@ -126,7 +126,7 @@ public class RestructuringDaemon {
 
 
             }
-
+                 restructuring = true;
             try {
                 SystemRestructure.getInstance().restructureSystem();
                 SystemRestructure.getInstance().sendRestructureCommands();
@@ -148,6 +148,7 @@ public class RestructuringDaemon {
 
             }
 
+            restructuring = false;
         } catch (Exception e) {
             Logger.error("Error: invalid syntax? ", e);
 
