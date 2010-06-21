@@ -1,3 +1,3 @@
 <client>
-<clientID initIntervalEvent="1000" sendingIntervalEvent="1" initIntervalTrigger="500" sendingIntervalTrigger="30000"/>
+<clientID initIntervalEvent="1000" sendingIntervalEvent="1" initIntervalTrigger="500" sendingIntervalTrigger="30000" triggerSleepTime="10"/>
 </client>
