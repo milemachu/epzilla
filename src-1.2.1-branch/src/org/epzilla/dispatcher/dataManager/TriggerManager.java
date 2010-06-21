@@ -206,7 +206,8 @@ public class TriggerManager {
         DispatcherUIController.clearTriggerList();
         synchronized (triggers) {
             for (int i = 0; i < triggers.size(); i++) {
-                DispatcherUIController.appendTrigger(triggers.get(i).gettrigger());
+                if (triggers.get(i).gettrigger() != "OOOO")
+                    DispatcherUIController.appendTrigger(triggers.get(i).gettrigger());
             }
         }
 
