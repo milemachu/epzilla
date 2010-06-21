@@ -7,6 +7,7 @@ import net.epzilla.stratification.dynamic.ApproximateDispatcher;
 import net.epzilla.stratification.query.InvalidSyntaxException;
 import org.epzilla.dispatcher.RandomStringGenerator;
 import org.epzilla.dispatcher.clusterHandler.TriggerSender;
+import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 
 import java.net.MalformedURLException;
@@ -74,7 +75,7 @@ public class TriggerManager {
                     TriggerInfoObject obj = new TriggerInfoObject();
                     // ID is the sequential number of the trigger
 //                    obj.settriggerID("TID:" + String.valueOf(count));
-                    obj.settriggerID( String.valueOf(count));
+                    obj.settriggerID(String.valueOf(count));
                     obj.setclientID(clientID);
                     obj.settrigger(new String(trigger));
                     getTriggers().add(obj);
@@ -107,7 +108,7 @@ public class TriggerManager {
                     for (String trigger : triggerList) {
                         TriggerInfoObject obj = new TriggerInfoObject();
                         // ID is the sequential number of the trigger
-                        obj.settriggerID( String.valueOf(tempCount));
+                        obj.settriggerID(String.valueOf(tempCount));
 //                        obj.settriggerID("TID:" + String.valueOf(tempCount));
                         obj.setclientID(clientID);
                         obj.settrigger(new String(trigger));
@@ -120,7 +121,6 @@ public class TriggerManager {
                     }
 
 
-
 //                    ad.assignClusters(tio, clientID);
                     long start = System.currentTimeMillis();
                     ApproximateDispatcher.getInstance().assignClusters(tio, clientID);
@@ -130,11 +130,11 @@ public class TriggerManager {
                     Transaction transaction = Site.getLocal().startTransaction();
                     getTriggers().addAll(tio);
                     transaction.commit();
-                    
+
                     // todo send.
 
                     ArrayList<String> ips = ClusterLeaderIpListManager.getClusterIpList();
-                    Logger.log("getting ip list size:  "+ips.size());
+                    Logger.log("getting ip list size:  " + ips.size());
                     Hashtable<String, ArrayList<TriggerRepresentation>> ht = new Hashtable();
 
                     for (TriggerInfoObject tx : tio) {
@@ -159,28 +159,28 @@ public class TriggerManager {
                     }
 
 
-                   for (String key: ht.keySet()) {
-                       ArrayList<TriggerRepresentation> lis = ht.get(key);
-                       if (lis.size() > 0) {
+                    for (String key : ht.keySet()) {
+                        ArrayList<TriggerRepresentation> lis = ht.get(key);
+                        if (lis.size() > 0) {
                             String cl = key.split(":")[1];
-                           // todo assign clusters properly for system variables.
+                            // todo assign clusters properly for system variables.
 
-                           try {
-                               String ip =  ips.get(Integer.parseInt(cl));
-                               TriggerSender.acceptTrigger(ip, "x", lis, clientID);
-                           } catch (NumberFormatException e) {
-                               
-                               e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                           } catch (RemoteException e) {
-                               e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                           } catch (MalformedURLException e) {
-                               e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                           } catch (NotBoundException e) {
-                               e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                           }
-                       }
+                            try {
+                                String ip = ips.get(Integer.parseInt(cl));
+                                TriggerSender.acceptTrigger(ip, "x", lis, clientID);
+                            } catch (NumberFormatException e) {
 
-                   }
+                                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            } catch (RemoteException e) {
+                                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            } catch (MalformedURLException e) {
+                                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            } catch (NotBoundException e) {
+                                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            }
+                        }
+
+                    }
 
                     success = true;
 //                    Logger.log(new String(trigger));
@@ -200,6 +200,17 @@ public class TriggerManager {
 
     public static void setTriggers(TransactedList<TriggerInfoObject> triggers) {
         TriggerManager.triggers = triggers;
+    }
+
+    public static void printTriggers() {
+        DispatcherUIController.clearTriggerList();
+        synchronized (triggers) {
+            for (int i = 0; i < triggers.size(); i++) {
+                DispatcherUIController.appendTrigger(triggers.get(i).gettrigger());
+            }
+        }
+
+
     }
 
     // get the Cluster leader IP list >> ClusterLeaderIpListManager.getIpList()
