@@ -55,15 +55,17 @@ public class QueryExecuter {
 
     public static void main(String[] args) throws QuerySyntaxException {
         QueryParser qp = new QueryParser();
-        Query q = qp.parseQuery("SELECT avg(StockTrades.price), StockTrades.last  , min(StockTrades.price), StockTrades.amount OUTPUT StkTrades");
+        Query q = qp.parseQuery("SELECT avg(StockTrades.price), StockTrades.last  , min(StockTrades.price), StockTrades.amount WHERE StockTrades.price > 7 OUTPUT StkTrades");
         System.out.println(q.getConditions() == null);
         for (String[] x : q.getConditions()) {
             System.out.println(Arrays.toString(x));
         }
-       
+
 //        Query q = qp.parseQuery(EventTriggerGenerator.generateStockDetailsTrigger());
         QueryExecuter qe = new QueryExecuter();
         qe.addQuery(q);
+        String de = qe.processEvent("StockTrades\nprice,amount,askPrice,last\n31,23,3,31");
+        System.out.println(de);
 
 
 //        for (int i = 0; i < 100; i++) {
@@ -126,97 +128,187 @@ public class QueryExecuter {
                 String op = con[0][1];
                 String att2 = con[0][2];
 
-                double r = Double.MAX_VALUE;
-                try {
-                    Matcher m = p.matcher(att2);
-                    if (m.find()) {
-                        r = Double.parseDouble(att2);
-                    }
-                } catch (Exception e) {
-                    r = Double.parseDouble(att2);
-                }
 
-
-                if (lastOutputTitle == null || !q.getOutputTitle().equals(lastOutputTitle)) {
-                    sb.append(q.getOutputTitle());
-                    sb.append("\n");
-
-                }
-                lastOutputTitle = q.getOutputTitle();
-                String[] resHeaders = q.getResultHeaders();
-                i = 0;
-                int[] ops = q.getOperations();
-                for (String input : q.getInputs()) {
-                    Integer pos = inputPositions.get(input);
-                    if (pos == null) {
-                        sb.append(resHeaders[i]).append("=[N/A]\n");
-                    } else {
-                        double store = 0;
-                        int index = pos;
-                        switch (ops[i]) {
-                            case Query.avg:
-                                for (int j = 0; j < csv.length; j++) {
-                                    store += Double.parseDouble(csv[j][index]);
-                                }
-                                sb.append(resHeaders[i]).append("=").append(store / csv.length);
-                                break;
-                            case Query.min:
-                                if (csv.length > 0) {
-                                    store = Double.parseDouble(csv[0][index]);
-                                }
-                                double td;
-                                for (int j = 0; j < csv.length; j++) {
-                                    td = Double.parseDouble(csv[j][index]);
-                                    if (td < store) {
-                                        store = td;
-                                    }
-                                }
-                                sb.append(resHeaders[i]).append("=").append(store);
-
-                                break;
-                            case Query.max:
-                                if (csv.length > 0) {
-                                    store = Double.parseDouble(csv[0][index]);
-                                }
-
-                                for (int j = 0; j < csv.length; j++) {
-                                    td = Double.parseDouble(csv[j][index]);
-                                    if (td > store) {
-                                        store = td;
-                                    }
-                                }
-                                sb.append(resHeaders[i]).append("=").append(store);
-
-                                break;
-                            case Query.sum:
-                                for (int j = 0; j < csv.length; j++) {
-                                    store += Double.parseDouble(csv[j][index]);
-                                }
-                                sb.append(resHeaders[i]).append("=").append(store);
-
-                                break;
-                            case Query.pass:
-                                String[] cols = new String[csv.length];
-                                for (int j = 0; j < csv.length; j++) {
-                                    cols[j] = csv[j][index];
-                                }
-                                sb.append(resHeaders[i]).append("=").append(Arrays.toString(cols));
-
-                                break;
-                            case Query.copyRow:
-                                break;
+                /// write results
+                if (att1 != null) {
+                    double r = Double.MAX_VALUE;
+                    try {
+                        Matcher m = p.matcher(att2);
+                        if (m.find()) {
+                            r = Double.parseDouble(att2);
                         }
-                        sb.append("\n");
+                    } catch (Exception e) {
+                        r = Double.MAX_VALUE;
                     }
-                    i++;
-                }
+                    Integer ind = -1;
+                    Integer inp = inputPositions.get(att1);
+                    boolean process = false;
+                    String val1 = csv[0][inp];
+
+                    if (inp != null) {
+                        if (r == Double.MAX_VALUE) {
+                            ind = inputPositions.get(att2);
+                            if (ind != null) {
+
+                                String val2 = csv[0][ind];
+                                if ("=".equals(op)) {
+                                    if (val1.equals(val2)) {
+                                        process = true;
+                                    } else {
+                                        double d1 = Double.parseDouble(val1);
+                                        double d2 = Double.parseDouble(val2);
+                                        if (d1 == d2) {
+                                            process = true;
+                                        }
+                                    }
+                                } else if ("!=".equals(op)) {
+                                    if (!val1.equals(val2)) {
+                                        process = true;
+                                    } else {
+                                        double d1 = Double.parseDouble(val1);
+                                        double d2 = Double.parseDouble(val2);
+                                        if (d1 != d2) {
+                                            process = true;
+                                        }
+                                    }
+                                } else {
+                                    try {
+                                        double dx = Double.parseDouble(val1);
+                                        r = Double.parseDouble(val2);
+                                        if ("<".equals(op) && (dx < r)) {
+                                            process = true;
+
+                                        } else if (">".equals(op) && (dx > r)) {
+                                            process = true;
+
+                                        } else if ("<=".equals(op) && (dx <= r)) {
+                                            process = true;
+
+                                        } else if (">=".equals(op) && (dx >= r)) {
+                                            process = true;
+                                        }
+                                    } catch (NumberFormatException e) {
+                                    }
+
+                                }
+                            }
+                        } else {
+                            double dx = Double.parseDouble(val1);
+                            if ("=".equals(op) && (dx == r)) {
+                                process = true;
+                            } else if ("<".equals(op) && (dx < r)) {
+                                process = true;
+
+                            } else if (">".equals(op) && (dx > r)) {
+                                process = true;
+
+                            } else if ("<=".equals(op) && (dx <= r)) {
+                                process = true;
+
+                            } else if (">=".equals(op) && (dx >= r)) {
+                                process = true;
+                            } else if ("!=".equals(op) && (dx != r)) {
+                                process = true;
+
+                            }
+
+
+                        }
+                        if (process) {
+                            writeResult(sb, q, csv, inputPositions, lastOutputTitle);
+                        }
+                    } else {
+                        writeResult(sb, q, csv, inputPositions, lastOutputTitle);
+
+                    }
 //                String[][] result = new String[q.getInputs().length][2];
 
 
-            }
-        }
+                } else {
+                    writeResult(sb, q, csv, inputPositions, lastOutputTitle);
 
+                }
+            }
+
+        }
         return sb.toString();
+
+    }
+
+    public void writeResult(StringBuilder sb, Query q, String[][] csv, HashMap<String, Integer> inputPositions, String lastOutputTitle) {
+        if (lastOutputTitle == null || !q.getOutputTitle().equals(lastOutputTitle)) {
+            sb.append(q.getOutputTitle());
+            sb.append("\n");
+
+        }
+        lastOutputTitle = q.getOutputTitle();
+        String[] resHeaders = q.getResultHeaders();
+        int i = 0;
+        int[] ops = q.getOperations();
+        for (String input : q.getInputs()) {
+            Integer pos = inputPositions.get(input);
+            if (pos == null) {
+                sb.append(resHeaders[i]).append("=[N/A]\n");
+            } else {
+                double store = 0;
+                int index = pos;
+                switch (ops[i]) {
+                    case Query.avg:
+                        for (int j = 0; j < csv.length; j++) {
+                            store += Double.parseDouble(csv[j][index]);
+                        }
+                        sb.append(resHeaders[i]).append("=").append(store / csv.length);
+                        break;
+                    case Query.min:
+                        if (csv.length > 0) {
+                            store = Double.parseDouble(csv[0][index]);
+                        }
+                        double td;
+                        for (int j = 0; j < csv.length; j++) {
+                            td = Double.parseDouble(csv[j][index]);
+                            if (td < store) {
+                                store = td;
+                            }
+                        }
+                        sb.append(resHeaders[i]).append("=").append(store);
+
+                        break;
+                    case Query.max:
+                        if (csv.length > 0) {
+                            store = Double.parseDouble(csv[0][index]);
+                        }
+
+                        for (int j = 0; j < csv.length; j++) {
+                            td = Double.parseDouble(csv[j][index]);
+                            if (td > store) {
+                                store = td;
+                            }
+                        }
+                        sb.append(resHeaders[i]).append("=").append(store);
+
+                        break;
+                    case Query.sum:
+                        for (int j = 0; j < csv.length; j++) {
+                            store += Double.parseDouble(csv[j][index]);
+                        }
+                        sb.append(resHeaders[i]).append("=").append(store);
+
+                        break;
+                    case Query.pass:
+                        String[] cols = new String[csv.length];
+                        for (int j = 0; j < csv.length; j++) {
+                            cols[j] = csv[j][index];
+                        }
+                        sb.append(resHeaders[i]).append("=").append(Arrays.toString(cols));
+
+                        break;
+                    case Query.copyRow:
+                        break;
+                }
+                sb.append("\n");
+            }
+            i++;
+        }
     }
 
 
