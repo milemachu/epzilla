@@ -127,9 +127,12 @@ public class RestructuringDaemon {
 
             }
 
-            SystemRestructure.getInstance().restructureSystem();
-            SystemRestructure.getInstance().sendRestructureCommands();
-
+            try {
+                SystemRestructure.getInstance().restructureSystem();
+                SystemRestructure.getInstance().sendRestructureCommands();
+            } catch (Exception re) {
+                Logger.error("", re);
+            }
 
             for (String ip : disp) {
                 try {
