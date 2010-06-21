@@ -93,7 +93,8 @@ public class DispatcherAsServer {
         }
         TriggerManager.getTriggers().addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-                DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
+                //DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
+            TriggerManager.printTriggers();
             }
         });
 

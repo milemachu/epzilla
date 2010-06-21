@@ -129,7 +129,8 @@ public class DispatcherAsClient {
             public void onChange(Transaction transaction, int i) {
 
                 if (isActive) {
-                    DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
+//                    DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
+                  TriggerManager.printTriggers();  
                 } else {
                     info.removeListener(this);
                 }
