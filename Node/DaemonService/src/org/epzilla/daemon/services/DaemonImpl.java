@@ -53,7 +53,9 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonInterface {
 					processMap.put(Integer.parseInt(proc[0]), proc[1]);
 					System.out.println(line);
 					if(proc[1].equalsIgnoreCase("ClusterStartup")){
-						Runtime.getRuntime().exec("taskkill /f /PID "+proc[0]);
+						String[] commands = {"cmd", "/c", "start", "Taskkill.bat","Taskkill.bat "+proc[0]};
+//						Runtime.getRuntime().exec("taskkill /f /PID "+proc[0]);
+						Runtime.getRuntime().exec(commands);
 						break;
 					}
 				}
