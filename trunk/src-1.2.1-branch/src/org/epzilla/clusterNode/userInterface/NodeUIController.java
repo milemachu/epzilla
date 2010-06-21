@@ -84,11 +84,11 @@ public class NodeUIController {
     /*
     get node controler button
      */
-    public static void getAddNodeButton(){
-        instance.getAddNodeButton().setVisible(false);
+    public static void setAddNodeButtonStatus(boolean isVisible){
+        instance.getAddNodeButton().setVisible(isVisible);
     }
-    public static void getRemoveNodeBtn(){
-        instance.getRemoveNodeButton().setVisible(false);
+    public static void setRemoveNodeBtnStatus(boolean isVisible){
+        instance.getRemoveNodeButton().setVisible(isVisible);
     }
     public static void main(String[] args){
         InitializeUI();
