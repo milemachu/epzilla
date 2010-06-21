@@ -208,7 +208,7 @@ public class EventTriggerGenerator {
 
     static String[] operations = {"", "min", "max", "avg", "sum"};
     static String[] attributes = {"bidPrice", "last", "amount", "askPrice"};
-
+            static String[] con = new String[] {"=","!=",">", "<", "<="};
 
     public static String generateStockDetailsTrigger() {
         StringBuilder writer = new StringBuilder("");
@@ -246,6 +246,22 @@ public class EventTriggerGenerator {
 //        writer.append(Const.PROPERTY[random.nextInt(Const.PROPERTY.length)]);
         writer.append(" ");
 
+        if (Math.random() > 0.5) {
+            writer.append("WHERE ");
+
+            writer.append(stockSymbols[symIndex]);
+            writer.append(".");
+            writer.append(attributes[attIndex]);
+                           writer.append(" ");
+            int ci = (int) ((con.length)*(Math.random()));
+            writer.append(con[ci]);
+            writer.append(" ");
+            
+            writer.append((int) (Math.random() * 100)) ;
+            writer.append(" ");
+            
+
+        }
 //        writer.append("WHERE");
 //        writer.append(" ");
 //        writer.append("CarDetails");
