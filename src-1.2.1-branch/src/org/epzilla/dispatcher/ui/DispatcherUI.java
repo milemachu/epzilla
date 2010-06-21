@@ -195,9 +195,9 @@ public class DispatcherUI extends JFrame implements ActionListener {
             JLabel lblInEC = new JLabel();
             lblInEC.setBounds(new Rectangle(15, 553, 140, 25));
             lblInEC.setText("Incoming Event Count :");
-            JLabel lblEDR = new JLabel();
-            lblEDR.setBounds(new Rectangle(420, 553, 200, 25));
-            lblEDR.setText("Event Dispatch rate (Evt/sec):");
+//            JLabel lblEDR = new JLabel();
+//            lblEDR.setBounds(new Rectangle(420, 553, 200, 25));
+//            lblEDR.setText("Event Dispatch rate (Evt/sec):");
             JLabel lblIPs = new JLabel();
             lblIPs.setBounds(new Rectangle(713, 17, 150, 25));
             lblIPs.setText("Cluster Leader IP List :");
@@ -228,8 +228,8 @@ public class DispatcherUI extends JFrame implements ActionListener {
             summary.add(getTxtInEventCount(), null);
             summary.add(lblOutEC, null);
             summary.add(getTxtOutEventCount(), null);
-            summary.add(lblEDR, null);
-            summary.add(getEventDispatchRate(), null);
+//            summary.add(lblEDR, null);
+//            summary.add(getEventDispatchRate(), null);
             summary.add(lblClusterPer, null);
 
             EpzillaTable et = new EpzillaTable();
