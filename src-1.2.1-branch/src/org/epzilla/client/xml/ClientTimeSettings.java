@@ -29,7 +29,7 @@ public class ClientTimeSettings {
             xe.parseString(sb.toString());
 
 
-            String[] items = new String[5];
+            String[] items = new String[7];
 
             for (XMLElement child : xe.getChildren()) {
                 items[0] = child.getAttribute("initIntervalEvent");
@@ -37,6 +37,8 @@ public class ClientTimeSettings {
                 items[2] = child.getAttribute("initIntervalTrigger");
                 items[3] = child.getAttribute("sendingIntervalTrigger");
                 items[4] = child.getAttribute("triggerSleepTime");
+                items[5] = child.getAttribute("initTriggerLoop");
+                items[6] = child.getAttribute("priorTriggerLoop");
                 lis.add(items);
             }
         } catch (Exception e) {
