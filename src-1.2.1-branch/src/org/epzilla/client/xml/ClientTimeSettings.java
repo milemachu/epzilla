@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public class ClientTimeSettings {
-        public static ArrayList<String[]> getClientTimeIntervals(String filename) {
+    public static ArrayList<String[]> getClientTimeIntervals(String filename) {
         ArrayList<String[]> lis = new ArrayList<String[]>();
         BufferedReader br = null;
         try {
@@ -29,17 +29,18 @@ public class ClientTimeSettings {
             xe.parseString(sb.toString());
 
 
-            String[] items = new String[4];
+            String[] items = new String[5];
 
             for (XMLElement child : xe.getChildren()) {
                 items[0] = child.getAttribute("initIntervalEvent");
                 items[1] = child.getAttribute("sendingIntervalEvent");
                 items[2] = child.getAttribute("initIntervalTrigger");
                 items[3] = child.getAttribute("sendingIntervalTrigger");
+                items[4] = child.getAttribute("triggerSleepTime");
                 lis.add(items);
             }
         } catch (Exception e) {
-           Logger.error("File reader error:",e);
+            Logger.error("File reader error:", e);
         }
         return lis;
     }
