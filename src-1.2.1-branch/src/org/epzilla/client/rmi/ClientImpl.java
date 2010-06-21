@@ -14,20 +14,23 @@ import java.rmi.server.UnicastRemoteObject;
  * To change this template use File | Settings | File Templates.
  */
 public class ClientImpl extends UnicastRemoteObject implements ClientInterface {
-    private static ClientUIControler clientCon;
 
 
     public ClientImpl() throws RemoteException {
     }
 
+    /*
+   accept alert messages
+    */
 
     public String notifyClient(byte[] notifications) {
         try {
             String alert = new String(notifications);
-            clientCon = new ClientUIControler(alert);
-            clientCon.setAlertCount();
-            Thread t = new Thread(clientCon);
-            t.start();
+            ClientUIControler.appendAlerts(alert);
+//            ClientUIControler clientCon = new ClientUIControler(alert);
+//            clientCon.setAlertCount();
+//            Thread t = new Thread(clientCon);
+//            t.start();
             return "OK";
         } catch (Exception ex) {
             Logger.error("", ex);
