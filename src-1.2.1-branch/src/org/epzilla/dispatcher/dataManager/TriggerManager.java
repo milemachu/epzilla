@@ -151,11 +151,15 @@ public class TriggerManager {
                         list.add(tr);
                     }
 
-                    for (TriggerInfoObject tx : tio) {
-//                        sendTriggersToclusters(tx.gettrigger());
-                        Logger.log(tx.gettrigger());
-                        Logger.log(tx.getclusterID());
 
+                    try {
+                        for (TriggerInfoObject tx : tio) {
+    //                        sendTriggersToclusters(tx.gettrigger());
+                            Logger.log(tx.gettrigger());
+                            Logger.log(tx.getclusterID());
+
+                        }
+                    } catch (Exception e) {
                     }
 
 
@@ -167,7 +171,7 @@ public class TriggerManager {
 
                             try {
                                 String ip = ips.get(Integer.parseInt(cl));
-                                TriggerSender.acceptTrigger(ip, "x", lis, clientID);
+                                TriggerSender.acceptTrigger(ip, cl, lis, clientID);
                             } catch (NumberFormatException e) {
 
                                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -175,7 +179,7 @@ public class TriggerManager {
                                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                             } catch (MalformedURLException e) {
                                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                            } catch (NotBoundException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                             }
                         }
