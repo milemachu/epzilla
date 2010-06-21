@@ -104,8 +104,8 @@ public class NodeUI extends JFrame implements ActionListener {
             jContentPane.add(getJScrollPane(), null);
             jContentPane.add(getJScrollPane1(), null);
 //            jContentPane.add(getJScrollPane2(), null);
-            jContentPane.add(getJScrollPane3(), null);
-            jContentPane.add(getJScrollPane4(), null);
+//            jContentPane.add(getJScrollPane3(), null);
+//            jContentPane.add(getJScrollPane4(), null);
             jContentPane.add(getJTextAreaLeader(), null);
             jContentPane.add(getJTextAreaEventCount(), null);
             jContentPane.add(getNodesPane(), null);
@@ -116,6 +116,15 @@ public class NodeUI extends JFrame implements ActionListener {
             jContentPane.add(getAddNodeButton(), null);
             jContentPane.add(getRemoveNodeButton(),null);
             jContentPane.add(lblCNL, null);
+
+            CpuAnalyzer ca = new CpuAnalyzer();
+            ca.setBounds(new Rectangle(736, 531, 244, 140));
+            jContentPane.add(ca);
+
+            MemoryTable mt = new MemoryTable();
+            mt.setBounds(new Rectangle(736, 386, 244, 140));
+            jContentPane.add(mt);
+            
         }
         return jContentPane;
     }
