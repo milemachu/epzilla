@@ -83,7 +83,7 @@ public class DispatcherStartup {
 
 
         } catch (Exception e) {
-            Logger.error("",e);
+            Logger.error("", e);
         }
     }
 
@@ -102,6 +102,14 @@ public class DispatcherStartup {
             if (RestructuringDaemon.isRestructuring()) {
                 RestructuringDaemon.forceRestructuring();
             }
+            try {
+                if (RestructuringDaemon.isRestructuring()) {
+                    RestructuringDaemon.forceRestructuring();
+                }
+            } catch (Exception e) {
+                Logger.error("", e);
+            }
+
             RestructuringDaemon.start();
 
         } else {
@@ -112,7 +120,7 @@ public class DispatcherStartup {
         }
     }
 
-      public static boolean triggerLEFromRemote() {
+    public static boolean triggerLEFromRemote() {
         return LeaderElectionInitiator.initiateLeaderElection();
     }
 }
