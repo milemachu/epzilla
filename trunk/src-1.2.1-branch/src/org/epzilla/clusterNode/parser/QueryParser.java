@@ -118,7 +118,7 @@ public class QueryParser {
         String delim = null;
 
         if (wherePart != null) {
-            for (String it : operators) {
+            for (String it : operators) {           
                 if (wherePart.contains(it)) {
                     delim = it;
                     break;
