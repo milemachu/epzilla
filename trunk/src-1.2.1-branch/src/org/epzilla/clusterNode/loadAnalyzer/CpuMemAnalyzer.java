@@ -1,13 +1,12 @@
 package org.epzilla.clusterNode.loadAnalyzer;
 
-import com.jezhumble.javasysmon.JavaSysMon;
 import com.jezhumble.javasysmon.CpuTimes;
+import com.jezhumble.javasysmon.JavaSysMon;
+import org.epzilla.clusterNode.NodeController;
+import org.epzilla.clusterNode.dataManager.PerformanceInfoManager;
+import org.epzilla.clusterNode.userInterface.NodeUIController;
 
 import java.util.TimerTask;
-
-import org.epzilla.clusterNode.userInterface.NodeUIController;
-import org.epzilla.clusterNode.dataManager.PerformanceInfoManager;
-import org.epzilla.clusterNode.NodeController;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,14 +16,18 @@ import org.epzilla.clusterNode.NodeController;
  * To change this template use File | Settings | File Templates.
  */
 public class CpuMemAnalyzer {
+    private static int cpuUsage;
+    private static int memUsage;
+    private static int totalMemory;
+    private static int freeMemory;
 
     public static void Initialize() {
         final JavaSysMon mon = new JavaSysMon();
 
-        NodeUIController.appendTextToMachineInfo("Number of CPUs :" + mon.numCpus());
-        NodeUIController.appendTextToMachineInfo("CPU Speed :" + mon.cpuFrequencyInHz() / 1000000 + " MHz");
-        NodeUIController.appendTextToMachineInfo("OS :" + mon.osName());
-        NodeUIController.appendTextToMachineInfo("Total Memory :" + mon.physical().getTotalBytes() / 1048576 + " MB");
+//        NodeUIController.appendTextToMachineInfo("Number of CPUs :" + mon.numCpus());
+//        NodeUIController.appendTextToMachineInfo("CPU Speed :" + mon.cpuFrequencyInHz() / 1000000 + " MHz");
+//        NodeUIController.appendTextToMachineInfo("OS :" + mon.osName());
+//        NodeUIController.appendTextToMachineInfo("Total Memory :" + mon.physical().getTotalBytes() / 1048576 + " MB");
 
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {
@@ -54,13 +57,31 @@ public class CpuMemAnalyzer {
                 }
                 NodeUIController.appendTextToPerformanceInfo("CPU Usage :" + val * 100 + " %");
                 long mem = (mon.physical().getTotalBytes() - mon.physical().getFreeBytes());
+                totalMemory = (int) ((mon.physical().getTotalBytes()) / 1048576);
+                freeMemory = (int) ((mon.physical().getFreeBytes()) / 1048576);
+                cpuUsage = (int) (val * 100);
+                memUsage = (int) (mem * 100 / mon.physical().getTotalBytes());
                 NodeUIController.appendTextToPerformanceInfo("Memory Usage :" + mem / 1048576 + " MB");
                 NodeUIController.appendTextToPerformanceInfo("Memory Usage Percentage: " + (mem * 100 / mon.physical().getTotalBytes()) + " %");
                 oldTime = newTime;
             }
-        }, 1000, 1000);
+        }, 100, 1000);
 
     }
 
+    public static int getCpuUsage() {
+        return cpuUsage;
+    }
 
+    public static int getTotalMemory() {
+        return totalMemory;
+    }
+
+    public static int getFreeMemory() {
+        return freeMemory;
+    }
+
+    public static int getMemUsage() {
+        return memUsage;
+    }
 }
