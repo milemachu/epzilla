@@ -62,12 +62,6 @@ class TimerTaskC {
                     EventsCounter.setMaxRate(rate);
                 }
                 String textRate;
-//                if (rate < 100) {
-//                    textRate = "100";
-//                    rate = 100;
-//                } else {
-//                    textRate = Integer.toString(rate);
-//                }
                 textRate = Integer.toString(rate);
                 EventsCounter.setEventDispatchRate(rate);
                 DispatcherUIController.setEDRate(textRate);
