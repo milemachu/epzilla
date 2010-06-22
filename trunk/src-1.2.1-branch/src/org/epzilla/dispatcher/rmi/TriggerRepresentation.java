@@ -15,6 +15,11 @@ public class TriggerRepresentation implements Serializable {
         return triggerId;
     }
 
+    @Override
+    public String toString() {
+        return this.triggerId;
+    }
+
     public void setTriggerId(String triggerId) {
         this.triggerId = triggerId;
     }
