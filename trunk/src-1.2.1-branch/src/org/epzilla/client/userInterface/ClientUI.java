@@ -61,7 +61,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     JPanel simulatorPanel = null;
     private JPanel workBenchUpperPanel = null;
     JButton sendQueryBtn = new JButton();
-    private JScrollPane getAllTriggers = null;
+    private JPanel getAllTriggers = null;
     private JTextArea txtAllTriggers = null;
     private JButton deleteBtn = null;
 
@@ -451,14 +451,83 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         return notificationSP;
     }
 
-    private JScrollPane getAllTrigersScPane() {
+    private JPanel getAllTrigersScPane() {
         if (getAllTriggers == null) {
-            getAllTriggers = new JScrollPane();
-            getAllTriggers.setBounds(new Rectangle(25, 30, 400, 500));
-            getAllTriggers.setViewportView(txtGetAllTriggers());
+
+            getAllTriggers = new JPanel(new CustomGridLayout(new String[]{"100%"}, new String[]{"100%", "10", "35", "10"}));
+            getAllTriggers.setBounds(new Rectangle(25, 30, 600, 500));
+
+            JTextArea jt = new JTextArea();
+            jt.setOpaque(true);
+            jt.setBackground(Color.black);
+            jt.setForeground(Color.green);
+            jt.setEditable(false);
+            JScrollPane jsp = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            jsp.add(jt);
+            getAllTriggers.add(jsp);
+            JLabel jl = new JLabel();
+            jl.setOpaque(false);
+            getAllTriggers.add(jl);
+
+            JPanel oppanel = new JPanel(new CustomGridLayout(new String[]{"10", "80", "100%", "100", "15", "80", "10"}, new String[]{"100%"}));
+
+            jl = new JLabel();
+            jl.setOpaque(false);
+            oppanel.add(jl);
+
+            btnRefreshTriggers = new JButton("Refresh");
+            btnRefreshTriggers.addActionListener(new RefreshListener());
+            oppanel.add(btnRefreshTriggers);
+
+            jl = new JLabel();
+            jl.setOpaque(false);
+            oppanel.add(jl);
+
+            deleteField = new JTextField();
+            oppanel.add(deleteField);
+                                 oppanel.setOpaque(false);
+            jl = new JLabel();
+            jl.setOpaque(false);
+            oppanel.add(jl);
+
+            btnDeleteTrigger = new JButton("Delete");
+            btnDeleteTrigger.addActionListener(new DeleteListener());
+            oppanel.add(btnDeleteTrigger);
+
+
+            jl = new JLabel();
+            jl.setOpaque(false);
+            oppanel.add(jl);
+
+            getAllTriggers.add(oppanel);
+
+            jl = new JLabel();
+            jl.setOpaque(false);
+            getAllTriggers.add(jl);
         }
         return getAllTriggers;
     }
+
+    class DeleteListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+
+    class RefreshListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    JButton btnRefreshTriggers;
+    JButton btnDeleteTrigger;
+    JTextField deleteField;
 
     public JTextArea txtGetAllTriggers() {
         if (txtAllTriggers == null) {
