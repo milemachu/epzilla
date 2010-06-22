@@ -3,11 +3,13 @@ package org.epzilla.dispatcher.rmi;
 import net.epzilla.stratification.dynamic.SystemVariables;
 import net.epzilla.stratification.restruct.RestructuringDaemon;
 import org.epzilla.client.rmi.ClientCallbackInterface;
+import org.epzilla.dispatcher.clusterHandler.TriggerSender;
 import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.dispatcher.dataManager.*;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 import org.epzilla.dispatcher.logs.ReadLog;
 import org.epzilla.dispatcher.ui.ClusterPerformanceData;
+import org.epzilla.leader.LeaderElectionInitiator;
 import org.epzilla.util.Logger;
 
 import java.net.InetAddress;
@@ -16,9 +18,7 @@ import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Vector;
+import java.util.*;
 
 public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
@@ -86,6 +86,12 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
                         al.add(tio);
                     }
                 }
+            }
+
+            Hashtable<Integer, String> ipset = new Hashtable(LeaderElectionInitiator.getSubscribedClusterLeadersFromAnyDispatcher());
+
+            for (Integer id : ipset.keySet()) {
+                TriggerSender.requestTriggerDeletion(ipset.get(id), Integer.toString(id), list, clientIP);
             }
 
             TriggerManager.getTriggers().removeAll(al);
