@@ -1,5 +1,7 @@
 package org.epzilla.accumulator.userinterface;
 
+import org.epzilla.util.Logger;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -10,14 +12,10 @@ public class AccumulatorUI extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel jContentPane = null;
     private JTextArea txtEventResults = null;
-    private JLabel lblEventCount = null;
-    private JLabel lblStatus = null;
     private JTextArea txtAccStatus = null;
     private JTextArea txtDeriveEvent = null;
     private JScrollPane resultScrollPane = null;
-    private JLabel lblEvents = null;
     private JTextArea txtEvPro = null;
-    private JLabel lblResults = null;
 
     /**
      * This is the default constructor
@@ -32,12 +30,16 @@ public class AccumulatorUI extends JFrame {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
         catch (UnsupportedLookAndFeelException e) {
+            Logger.error("UI eror:", e);
         }
         catch (ClassNotFoundException e) {
+            Logger.error("UI eror:", e);
         }
         catch (InstantiationException e) {
+            Logger.error("UI eror:", e);
         }
         catch (IllegalAccessException e) {
+            Logger.error("UI eror:", e);
         }
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = screen.width;
@@ -114,18 +116,18 @@ public class AccumulatorUI extends JFrame {
 
     private JPanel getJContentPane() {
         if (jContentPane == null) {
-            lblResults = new JLabel();
+            JLabel lblResults = new JLabel();
             lblResults.setBounds(new Rectangle(30, 30, 80, 30));
             lblResults.setText("Results:");
-            lblEvents = new JLabel();
+            JLabel lblEvents = new JLabel();
             lblEvents.setText("Events processed: ");
             lblEvents.setLocation(new Point(690, 165));
             lblEvents.setSize(new Dimension(129, 30));
-            lblStatus = new JLabel();
+            JLabel lblStatus = new JLabel();
             lblStatus.setText("Accumulator Status:");
             lblStatus.setSize(new Dimension(128, 30));
             lblStatus.setLocation(new Point(690, 85));
-            lblEventCount = new JLabel();
+            JLabel lblEventCount = new JLabel();
             lblEventCount.setText("Derive Event Count:");
             lblEventCount.setLocation(new Point(690, 125));
             lblEventCount.setSize(new Dimension(117, 30));
