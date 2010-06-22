@@ -8,11 +8,9 @@ import jstm.transports.clientserver.ConnectionInfo;
 import java.util.Set;
 import java.util.TimerTask;
 
-import org.epzilla.clusterNode.clusterInfoObjectModel.ClusterObjectModel;
-import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
-import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
-import org.epzilla.clusterNode.clusterInfoObjectModel.PerformanceInfoObject;
+import org.epzilla.clusterNode.clusterInfoObjectModel.*;
 import org.epzilla.clusterNode.NodeController;
+import org.epzilla.clusterNode.dataManager.NodeManager;
 import org.epzilla.clusterNode.leaderReg.ClusterStartup;
 import org.epzilla.clusterNode.processor.EventProcessor;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
@@ -107,6 +105,9 @@ public class NodeAsNonLeader {
         if (info.get(0) instanceof PerformanceInfoObject) {
             addPerformanceInfoList((TransactedList<PerformanceInfoObject>) info);
         }
+        if (info.get(0) instanceof NodeStatusObject) {
+            addNodeStatusList((TransactedList<NodeStatusObject>) info);
+        }
 
     }
 
@@ -156,6 +157,10 @@ public class NodeAsNonLeader {
 
     }
 
+    private static void addNodeStatusList(final TransactedList<NodeStatusObject> info) {
+        NodeManager.setInactiveipList(info);
+    }
+
     private static void addPerformanceInfoList(final TransactedList<PerformanceInfoObject> info) {
 
         NodeUIController.appendTextToStatus("Performance Info List added...");
@@ -184,7 +189,7 @@ public class NodeAsNonLeader {
                 if (serverStatus == SocketClient.Status.DISCONNECTED) {
                     NodeUIController.appendTextToStatus("Server Status :" + serverStatus);
                     this.cancel();
-                    isActive=false;
+                    isActive = false;
                     //Initializing LE
                     ClusterStartup.triggerLEFromRemote();
                     ClusterStartup.startSTM();

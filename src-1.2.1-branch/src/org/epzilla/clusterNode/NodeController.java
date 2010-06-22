@@ -53,6 +53,7 @@ public class NodeController {
             NodeAsLeader.loadIPList();
             NodeAsLeader.loadPerformanceInfoList();
             NodeAsLeader.checkForOverloading();
+            NodeAsLeader.loadNodeStatusList();
             //For testing ONLY
             //TriggerManager.initTestTriggerStream();
             //PerformanceInfoManager.initTestPerformanceInfoStream();
