@@ -35,7 +35,7 @@ public class NodeManager {
             if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
                 Site.getLocal().allowThread();
                 Transaction transaction = Site.getLocal().startTransaction();
-                for (int i = 0; i < getInactiveipList().size(); i++) {
+                for (int i = 1; i < getInactiveipList().size(); i++) {
                     ip = getInactiveipList().get(i).getIP();
                     getInactiveipList().remove(i);
                 }
