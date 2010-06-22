@@ -61,6 +61,9 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     JPanel simulatorPanel = null;
     private JPanel workBenchUpperPanel = null;
     JButton sendQueryBtn = new JButton();
+    private JScrollPane getAllTriggers = null;
+    private JTextArea txtAllTriggers = null;
+    private JButton deleteBtn = null;
 
     public ClientUI() {
         super();
@@ -105,6 +108,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             ImageIcon settingsIcon = new ImageIcon("images//settings.jpg");
             ImageIcon summaryIcon = new ImageIcon("images//summary.jpg");
             ImageIcon serviceIcon = new ImageIcon("images//service.jpg");
+            ImageIcon detailsIcon = new ImageIcon("image//clusterDe.jpg");
 
             JLabel lblCount = new JLabel();
             lblCount.setBounds(new Rectangle(600, 18, 120, 25));
@@ -138,6 +142,9 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             labelIP.setText("IP Address :");
             labelIP.setSize(new Dimension(72, 25));
             labelIP.setLocation(new Point(30, 49));
+            JLabel lblTriggers = new JLabel();
+            lblTriggers.setText("Triggers :");
+            lblTriggers.setBounds(new Rectangle(26, 5, 69, 24));
 
             tabbedPane = new JTabbedPane();
 
@@ -199,10 +206,25 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             results.add(lblCount, null);
             results.add(getTxtNotiCount(), null);
 
+            JPanel deleteTriggers = new JPanel() {
+                public void paintComponent(Graphics g) {
+                    Graphics2D g2d = (Graphics2D) g;
+                    int w = getWidth();
+                    int h = getHeight();
+                    GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
+                    g2d.setPaint(gp);
+                    g2d.fillRect(0, 0, w, h);
+                }
+            };
+            deleteTriggers.setLayout(null);
+            deleteTriggers.add(getAllTrigersScPane());
+            deleteTriggers.add(lblTriggers);
+
             results.add(getNotificationScrollpane(), null);
             results.add(jLabel, null);
             tabbedPane.addTab("Service", serviceIcon, upload);
             tabbedPane.addTab("Summary", summaryIcon, results);
+            tabbedPane.addTab("Triggers", detailsIcon, deleteTriggers);
             tabbedPane.addTab("Settings", settingsIcon, mainSettings);
 
             tabbedPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -427,6 +449,28 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             notificationSP.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         }
         return notificationSP;
+    }
+
+    private JScrollPane getAllTrigersScPane() {
+        if (getAllTriggers == null) {
+            getAllTriggers = new JScrollPane();
+            getAllTriggers.setBounds(new Rectangle(25, 30, 400, 500));
+            getAllTriggers.setViewportView(txtGetAllTriggers());
+        }
+        return getAllTriggers;
+    }
+
+    public JTextArea txtGetAllTriggers() {
+        if (txtAllTriggers == null) {
+            txtAllTriggers = new JTextArea();
+            txtAllTriggers.setBounds(new Rectangle(25, 30, 400, 500));
+            txtAllTriggers.setEditable(false);
+            txtAllTriggers.setLineWrap(true);
+            txtAllTriggers.setWrapStyleWord(true);
+            txtAllTriggers.setForeground(Color.GREEN);
+            txtAllTriggers.setBackground(Color.BLACK);
+        }
+        return txtAllTriggers;
     }
 
     private JTextField getTxtDispName() {
