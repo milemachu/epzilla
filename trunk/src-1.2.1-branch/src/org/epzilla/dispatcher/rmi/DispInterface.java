@@ -15,7 +15,9 @@ public interface DispInterface extends Remote {
 
     public String uploadTriggersToDispatcher(ArrayList<String> tList, String cID, int triggerSeqID) throws RemoteException;
 
-    public String deleteTriggers(ArrayList<String> list, String cID, int triggerSeqID) throws RemoteException;
+    public String deleteTriggers(ArrayList<TriggerRepresentation> list, String cID) throws RemoteException;
+
+    public ArrayList<TriggerRepresentation> getAllTriggers(String clientId) throws RemoteException;
 
     public void getNotifications(String notification,String clientID) throws RemoteException;
 
