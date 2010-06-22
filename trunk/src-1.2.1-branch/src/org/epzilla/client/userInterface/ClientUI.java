@@ -475,10 +475,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             getAllTriggers = new JPanel(new CustomGridLayout(new String[]{"100%"}, new String[]{"100%", "10", "35", "10"}));
             getAllTriggers.setBounds(new Rectangle(25, 30, 600, 500));
 
-//            JTextArea jt = new JTextArea();
-//            jt.setBackground(Color.black);
-//            jt.setForeground(Color.green);
-//            jt.setEditable(false);
             JScrollPane jsp = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             jsp.setViewportView(txtGetAllTriggers());
             getAllTriggers.add(jsp);
@@ -493,7 +489,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             oppanel.add(jl);
 
             btnRefreshTriggers = new JButton("Refresh");
-//            btnRefreshTriggers.addActionListener(new RefreshListener());
             //logic to get triggers
             btnRefreshTriggers.addActionListener(new ActionListener() {
                 @Override
@@ -527,7 +522,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
                                         Logger.error("Trigger sorting error:", e1);
 
                                     }
-                                    return 0;  //To change body of implemented methods use File | Settings | File Templates.
+                                    return 0;
                                 }
                             });
                             txtAllTriggers.setText("");
@@ -561,7 +556,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             oppanel.add(jl);
 
             btnDeleteTrigger = new JButton("Delete");
-//            btnDeleteTrigger.addActionListener(new DeleteListener());
             //logic to delete triggers
             btnDeleteTrigger.addActionListener(new ActionListener() {
                 @Override
@@ -591,7 +585,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
                                                 }
                                             }
                                         } catch (Exception e1) {
-                                            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                                            Logger.error("Trigger accepting error :", e1);
                                         }
                                     }
                                 }
@@ -717,7 +711,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         jb3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //code for event generation
+                //event generation
                 if ((dispIP.length() == 0) && (dispName.length() == 0)) {
                     JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Epzilla", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -735,7 +729,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         jb4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // code for stop event generation
+                // stop event generation
                 ClientInit.stopEventStream();
             }
         });
@@ -880,12 +874,13 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             client.unregisterCallback(ip, servicename);
             ClientHandler.unRegisterClient(clientIP, clientID);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Logger.error("URL error", e);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Logger.error("Remote error", e);
         } catch (NotBoundException e) {
-            e.printStackTrace();
+            Logger.error("Registry bind error", e);
         } catch (UnknownHostException e) {
+            Logger.error("Host error", e);
         }
         btnLookup.setEnabled(true);
         btnClear.setEnabled(false);
