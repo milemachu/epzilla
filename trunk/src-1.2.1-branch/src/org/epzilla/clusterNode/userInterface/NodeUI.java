@@ -2,6 +2,7 @@ package org.epzilla.clusterNode.userInterface;
 
 import org.epzilla.clusterNode.nodeControler.SleepNode;
 import org.epzilla.clusterNode.nodeControler.WakeNode;
+import org.epzilla.util.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,16 +45,16 @@ public class NodeUI extends JFrame implements ActionListener {
                     UIManager.getSystemLookAndFeelClassName());
         }
         catch (UnsupportedLookAndFeelException e) {
-            // handle exception
+            Logger.error("UI eror:", e);
         }
         catch (ClassNotFoundException e) {
-            // handle exception
+            Logger.error("UI eror:", e);
         }
         catch (InstantiationException e) {
-            // handle exception
+            Logger.error("UI eror:", e);
         }
         catch (IllegalAccessException e) {
-            // handle exception
+            Logger.error("UI eror:", e);
         }
         Toolkit tk = Toolkit.getDefaultToolkit();
         int xSize = ((int) tk.getScreenSize().getWidth());
@@ -114,7 +115,7 @@ public class NodeUI extends JFrame implements ActionListener {
             jContentPane.add(lblCTL, null);
 //            jContentPane.add(lblBtn, null);
             jContentPane.add(getAddNodeButton(), null);
-            jContentPane.add(getRemoveNodeButton(),null);
+            jContentPane.add(getRemoveNodeButton(), null);
             jContentPane.add(lblCNL, null);
 
             CpuAnalyzer ca = new CpuAnalyzer();
@@ -124,7 +125,7 @@ public class NodeUI extends JFrame implements ActionListener {
             MemoryTable mt = new MemoryTable();
             mt.setBounds(new Rectangle(736, 386, 244, 140));
             jContentPane.add(mt);
-            
+
         }
         return jContentPane;
     }
@@ -337,7 +338,7 @@ public class NodeUI extends JFrame implements ActionListener {
         if (source == btnAddNode) {
             WakeNode.wake();
         }
-        if(source == btnRemoveNode){
+        if (source == btnRemoveNode) {
             SleepNode.sleep();
         }
 
