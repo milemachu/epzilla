@@ -109,7 +109,7 @@ public class NodeAsLeader {
             NodeStatusObject obj = new NodeStatusObject();
             obj.setIP("Dummy");
             NodeManager.getInactiveipList().add(obj);
-            share.add(ClusterIPManager.getIpList());
+            share.add(NodeManager.getInactiveipList());
             transaction.commit();
         }
     }
@@ -129,7 +129,7 @@ public class NodeAsLeader {
                 share.add(ClusterIPManager.getIpList());
                 transaction.commit();
             } catch (UnknownHostException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                   org.epzilla.util.Logger.error("stm err", e);
             }
 
         }
