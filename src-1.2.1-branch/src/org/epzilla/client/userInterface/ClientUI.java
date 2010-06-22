@@ -64,6 +64,8 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private JPanel getAllTriggers = null;
     private JTextArea txtAllTriggers = null;
     private JButton deleteBtn = null;
+    private String dispIP = null;
+    private String dispName = null;
 
     public ClientUI() {
         super();
@@ -102,135 +104,152 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     private JTabbedPane getMyTabbedPane() {
         if (tabbedPane == null) {
-            JLabel jLabel = new JLabel();
-            jLabel.setBounds(new Rectangle(600, 63, 154, 22));
-            jLabel.setText("Notification messages:");
             ImageIcon settingsIcon = new ImageIcon("images//settings.jpg");
             ImageIcon summaryIcon = new ImageIcon("images//summary.jpg");
             ImageIcon serviceIcon = new ImageIcon("images//service.jpg");
-            ImageIcon detailsIcon = new ImageIcon("image//clusterDe.jpg");
-
-            JLabel lblCount = new JLabel();
-            lblCount.setBounds(new Rectangle(600, 18, 120, 25));
-            lblCount.setText("Notifications count:");
-            JLabel lblSummary = new JLabel();
-            lblSummary.setBounds(new Rectangle(26, 5, 69, 24));
-            lblSummary.setText("Summary:");
-            JLabel lblDispatcherServiceName = new JLabel();
-            lblDispatcherServiceName.setText("Service Name :");
-            lblDispatcherServiceName.setLocation(new Point(15, 178));
-            lblDispatcherServiceName.setSize(new Dimension(123, 16));
-            JLabel lblSettings = new JLabel();
-            lblSettings.setText("Server Settings:");
-            lblSettings.setLocation(new Point(15, 15));
-            lblSettings.setFont(new Font("Dialog", Font.BOLD, 12));
-            lblSettings.setSize(new Dimension(196, 25));
-            JLabel lblDispIP1 = new JLabel();
-            lblDispIP1.setBounds(new Rectangle(15, 148, 141, 16));
-            lblDispIP1.setText("Dispatcher IP Selected :");
-            JLabel lblDetails = new JLabel();
-            lblDetails.setBounds(new Rectangle(15, 16, 259, 16));
-            lblDetails.setText("Lookup available services in the System");
-            JLabel labelName = new JLabel();
-            labelName.setText("Name :");
-            labelName.setSize(new Dimension(47, 25));
-            labelName.setLocation(new Point(30, 92));
-            JLabel labelPort = new JLabel();
-            labelPort.setText("Port :");
-            labelPort.setBounds(new Rectangle(30, 135, 41, 25));
-            JLabel labelIP = new JLabel();
-            labelIP.setText("IP Address :");
-            labelIP.setSize(new Dimension(72, 25));
-            labelIP.setLocation(new Point(30, 49));
-            JLabel lblTriggers = new JLabel();
-            lblTriggers.setText("Triggers :");
-            lblTriggers.setBounds(new Rectangle(26, 5, 69, 24));
+            ImageIcon detailsIcon = new ImageIcon("images//clusterDe.jpg");
 
             tabbedPane = new JTabbedPane();
-
-            JPanel mainSettings = new JPanel() {
-                public void paintComponent(Graphics g) {
-                    Graphics2D g2d = (Graphics2D) g;
-                    int w = getWidth();
-                    int h = getHeight();
-                    GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
-                    g2d.setPaint(gp);
-                    g2d.fillRect(0, 0, w, h);
-                }
-            };
-            mainSettings.setLayout(null);
-            mainSettings.add(getIpTextField(), null);
-            mainSettings.add(getTbPort(), null);
-            mainSettings.add(getTbName(), null);
-            mainSettings.add(labelIP, null);
-            mainSettings.add(labelPort, null);
-            mainSettings.add(labelName, null);
-            mainSettings.add(lblSettings, null);
-
-            JPanel upload = new JPanel() {
-                public void paintComponent(Graphics g) {
-                    Graphics2D g2d = (Graphics2D) g;
-                    int w = getWidth();
-                    int h = getHeight();
-                    GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
-                    g2d.setPaint(gp);
-                    g2d.fillRect(0, 0, w, h);
-                }
-            };
-            upload.setLayout(null);
-            upload.add(getBtnSend(), null);
-            upload.add(getBtnCancelSend(), null);
-            upload.add(lblDetails, null);
-            upload.add(getListLookup(), null);
-            upload.add(getBtnClear(), null);
-            upload.add(getBtnLookup(), null);
-            upload.add(lblDispIP1, null);
-            upload.add(getTxtDispIP1(), null);
-            upload.add(lblDispatcherServiceName, null);
-            upload.add(getTxtDispName(), null);
-            upload.add(getSimulatorPanel());
-            upload.add(getWorkBenchPanel());
-            JPanel results = new JPanel() {
-                public void paintComponent(Graphics g) {
-                    Graphics2D g2d = (Graphics2D) g;
-                    int w = getWidth();
-                    int h = getHeight();
-                    GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
-                    g2d.setPaint(gp);
-                    g2d.fillRect(0, 0, w, h);
-                }
-            };
-            results.setLayout(null);
-            results.add(getResultsScrollPane(), null);
-            results.add(lblSummary, null);
-            results.add(lblCount, null);
-            results.add(getTxtNotiCount(), null);
-
-            JPanel deleteTriggers = new JPanel() {
-                public void paintComponent(Graphics g) {
-                    Graphics2D g2d = (Graphics2D) g;
-                    int w = getWidth();
-                    int h = getHeight();
-                    GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
-                    g2d.setPaint(gp);
-                    g2d.fillRect(0, 0, w, h);
-                }
-            };
-            deleteTriggers.setLayout(null);
-            deleteTriggers.add(getAllTrigersScPane());
-            deleteTriggers.add(lblTriggers);
-
-            results.add(getNotificationScrollpane(), null);
-            results.add(jLabel, null);
-            tabbedPane.addTab("Service", serviceIcon, upload);
-            tabbedPane.addTab("Summary", summaryIcon, results);
-            tabbedPane.addTab("Triggers", detailsIcon, deleteTriggers);
-            tabbedPane.addTab("Settings", settingsIcon, mainSettings);
+            tabbedPane.addTab("Service", serviceIcon, getUploadTab());
+            tabbedPane.addTab("Summary", summaryIcon, getResultsTab());
+            tabbedPane.addTab("Trigger Manager", detailsIcon, getTriggerInfoTab());
+            tabbedPane.addTab("Settings", settingsIcon, getMainSettingsTab());
 
             tabbedPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
             tabbedPane.setVisible(true);
         }
         return tabbedPane;
+    }
+
+    private JPanel getUploadTab() {
+        JLabel lblDetails = new JLabel();
+        lblDetails.setBounds(new Rectangle(15, 16, 259, 16));
+        lblDetails.setText("Lookup available services in the System");
+        JLabel lblDispIP1 = new JLabel();
+        lblDispIP1.setBounds(new Rectangle(15, 148, 141, 16));
+        lblDispIP1.setText("Dispatcher IP Selected :");
+        JLabel lblDispatcherServiceName = new JLabel();
+        lblDispatcherServiceName.setText("Service Name :");
+        lblDispatcherServiceName.setLocation(new Point(15, 178));
+        lblDispatcherServiceName.setSize(new Dimension(123, 16));
+
+        JPanel upload = new JPanel() {
+            public void paintComponent(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g;
+                int w = getWidth();
+                int h = getHeight();
+                GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, w, h);
+            }
+        };
+        upload.setLayout(null);
+        upload.add(getBtnSend(), null);
+        upload.add(getBtnCancelSend(), null);
+        upload.add(lblDetails, null);
+        upload.add(getListLookup(), null);
+        upload.add(getBtnClear(), null);
+        upload.add(getBtnLookup(), null);
+        upload.add(lblDispIP1, null);
+        upload.add(getTxtDispIP1(), null);
+        upload.add(lblDispatcherServiceName, null);
+        upload.add(getTxtDispName(), null);
+        upload.add(getSimulatorPanel());
+        upload.add(getWorkBenchPanel());
+        return upload;
+    }
+
+    private JPanel getResultsTab() {
+        JLabel lblSummary = new JLabel();
+        lblSummary.setBounds(new Rectangle(26, 5, 69, 24));
+        lblSummary.setText("Summary:");
+        JLabel lblCount = new JLabel();
+        lblCount.setBounds(new Rectangle(600, 18, 120, 25));
+        lblCount.setText("Notifications count:");
+        JLabel jLabel = new JLabel();
+        jLabel.setBounds(new Rectangle(600, 63, 154, 22));
+        jLabel.setText("Notification messages:");
+
+        JPanel results = new JPanel() {
+            public void paintComponent(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g;
+                int w = getWidth();
+                int h = getHeight();
+                GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, w, h);
+            }
+        };
+        results.setLayout(null);
+        results.add(getResultsScrollPane(), null);
+        results.add(lblSummary, null);
+        results.add(lblCount, null);
+        results.add(getTxtNotiCount(), null);
+        results.add(getNotificationScrollpane(), null);
+        results.add(jLabel, null);
+        return results;
+    }
+
+    private JPanel getTriggerInfoTab() {
+        JLabel lblTriggers = new JLabel();
+        lblTriggers.setText("Triggers :");
+        lblTriggers.setBounds(new Rectangle(26, 5, 69, 24));
+
+        JPanel deleteTriggers = new JPanel() {
+            public void paintComponent(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g;
+                int w = getWidth();
+                int h = getHeight();
+                GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, w, h);
+            }
+        };
+        deleteTriggers.setLayout(null);
+        deleteTriggers.add(getAllTrigersScPane());
+        deleteTriggers.add(lblTriggers);
+
+        return deleteTriggers;
+    }
+
+    private JPanel getMainSettingsTab() {
+        JLabel lblSettings = new JLabel();
+        lblSettings.setText("Server Settings:");
+        lblSettings.setLocation(new Point(15, 15));
+        lblSettings.setFont(new Font("Dialog", Font.BOLD, 12));
+        lblSettings.setSize(new Dimension(196, 25));
+        JLabel labelName = new JLabel();
+        labelName.setText("Name :");
+        labelName.setSize(new Dimension(47, 25));
+        labelName.setLocation(new Point(30, 92));
+        JLabel labelPort = new JLabel();
+        labelPort.setText("Port :");
+        labelPort.setBounds(new Rectangle(30, 135, 41, 25));
+        JLabel labelIP = new JLabel();
+        labelIP.setText("IP Address :");
+        labelIP.setSize(new Dimension(72, 25));
+        labelIP.setLocation(new Point(30, 49));
+
+        JPanel mainSettings = new JPanel() {
+            public void paintComponent(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g;
+                int w = getWidth();
+                int h = getHeight();
+                GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, w, h);
+            }
+        };
+        mainSettings.setLayout(null);
+        mainSettings.add(getIpTextField(), null);
+        mainSettings.add(getTbPort(), null);
+        mainSettings.add(getTbName(), null);
+        mainSettings.add(labelIP, null);
+        mainSettings.add(labelPort, null);
+        mainSettings.add(labelName, null);
+        mainSettings.add(lblSettings, null);
+
+        return mainSettings;
     }
 
     private JMenuBar getmyMenuBar() {
@@ -392,7 +411,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         return btnLookup;
     }
 
-    private JTextField getTxtDispIP1() {
+    public JTextField getTxtDispIP1() {
         if (txtDispIP == null) {
             txtDispIP = new JTextField();
             txtDispIP.setPreferredSize(new Dimension(4, 20));
@@ -457,13 +476,12 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             getAllTriggers = new JPanel(new CustomGridLayout(new String[]{"100%"}, new String[]{"100%", "10", "35", "10"}));
             getAllTriggers.setBounds(new Rectangle(25, 30, 600, 500));
 
-            JTextArea jt = new JTextArea();
-            jt.setOpaque(true);
-            jt.setBackground(Color.black);
-            jt.setForeground(Color.green);
-            jt.setEditable(false);
+//            JTextArea jt = new JTextArea();
+//            jt.setBackground(Color.black);
+//            jt.setForeground(Color.green);
+//            jt.setEditable(false);
             JScrollPane jsp = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            jsp.add(jt);
+            jsp.add(txtGetAllTriggers());
             getAllTriggers.add(jsp);
             JLabel jl = new JLabel();
             jl.setOpaque(false);
@@ -476,7 +494,27 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             oppanel.add(jl);
 
             btnRefreshTriggers = new JButton("Refresh");
-            btnRefreshTriggers.addActionListener(new RefreshListener());
+//            btnRefreshTriggers.addActionListener(new RefreshListener());
+            //logic to get triggers
+            btnRefreshTriggers.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    String dispIP = txtDispIP.getText();
+                    String dispName = txtDispName.getText();
+
+                    if ((dispIP.length() == 0) && (dispName.length() == 0)) {
+                        JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                    }
+                    if ((dispIP.length() != 0) && (dispName.length() != 0)) {
+                        try {
+                            ClientInit.refreshTriggers(clientID);
+                        } catch (Exception ex) {
+                            Logger.error("Trigger receive error:", ex);
+                        }
+                    }
+                }
+            });
             oppanel.add(btnRefreshTriggers);
 
             jl = new JLabel();
@@ -485,13 +523,31 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
             deleteField = new JTextField();
             oppanel.add(deleteField);
-                                 oppanel.setOpaque(false);
+            oppanel.setOpaque(false);
             jl = new JLabel();
             jl.setOpaque(false);
             oppanel.add(jl);
 
             btnDeleteTrigger = new JButton("Delete");
-            btnDeleteTrigger.addActionListener(new DeleteListener());
+//            btnDeleteTrigger.addActionListener(new DeleteListener());
+            //logic to delete triggers
+            btnDeleteTrigger.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String dispIP = txtDispIP.getText();
+                    String dispName = txtDispName.getText();
+                    if ((dispIP.length() == 0) && (dispName.length() == 0)) {
+                        JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                    }
+                    if ((dispIP.length() != 0) && (dispName.length() != 0)) {
+                        try {
+                            ClientInit.deleteTriggers(clientID);
+                        } catch (Exception ex) {
+                            Logger.error("Trigger deletion error:", ex);
+                        }
+                    }
+                }
+            });
             oppanel.add(btnDeleteTrigger);
 
 
@@ -504,50 +560,11 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             jl = new JLabel();
             jl.setOpaque(false);
             getAllTriggers.add(jl);
+            getAllTriggers.setOpaque(false);
         }
         return getAllTriggers;
     }
 
-    class DeleteListener implements ActionListener {
-        String dispIP = txtDispIP.getText();
-        String dispName = txtDispName.getText();
-
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-             if ((dispIP.length() == 0) && (dispName.length() == 0)) {
-                    JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Epzilla", JOptionPane.ERROR_MESSAGE);
-                }
-                if ((dispIP.length() != 0) && (dispName.length() != 0)) {
-                    try {
-
-                        JOptionPane.showMessageDialog(null, "Successfully connected to the Dispatcher", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Error in file send process.", "Epzilla", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-        }
-    }
-
-
-    class RefreshListener implements ActionListener {
-        String dispIP = txtDispIP.getText();
-        String dispName = txtDispName.getText();
-        @Override
-        public void actionPerformed(ActionEvent e) {
-           if ((dispIP.length() == 0) && (dispName.length() == 0)) {
-                    JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Epzilla", JOptionPane.ERROR_MESSAGE);
-                }
-                if ((dispIP.length() != 0) && (dispName.length() != 0)) {
-                    try {
-
-                        JOptionPane.showMessageDialog(null, "Successfully connected to the Dispatcher", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Error in file send process.", "Epzilla", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-        }
-    }
 
     JButton btnRefreshTriggers;
     JButton btnDeleteTrigger;
@@ -770,7 +787,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel the Process", "Epzilla", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == JOptionPane.YES_OPTION) {
             btnCancelSend.setEnabled(false);
-//            ClientInit.stopEventTriggerStream();
         }
 
     }
@@ -863,9 +879,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         return returnValue;
 
     }
-
-    String dispIP = null;
-    String dispName = null;
 
     public void initProcess() {
         dispIP = txtDispIP.getText();
