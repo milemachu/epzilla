@@ -1,19 +1,11 @@
 package org.epzilla.clusterNode.nodeControler;
 
-import jstm.core.TransactedList;
-import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
 import org.epzilla.clusterNode.dataManager.ClusterIPManager;
-import org.epzilla.clusterNode.rmi.ClusterInterface;
+import org.epzilla.clusterNode.dataManager.NodeManager;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.daemon.services.DaemonWakeCaller;
-import org.epzilla.util.Logger;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,23 +18,29 @@ public class WakeNode {
     private static String serviceName = "CLUSTER_NODE";
     private static boolean success = false;
     private static ArrayList<String> nodeIPList = new ArrayList<String>();
+    /*
+    wake a Node
+    get the details of the sleep nodes and wake a Node from that list
+     */
 
     public static void wake() {
         try {
             nodeIPList.clear();
             nodeIPList = ClusterIPManager.getNodeIpList();
 
-            for (Iterator i = nodeIPList.iterator(); i.hasNext();) {
-                String ip = (String) i.next();
-                boolean status = ClusterIPManager.getNodeStatus(ip);
-                if (!status) {
-                    DaemonWakeCaller wakingAgent = new DaemonWakeCaller();
-                    success = wakingAgent.callWake(ip);
-                    ClusterIPManager.setNodeStatus(ip,true);
-                    if (success)
-                        NodeUIController.appendTextToStatus("Wake the Node: " + ip + " successfully");
-                    break;
-                }
+            String ipToWake = NodeManager.removeIP();
+            if (ipToWake != null) {
+//            for (Iterator i = nodeIPList.iterator(); i.hasNext();) {
+//                String ip = (String) i.next();
+//                boolean status = ClusterIPManager.getNodeStatus(ip);
+//                if (!status) {
+                DaemonWakeCaller wakingAgent = new DaemonWakeCaller();
+                success = wakingAgent.callWake(ipToWake);
+//                    ClusterIPManager.setNodeStatus(ip,true);
+                if (success)
+                    NodeUIController.appendTextToStatus("Wake the Node: " + ipToWake + " successfully");
+//                    break;
+//                }
             }
             if (!success) {
                 NodeUIController.appendTextToStatus("There are no idle Nodes to wake up...");
@@ -51,23 +49,5 @@ public class WakeNode {
             NodeUIController.appendTextToStatus("There are no idle Nodes to wake up...");
         }
         success = false;
-    }
-
-    public static void nodeInit(String nodeIP) {
-        try {
-            ClusterInterface nodeObj = initService(nodeIP, serviceName);
-            nodeObj.initNodeProcess();
-        } catch (MalformedURLException e) {
-            Logger.error("", e);
-        } catch (NotBoundException e) {
-            Logger.error("", e);
-        } catch (RemoteException e) {
-            Logger.error("", e);
-        }
-    }
-
-    private static ClusterInterface initService(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
-        String url = "rmi://" + serverIp + "/" + serviceName;
-        return (ClusterInterface) Naming.lookup(url);
     }
 }

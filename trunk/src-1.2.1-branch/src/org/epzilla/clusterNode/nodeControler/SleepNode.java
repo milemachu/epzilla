@@ -1,7 +1,7 @@
 package org.epzilla.clusterNode.nodeControler;
 
 import org.epzilla.clusterNode.NodeController;
-import org.epzilla.clusterNode.dataManager.ClusterIPManager;
+import org.epzilla.clusterNode.dataManager.NodeManager;
 import org.epzilla.clusterNode.rmi.ClusterInterface;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.daemon.services.DaemonSleepCaller;
@@ -23,9 +23,11 @@ import java.util.Iterator;
  * To change this template use File | Settings | File Templates.
  */
 public class SleepNode {
-    private static String serviceName = "CLUSTER_NODE";
     private static boolean success = false;
-
+   /*
+   sleep Node
+   check whether there is more than 2 nodes in a particular Node Cluster and if it is greater than 2 then sleep a Node 
+    */
     public static void sleep() {
         try {
             HashSet<String> nodeList = new HashSet<String>();
@@ -37,7 +39,7 @@ public class SleepNode {
                     if (!ip.equalsIgnoreCase(leaderIP)) {
                         DaemonSleepCaller sleepingAgent = new DaemonSleepCaller();
                         success = sleepingAgent.callSleep(ip);
-                        ClusterIPManager.setNodeStatus(ip, false);
+                        NodeManager.addIP("", ip);
                         if (success)
                             NodeUIController.appendTextToStatus("Sleep the Node: " + ip + " successfully");
                     }
@@ -50,23 +52,5 @@ public class SleepNode {
         } catch (Exception e) {
             NodeUIController.appendTextToStatus("There aren't any  Nodes to Sleep...");
         }
-    }
-
-    public static void sleepNode(String nodeIP) {
-        try {
-            ClusterInterface clusterObj = initService(nodeIP, serviceName);
-            clusterObj.sleepNodeProcess();
-        } catch (MalformedURLException e) {
-            Logger.error("", e);
-        } catch (NotBoundException e) {
-            Logger.error("", e);
-        } catch (RemoteException e) {
-            Logger.error("", e);
-        }
-    }
-
-    private static ClusterInterface initService(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
-        String url = "rmi://" + serverIp + "/" + serviceName;
-        return (ClusterInterface) Naming.lookup(url);
     }
 }
