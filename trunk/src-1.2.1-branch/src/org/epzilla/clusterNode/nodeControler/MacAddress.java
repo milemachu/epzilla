@@ -1,5 +1,7 @@
 package org.epzilla.clusterNode.nodeControler;
 
+import org.epzilla.util.Logger;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -30,9 +32,9 @@ public class MacAddress {
                 System.out.println("Network Interface for the specified address is not found.");
             }
         } catch (SocketException e) {
-            e.printStackTrace();
+            Logger.error("socket eror:", e);
         } catch (java.net.UnknownHostException e) {
-            e.printStackTrace();
+            Logger.error("host eror:", e);
         }
         return macAddress;
     }
