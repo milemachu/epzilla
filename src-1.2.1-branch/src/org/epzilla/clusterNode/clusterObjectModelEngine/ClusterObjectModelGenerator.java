@@ -25,7 +25,13 @@ public class ClusterObjectModelGenerator {
         ip.Fields.add(new Field(String.class, "nodeID"));
         ip.Fields.add(new Field(String.class, "clusterID"));
         ip.Fields.add(new Field(String.class, "IP"));
-         ip.Fields.add(new Field(Boolean.class, "IsActive"));
+        ip.Fields.add(new Field(Boolean.class, "IsActive"));
+
+        Structure status = new Structure("NodeStatusObject");
+        status.Fields.add(new Field(String.class, "clusterID"));
+        status.Fields.add(new Field(String.class, "IP"));
+        status.Fields.add(new Field(Boolean.class, "IsActive"));
+
 
         Structure performanceInfo = new Structure("PerformanceInfoObject");
         performanceInfo.Fields.add(new Field(String.class, "nodeIP"));
@@ -36,6 +42,7 @@ public class ClusterObjectModelGenerator {
         pack.Structures.add(simple);
         pack.Structures.add(ip);
         pack.Structures.add(performanceInfo);
+        pack.Structures.add(status);
         return model;
     }
 
