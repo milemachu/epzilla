@@ -480,7 +480,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 //            jt.setForeground(Color.green);
 //            jt.setEditable(false);
             JScrollPane jsp = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            jsp.add(txtGetAllTriggers());
+            jsp.setViewportView(txtGetAllTriggers());
             getAllTriggers.add(jsp);
             JLabel jl = new JLabel();
             jl.setOpaque(false);
