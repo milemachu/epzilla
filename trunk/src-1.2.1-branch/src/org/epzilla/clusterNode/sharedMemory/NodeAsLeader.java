@@ -4,14 +4,8 @@ import jstm.core.*;
 import jstm.transports.clientserver.Server;
 import jstm.transports.clientserver.socket.SocketServer;
 import org.epzilla.clusterNode.NodeController;
-import org.epzilla.clusterNode.clusterInfoObjectModel.ClusterObjectModel;
-import org.epzilla.clusterNode.clusterInfoObjectModel.NodeIPObject;
-import org.epzilla.clusterNode.clusterInfoObjectModel.PerformanceInfoObject;
-import org.epzilla.clusterNode.clusterInfoObjectModel.TriggerObject;
-import org.epzilla.clusterNode.dataManager.ClusterIPManager;
-import org.epzilla.clusterNode.dataManager.EventsManager;
-import org.epzilla.clusterNode.dataManager.PerformanceInfoManager;
-import org.epzilla.clusterNode.dataManager.TriggerManager;
+import org.epzilla.clusterNode.clusterInfoObjectModel.*;
+import org.epzilla.clusterNode.dataManager.*;
 import org.epzilla.clusterNode.leaderReg.ClusterStartup;
 import org.epzilla.clusterNode.nodeControler.SleepNode;
 import org.epzilla.clusterNode.nodeControler.WakeNode;
@@ -108,7 +102,19 @@ public class NodeAsLeader {
 
     }
 
-    public static void loadIPList() {
+    public static void loadNodeStatusList() {
+        if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
+            Site.getLocal().allowThread();
+            Transaction transaction = Site.getLocal().startTransaction();
+            NodeStatusObject obj = new NodeStatusObject();
+            obj.setIP("Dummy");
+            NodeManager.getInactiveipList().add(obj);
+            share.add(ClusterIPManager.getIpList());
+            transaction.commit();
+        }
+    }
+
+    public static void loadIPList()  {
         NodeUIController.appendTextToStatus("Adding TransactedList for Node IPs...");
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
             Site.getLocal().allowThread();
@@ -133,6 +139,7 @@ public class NodeAsLeader {
             }
         });
     }
+
 
     public static void loadPerformanceInfoList() {
         NodeUIController.appendTextToStatus("Adding TransactedList for Load Balance Info...");
