@@ -30,6 +30,7 @@ public class ClientHandler {
                 dispIP.add(dispDetails);
             }
         } catch (Exception e) {
+            Logger.error("URL error", e);
         }
         Logger.log(dispIP);
         return dispIP;
