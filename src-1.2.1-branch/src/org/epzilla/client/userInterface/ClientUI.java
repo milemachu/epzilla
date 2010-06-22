@@ -45,11 +45,11 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private JList listLookup = null;
     private JButton btnClear = null;
     private JButton btnLookup = null;
-    private JTextField txtDispIP = null;
+    public JTextField txtDispIP = null;
     private JScrollPane resultsScrollPane = null;
     private JScrollPane notificationSP = null;
     public JTextArea txtResults = null;
-    private JTextField txtDispName = null;
+    public JTextField txtDispName = null;
     private static ClientHandler client;
     public boolean isRegister = false;
     private boolean isLookup = false;
@@ -509,19 +509,43 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     }
 
     class DeleteListener implements ActionListener {
+        String dispIP = txtDispIP.getText();
+        String dispName = txtDispName.getText();
+
 
         @Override
         public void actionPerformed(ActionEvent e) {
+             if ((dispIP.length() == 0) && (dispName.length() == 0)) {
+                    JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                }
+                if ((dispIP.length() != 0) && (dispName.length() != 0)) {
+                    try {
 
+                        JOptionPane.showMessageDialog(null, "Successfully connected to the Dispatcher", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Error in file send process.", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
         }
     }
 
 
     class RefreshListener implements ActionListener {
-
+        String dispIP = txtDispIP.getText();
+        String dispName = txtDispName.getText();
         @Override
         public void actionPerformed(ActionEvent e) {
+           if ((dispIP.length() == 0) && (dispName.length() == 0)) {
+                    JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                }
+                if ((dispIP.length() != 0) && (dispName.length() != 0)) {
+                    try {
 
+                        JOptionPane.showMessageDialog(null, "Successfully connected to the Dispatcher", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Error in file send process.", "Epzilla", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
         }
     }
 
