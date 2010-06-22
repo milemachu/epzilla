@@ -2,6 +2,7 @@ package org.epzilla.client.controlers;
 
 import org.epzilla.client.xml.ClientTimeSettings;
 import org.epzilla.dispatcher.rmi.DispInterface;
+import org.epzilla.dispatcher.rmi.TriggerRepresentation;
 import org.epzilla.testObjectGenerator.EventTriggerGenerator;
 import org.epzilla.util.Logger;
 
@@ -242,11 +243,13 @@ public class ClientInit extends Thread {
         return di;
     }
     //delete triggers as requsted by client
-    public static void deleteTriggers(String clientID) {
+
+    public static void deleteTriggers(String clientID, ArrayList<TriggerRepresentation> list) {
 
         try {
             DispInterface di = (DispInterface) ClientInit.getDispatcherObject();
             //take clientID as the clientID
+            di.deleteTriggers(list, clientID);
 //                di.deleteTriggers()
 
         } catch (Exception ex) {
@@ -256,13 +259,15 @@ public class ClientInit extends Thread {
 
     }
     //get all triggers as requested by client
-    public static void refreshTriggers(String clientID) {
+
+    public static ArrayList<TriggerRepresentation> getAllTriggersFromDispatcher(String clientID) {
         try {
             DispInterface di = (DispInterface) ClientInit.getDispatcherObject();
             //take clientID as the clientID
-            di.getAllTriggers(clientID);
+            return di.getAllTriggers(clientID);
         } catch (Exception ex) {
             Logger.error("Trigger receive error:", ex);
         }
+        return null;
     }
 }

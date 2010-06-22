@@ -4,6 +4,7 @@ package org.epzilla.client.userInterface;
 import org.epzilla.client.controlers.ClientHandler;
 import org.epzilla.client.controlers.ClientInit;
 import org.epzilla.client.xml.ServerSettingsReader;
+import org.epzilla.dispatcher.rmi.TriggerRepresentation;
 import org.epzilla.dispatcher.ui.CustomGridLayout;
 import org.epzilla.util.Logger;
 
@@ -21,9 +22,7 @@ import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-import java.util.Vector;
+import java.util.*;
 
 
 public class ClientUI extends JFrame implements ActionListener, ListSelectionListener {
@@ -508,7 +507,40 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
                     }
                     if ((dispIP.length() != 0) && (dispName.length() != 0)) {
                         try {
-                            ClientInit.refreshTriggers(clientID);
+                            triggerList = ClientInit.getAllTriggersFromDispatcher(clientID);
+                            Collections.sort(triggerList, new Comparator<TriggerRepresentation>() {
+
+                                @Override
+                                public int compare(TriggerRepresentation o1, TriggerRepresentation o2) {
+
+                                    try {
+                                        long x = Long.parseLong(o1.getTriggerId());
+                                        long y = Long.parseLong(o2.getTriggerId());
+                                        if (x < y) {
+                                            return -1;
+                                        } else if (x == y) {
+                                            return 0;
+                                        } else {
+                                            return 1;
+                                        }
+                                    } catch (NumberFormatException e1) {
+                                        Logger.error("Trigger sorting error:", e1);
+
+                                    }
+                                    return 0;  //To change body of implemented methods use File | Settings | File Templates.
+                                }
+                            });
+                            txtAllTriggers.setText("");
+                            if (triggerList != null) {
+                                for (TriggerRepresentation tr : triggerList) {
+                                    txtAllTriggers.append(tr.getTriggerId());
+                                    txtAllTriggers.append(":\n");
+                                    txtAllTriggers.append(tr.getTrigger());
+                                    txtAllTriggers.append("\n");
+
+                                }
+                            }
+
                         } catch (Exception ex) {
                             Logger.error("Trigger receive error:", ex);
                         }
@@ -539,13 +571,38 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
                     if ((dispIP.length() == 0) && (dispName.length() == 0)) {
                         JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Epzilla", JOptionPane.ERROR_MESSAGE);
                     }
-                    if ((dispIP.length() != 0) && (dispName.length() != 0)) {
+//                    if ((dispIP.length() != 0) && (dispName.length() != 0)) {
                         try {
-                            ClientInit.deleteTriggers(clientID);
+                            String in = ClientUI.this.deleteField.getText();
+                            String[] ids = in.trim().split(",");
+                            ArrayList<TriggerRepresentation> toDelete = new ArrayList();
+                            for (String id : ids) {
+                                if ((id = id.trim()).length() > 0) {
+                                    TriggerRepresentation tr = new TriggerRepresentation();
+                                    tr.setTriggerId(id);
+                                    tr.setClientId(clientID);
+                                    toDelete.add(tr);
+                                    if (triggerList != null) {
+                                        try {
+                                            for (TriggerRepresentation t: triggerList) {
+                                                if (t.getTriggerId().equals(id)) {
+                                                    tr.setTrigger(t.getTrigger());
+                                                    break;
+                                                }
+                                            }
+                                        } catch (Exception e1) {
+                                            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                                        }
+                                    }
+                                }
+                            }
+                            if (toDelete.size() > 0) {
+                                ClientInit.deleteTriggers(clientID, toDelete);
+                            }
                         } catch (Exception ex) {
                             Logger.error("Trigger deletion error:", ex);
                         }
-                    }
+//                    }
                 }
             });
             oppanel.add(btnDeleteTrigger);
@@ -565,6 +622,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         return getAllTriggers;
     }
 
+    ArrayList<TriggerRepresentation> triggerList = null;
 
     JButton btnRefreshTriggers;
     JButton btnDeleteTrigger;
@@ -579,6 +637,7 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             txtAllTriggers.setWrapStyleWord(true);
             txtAllTriggers.setForeground(Color.GREEN);
             txtAllTriggers.setBackground(Color.BLACK);
+            txtAllTriggers.setOpaque(true);
         }
         return txtAllTriggers;
     }
