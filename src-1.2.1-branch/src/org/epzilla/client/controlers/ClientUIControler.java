@@ -89,4 +89,8 @@ public class ClientUIControler implements Runnable {
         Date date = new Date();
         return dateFormat.format(date);
     }
+    //append the triggers
+    public static void addAllTriggers(){
+         clientInstance.txtGetAllTriggers().append("");
+    }
 }
