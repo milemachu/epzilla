@@ -237,4 +237,32 @@ public class ClientInit extends Thread {
     private static void setDispatcherObj(Object obj) {
         di = (DispInterface) obj;
     }
+
+    public static Object getDispatcherObject() {
+        return di;
+    }
+    //delete triggers as requsted by client
+    public static void deleteTriggers(String clientID) {
+
+        try {
+            DispInterface di = (DispInterface) ClientInit.getDispatcherObject();
+            //take clientID as the clientID
+//                di.deleteTriggers()
+
+        } catch (Exception ex) {
+            Logger.error("Trigger deletion error:", ex);
+        }
+
+
+    }
+    //get all triggers as requested by client
+    public static void refreshTriggers(String clientID) {
+        try {
+            DispInterface di = (DispInterface) ClientInit.getDispatcherObject();
+            //take clientID as the clientID
+            di.getAllTriggers(clientID);
+        } catch (Exception ex) {
+            Logger.error("Trigger receive error:", ex);
+        }
+    }
 }
