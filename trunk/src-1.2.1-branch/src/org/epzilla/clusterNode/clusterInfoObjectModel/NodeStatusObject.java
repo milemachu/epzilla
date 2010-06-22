@@ -8,61 +8,49 @@ package org.epzilla.clusterNode.clusterInfoObjectModel;
 
 import jstm.core.*;
 
-public class NodeIPObject extends jstm.core.TransactedStructure {
+public class NodeStatusObject extends jstm.core.TransactedStructure {
 
-    public NodeIPObject() {
+    public NodeStatusObject() {
         super(FIELD_COUNT);
     }
 
-    public String getnodeID() {
+    public String getclusterID() {
         return (String) getField(0);
     }
 
-    public void setnodeID(String value) {
+    public void setclusterID(String value) {
         setField(0, value);
     }
 
-    public String getclusterID() {
+    public String getIP() {
         return (String) getField(1);
     }
 
-    public void setclusterID(String value) {
+    public void setIP(String value) {
         setField(1, value);
     }
 
-    public String getIP() {
-        return (String) getField(2);
-    }
-
-    public void setIP(String value) {
-        setField(2, value);
-    }
-
     public Boolean getIsActive() {
-        return (Boolean) getField(3);
+        return (Boolean) getField(2);
     }
 
     public void setIsActive(Boolean value) {
-        setField(3, value);
+        setField(2, value);
     }
 
-    public static final int NODEID_INDEX = 0;
-
-    public static final String NODEID_NAME = "nodeID";
-
-    public static final int CLUSTERID_INDEX = 1;
+    public static final int CLUSTERID_INDEX = 0;
 
     public static final String CLUSTERID_NAME = "clusterID";
 
-    public static final int IP_INDEX = 2;
+    public static final int IP_INDEX = 1;
 
     public static final String IP_NAME = "IP";
 
-    public static final int ISACTIVE_INDEX = 3;
+    public static final int ISACTIVE_INDEX = 2;
 
     public static final String ISACTIVE_NAME = "IsActive";
 
-    public static final int FIELD_COUNT = 4;
+    public static final int FIELD_COUNT = 3;
 
     @Override
     public String getFieldName(int index) {
@@ -72,12 +60,10 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
     public static String getFieldNameStatic(int index) {
         switch (index) {
             case 0:
-                return "nodeID";
-            case 1:
                 return "clusterID";
-            case 2:
+            case 1:
                 return "IP";
-            case 3:
+            case 2:
                 return "IsActive";
             default:
                 throw new java.lang.IllegalArgumentException();
@@ -88,7 +74,7 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
 
     @Override
     protected int getClassId() {
-        return 1;
+        return 3;
     }
 
     @Override
@@ -111,7 +97,7 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
         if (reads != null) {
             writer.writeShort(Short.MAX_VALUE);
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
                 writer.writeBoolean(reads[i]);
         }
 
@@ -139,16 +125,7 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
                     writer.writeShort((short) -3);
                 else {
                     writer.writeShort((short) 3);
-                    writer.writeString((String) values[2]);
-                }
-            }
-
-            if (values[3] != null) {
-                if (values[3] == Removal.Instance)
-                    writer.writeShort((short) -4);
-                else {
-                    writer.writeShort((short) 4);
-                    writer.writeBoolean(((java.lang.Boolean) values[3]).booleanValue());
+                    writer.writeBoolean(((java.lang.Boolean) values[2]).booleanValue());
                 }
             }
         }
@@ -165,9 +142,9 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
         short index = reader.readShort();
 
         if (index == Short.MAX_VALUE) {
-            reads = new boolean[4];
+            reads = new boolean[3];
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
                 reads[i] = reader.readBoolean();
 
             index = reader.readShort();
@@ -175,13 +152,13 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
 
         if (index == 1) {
             if (values == null)
-                values = new Object[4];
+                values = new Object[3];
 
             values[0] = reader.readString();
             index = reader.readShort();
         } else if (index == -1) {
             if (values == null)
-                values = new Object[4];
+                values = new Object[3];
 
             values[0] = Removal.Instance;
             index = reader.readShort();
@@ -189,13 +166,13 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
 
         if (index == 2) {
             if (values == null)
-                values = new Object[4];
+                values = new Object[3];
 
             values[1] = reader.readString();
             index = reader.readShort();
         } else if (index == -2) {
             if (values == null)
-                values = new Object[4];
+                values = new Object[3];
 
             values[1] = Removal.Instance;
             index = reader.readShort();
@@ -203,29 +180,15 @@ public class NodeIPObject extends jstm.core.TransactedStructure {
 
         if (index == 3) {
             if (values == null)
-                values = new Object[4];
+                values = new Object[3];
 
-            values[2] = reader.readString();
+            values[2] = new java.lang.Boolean(reader.readBoolean());
             index = reader.readShort();
         } else if (index == -3) {
             if (values == null)
-                values = new Object[4];
+                values = new Object[3];
 
             values[2] = Removal.Instance;
-            index = reader.readShort();
-        }
-
-        if (index == 4) {
-            if (values == null)
-                values = new Object[4];
-
-            values[3] = new java.lang.Boolean(reader.readBoolean());
-            index = reader.readShort();
-        } else if (index == -4) {
-            if (values == null)
-                values = new Object[4];
-
-            values[3] = Removal.Instance;
             index = reader.readShort();
         }
 
