@@ -5,6 +5,7 @@ import net.epzilla.stratification.restruct.RestructuringDaemon;
 import org.epzilla.client.rmi.ClientCallbackInterface;
 import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.dispatcher.dataManager.*;
+import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 import org.epzilla.dispatcher.logs.ReadLog;
 import org.epzilla.dispatcher.ui.ClusterPerformanceData;
 import org.epzilla.util.Logger;
@@ -62,12 +63,12 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 //            if (RestructuringDaemon.isRestructuring()) {
 //                return "RETRY";
 //            } else {
-                for (String x : tList) {
-                    Logger.log(x);
-                }
+            for (String x : tList) {
+                Logger.log(x);
+            }
 
-                TriggerManager.addAllTriggersToList(tList, clientID);
-                toReturn = "OK";
+            TriggerManager.addAllTriggersToList(tList, clientID);
+            toReturn = "OK";
 //            }
         } catch (Exception e) {
             Logger.error("trigger accepting error", e);
@@ -76,9 +77,42 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     }
 
     @Override
-    public String deleteTriggers(ArrayList<String> list, String cID, int triggerSeqID) throws RemoteException {
+    public String deleteTriggers(ArrayList<TriggerRepresentation> list, String cID) throws RemoteException {
+        try {
+            ArrayList<TriggerInfoObject> al = new ArrayList();
+            for (TriggerInfoObject tio : TriggerManager.getTriggers()) {
+                for (TriggerRepresentation tr : list) {
+                    if (tr.getTriggerId().equals(tio.gettriggerID())) {
+                        al.add(tio);
+                    }
+                }
+            }
 
-        return null;
+            TriggerManager.getTriggers().removeAll(al);
+            return "OK";
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return "RETRY";
+    }
+
+    @Override
+    public ArrayList<TriggerRepresentation> getAllTriggers(String clientId) throws RemoteException {
+        try {
+            ArrayList<TriggerRepresentation> list = new ArrayList();
+            for (TriggerInfoObject tio : TriggerManager.getTriggers()) {
+                if (clientId.equals(tio.getclientID())) {
+                    TriggerRepresentation tr = new TriggerRepresentation();
+                    tr.setTrigger(tio.gettrigger());
+                    tr.setTriggerId(tio.gettriggerID());
+                    list.add(tr);
+                }
+            }
+            return list;
+        } catch (Exception e) {
+            Logger.error("", e);
+        }
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -157,7 +191,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
             ClusterLeaderIpListManager.addIP("" + id, ip);
         } catch (Exception e) {
-            Logger.error("Cluster Leader IP:",e);
+            Logger.error("Cluster Leader IP:", e);
         }
     }
 
@@ -171,7 +205,7 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
             dispID = dispatcherID;
             isIDGen = true;
         } catch (UnknownHostException e) {
-            Logger.error("Generating Dispatcher ID:",e);
+            Logger.error("Generating Dispatcher ID:", e);
         }
 
     }
