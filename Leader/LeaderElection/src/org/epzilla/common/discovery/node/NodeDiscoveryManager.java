@@ -11,6 +11,12 @@ import org.epzilla.common.discovery.multicast.MulticastReceiver;
 import org.epzilla.common.discovery.unicast.TCPListener;
 import org.epzilla.leader.util.SystemConstants;
 
+/**
+ * This is the node discovery service manager and this class is responsible of initiating the multiast sending, receiving and
+ * tcp message decoders. This class is used to expose the details of the system to outdide and provide API for the other components.
+ * @author Administrator
+ *
+ */
 public class NodeDiscoveryManager {
 	
 	Thread tcpListenerThread;

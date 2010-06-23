@@ -12,7 +12,12 @@ private DatagramPacket datagramPacket;
 private String multicastGroupIp;
 private int multicastPort;
 
-
+/**
+ * This is the service class where all the multicasting components will utilize this class inorder to send 
+ * multicast messages to other components.  
+ * @param multicastGroupIp
+ * @param multicastPort
+ */
 public MulticastSender(String multicastGroupIp, int multicastPort) {
 	
 	this.multicastGroupIp=multicastGroupIp;

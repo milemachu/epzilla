@@ -5,6 +5,12 @@ import java.util.HashSet;
 import org.epzilla.common.discovery.Constants;
 import org.epzilla.leader.Epzilla;
 
+/**
+ * This is the TCP message decoder where the messages received to the dispatcher tcp listener are sent here to decode.
+ * Then required actions are taken according to the messages.
+ * @author Administrator
+ *
+ */
 public class TCPMessageDecoder implements Runnable {
 
 	private String message;

@@ -6,6 +6,11 @@ import org.epzilla.common.discovery.Constants;
 import org.epzilla.common.discovery.unicast.TCPSender;
 import org.epzilla.leader.Epzilla;
 
+/**
+ * This is the multicast message decoder for the dispatcher and all the messages received to the dispatcher multicast listener.
+ * @author Administrator
+ *
+ */
 public class MulticastMessageDecoder implements Runnable {
 //Handle the incoming broadcast messages from other dispatchers to elect the leader.
 	private String message;

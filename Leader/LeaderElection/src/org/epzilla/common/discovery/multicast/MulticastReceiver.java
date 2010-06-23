@@ -7,6 +7,12 @@ import java.net.MulticastSocket;
 
 import org.epzilla.common.discovery.Constants;
 
+/**
+ * This is a service class where all the multicasting components will use this class to receive the incoming
+ * multicasting messages from other components. 
+ * @author Administrator
+ *
+ */
 public class MulticastReceiver {
 	
 	private String multicastGroupIp;

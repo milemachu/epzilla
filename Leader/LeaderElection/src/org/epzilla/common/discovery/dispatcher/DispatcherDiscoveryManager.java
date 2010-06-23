@@ -8,6 +8,13 @@ import org.epzilla.common.discovery.unicast.TCPListener;
 import org.epzilla.common.discovery.unicast.TCPSender;
 import org.epzilla.leader.util.SystemConstants;
 
+/**
+ * This class is the manager class of the dynamic discovery component for the dispatcher.
+ * Initiating Capability multicasting and initiating TCP listener for subscription for cluster leaders.
+ * This is the interface which provide access to the dynamic discovery data of the dispatchers. 
+ * @author Administrator
+ *
+ */
 public class DispatcherDiscoveryManager {
 	
 	Thread tcpThread;
@@ -26,6 +33,7 @@ public class DispatcherDiscoveryManager {
 		dispatcherPublisher=new DispatcherPublisher();
 		leaderPublisher=new DispatcherLeaderPublisher();
 		
+		//Starting the TCP Listener
 		tcpThread=new Thread(new Runnable() {
 			TCPListener tcpListner;
 			@Override
@@ -42,6 +50,7 @@ public class DispatcherDiscoveryManager {
 		
 		tcpThread.start();
 		
+		//Starting the multicast listener
 		mcListenerThread=new Thread(new Runnable() {
 			MulticastReceiver mcReceiver;
 			@Override
@@ -114,7 +123,7 @@ public class DispatcherDiscoveryManager {
 		DispatcherDiscoveryManager.dispatcherLeader = dispatcherLeader;
 	}
 
-    //test
+    //test method
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")

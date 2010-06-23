@@ -5,6 +5,11 @@ import java.util.HashSet;
 import org.epzilla.common.discovery.Constants;
 import org.epzilla.leader.Epzilla;
 
+/**
+ * This is the TCP message decoder of the node component.
+ * @author Administrator
+ *
+ */
 public class TCPMessageDecoder implements Runnable {
 
 	private String message;

@@ -7,6 +7,12 @@ import org.epzilla.common.discovery.Constants;
 import org.epzilla.common.discovery.IServicePublisher;
 import org.epzilla.common.discovery.multicast.*;
 
+/**
+ * This is the dispatcher service publisher and all the diapcthers use this class to maintain the details about
+ * other dispatchers and cluster leaders. 
+ * @author Administrator
+ *
+ */
 public class DispatcherPublisher implements IServicePublisher {
 	private static String DISPATCHER_SERVICE_NAME="DISPATCHER_SERVICE";
     private static String SUBSCRIBE_PREFIX="SUBSCRIBE_";

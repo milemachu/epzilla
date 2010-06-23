@@ -7,6 +7,11 @@ import java.net.UnknownHostException;
 
 import org.epzilla.common.discovery.Constants;
 
+/**
+ * This is tge TCP message sending service class and all the tcp sending components use this class as their service provider. 
+ * @author Administrator
+ *
+ */
 public class TCPSender {
 	
 	private Socket socket;
