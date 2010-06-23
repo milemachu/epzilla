@@ -207,9 +207,14 @@ public class NodeAsLeader {
                 int MemSum = 0;
                 for (int i = list.size() - 1; i >= 0; i--) {
                     if (list.get(i).getnodeIP() != "PPPP") {
+                        try{
                         if (!cpuArray.containsKey(list.get(i).getnodeIP())) {
                             cpuArray.put(list.get(i).getnodeIP(), Integer.valueOf(list.get(i).getCPUusageAverage()));
                             memArray.add(Integer.valueOf(list.get(i).getMemUsageAverage()));
+                        }
+                        }catch(Exception e)
+                        {
+                          org.epzilla.util.Logger.error("Performance Info Error: ", e);  
                         }
                     }
                 }
