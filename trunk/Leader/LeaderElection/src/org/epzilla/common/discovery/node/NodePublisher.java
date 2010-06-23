@@ -6,6 +6,11 @@ import org.epzilla.common.discovery.Constants;
 import org.epzilla.common.discovery.IServicePublisher;
 import org.epzilla.common.discovery.multicast.MulticastSender;
 
+/**
+ * This is the node service publisher class and all the nodes implement this class and multicast the node service using this class.
+ * @author Administrator
+ *
+ */
 public class NodePublisher implements IServicePublisher {
 	private static String NODE_SERVICE_NAME="NODE_SERVICE";
     private static String SUBSCRIBE_PREFIX = "SUBSCRIBE_";

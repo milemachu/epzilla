@@ -5,6 +5,12 @@ import java.util.HashSet;
 import org.epzilla.common.discovery.IServicePublisher;
 import org.epzilla.common.discovery.multicast.MulticastSender;
 
+/**
+ * This is the publisher class of the dispatcher leader and this is a concete implementation of IServicePulisher interface.
+ * This class uses to maintain the details about the subscribed dispatchers with the dispatcher leader.  
+ * @author Administrator
+ *
+ */
 public class DispatcherLeaderPublisher implements IServicePublisher {
 	private static String DISPATCHER_LEADER_SERVICE_NAME = "DISPATCHER_LEADER_SERVICE";
     private static String SUBSCRIBE_PREFIX="SUBSCRIBE_";

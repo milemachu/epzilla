@@ -6,6 +6,12 @@ import org.epzilla.common.discovery.Constants;
 import org.epzilla.common.discovery.IServicePublisher;
 import org.epzilla.common.discovery.multicast.MulticastSender;
 
+/**
+ * This is the leader service publisher for the cluster node and this class is used to collect details of the other nodes in the same 
+ * cluster and the dispatchers in the system.
+ * @author Administrator
+ *
+ */
 public class LeaderPublisher implements IServicePublisher {
 	private static String LEADER_SERVICE_NAME = "LEADER_SERVICE";
 	private String multicastGroupIp = "224.0.0.2";

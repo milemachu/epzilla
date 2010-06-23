@@ -6,6 +6,11 @@ import org.epzilla.common.discovery.Constants;
 import org.epzilla.common.discovery.unicast.TCPSender;
 import org.epzilla.leader.Epzilla;
 
+/**
+ * This is the multicast message decoder of the cluster nodes and the received multicast messages are sent here and necessary actions are taken from here.
+ * @author Administrator
+ *
+ */
 public class MulticastMessageDecoder implements Runnable {
 
 	private String message;
