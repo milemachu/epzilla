@@ -24,6 +24,14 @@ import org.epzilla.leader.util.ConfigurationLoader;
 import org.epzilla.leader.util.Status;
 import org.epzilla.leader.util.SystemConstants;
 
+/**
+ * This is the LEader Election initiator class and this class is responsible of starting a node and joining the existing leader,
+ * if there is no existing leader;then check the status of the default leader and take necessary actions. If the Default leader 
+ * is also not present, initiate a leader election among the other non leader nodes. 
+ * The different versions of the algorithm run in the class according to the component type we specify in the config files. 
+ * @author Administrator
+ *
+ */
 public class LeaderElectionInitiator {
 	
 	private static EventHandler eventHandler;
@@ -171,29 +179,7 @@ public class LeaderElectionInitiator {
 						doExecuteIfLeaderDoesNotExistForDispatcher(defaultLeaderNode, defaultLeaderNodeStatus, defaultLeaderRunningLE);								
 					}
 				}
-			}
-			
-			@SuppressWarnings("unused")
-			HashSet<String> set1; // Node list
-			@SuppressWarnings("unused")
-			HashSet<String> set2; //Subs ist
-			@SuppressWarnings("unused")
-			HashSet<String> set3; //Disp list
-		
-			if(comType.equalsIgnoreCase(Component.NODE.name())){
-				set1=NodeClientManager.getNodeList();
-				set2=NodeClientManager.getSubscribedNodeList();
-				set3=NodeClientManager.getDispatcherList();
-			}else{
-				set1=DispatcherClientManager.getDispatcherList();
-				set2=new HashSet<String>( DispatcherClientManager.getClusterLeaderList().values());
-				set3=DispatcherClientManager.getDispatcherList();
-			}
-			
-		
-			
-			
-			
+			}			
 		}else{
 			System.out.print("Leader RMI service cannot deploy. Exiting System.");
 			try {

@@ -8,6 +8,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import org.epzilla.leader.event.IEpzillaEvent;
 import org.epzilla.leader.util.Status;
 
+/**
+ * This is the epzilla core class and this class contains all the variables and methods require to maintain the state of the epzilla process.
+ * This class provide the API to the epzilla process. 
+ * Whenever the Leader election happens, the LE algorithm updates the variables in this class.
+ * RMI  interfaces also provide API for some of the details stored in this class.
+ * @author Administrator
+ *
+ */
 public class Epzilla {
 	private static long UID=0; //At init
 	private static int clusterId=0; //At init

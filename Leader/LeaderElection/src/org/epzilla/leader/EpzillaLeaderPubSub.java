@@ -9,6 +9,13 @@ import org.epzilla.leader.event.listner.IEpzillaEventListner;
 import org.epzilla.leader.util.Component;
 import org.epzilla.leader.util.Status;
 
+/**
+ * This is the class which keeps tack of the nodes which are subscribed with the leader via RMI messaging. 
+ * Whenever the Leader is publisher and the report message is sent to the non leader nodes, they are registering their listener with
+ * the leader and the registered listeners are stored in here.
+ * @author Administrator
+ *
+ */
 public class EpzillaLeaderPubSub {
 	
 	private static HashSet<String> clientList=new HashSet<String>();
