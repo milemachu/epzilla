@@ -31,7 +31,7 @@ public class EventManager {
                     sendNotificationtoClient();
                     processed++;
                     AccumulatorUIControler.appendEventprocessed(String.valueOf(processed));
-                    ClientNotifier.addAlertMessage("Dummy Alert",getClientID(eventResultSegment));
+//                    ClientNotifier.addAlertMessage("Dummy Alert",getClientID(eventResultSegment));
                     eventList.remove(eventID);
                 }
 
