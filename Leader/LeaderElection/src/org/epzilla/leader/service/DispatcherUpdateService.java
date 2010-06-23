@@ -12,6 +12,11 @@ import org.epzilla.leader.message.RmiMessageClient;
 import org.epzilla.leader.util.Status;
 import org.epzilla.leader.util.SystemConstants;
 
+/**
+ * This is the update service of the dispatchers.
+ * @author Administrator
+ *
+ */
 public class DispatcherUpdateService extends Thread implements IEpzillaService {
 	
 	// Private constructor prevents instantiation from other classes
