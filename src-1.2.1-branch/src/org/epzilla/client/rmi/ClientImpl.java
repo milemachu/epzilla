@@ -5,6 +5,7 @@ import org.epzilla.util.Logger;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Hashtable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,10 +24,21 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface {
    accept alert messages
     */
 
-    public String notifyClient(byte[] notifications) {
+    Hashtable<String, String> duplicateMap = new Hashtable();
+
+    public String notifyClient(byte[] notifications, byte[] eventId) {
         try {
             String alert = new String(notifications);
-            ClientUIControler.appendAlerts(alert);
+            String eid = new String(eventId);
+
+            if (duplicateMap.get(eid) == null) {
+                ClientUIControler.appendAlerts(alert);
+                duplicateMap.put(eid, alert);
+            } else {
+                duplicateMap.remove(eid);
+            }
+
+            // todo - drop duplicates
 //            ClientUIControler clientCon = new ClientUIControler(alert);
 //            clientCon.setAlertCount();
 //            Thread t = new Thread(clientCon);
