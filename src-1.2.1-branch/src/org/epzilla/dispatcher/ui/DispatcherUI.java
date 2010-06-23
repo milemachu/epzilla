@@ -647,7 +647,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
         if (nameService.length() != 0 && dispatcherName.length() != 0) {
             DispatcherRegister.register(ip, nameService, port, dispatcherName);
             isRegister = true;
-            btnRegister.setEnabled(false);
+//            btnRegister.setEnabled(false);
             btnLoadSettings.setEnabled(false);
 
         } else {
