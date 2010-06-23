@@ -1,5 +1,11 @@
 package org.epzilla.leader.message;
 
+/**
+ * This interface defines the message IDs which are sent in RMI messages.
+ * We use these IDS instead of message names to optimize the bandwidth by reducing the message content.
+ * @author Administrator
+ *
+ */
 public interface MessageMeta {
 	public static char SEPARATOR = '\u0016';
 

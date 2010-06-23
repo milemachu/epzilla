@@ -2,7 +2,12 @@ package org.epzilla.leader.message;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-
+/**
+ * This is the RMI message handler where all the received RMI messages are queued here and our observer 
+ * will enqueue the messages and start decoding the messages.
+ * @author Administrator
+ *
+ */
 public class RmiMessageHandler {
 	private ConcurrentLinkedQueue<String> messageQueue;
 	private MessageDecoder messageDecoder;
