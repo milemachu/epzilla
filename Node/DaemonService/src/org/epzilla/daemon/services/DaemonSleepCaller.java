@@ -5,6 +5,11 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+/**
+ * This class contains the logic to sleep a running node.
+ * @author Administrator
+ *
+ */
 public class DaemonSleepCaller {
 	private static String SERVICE_NAME="DAEMON_SERVICE";
 	

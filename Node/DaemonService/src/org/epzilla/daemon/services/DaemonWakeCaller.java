@@ -5,6 +5,11 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+/**
+ * This class contains the logic to wake up a lseeping node.
+ * @author Administrator
+ *
+ */
 public class DaemonWakeCaller {
 	private static String SERVICE_NAME="DAEMON_SERVICE";
 	

@@ -8,6 +8,12 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Hashtable;
 
+/**
+ * This is the implementation of daemon service for cluster node load balancing.
+ * This class is used to wakeup the sleeping nodes and sleep the running unnecessary nodes.
+ * @author Administrator
+ *
+ */
 public class DaemonImpl extends UnicastRemoteObject implements DaemonInterface {
 	/**
 	 * 

@@ -8,6 +8,11 @@ import java.rmi.Naming;
 import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 
+/**
+ * This is the startup sequence for the daemon service.
+ * @author Administrator
+ *
+ */
 public class DaemonStartup {
 	private static String SERVICE_NAME="DAEMON_SERVICE";
 	/**

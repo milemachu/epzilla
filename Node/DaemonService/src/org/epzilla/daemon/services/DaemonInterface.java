@@ -3,6 +3,11 @@ package org.epzilla.daemon.services;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * This is the daemon service implemented for cluster node load balancing. 
+ * @author Administrator
+ *
+ */
 public interface DaemonInterface extends Remote{
 	
 	/**
