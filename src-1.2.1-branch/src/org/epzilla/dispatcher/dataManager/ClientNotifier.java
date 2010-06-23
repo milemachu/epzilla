@@ -41,11 +41,11 @@ public class ClientNotifier {
     }
 
     public static void sendNotifications(String list) throws RemoteException {
-        response = clientObj.notifyClient(list.getBytes());
-        if (response != null)
-            Logger.log("Notifications send to the client");
-        else
-            Logger.log("Notifications not sent");
+//        response = clientObj.notifyClient(list.getBytes());
+//        if (response != null)
+//            Logger.log("Notifications send to the client");
+//        else
+//            Logger.log("Notifications not sent");
 
     }
 
