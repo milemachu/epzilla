@@ -21,32 +21,33 @@ public class ClientNotifier {
     private static String response = null;
     private static String SERVICE_NAME = "CLIENT";
 
-    public static void getNotifications(String serverIp, String notifications) throws MalformedURLException, NotBoundException, RemoteException {
-        byte[] msg = notifications.getBytes();
-
-        if (clientMap.containsKey(serverIp)) {
-            ClientInterface clientObj = (ClientInterface) clientMap.get(serverIp);
-            response = clientObj.notifyClient(msg);
-            if (response != null)
-                Logger.log("Notifications send to the client");
-            else
-                Logger.log("Notifications not sent");
-        } else {
-            ClientInterface clientObj = initClient(serverIp, SERVICE_NAME);
-            response = clientObj.notifyClient(msg);
-            if (response != null)
-                Logger.log("Notifications send to the client");
-            else
-                Logger.log("Notifications not sent");
-        }
-    }
-
-    private static ClientInterface initClient(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
-        String url = "rmi://" + serverIp + "/" + serviceName;
-        ClientInterface obj = (ClientInterface) Naming.lookup(url);
-        clientMap.put(serverIp, obj);
-        return obj;
-
-    }
+//    public static void getNotifications(String serverIp, String notifications) throws MalformedURLException, NotBoundException, RemoteException {
+//        byte[] msg = notifications.getBytes();
+//
+//        if (clientMap.containsKey(serverIp)) {
+//            ClientInterface clientObj = (ClientInterface) clientMap.get(serverIp);
+//            response = clientObj.notifyClient(msg);
+//            if (response != null)
+//                Logger.log("Notifications send to the client");
+//            else
+//                Logger.log("Notifications not sent");
+//        } else {
+//            ClientInterface clientObj = initClient(serverIp, SERVICE_NAME);
+//            response = clientObj.notifyClient(msg);
+//            if (response != null)
+//                Logger.log("Notifications send to the client");
+//            else
+//                Logger.log("Notifications not sent");
+//        }
+//    }
+//
+//    private static ClientInterface initClient(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
+//        String url = "rmi://" + serverIp + "/" + serviceName;
+//        ClientInterface obj = (ClientInterface) Naming.lookup(url);
+//        clientMap.put(serverIp, obj);
+//        return obj;
+//
+//    }
 
 }
+//
