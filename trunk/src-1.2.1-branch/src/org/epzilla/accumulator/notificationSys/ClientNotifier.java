@@ -36,8 +36,8 @@ public class ClientNotifier {
     method to get the alert message
     */
 
-    public static void addAlertMessage(String alert, String clientID) {
-        alertQueue.add(alert + ":" + clientID);
+    public static void addAlertMessage(String alert) {
+        alertQueue.add(alert);
         if (!isInit) {
             initSendAlert();
             runner.start();
@@ -48,13 +48,13 @@ public class ClientNotifier {
     method to send alert message
      */
 
-    private static void sendAlertMsg(String alerts, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
+    private static void sendAlertMsg(String alerts, String clientID, String eventId) throws RemoteException, MalformedURLException, NotBoundException {
         byte[] notification = alerts.getBytes();
 
         String response = null;
         if (clientMap.containsKey(clientID)) {
             ClientInterface clientObj = (ClientInterface) clientMap.get(clientID);
-            response = clientObj.notifyClient(notification);
+            response = clientObj.notifyClient(notification, eventId.getBytes());
             if (response != null) {
                 Logger.log("Notifications send to the client");
             } else {
@@ -64,7 +64,7 @@ public class ClientNotifier {
         } else {
             String clientIP = generateClientIP(clientID);
             ClientInterface clientObj = initClient(clientID, clientIP, serviceName);
-            response = clientObj.notifyClient(notification);
+            response = clientObj.notifyClient(notification, eventId.getBytes());
             if (response != null) {
                 Logger.log("Notifications send to the client");
             } else {
@@ -86,7 +86,8 @@ public class ClientNotifier {
                             StringTokenizer st = new StringTokenizer(msg, ":");
                             String alert = st.nextToken();
                             String id = st.nextToken();
-                            sendAlertMsg(alert, id);
+                            String eventId = st.nextToken();
+                            sendAlertMsg(alert, id, eventId);
                             Thread.sleep(INITIAL_TIME_INTERVAL, UPDATE_TIME_INTERVAL);
                         }
 
