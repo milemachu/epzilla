@@ -4,6 +4,11 @@ import java.net.InetAddress;
 
 import org.epzilla.leader.Epzilla;
 
+/**
+ * This is the class used to generate messages to send using RMI to other nodes.
+ * @author Administrator
+ *
+ */
 public class MessageGenerator {
 	
 	/**

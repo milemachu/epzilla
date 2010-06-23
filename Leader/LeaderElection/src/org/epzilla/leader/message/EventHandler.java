@@ -21,6 +21,13 @@ import org.epzilla.leader.util.Component;
 import org.epzilla.leader.util.Status;
 import org.epzilla.leader.util.SystemConstants;
 
+/**
+ * This is epZilla Event Driven Architecture logic. 
+ * Events are fired from the message decoders according to the received message type.
+ * The corresponding tasks to be done are completed with in this class.  
+ * @author Administrator
+ *
+ */
 public class EventHandler {
 	private static String EMPTY_STRING=""; 
 	
