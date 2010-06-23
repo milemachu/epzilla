@@ -9,7 +9,13 @@ import java.util.Hashtable;
 import org.epzilla.common.discovery.dispatcher.DispatcherDiscoveryManager;
 import org.epzilla.leader.Epzilla;
 
-
+/**
+ * This class is using the API provided by the Dispatcher Discovery manager and uses to keep track of the 
+ * details of the dispatchers, cluster leaders.
+ * This Class provide API for the higher layers like node implementations.
+ * @author Administrator
+ *
+ */
 public class DispatcherClientManager {
 
 	private DispatcherDiscoveryManager dispatcherDiscMgr;

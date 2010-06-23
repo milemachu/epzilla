@@ -8,6 +8,13 @@ import java.util.HashSet;
 import org.epzilla.common.discovery.node.NodeDiscoveryManager;
 import org.epzilla.leader.Epzilla;
 
+/**
+ * This class is using the API provided by the node discovery manager class in the dynamic service discovery component and wrap the 
+ * functionalities and provides a higher layer API for the dynamic discovery services for nodes.
+ * 
+ * @author Administrator
+ *
+ */
 public class NodeClientManager {
 
 	private NodeDiscoveryManager nodeDiscMgr;

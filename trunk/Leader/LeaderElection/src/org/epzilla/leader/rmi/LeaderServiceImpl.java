@@ -10,6 +10,11 @@ import org.epzilla.leader.message.RejectReason;
 import org.epzilla.leader.message.RmiMessageClient;
 import org.epzilla.leader.message.RmiMessageHandler;
 
+/**
+ * This is the LeaderService implementation class. 
+ * @author Administrator
+ *
+ */
 public class LeaderServiceImpl extends UnicastRemoteObject implements LeaderInterface {
 	
 	private RmiMessageHandler messageHandler;
