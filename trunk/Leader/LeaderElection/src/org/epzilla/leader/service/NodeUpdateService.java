@@ -12,6 +12,11 @@ import org.epzilla.leader.message.RmiMessageClient;
 import org.epzilla.leader.util.Status;
 import org.epzilla.leader.util.SystemConstants;
 
+/**
+ * This is the update service for the nodes.
+ * @author Administrator
+ *
+ */
 public class NodeUpdateService extends Thread implements IEpzillaService{
 	// Private constructor prevents instantiation from other classes
 	 private NodeUpdateService() {
