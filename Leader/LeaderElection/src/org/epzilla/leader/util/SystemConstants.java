@@ -1,5 +1,10 @@
 package org.epzilla.leader.util;
 
+/**
+ * This class defines the constants we use in the Leader Election component.
+ * @author Administrator
+ *
+ */
 public class SystemConstants {
 	
 	public static int COMPONENT_DISCOVERY_TIME=0;
