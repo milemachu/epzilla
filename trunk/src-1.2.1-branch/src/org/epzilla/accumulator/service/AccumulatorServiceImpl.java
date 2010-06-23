@@ -74,9 +74,10 @@ public class AccumulatorServiceImpl extends UnicastRemoteObject implements Accum
         NotificationManager.setAlertCount();  // set count of the processed events
 
         //add logic to send the result to the client
-        StringTokenizer st = new StringTokenizer(eventS, ":");
-        String result = st.nextToken();  //trigger
-        String clientID = st.nextToken(); //client ID
-        ClientNotifier.addAlertMessage(result, clientID);
+//        StringTokenizer st = new StringTokenizer(eventS, ":");
+//        String result = st.nextToken();  //trigger
+//        String clientID = st.nextToken(); //client ID
+
+        ClientNotifier.addAlertMessage(eventS);
     }
 }
