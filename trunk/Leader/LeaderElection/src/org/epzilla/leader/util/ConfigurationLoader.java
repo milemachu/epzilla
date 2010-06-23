@@ -11,6 +11,12 @@ import java.util.Hashtable;
 import org.epzilla.leader.Epzilla;
 import org.epzilla.leader.xml.Element;
 
+/**
+ * This class is a utility class where we use to load the necessary configuration data from the configuration files.
+ * 
+ * @author Administrator
+ *
+ */
 public class ConfigurationLoader {
 
 	public void loadConfig(){
