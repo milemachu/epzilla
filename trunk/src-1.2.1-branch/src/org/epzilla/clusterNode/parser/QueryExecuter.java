@@ -24,7 +24,8 @@ public class QueryExecuter {
     private QueryParser parser = new QueryParser();
     private HashSet<String> querySet = new HashSet<String>();
 
-    static Pattern p = Pattern.compile("(\\d)+");
+//    static Pattern p = Pattern.compile("(\\d)+");
+    static Pattern p = Pattern.compile("(\\d)+|(\\d)+(\\.)(\\d)");
 
     public void addQuery(Query q) {
         synchronized (lock) {

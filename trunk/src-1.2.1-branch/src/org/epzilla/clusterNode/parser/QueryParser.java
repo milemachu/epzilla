@@ -17,7 +17,8 @@ import java.util.regex.Pattern;
  */
 public class QueryParser {
     static String[] operators = new String[]{">=", "<=", "!=", "<", ">", "="};
-    static Pattern p = Pattern.compile("(\\d)+");
+//    static Pattern p = Pattern.compile("(\\d)+");
+    static Pattern p = Pattern.compile("(\\d)+|(\\d)+(\\.)(\\d)");
 
     public Query parseQuery(String query) throws QuerySyntaxException {
         query = query.trim();
@@ -118,7 +119,7 @@ public class QueryParser {
         String delim = null;
 
         if (wherePart != null) {
-            for (String it : operators) {           
+            for (String it : operators) {
                 if (wherePart.contains(it)) {
                     delim = it;
                     break;
