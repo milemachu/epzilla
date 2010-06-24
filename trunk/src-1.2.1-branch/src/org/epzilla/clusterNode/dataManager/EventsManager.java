@@ -4,6 +4,7 @@ import org.epzilla.clusterNode.nodeControler.EventSender;
 import org.epzilla.util.Logger;
 import org.epzilla.util.RoundRobinList;
 
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class EventsManager {
                     try {
                         event = eventQueue.poll();
                         if (event != null) {
-                            EventSender.sendEvents(lis.next(), event);
+                            EventSender.sendEvents(InetAddress.getLocalHost().getHostAddress(), event);
 //                            removeEvents(event);
                             count++;
 
