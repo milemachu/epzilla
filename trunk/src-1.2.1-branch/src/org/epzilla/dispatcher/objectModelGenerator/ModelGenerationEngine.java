@@ -7,7 +7,10 @@ import jstm.generator.Package;
 
 public class ModelGenerationEngine {
 
-
+    /**
+     * Generate the Object Model for the Dispatcher STM
+     * @return
+     */
     private static ObjectModelDefinition create() {
         ObjectModelDefinition model = new ObjectModelDefinition("DispatcherObjectModel");
         Package pack = new Package("org.epzilla.dispatcher.dispatcherObjectModel");
@@ -16,7 +19,6 @@ public class ModelGenerationEngine {
         Structure simple = new Structure("TriggerInfoObject");
         simple.Fields.add(new Field(String.class, "triggerID"));
         simple.Fields.add(new Field(int.class, "dispatcherId"));
-//        simple.Fields.add(new Field(String [].class, "testArray"));
 
         simple.Fields.add(new Field(String.class, "clientID"));
         simple.Fields.add(new Field(String.class, "clusterID"));

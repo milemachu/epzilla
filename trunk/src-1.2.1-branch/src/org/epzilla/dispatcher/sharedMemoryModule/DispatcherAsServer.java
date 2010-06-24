@@ -22,10 +22,21 @@ import jstm.transports.clientserver.socket.SocketServer;
  * Time: 3:58:04 PM
  * To change this template use File | Settings | File Templates.
  */
+
+/**
+ * Dispatcher Behaviour when acting as a Server
+ */
 public class DispatcherAsServer {
 
     private static Share share;
 
+    private static String triggerConst = "OOOO";
+     private static String performanceConst ="PPPP";
+
+    /**
+     * Start the server
+     * @return
+     */
     public static boolean startServer() {
         boolean success = false;
         DispatcherUIController.appendTextToStatus("Starting STM server on: " + NodeVariables.getNodeIP());
@@ -64,42 +75,42 @@ public class DispatcherAsServer {
 
             DynamicDependencyManager.setDependencyShare(metadataShare);
 
-            // todo - embed stratification stuff...
-//            share = (Share) serverAndClientsSites.getOpenShares().toArray()[0];
             success = true;
 
         } catch (Transaction.AbortedException e2) {
-            // TODO Auto-generated catch block
             e2.printStackTrace();
         } catch (IOException e3) {
-            // TODO Auto-generated catch block
             e3.printStackTrace();
         }
         return success;
     }
 
-
+    /**
+     * Load a Transacted List for Triggers
+     */
     public static void loadTriggers() {
         DispatcherUIController.appendTextToStatus("Shared Transacted list Added for Triggers..");
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
             Site.getLocal().allowThread();
             Transaction transaction = Site.getLocal().startTransaction();
             TriggerInfoObject obj = new TriggerInfoObject();
-            obj.settriggerID("OOOO");
-            obj.settrigger("OOOO");
+            obj.settriggerID(triggerConst);
+            obj.settrigger(triggerConst);
             TriggerManager.getTriggers().add(obj);
             share.add(TriggerManager.getTriggers());
             transaction.commit();
         }
         TriggerManager.getTriggers().addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-                //DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
             TriggerManager.printTriggers();
             }
         });
 
     }
 
+    /**
+     * Load a Transacted List for Client Information
+     */
     public static void loadClientList() {
         DispatcherUIController.appendTextToStatus("Shared Transacted Map Added for Clients..");
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
@@ -108,11 +119,11 @@ public class DispatcherAsServer {
             share.add(ClientManager.getClientMap());
             transaction.commit();
         }
-//        ClientManager.getClientMap().addListener(new );
-
     }
 
-
+    /**
+     * Load a Transacted List for Dispatcher IP list Information
+     */
     public static void loadIPList() {
         DispatcherUIController.appendTextToStatus("Shared Transacted list Added for IPs..");
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
@@ -126,33 +137,36 @@ public class DispatcherAsServer {
         }
         ClusterLeaderIpListManager.getIpList().addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-//              DispatcherUIController.appendIP("IP added to List: " + ClusterLeaderIpListManager.getIpList().get(i));
                 ClusterLeaderIpListManager.printIPList();
             }
         });
     }
 
+    /**
+     * Transacted List added for Performance Info
+     */
     public static void loadPerformanceInfoList() {
         DispatcherUIController.appendTextToStatus("Shared Transacted List Added for Load Balance Info...");
         if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
             Site.getLocal().allowThread();
             Transaction transaction = Site.getLocal().startTransaction();
             PerformanceInfoObject obj = new PerformanceInfoObject();
-            obj.setnodeIP("PPPP");
+            obj.setnodeIP(performanceConst);
             PerformanceInfoManager.getPerformanceList().add(obj);
             share.add(PerformanceInfoManager.getPerformanceList());
             transaction.commit();
         }
         PerformanceInfoManager.getPerformanceList().addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-
                 PerformanceInfoObject obj = PerformanceInfoManager.getPerformanceList().get(i);
                 DispatcherUIController.appendTextToStatus("Dispatcher Performance:: IP:" + obj.getnodeIP() + " CPU Usage:" + obj.getCPUusageAverage() + "% Memory Usage:" + obj.getMemUsageAverage() + "%");
             }
         });
     }
 
-
+    /**
+     * Periodically Test for Overloading 
+     */
      public static void checkForOverloading() {
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {
@@ -167,7 +181,7 @@ public class DispatcherAsServer {
                 int CPUsum = 0;
                 int MemSum = 0;
                 for (int i = list.size()-1; i >=0 ; i--) {
-                    if (list.get(i).getnodeIP() != "PPPP") {
+                    if (list.get(i).getnodeIP() != performanceConst) {
                         if (!cpuArray.containsKey(list.get(i).getnodeIP())) {
                             cpuArray.put(list.get(i).getnodeIP(), Integer.valueOf(list.get(i).getCPUusageAverage()));
                             memArray.add(Integer.valueOf(list.get(i).getMemUsageAverage()));
@@ -188,9 +202,6 @@ public class DispatcherAsServer {
                     int memResult = (int) (MemSum / cpuArray.size());
                      DispatcherUIController.appendTextToStatus("Average CPU usage of Dispatchers: " + cpuResult + "%");
                      DispatcherUIController.appendTextToStatus("Average Memory usage of Dispatchers: " + memResult + "%");
-
-                    //TO DO add new node
-
                 }
             }
         }, 120000, 200000);
