@@ -25,26 +25,34 @@ public class EventSender {
     }
 
     public static void sendEvents(String serverIp, String event) throws RemoteException, MalformedURLException, NotBoundException {
-        if (!nodesList.containsKey(serverIp)) {
-            initNode(serverIp, SERVICE_NAME);
-            clusterObj = (ClusterInterface) nodesList.get(serverIp);
-            clusterObj.addEventStream(event);
-            System.out.println("calling add event stream.");
-//            if (response != null) {
-//                Logger.log("Events added to the Node " + serverIp);
-//            } else {
-//                Logger.error("Events adding failure to the Node" + serverIp, null);
-//            }
-        } else {
-            clusterObj = (ClusterInterface) nodesList.get(serverIp);
-            clusterObj.addEventStream(event);
-            System.out.println("else part working.");
+        try {
+            if ((serverIp != null)&&(!nodesList.containsKey(serverIp))) {
+                initNode(serverIp, SERVICE_NAME);
+                clusterObj = (ClusterInterface) nodesList.get(serverIp);
+                clusterObj.addEventStream(event);
+                System.out.println("calling add event stream.");
+    //            if (response != null) {
+    //                Logger.log("Events added to the Node " + serverIp);
+    //            } else {
+    //                Logger.error("Events adding failure to the Node" + serverIp, null);
+    //            }
+            } else {
+                clusterObj = (ClusterInterface) nodesList.get(serverIp);
+                clusterObj.addEventStream(event);
+                System.out.println("else part working.");
 
-//            if (response != null) {
-//                Logger.log("Events added to the Node " + serverIp);
-//            } else {
-//                Logger.error("Events adding failure to the Node" + serverIp, null);
-//            }
+    //            if (response != null) {
+    //                Logger.log("Events added to the Node " + serverIp);
+    //            } else {
+    //                Logger.error("Events adding failure to the Node" + serverIp, null);
+    //            }
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (NotBoundException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (RemoteException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 
