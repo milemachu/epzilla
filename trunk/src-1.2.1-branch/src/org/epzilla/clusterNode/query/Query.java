@@ -5,11 +5,7 @@ import java.util.regex.Pattern;
 
 
 /**
- * Created by IntelliJ IDEA.
- * User: Rajeev
- * Date: Mar 8, 2010
- * Time: 8:44:39 AM
- * To change this template use File | Settings | File Templates.
+ *represents a parsed query to be executed.
  */
 public class Query implements Comparable {
     // all digits regexp.

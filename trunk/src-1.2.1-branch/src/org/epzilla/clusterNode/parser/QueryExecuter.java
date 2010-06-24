@@ -11,11 +11,7 @@ import org.epzilla.testObjectGenerator.EventTriggerGenerator;
 import org.epzilla.util.Logger;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Rajeev
- * Date: Mar 9, 2010
- * Time: 9:37:52 AM
- * To change this template use File | Settings | File Templates.
+ * a basic query executor.
  */
 public class QueryExecuter {
     private Vector<Query> queries = new Vector<Query>();
@@ -35,6 +31,11 @@ public class QueryExecuter {
         }
     }
 
+    /**
+     * adds a query to the executor.
+     * @param query
+     * @throws QuerySyntaxException
+     */
     public void addQuery(String query) throws QuerySyntaxException {
         if (!querySet.contains(query)) {
             querySet.add(query);
@@ -52,37 +53,6 @@ public class QueryExecuter {
             this.mirror.remove(q);
             this.queries = (Vector<Query>) this.mirror.clone();
         }
-    }
-
-    public static void main(String[] args) throws QuerySyntaxException {
-        QueryParser qp = new QueryParser();
-        Query q = qp.parseQuery("SELECT avg(StockTrades.price), StockTrades.last  , min(StockTrades.price), StockTrades.amount WHERE StockTrades.price > 7 OUTPUT StkTrades");
-        System.out.println(q.getConditions() == null);
-        for (String[] x : q.getConditions()) {
-            System.out.println(Arrays.toString(x));
-        }
-
-//        Query q = qp.parseQuery(EventTriggerGenerator.generateStockDetailsTrigger());
-        QueryExecuter qe = new QueryExecuter();
-        qe.addQuery(q);
-        String de = qe.processEvent("StockTrades\nprice,amount,askPrice,last\n31,23,3,31");
-        System.out.println(de);
-
-
-//        for (int i = 0; i < 100; i++) {
-//            qe.addQuery(EventTriggerGenerator.generateStockDetailsTrigger());
-//        }
-//
-//        for (int i = 10; i > 0; i--) {
-//            String x = EventTriggerGenerator.generateStockEvent();
-//            System.out.println(x);
-//            System.out.println("processed:");
-//            System.out.println(qe.processEvent(x));
-//        }
-//
-//        System.out.println("ev:" + qe.processEvent("DFCC\naskPrice,amount\n100,2\n23,2"));
-
-
     }
 
     public String processEvent(String event) {

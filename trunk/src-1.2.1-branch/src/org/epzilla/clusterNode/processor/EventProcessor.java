@@ -12,11 +12,7 @@ import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Rajeev
- * Date: May 24, 2010
- * Time: 1:37:31 PM
- * To change this template use File | Settings | File Templates.
+ * encapsulates a query executor. assigned with a particular client.
  */
 public class EventProcessor {
     private ConcurrentLinkedQueue cq = new ConcurrentLinkedQueue();
@@ -33,7 +29,7 @@ public class EventProcessor {
     }
 
     public void addTrigger(String trigger, String clientId) throws QuerySyntaxException {
-        System.out.println("adding trigger" + clientId);
+        org.epzilla.util.Logger.log("adding trigger" + clientId);
         QueryExecuter q = clientExecutors.get(clientId);
         if (q == null) {
             q = new QueryExecuter();
@@ -41,8 +37,6 @@ public class EventProcessor {
         }
         q.addQuery(new QueryParser().parseQuery(trigger));
     }
-
-    
 
 
     public void reloadTriggers(List<String> triggers, String clientId) throws QuerySyntaxException {
@@ -56,8 +50,8 @@ public class EventProcessor {
 
     public void cleanTriggers(String clientId) {
         try {
-                    clientExecutors .remove(clientId);
-        }   catch (Exception e) {
+            clientExecutors.remove(clientId);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -81,8 +75,8 @@ public class EventProcessor {
         String cont = tok.nextToken();
         String clientId = tok.nextToken();
         String eventId = tok.nextToken();
-        System.out.println("processing event: " +  clientId + " : " + eventId);
-        System.out.println("event: " +  cont);
+        org.epzilla.util.Logger.log("processing event: " + clientId + " : " + eventId);
+        org.epzilla.util.Logger.log("event: " + cont);
 
         QueryExecuter q = this.clientExecutors.get(clientId);
         if (q != null) {
