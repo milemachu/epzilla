@@ -10,21 +10,27 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class NameServiceHandler extends UnicastRemoteObject {
-
+   private static String serviceName = "NAME_SERVICE";
     public NameServiceHandler() throws RemoteException {
     }
-
+   /*
+   start RMI registry
+    */
     private void startRegistry() {
         try {
             Runtime.getRuntime().exec("rmiregistry");
             Thread.sleep(1000);
         }
         catch (IOException ex) {
+            Logger.error("IO error:",ex);
         }
         catch (InterruptedException exc) {
+            Logger.error("Interruption error:",exc);
         }
     }
-
+    /*
+    bind the name server to its registry
+     */
     public void bind(String serviceName) {
 
         if (System.getSecurityManager() == null) {
@@ -46,7 +52,7 @@ public class NameServiceHandler extends UnicastRemoteObject {
     public static void main(String args[]) throws RemoteException {
         NameServiceHandler handler = new NameServiceHandler();
         handler.startRegistry();
-        handler.bind("NAME_SERVICE");
+        handler.bind(serviceName);
 
     }
 
