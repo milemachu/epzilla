@@ -1,5 +1,7 @@
 package org.epzilla.clusterNode.nodeControler;
 
+import org.epzilla.clusterNode.leaderReg.ClusterStartup;
+import org.epzilla.clusterNode.leaderReg.LeaderRegister;
 import org.epzilla.clusterNode.rmi.ClusterInterface;
 
 import java.net.MalformedURLException;
@@ -18,7 +20,7 @@ import java.util.Hashtable;
 public class EventSender {
     private static ClusterInterface clusterObj;
     private static String response = null;
-    private static Hashtable<String, Object> nodesList = new Hashtable<String, Object>();
+    private static final Hashtable<String, Object> nodesList = new Hashtable<String, Object>();
     private static String SERVICE_NAME = "CLUSTER_NODE";
 
     public EventSender() {
@@ -37,6 +39,9 @@ public class EventSender {
                 //                Logger.error("Events adding failure to the Node" + serverIp, null);
                 //            }
             } else {
+                if (serverIp == null) {
+                    serverIp = "127.0.0.1";
+                }                     
                 clusterObj = (ClusterInterface) nodesList.get(serverIp);
                 clusterObj.addEventStream(event);
                 System.out.println("else part working.");
@@ -47,14 +52,12 @@ public class EventSender {
                 //                Logger.error("Events adding failure to the Node" + serverIp, null);
                 //            }
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (NotBoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (RemoteException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (Exception e) {
-            e.printStackTrace();
+            if (ClusterStartup.impl != null) {
+            ClusterStartup.impl.addEventStream(event);
+            } else if (LeaderRegister.impl != null) {
+                
+            }
         }
     }
 
