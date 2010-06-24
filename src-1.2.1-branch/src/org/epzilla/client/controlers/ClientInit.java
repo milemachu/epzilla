@@ -42,6 +42,14 @@ public class ClientInit extends Thread {
     public ClientInit() {
     }
 
+    /**
+     * lookup dispatcher interface and get remote reference
+     * @param ip
+     * @param name
+     * @throws MalformedURLException
+     * @throws NotBoundException
+     * @throws RemoteException
+     */
     public static void lookUp(String ip, String name) throws MalformedURLException, NotBoundException, RemoteException {
         if (!dispMap.containsKey(ip)) {
             String url = "rmi://" + ip + "/" + name;
@@ -51,6 +59,15 @@ public class ClientInit extends Thread {
         }
     }
 
+    /**
+     * connenct to the dispatcher service
+     * @param ip
+     * @param name
+     * @param clientID
+     * @throws MalformedURLException
+     * @throws NotBoundException
+     * @throws RemoteException
+     */
     public static void initSend(String ip, String name, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         lookUp(ip, name);
         ClientInit.clientID = clientID;
@@ -204,6 +221,9 @@ public class ClientInit extends Thread {
         if (response != null) {
             ClientUIControler.appendResults("Dispatcher Received the Trigger Stream" + "\n");
         }
+        if(response==null){
+             ClientUIControler.appendResults("Dispatcher Doesn't Received the Trigger Stream" + "\n"); 
+        }
     }
 
     private static void initDLookup() {
@@ -213,6 +233,9 @@ public class ClientInit extends Thread {
 //        }
     }
 
+    /**
+     * load setting details from the XML file
+     */
     private static void loadSettings() {
         ArrayList<String[]> settingsList = ClientTimeSettings.getClientTimeIntervals("client_timeIntervals.xml");
         String[] settings = settingsList.get(0);
