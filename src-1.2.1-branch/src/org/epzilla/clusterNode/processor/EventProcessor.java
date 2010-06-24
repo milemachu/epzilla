@@ -82,7 +82,11 @@ public class EventProcessor {
         if (q != null) {
             String res = q.processEvent(cont);
             StringBuilder sb = new StringBuilder("");
+            if (res.length() > 0) {
             sb.append(res);
+            } else {
+                sb.append("-");
+            }
             sb.append(":");
             sb.append(clientId);
             sb.append(":");
