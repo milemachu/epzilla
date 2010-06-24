@@ -103,9 +103,9 @@ public class ClusterIPManager {
         }
     }
     //add by chathura
+ static   ArrayList<String> ipArr = new ArrayList<String>();
 
     public static ArrayList<String> getNodeIpList() {
-        ArrayList<String> ipArr = new ArrayList<String>();
         if (getIpList() != null) {
             for (int i = 0; i < ipList.size(); i++) {
                 if (!"IP".equalsIgnoreCase(ipList.get(i).getIP())) {
