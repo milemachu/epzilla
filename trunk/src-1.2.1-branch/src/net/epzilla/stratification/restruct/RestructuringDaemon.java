@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 
+/**
+ * runs in leader dispatcher only.
+ * responsible for periodically redistributing the query base in order to properly organize the system.
+ */
 public class RestructuringDaemon {
     private static boolean alive = false;
     private static boolean restructuring = false;
@@ -64,16 +68,20 @@ public class RestructuringDaemon {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println(INITIAL_RESTRUCTURING_WAITING_TIME);
-        System.out.println(RESTRUCTURING_WAITING_TIME);
-    }
 
+    /**
+     * indicates whether the daemon is currently doing restructuring.
+     * @return
+     */
     public static boolean isRestructuring() {
         return restructuring;
     }
 
 
+    /**
+     * sets the indicator that daemon is currently restructuring.
+     * @param restructuring
+     */
     public static void setRestructuring(boolean restructuring) {
         RestructuringDaemon.restructuring = restructuring;
     }
@@ -105,6 +113,9 @@ public class RestructuringDaemon {
         daemonThread.start();
     }
 
+    /**
+     * force query redistribution. used when leader goes down while restructuring happens.
+     */
     public static void forceRestructuring() {
         System.out.println("SystemRestructuring - starting....");
         long st = System.currentTimeMillis();
@@ -174,6 +185,9 @@ public class RestructuringDaemon {
         return value;
     }
 
+    /**
+     * stops the daemon.
+     */
     public static void stop() {
         try {
             alive = false;

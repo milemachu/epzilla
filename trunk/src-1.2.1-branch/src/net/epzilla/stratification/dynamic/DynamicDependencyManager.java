@@ -8,6 +8,9 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 
+/**
+ * Manages dependency map which is replicated throuhout all dispatchers using the STM.
+ */
 
 public class DynamicDependencyManager {
     private static DynamicDependencyManager instance = new DynamicDependencyManager();
@@ -24,18 +27,39 @@ public class DynamicDependencyManager {
         return dependencyShare;
     }
 
+    /**
+     * sets the STM for sharing dependencies.
+     * @param dependencyShare
+     */
     public static void setDependencyShare(Share dependencyShare) {
         DynamicDependencyManager.dependencyShare = dependencyShare;
     }
 
+    /**
+     * singleton.
+     * @return
+     */
     public static DynamicDependencyManager getInstance() {
         return instance;
     }
 
+
+    /**
+     * sets a trigger dependency structure for a particular client.
+     * @param clientId
+     * @param tds
+     */
     public void addTriggerDependencyStructure(long clientId, TriggerDependencyStructure tds) {
         this.table.put(clientId, tds);
     }
 
+
+    /**
+     * retrieves the dependency structure for the given client.
+     * if no such structure exists, a new one will be created and gets returned.
+     * @param clientId
+     * @return
+     */
     public TriggerDependencyStructure getDependencyStructure(long clientId)  {
         TriggerDependencyStructure tds = this.table.get(clientId);
         if (tds != null) {

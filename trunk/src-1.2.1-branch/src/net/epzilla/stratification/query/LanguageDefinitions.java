@@ -1,11 +1,7 @@
 package net.epzilla.stratification.query;
 
 /**
- * Created by IntelliJ IDEA.
- * User: rajeev
- * Date: Dec 2, 2009
- * Time: 8:32:00 PM
- * To change this template use File | Settings | File Templates.
+ * The common keywords in query language.
  */
 public class LanguageDefinitions {
 

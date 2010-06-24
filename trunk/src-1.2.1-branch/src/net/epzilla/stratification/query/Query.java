@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 
+/**
+ * represents all components of a parsed query.
+ */
 public class Query {
     public static int NO_RETAIN = 0;
     public static int RETAIN_ON_TIME = 1;
@@ -14,6 +17,10 @@ public class Query {
      private int stratum;
      private int cluster;
 
+    /**
+     * used when assigning clusters.
+     * @return
+     */
     public boolean isIndependent() {
         return independent;
     }
@@ -29,6 +36,10 @@ public class Query {
         return stratum;
     }
 
+    /**
+     * used in stratification.
+     * @param stratum
+     */
     public void setStratum(int stratum) {
         this.stratum = stratum;
     }
@@ -37,6 +48,10 @@ public class Query {
         return cluster;
     }
 
+    /**
+     * used in virtual clustering.
+     * @param cluster
+     */
     public void setCluster(int cluster) {
         this.cluster = cluster;
     }
@@ -58,6 +73,10 @@ public class Query {
         this.id = id;
     }
 
+    /**
+     * types of events to retain.
+     * @return
+     */
     public String[] getRetainingQueryTypes() {
         return this.retainTypes;
     }
@@ -112,6 +131,10 @@ public class Query {
         return inputs;
     }
 
+    /**
+     * whether this contains a retain clause or not.
+     * @return
+     */
     public int getRetainCriterion() {
         return retainCriterion;
     }

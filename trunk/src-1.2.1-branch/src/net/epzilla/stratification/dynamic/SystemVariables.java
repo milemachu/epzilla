@@ -6,6 +6,9 @@ import org.epzilla.util.Logger;
 import java.util.Hashtable;
 
 
+/**
+ * Stores variables which describes the setup variables and performance variables of the system.
+ */
 public class SystemVariables {
     private static int numStrata;
     private static Hashtable<Integer, Integer> strataClusters = new Hashtable<Integer, Integer>();

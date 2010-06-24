@@ -12,6 +12,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.*;
 
+/**
+ * keeps track of the structure of the triggers and manages it.
+ */
 public class TriggerStrcutureManager {
 
     LinkedList<Query> qlist = new LinkedList<Query>();
@@ -40,6 +43,9 @@ public class TriggerStrcutureManager {
         qlist.addAll(list);
     }
 
+    /**
+     * reorganize the trigger base.
+     */
     public void restructure() {
         HashMap<Integer, HashMap<Integer, Cluster>> m = new HashMap();
 
@@ -116,6 +122,11 @@ public class TriggerStrcutureManager {
         return m;
     }
 
+    /**
+     * assign a virtual stratum for each query.
+     *
+     * @return
+     */
     public LinkedList<LinkedList<Integer>> markStrata() {
         int[] st = new int[qlist.size()];
         int i = 0;
@@ -139,6 +150,13 @@ public class TriggerStrcutureManager {
     }
 
 
+    /**
+     * returns the virtual trigger structure which contains many virtual strata and clusters.
+     *
+     * @param triggerList
+     * @return
+     * @throws InvalidSyntaxException
+     */
     public LinkedList<LinkedList<Cluster>> getVirtualStructure(List<TriggerInfoObject> triggerList) throws InvalidSyntaxException {
         LinkedList<Query> list = new LinkedList();
         trList = triggerList;
@@ -175,92 +193,12 @@ public class TriggerStrcutureManager {
         return clist;
 
 
-        /*
-      Iterator<TriggerInfoObject> i = triggerList.iterator();
-      Iterator<Query> j = this.getQueryList().iterator();
-
-      while (i.hasNext()) {
-          TriggerInfoObject obj = i.next();
-          Query qo = j.next();
-          obj.setoldClusterId(obj.getclusterID());
-          obj.setoldStratumId(obj.getoldStratumId());
-          obj.setclusterID(String.valueOf(qo.getCluster()));
-          obj.setstratumId(String.valueOf(qo.getStratum()));
-      }
-        */
-
     }
 
 
-    public static void main(String[] args) throws Exception {
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("./src/query/queries.txt"));
-            ArrayList<String> list = new ArrayList<String>(50);
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                line = line.trim();
-                if (line.length() > 0) {
-                    for (int i = 0; i < 100; i++) {
-                        list.add(line);
-                    }
-                }
-            }
-
-
-            TriggerStrcutureManager s = new TriggerStrcutureManager();
-//            DependencyInjector di = new DependencyInjector("./src/impl.ioc");  // todo - remove unnecessary IoC stuff.
-//            QueryParser qp = (QueryParser) di.createInstance("Parser");
-            QueryParser qp = new BasicQueryParser();
-            long stat = System.currentTimeMillis();
-
-            Query q = null;
-            int queryId = 0;
-            int x = 0;
-            List<TriggerInfoObject> ll = new LinkedList();
-            TriggerInfoObject tx = null;
-            for (String item : list) {
-                tx = new TriggerInfoObject();
-//                q = qp.parseString(item);
-                tx.settrigger(item);
-                tx.settriggerID(String.valueOf(queryId));
-//                q.setId(queryId);
-                ll.add(tx);
-//                s.addQuery(q);
-                queryId++;
-            }
-
-            LinkedList<LinkedList<Cluster>> res = new TriggerStrcutureManager().getVirtualStructure(ll);
-            for (LinkedList<Cluster> cx : res) {
-                for (Cluster cc : cx) {
-                    System.out.println("LOAD:" + cc.getLoad());
-                    System.out.println("cluster: " + cc.getCluster());
-                }
-            }
-
-            /*
-            System.out.println("parsed: " + (System.currentTimeMillis() - stat));
-            // by default the client id in each query is '0'
-            stat = System.currentTimeMillis();
-            s.buildGraph();
-            System.out.println("built: " + (System.currentTimeMillis() - stat));
-            stat = System.currentTimeMillis();
-
-            List<LinkedList<Integer>> lx = s.markStrata();
-            System.out.println("marked: " + (System.currentTimeMillis() - stat));
-            Clusterizer c = new Clusterizer();
-
-//        ArrayList   lis =  new ArrayList(s.getQueryList());
-//                  Collections.copy(lis, s.getQueryList());
-            c.clusterize(lx.get(0), s.getQueryList());
-//            System.out.println(Arrays.toString(m));
-              */
-
-        } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-    }
-
-
+    /**
+     * builds the query dependency graph.
+     */
     public synchronized void buildGraph() {
         map = new HashSet[qlist.size()];
         present = new boolean[qlist.size()];

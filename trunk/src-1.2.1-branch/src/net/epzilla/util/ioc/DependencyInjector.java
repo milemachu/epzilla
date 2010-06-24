@@ -7,11 +7,7 @@ import java.io.FileReader;
 import java.util.Hashtable;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Rajeev
- * Date: Feb 25, 2010
- * Time: 1:47:40 PM
- * To change this template use File | Settings | File Templates.
+ * used to inject dependencies based on a definition file.
  */
 public class DependencyInjector {
 

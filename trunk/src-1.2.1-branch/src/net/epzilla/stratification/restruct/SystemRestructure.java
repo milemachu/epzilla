@@ -19,6 +19,9 @@ import java.io.FileReader;
 import java.net.InetAddress;
 import java.util.*;
 
+/**
+ * responsible for performin operations related to reorgaizing the query base.
+ */
 public class SystemRestructure {
 
     private static SystemRestructure instance = new SystemRestructure();
@@ -27,6 +30,11 @@ public class SystemRestructure {
         return instance;
     }
 
+    /**
+     * reorganizes the query base.
+     *
+     * @throws InvalidSyntaxException
+     */
     public void restructureSystem() throws InvalidSyntaxException {
         LinkedList<TriggerInfoObject> list = new LinkedList(TriggerManager.getTriggers());
         HashMap<String, LinkedList<TriggerInfoObject>> map = new HashMap();
@@ -82,6 +90,10 @@ public class SystemRestructure {
         // fully restructured.
     }
 
+    /**
+     * sends required information for clusters in order to finalize trigger redistribution.
+     * @return
+     */
     public boolean sendRestructureCommands() {
 
         try {
@@ -149,10 +161,8 @@ public class SystemRestructure {
                 }
             }
 
-            // todo - send to clusters.
             Logger.log("sending command.");
 
-            // todo implement strata
             for (String stratum : remList.keySet()) {
                 TransactedList<NodeIPObject> tl = ClusterIPManager.getIpList();
                 Logger.log("tl size:" + tl.size());
@@ -192,6 +202,10 @@ public class SystemRestructure {
     }
 
 
+    /**
+     * assigns real strata and clusters to the virtual structure.
+     * @param total
+     */
     private void redistribute(LinkedList<Cluster> total) {
         int i = 0;
         int j = 0;
@@ -229,63 +243,4 @@ public class SystemRestructure {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new FileReader("./src/query/queries.txt"));
-        ArrayList<String> list = new ArrayList<String>(50);
-        String line = null;
-        while ((line = br.readLine()) != null) {
-            line = line.trim();
-            if (line.length() > 0) {
-                for (int i = 0; i < 100; i++) {
-                    list.add(line);
-                }
-            }
-        }
-
-
-        TriggerStrcutureManager s = new TriggerStrcutureManager();
-//            DependencyInjector di = new DependencyInjector("./src/impl.ioc");  // todo - remove unnecessary IoC stuff.
-//            QueryParser qp = (QueryParser) di.createInstance("Parser");
-        QueryParser qp = new BasicQueryParser();
-        long stat = System.currentTimeMillis();
-
-        Query q = null;
-        int queryId = 0;
-        int x = 0;
-        List<TriggerInfoObject> ll = new LinkedList();
-        TriggerInfoObject tx = null;
-        for (String item : list) {
-            tx = new TriggerInfoObject();
-//                q = qp.parseString(item);
-            tx.settrigger(item);
-            tx.settriggerID(String.valueOf(queryId));
-//                q.setId(queryId);
-            ll.add(tx);
-//                s.addQuery(q);
-            queryId++;
-        }
-
-        TriggerManager.setTriggers(new TransactedList());
-        TriggerManager.getTriggers().addAll(ll);
-//        System.out.println("adding to tm");
-        SystemRestructure sr = new SystemRestructure();
-        sr.restructureSystem();
-
-        System.out.println("no clus" + SystemVariables.getClusters(0));
-        int one = 0;
-        int two = 0;
-        for (TriggerInfoObject ttx : TriggerManager.getTriggers()) {
-            System.out.print("item:");
-            System.out.println(ttx.getstratumId() + ":" + ttx.getclusterID());
-            if ("1".equals(ttx.getclusterID())) {
-                one++;
-            } else {
-                two++;
-            }
-        }
-        System.out.println("one:zero" + one + ":" + two);
-        long sss = System.currentTimeMillis();
-        sr.sendRestructureCommands();
-        System.out.println("time e: " + (System.currentTimeMillis() - sss));
-    }
 }

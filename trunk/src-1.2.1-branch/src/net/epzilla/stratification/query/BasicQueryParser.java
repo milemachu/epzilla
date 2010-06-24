@@ -1,11 +1,11 @@
 package net.epzilla.stratification.query;
 
-import net.epzilla.stratification.query.InvalidSyntaxException;
-import org.epzilla.testObjectGenerator.EventTriggerGenerator;
-
 import java.util.HashSet;
 
 
+/**
+ * a basic implementation of the query parser.
+ */
 public class BasicQueryParser implements QueryParser {
 
 

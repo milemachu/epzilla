@@ -2,6 +2,9 @@ package net.epzilla.util;
 
 import java.util.Arrays;
 
+/**
+ * disjoint sets structure.
+ */
 public class DisjointSets {
 
     private int[] struct = null;
