@@ -53,11 +53,7 @@ public class EventSender {
                 //            }
             }
         } catch (Exception e) {
-            if (ClusterStartup.impl != null) {
-            ClusterStartup.impl.addEventStream(event);
-            } else if (LeaderRegister.impl != null) {
-                
-            }
+            e.printStackTrace();
         }
     }
 
