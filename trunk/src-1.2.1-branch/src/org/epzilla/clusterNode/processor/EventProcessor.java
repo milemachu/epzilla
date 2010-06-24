@@ -95,7 +95,7 @@ public class EventProcessor {
             return sb.toString();
         }
 
-        return ":" + clientId + ":" + eventId;
+        return "-:" + clientId + ":" + eventId;
     }
 
 
