@@ -17,6 +17,9 @@ import java.util.Arrays;
 import java.util.List;
 
 
+/**
+ * Approximates the position of the query.
+ */
 
 public class ApproximateDispatcher {
 
@@ -26,11 +29,25 @@ public class ApproximateDispatcher {
         return instance;
     }
 
+    /**
+     * Assigns a cluster tentatively.
+     *
+     * @param triggerList
+     * @param clientId
+     * @throws InvalidSyntaxException
+     */
     public void assignClusters(ArrayList<TriggerInfoObject> triggerList, String clientId) throws InvalidSyntaxException {
         assignClusters(triggerList, Long.parseLong(clientId));
     }
 
 
+    /**
+     *  Assigns a cluster tentatively.
+     *
+     * @param triggerList
+     * @param clientId
+     * @throws InvalidSyntaxException
+     */
     public void assignClusters(ArrayList<TriggerInfoObject> triggerList, long clientId) throws InvalidSyntaxException {
 
         TriggerDependencyStructure tds = DynamicDependencyManager.getInstance().getDependencyStructure(clientId);
@@ -170,6 +187,11 @@ public class ApproximateDispatcher {
     }
 
 
+    /**
+     * once the clusters are assigned, the potential dependencies caused by the query are stored in STM.
+     * @param cluster
+     * @param entries
+     */
     public static void addDependencies(TransactedSet cluster, String[] entries) {
         try {
             List list = Arrays.asList(entries);
@@ -187,6 +209,13 @@ public class ApproximateDispatcher {
     }
 
 
+    /**
+     * Gets the cluster for the relevant query represented by input string array.
+     * @param stratum
+     * @param inputStrata
+     * @param inputs
+     * @return
+     */
     public static int getCluster(int stratum, TransactedList<TransactedList<TransactedSet<String>>> inputStrata, String[] inputs) {
         TransactedList<TransactedSet<String>> is = inputStrata.get(stratum);
         int cluster = 0;

@@ -3,7 +3,9 @@ package net.epzilla.stratification.restruct;
 import java.util.Comparator;
 
 
-
+/**
+ * represents a virtual cluster of queries.
+ */
 
 public class Cluster {
 

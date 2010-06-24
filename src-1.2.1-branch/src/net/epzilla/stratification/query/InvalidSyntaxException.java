@@ -1,11 +1,7 @@
 package net.epzilla.stratification.query;
 
 /**
- * Created by IntelliJ IDEA.
- * User: rajeev
- * Date: Nov 29, 2009
- * Time: 5:44:53 PM
- * To change this template use File | Settings | File Templates.
+ *thrown when a query with invalid syntax is added.
  */
 public class InvalidSyntaxException extends Exception {
 
