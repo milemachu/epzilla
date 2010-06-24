@@ -22,11 +22,21 @@ import org.epzilla.dispatcher.dispatcherObjectModel.*;
  * Time: 3:58:23 PM
  * To change this template use File | Settings | File Templates.
  */
+
+
+/**
+ * The dispatcher behaviour when running as a STM client
+ */
 public class DispatcherAsClient {
     private static Share share;
     private static SocketClient client;
     private static boolean isActive;
 
+
+    /**
+     * Start the STM client
+     * @return
+     */
     public static boolean startClient() {
         boolean success = false;
         DispatcherUIController.appendTextToStatus("Starting STM Client on: " + NodeVariables.getNodeIP());
@@ -84,8 +94,7 @@ public class DispatcherAsClient {
 
                         public void onRemoved(Transaction transaction,
                                               TransactedObject object) {
-//                            if (object instanceof TransactedList<?>)
-//                                removeList((TransactedList<TriggerInfoObject>) object);
+
                         }
                     });
 
@@ -108,6 +117,12 @@ public class DispatcherAsClient {
         return success;
     }
 
+
+    /**
+     * Identify The type of Object coming in and call the
+     * correct method based on the type
+     * @param info
+     */
     private static void addList(final TransactedList<?> info) {
 
         if (info.get(0) instanceof TriggerInfoObject) {
@@ -121,7 +136,10 @@ public class DispatcherAsClient {
         }
     }
 
-
+    /**
+     * Add a Transacted List for the Sharing of Triggers
+     * @param info
+     */
     private static void addTriggerList(final TransactedList<TriggerInfoObject> info) {
         DispatcherUIController.appendTextToStatus("TriggerList added.");
         TriggerManager.setTriggers(info);
@@ -129,7 +147,6 @@ public class DispatcherAsClient {
             public void onChange(Transaction transaction, int i) {
 
                 if (isActive) {
-//                    DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
                   TriggerManager.printTriggers();  
                 } else {
                     info.removeListener(this);
@@ -138,16 +155,20 @@ public class DispatcherAsClient {
         });
     }
 
+    /**
+     * Add aTransacted List to Keep the Client Information
+     * Synchronized 
+     * @param info
+     */
     private static void addClientList(final TransactedMap info) {
         DispatcherUIController.appendTextToStatus("Client Map added.");
         ClientManager.setClientMap(info);
-//        info.addListener(new FieldListener() {
-//            public void onChange(Transaction transaction, int i) {
-////                DispatcherUIController.appendTrigger(String.valueOf(TriggerManager.triggers.get(TriggerManager.triggers.size() - 1).gettrigger()));
-//            }
-//        });
     }
 
+    /**
+     * Add a Transacted List for the Dispatcher IPs to the STM
+     * @param info
+     */
     private static void addIpList(final TransactedList<LeaderInfoObject> info) {
 
         DispatcherUIController.appendTextToStatus("IPList added.");
@@ -164,7 +185,10 @@ public class DispatcherAsClient {
 
     }
 
-
+    /**
+     * Add a Transacted List to keep oll the performance Information
+     * @param info
+     */
     private static void addPerformanceInfoList(final TransactedList<PerformanceInfoObject> info) {
 
         DispatcherUIController.appendTextToStatus("Performance Info List added...");
@@ -174,7 +198,6 @@ public class DispatcherAsClient {
                 if (isActive) {
                     PerformanceInfoObject obj = PerformanceInfoManager.getPerformanceList().get(i);
                     DispatcherUIController.appendTextToStatus("Dispatcher Performance:: IP:" + obj.getnodeIP() + " CPU Usage:" + obj.getCPUusageAverage() + "% Memory Usage:" + obj.getMemUsageAverage() + "%");
-
                 } else {
                     info.removeListener(this);
                 }
@@ -183,7 +206,9 @@ public class DispatcherAsClient {
 
     }
 
-
+    /**
+     * Periodically check the STM Server Status to detect Faliure
+     */
     public static void checkServerStatus() {
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {
@@ -193,6 +218,7 @@ public class DispatcherAsClient {
                     DispatcherUIController.appendTextToStatus("Server Status..." + client.getStatus().toString());
                     this.cancel();
                     isActive = false;
+                    //Trigger the Leader Election if the Leader Goes down
                     DispatcherStartup.triggerLEFromRemote();
                     DispatcherStartup.InitSTM();
                 }
