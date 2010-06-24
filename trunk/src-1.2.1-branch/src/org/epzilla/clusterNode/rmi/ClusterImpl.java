@@ -140,9 +140,11 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
      */
     public void addEventStream(String event) throws RemoteException {
         try {
+             EventsCounter.setInEventCount();
             for (String aip : accIpArray) {
           String result =      EventProcessor.getInstance().processEvent(event);
                 DeriveEventSender.sendDeriveEvent(aip, result.getBytes());
+
             }
         } catch (Exception e) {
             Logger.error("error adding event in cluster node", e);
