@@ -18,14 +18,15 @@ import java.util.TimerTask;
  * Time: 9:23:09 AM
  * To change this template use File | Settings | File Templates.
  */
+
+/**
+ * Manage The Cluster Leader IP List
+ */
 public class ClusterLeaderIpListManager {
     private static TransactedList<LeaderInfoObject> ipList = new TransactedList<LeaderInfoObject>(20);
     static int count = 0;
-//    private static ArrayList<String> ipArr = new ArrayList<String>();
-//    private static ArrayList<String> idArr = new ArrayList<String>();
 
     // Code For Testing Only -Dishan
-
     public static void loadSampleIPs() {
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {
@@ -55,7 +56,6 @@ public class ClusterLeaderIpListManager {
     }
 
     public static void addIP(String clusterID, String ip) {
-//        System.out.println("adding ip:" + ip + " cluster:" + clusterID);
         if (getIpList() != null) {
             if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
                 Site.getLocal().allowThread();
@@ -115,17 +115,12 @@ public class ClusterLeaderIpListManager {
     public static ArrayList<String> getClusterIpList() {
         ArrayList<String> ipArr = new ArrayList<String>();
         if (getIpList() != null) {
-//            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
-//                Site.getLocal().allowThread();
-//                Transaction transaction = Site.getLocal().startTransaction();
             for (int i = 0; i < ipList.size(); i++) {
                 String ip = ipList.get(i).getleaderIP();
                 if (!"IP".equalsIgnoreCase(ip)) {
                     ipArr.add(ip);
                 }
             }
-//                transaction.commit();
-//            }
         }
         return ipArr;
     }
@@ -134,17 +129,12 @@ public class ClusterLeaderIpListManager {
     public static ArrayList<String> getClusterIdList() {
         ArrayList<String> idArr = new ArrayList<String>();
         if (getIpList() != null) {
-//            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
-//                Site.getLocal().allowThread();
-//                Transaction transaction = Site.getLocal().startTransaction();
             for (int i = 0; i < ipList.size(); i++) {
                 LeaderInfoObject lp = ipList.get(i);
                 if (!"IP".equalsIgnoreCase(lp.getleaderIP())) {
                     idArr.add(lp.getclusterID());
                 }
             }
-//                transaction.commit();
-//            }
         }
         return idArr;
     }

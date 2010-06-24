@@ -11,6 +11,11 @@ import jstm.core.TransactedMap;
  * Time: 10:33:41 AM
  * To change this template use File | Settings | File Templates.
  */
+
+
+/**
+ * Manage The List of Clients Shred through the STM
+ */
 public class ClientManager {
     private static TransactedMap clientMap = new TransactedMap();
 
