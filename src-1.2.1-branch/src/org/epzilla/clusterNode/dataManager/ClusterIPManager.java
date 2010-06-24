@@ -105,11 +105,13 @@ public class ClusterIPManager {
     //add by chathura
 
     public static ArrayList<String> getNodeIpList() {
-          ArrayList<String> ipArr = new ArrayList<String>();
+        ArrayList<String> ipArr = new ArrayList<String>();
         if (getIpList() != null) {
             for (int i = 0; i < ipList.size(); i++) {
-                if (!"IP".equalsIgnoreCase(ipList.get(i).getIP()))
+                if (!"IP".equalsIgnoreCase(ipList.get(i).getIP())) {
                     ipArr.add(ipList.get(i).getIP());
+                    System.out.println("adding ip to rr list:" + ipList.get(i).getIP());
+                }
             }
         }
         return ipArr;
