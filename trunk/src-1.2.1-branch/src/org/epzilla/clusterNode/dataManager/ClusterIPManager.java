@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class ClusterIPManager {
     private static TransactedList<NodeIPObject> ipList = new TransactedList<NodeIPObject>();
     static int count = 0;
-    private static ArrayList<String> ipArr = new ArrayList<String>();
+
 
     public static void addIP(String clusterID, String ip) {
         if (getIpList() != null) {
@@ -105,6 +105,7 @@ public class ClusterIPManager {
     //add by chathura
 
     public static ArrayList<String> getNodeIpList() {
+          ArrayList<String> ipArr = new ArrayList<String>();
         if (getIpList() != null) {
             for (int i = 0; i < ipList.size(); i++) {
                 if (!"IP".equalsIgnoreCase(ipList.get(i).getIP()))
