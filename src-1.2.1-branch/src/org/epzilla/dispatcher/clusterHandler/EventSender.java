@@ -36,11 +36,11 @@ public class EventSender {
     }
 
     public static void sendEvent(byte[] event, String leaderIP, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
-        String cid = "x";
+//        String cid = "x";
         if (!"IP".equalsIgnoreCase(leaderIP)) {
             if (!leaderList.containsKey(leaderIP)) {
                 ClusterInterface clusterObj = initCluster(leaderIP, serviceName);
-                response = clusterObj.acceptEventStream(event, cid);
+                response = clusterObj.acceptEventStream(event, clusterID);
 
                 if (response != null) {
                     Logger.log("Event stream send to the Cluster " + clusterID);
@@ -49,7 +49,7 @@ public class EventSender {
                 }
             } else {
                 clusterObj = (ClusterInterface) leaderList.get(leaderIP);
-                response = clusterObj.acceptEventStream(event, cid);
+                response = clusterObj.acceptEventStream(event, clusterID);
 
                 if (response != null) {
                     Logger.log("Event stream send to the Cluster " + clusterID);
