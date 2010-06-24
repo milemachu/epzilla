@@ -139,7 +139,6 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
      * @throws RemoteException
      */
     public void addEventStream(String event) throws RemoteException {
-        String derivedEvent = EventProcessor.getInstance().processEvent(event);
         try {
             for (String aip : accIpArray) {
           String result =      EventProcessor.getInstance().processEvent(event);
