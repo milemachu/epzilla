@@ -25,7 +25,7 @@ public class EventsManager {
     private static boolean isInit = false;
     private static int count;
     private static RoundRobinList<String> lis = new RoundRobinList();
-    private static int UPDATE_SERVICE_RUNNING_TIME = 60000;
+    private static int UPDATE_SERVICE_RUNNING_TIME = 6000;
     private static int INITIAL_START_TIME = 1000;
     private static int DISPATCH_INIT_TIME = 0;
     private static int DISPATCH_UPDATE_TIME = 1000;
@@ -33,6 +33,8 @@ public class EventsManager {
 
     public EventsManager() {
     }
+
+  
 
     public static void dispatchEvents() {
         isInit = true;
