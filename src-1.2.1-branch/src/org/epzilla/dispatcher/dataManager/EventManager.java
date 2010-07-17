@@ -11,7 +11,8 @@ import java.util.TimerTask;
 
 /**
  * Created by IntelliJ IDEA.
- * User: chathura
+ * This class is to manage the Events received to the Dispatcher
+ * Author: Chathura
  * Date: May 2, 2010
  * Time: 4:24:46 PM
  * To change this template use File | Settings | File Templates.
@@ -24,7 +25,9 @@ public class EventManager {
     private static int UPDATE_SERVICE_RUNNING_TIME = 60000;
     private static int INITIAL_START_TIME = 3000;
 
-
+    /*
+    sending incoming event to the leaders of Node clusters
+     */
     public static void sendEvents(byte[] event, String clientID) {
         if (!isLoaded) {
             loadClusterDetails();
@@ -44,7 +47,9 @@ public class EventManager {
         }
 
     }
-
+   /*
+   load details of node clusters
+    */
     public static void loadClusterDetails() {
 
         timer.scheduleAtFixedRate(new TimerTask() {

@@ -11,7 +11,6 @@ import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 
 import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -171,7 +170,7 @@ public class TriggerManager {
 
                             try {
                                 String ip = ips.get(Integer.parseInt(cl));
-                                TriggerSender.acceptTrigger(ip, cl, lis, clientID);
+                                TriggerSender.triggerAdding(ip, cl, lis, clientID);
                             } catch (NumberFormatException e) {
 
                                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -232,7 +231,7 @@ public class TriggerManager {
 //        if (currentIP == current1IP) {
 //            try {
 //                TriggerLog.writeTolog(currentIP, "001", trigger);    //trigger log
-//                TriggerSender.acceptTrigger(currentIP, "001", trigger);
+//                TriggerSender.triggerAdding(currentIP, "001", trigger);
 //            } catch (MalformedURLException e) {
 //                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 //            } catch (NotBoundException e) {
@@ -244,7 +243,7 @@ public class TriggerManager {
 //        } else if (currentIP == current2IP) {
 //            try {
 //                TriggerLog.writeTolog(currentIP, "002", trigger);  //trigger log
-//                TriggerSender.acceptTrigger(currentIP, "002", trigger);
+//                TriggerSender.triggerAdding(currentIP, "002", trigger);
 //            } catch (MalformedURLException e) {
 //                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 //            } catch (NotBoundException e) {
