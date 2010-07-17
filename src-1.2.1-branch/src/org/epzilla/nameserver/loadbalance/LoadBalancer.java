@@ -10,7 +10,8 @@ import java.util.Random;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Chathura
+ * This class is to use the Load balancing purpose of the Dispathcer
+ * Author: Chathura
  * Date: Mar 20, 2010
  * Time: 6:39:03 PM
  * To change this template use File | Settings | File Templates.
@@ -21,6 +22,9 @@ public class LoadBalancer {
     private static String ipAddress = "";
     private static Random generator = new Random();
     private static int ips = 0;
+    /*
+   insert the dispatcher details to the hash table
+    */
 
     private static String insertIntoTable(String clientID, String[] ipAddrs, int dirSize) {
         if (ipTable.isEmpty()) {
@@ -32,6 +36,10 @@ public class LoadBalancer {
             return ipAddrs[id];
         }
     }
+    /*
+    search hash table for existing dispatcher information
+    if not add new entry to add information
+     */
 
     public static String search(String clientID, int dirsize, String[] ipAddrs) {
         if (ipTable.containsKey(clientID)) {

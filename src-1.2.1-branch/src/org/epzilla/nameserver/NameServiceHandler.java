@@ -9,28 +9,37 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * Created by IntelliJ IDEA.
+ * This is Startup class of the Name Server
+ * Author: Chathura
+ * To change this template use File | Settings | File Templates.
+ */
 public class NameServiceHandler extends UnicastRemoteObject {
-   private static String serviceName = "NAME_SERVICE";
+    private static String serviceName = "NAME_SERVICE";
+
     public NameServiceHandler() throws RemoteException {
     }
-   /*
+    /*
    start RMI registry
     */
+
     private void startRegistry() {
         try {
             Runtime.getRuntime().exec("rmiregistry");
             Thread.sleep(1000);
         }
         catch (IOException ex) {
-            Logger.error("IO error:",ex);
+            Logger.error("IO error:", ex);
         }
         catch (InterruptedException exc) {
-            Logger.error("Interruption error:",exc);
+            Logger.error("Interruption error:", exc);
         }
     }
     /*
     bind the name server to its registry
      */
+
     public void bind(String serviceName) {
 
         if (System.getSecurityManager() == null) {
