@@ -5,8 +5,13 @@ import org.epzilla.util.Logger;
 
 import javax.swing.*;
 import java.awt.*;
-
-
+/**
+ * Created by IntelliJ IDEA.
+ * This class use to show the splash screen before Client UI load
+ * Author: Chathura
+ * Date: Feb 1, 2010
+ * Time: 10:30:41 PM
+ */
 public class SplashScreen extends JWindow {
 
     private static final long serialVersionUID = 1L;
@@ -65,12 +70,16 @@ public class SplashScreen extends JWindow {
 
     }
 
+    /*
+   Iteration part of the progress bar
+    */
     public void iterate() {
         while (num < duration) {
             progressBar.setValue(num);
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
+                Logger.error("Interruprion error:0", e);
             }
             num += 100;
         }

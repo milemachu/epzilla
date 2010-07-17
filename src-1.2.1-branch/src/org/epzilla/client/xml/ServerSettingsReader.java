@@ -5,13 +5,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Rajeev
- * Date: Mar 8, 2010
- * Time: 9:51:24 AM
- * To change this template use File | Settings | File Templates.
- */
+/*
+method read configuration data from a XML file and
+returns the settings details as  a array list
+*/
 public class ServerSettingsReader {
 
     public ArrayList<String[]> getServerIPSettings(String filename) throws IOException {

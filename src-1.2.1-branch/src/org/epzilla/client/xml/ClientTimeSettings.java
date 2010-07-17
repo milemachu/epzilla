@@ -6,14 +6,14 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-/**
- * Created by IntelliJ IDEA.
- * User: chathura
- * Date: Jun 18, 2010
- * Time: 5:10:35 PM
- * To change this template use File | Settings | File Templates.
- */
 public class ClientTimeSettings {
+    /*
+    method read configuration data from a XML file and
+    returns the settings details as  a array list
+    <client>
+    <clientID initIntervalEvent="100" sendingIntervalEvent="100" initIntervalTrigger="500" sendingIntervalTrigger="30000" triggerSleepTime="10" initTriggerLoop="100" priorTriggerLoop="10"/>
+    </client>
+     */
     public static ArrayList<String[]> getClientTimeIntervals(String filename) {
         ArrayList<String[]> lis = new ArrayList<String[]>();
         BufferedReader br = null;

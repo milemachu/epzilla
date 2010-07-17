@@ -24,6 +24,13 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
 
+/**
+ * Created by IntelliJ IDEA.
+ * This class initializes the CLient UI
+ * Author: Chathura
+ * Date:Feb 1, 2010
+ * Time: 10:20:41 PM
+ */
 
 public class ClientUI extends JFrame implements ActionListener, ListSelectionListener {
 
@@ -469,6 +476,10 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         return notificationSP;
     }
 
+    /*
+   Scroll pane dispaly data in Trigger Manager Tab
+    */
+
     private JPanel getAllTrigersScPane() {
         if (getAllTriggers == null) {
 
@@ -565,38 +576,36 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
                     if ((dispIP.length() == 0) && (dispName.length() == 0)) {
                         JOptionPane.showMessageDialog(null, "Perform Lookup operation and select service you want.", "Epzilla", JOptionPane.ERROR_MESSAGE);
                     }
-//                    if ((dispIP.length() != 0) && (dispName.length() != 0)) {
-                        try {
-                            String in = ClientUI.this.deleteField.getText();
-                            String[] ids = in.trim().split(",");
-                            ArrayList<TriggerRepresentation> toDelete = new ArrayList();
-                            for (String id : ids) {
-                                if ((id = id.trim()).length() > 0) {
-                                    TriggerRepresentation tr = new TriggerRepresentation();
-                                    tr.setTriggerId(id);
-                                    tr.setClientId(clientID);
-                                    toDelete.add(tr);
-                                    if (triggerList != null) {
-                                        try {
-                                            for (TriggerRepresentation t: triggerList) {
-                                                if (t.getTriggerId().equals(id)) {
-                                                    tr.setTrigger(t.getTrigger());
-                                                    break;
-                                                }
+                    try {
+                        String in = ClientUI.this.deleteField.getText();
+                        String[] ids = in.trim().split(",");
+                        ArrayList<TriggerRepresentation> toDelete = new ArrayList();
+                        for (String id : ids) {
+                            if ((id = id.trim()).length() > 0) {
+                                TriggerRepresentation tr = new TriggerRepresentation();
+                                tr.setTriggerId(id);
+                                tr.setClientId(clientID);
+                                toDelete.add(tr);
+                                if (triggerList != null) {
+                                    try {
+                                        for (TriggerRepresentation t : triggerList) {
+                                            if (t.getTriggerId().equals(id)) {
+                                                tr.setTrigger(t.getTrigger());
+                                                break;
                                             }
-                                        } catch (Exception e1) {
-                                            Logger.error("Trigger accepting error :", e1);
                                         }
+                                    } catch (Exception e1) {
+                                        Logger.error("Trigger accepting error :", e1);
                                     }
                                 }
                             }
-                            if (toDelete.size() > 0) {
-                                ClientInit.deleteTriggers(clientID, toDelete);
-                            }
-                        } catch (Exception ex) {
-                            Logger.error("Trigger deletion error:", ex);
                         }
-//                    }
+                        if (toDelete.size() > 0) {
+                            ClientInit.deleteTriggers(clientID, toDelete);
+                        }
+                    } catch (Exception ex) {
+                        Logger.error("Trigger deletion error:", ex);
+                    }
                 }
             });
             oppanel.add(btnDeleteTrigger);
@@ -647,6 +656,10 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         }
         return txtDispName;
     }
+
+    /*
+   Panel shoow the simulation controlers of the user interface
+    */
 
     private JPanel getSimulatorPanel() {
         if (simulatorPanel == null) {
@@ -746,7 +759,10 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
     private JPanel workBenchPanel;
     private JButton clearQueryBtn = null;
 
-    //work bench panel
+    /*
+    work bench panel
+     */
+
     private JPanel getWorkBenchPanel() {
         if (workBenchPanel == null) {
             workBenchPanel = new JPanel();
@@ -802,12 +818,10 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         workBenchUpperPanel.add(jlx);
         workBenchUpperPanel.add(labelPanel);
 
-//        workBenchUpperPanel.add(txtQuery);
         workBenchUpperPanel.add(jsp);
         jlx = new JLabel();
         jlx.setOpaque(false);
         workBenchUpperPanel.add(jlx);
-//        workBenchUpperPanel.add(lowerPanel);
         workBenchUpperPanel.setOpaque(false);
         workBenchPanel.add(workBenchUpperPanel);
 
@@ -830,8 +844,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             ips = ClientHandler.getServiceIp(ip, serverName, clientIp);
             if (!ips.isEmpty()) {
                 listLookup.setListData(ips);
-//                    btnLookup.setEnabled(false);
-//                    btnClear.setEnabled(true);
             }
         }
     }
@@ -843,6 +855,10 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         }
 
     }
+
+    /*
+   set the Dispatcher Service details in the client user interface
+    */
 
     public void setDispValues(String str) {
         StringTokenizer st = new StringTokenizer(str);
@@ -897,6 +913,11 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         abut.setVisible(true);
     }
 
+    /*
+   check the IP address is valid
+   use regular expression to validate the IP address
+    */
+
     public static boolean isValidIp(String ip) {
         boolean format = ip.matches("^[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}$");
         if (format) {
@@ -913,6 +934,10 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         }
         return false;
     }
+
+    /*
+   check the port is in a valid range
+    */
 
     private boolean isValidPort(String port) {
         boolean returnValue = true;
@@ -933,6 +958,10 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         return returnValue;
 
     }
+
+    /*
+   Connecting to the Dispatcher through client initialize class
+    */
 
     public void initProcess() {
         dispIP = txtDispIP.getText();
@@ -957,6 +986,10 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
 
     }
 
+    /*
+   load file settings
+    */
+
     private void loadSettings() {
         try {
             ArrayList<String[]> data = reader.getServerIPSettings("server_settings.xml");
@@ -977,6 +1010,10 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         }
     }
 
+    /*
+   get the IP address of the own machine
+    */
+
     private String getIpAddress() {
         InetAddress inetAddress = null;
         try {
@@ -989,6 +1026,9 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         return clientIP;
     }
 
+    /*
+    get generated client ID via ClientInit class
+     */
 
     private void getClientID() throws RemoteException {
         String clientIP = getIpAddress();
@@ -1003,7 +1043,6 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
             if (i < 0) {
                 i = 0;
             }
-//            String s = i >= 0 ? ips.get(i) : "";
             ListModel model = listLookup.getModel();
 
             String s = (String) model.getElementAt(0);

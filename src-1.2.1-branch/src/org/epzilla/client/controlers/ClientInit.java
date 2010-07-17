@@ -15,10 +15,11 @@ import java.util.HashMap;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Team epZilla
+ * This class use to to initialize the client. Sending of Events and Triggers are managed
+ * by this class.
+ * Author: Chathura
  * Date: Mar 8, 2010
  * Time: 12:40:41 PM
- * To change this template use File | Settings | File Templates.
  */
 public class ClientInit extends Thread {
     private static String clientID;
@@ -30,7 +31,6 @@ public class ClientInit extends Thread {
     private static volatile boolean isTriggersLive = true;
     private static volatile boolean isEventsLive = true;
     private static int eventsSeqID = 1;
-    private static boolean dynamicLookup = false;
     private static int SENDING_INTERVAL_TIME;
     private static int INIT_INTERVAL_TIME;
     private static int INIT_INTERVAL_TRIGGER;
@@ -41,6 +41,9 @@ public class ClientInit extends Thread {
 
     public ClientInit() {
     }
+    /*
+   Create reference to the Dispatcher Service
+    */
 
     /**
      * lookup dispatcher interface and get remote reference
@@ -60,7 +63,7 @@ public class ClientInit extends Thread {
     }
 
     /**
-     * connenct to the dispatcher service
+     * connenct to the dispatcher service,   Intialize the send operation
      * @param ip
      * @param name
      * @param clientID
@@ -73,15 +76,11 @@ public class ClientInit extends Thread {
         ClientInit.clientID = clientID;
         ClientInit.dispIP = ip;
         loadSettings();
-//        isTriggersLive = true;
-//        dynamicLookup = false;
-//        initSendTriggerStream(ip);
-//        initSendEventsStream(ip);
-//        trigger.start();
-//        events.start();
     }
 
-    //initialize trigger simulation
+    /*
+    initialize trigger simulation
+     */
 
     public static void initTrigers() {
         isTriggersLive = true;
@@ -90,7 +89,9 @@ public class ClientInit extends Thread {
         ClientUIControler.appendResults("Start Trigger sending process....");
     }
 
-    //initialize the events simulation
+    /*
+    initialize the events simulation
+     */
 
     public static void initEvents() {
         isEventsLive = true;
@@ -201,7 +202,9 @@ public class ClientInit extends Thread {
             }
         });
     }
-    // accept use input triggers
+    /*
+    accept use input triggers
+     */
 
     public static void sendCustomTriggers(String trigger) {
         String response = null;
@@ -226,12 +229,6 @@ public class ClientInit extends Thread {
         }
     }
 
-    private static void initDLookup() {
-//        if (!dynamicLookup) {
-//            DynamicLookup.dynamicLookup();
-//            dynamicLookup = true;
-//        }
-    }
 
     /**
      * load setting details from the XML file
@@ -249,10 +246,16 @@ public class ClientInit extends Thread {
             PRIOR_TRIGGER_LOOP = Integer.valueOf(settings[6]);
         }
     }
+    /*
+   Stop the trigger sending
+    */
 
     public static void stopTriggerStream() {
         isTriggersLive = false;
     }
+    /*
+   Stop the Event sending
+    */
 
     public static void stopEventStream() {
         isEventsLive = false;
@@ -265,15 +268,15 @@ public class ClientInit extends Thread {
     public static Object getDispatcherObject() {
         return di;
     }
-    //delete triggers as requsted by client
+    /*
+    delete triggers as requsted by client
+     */
 
     public static void deleteTriggers(String clientID, ArrayList<TriggerRepresentation> list) {
 
         try {
             DispInterface di = (DispInterface) ClientInit.getDispatcherObject();
-            //take clientID as the clientID
             di.deleteTriggers(list, clientID);
-//                di.deleteTriggers()
 
         } catch (Exception ex) {
             Logger.error("Trigger deletion error:", ex);
@@ -281,12 +284,13 @@ public class ClientInit extends Thread {
 
 
     }
-    //get all triggers as requested by client
+    /*
+    get all triggers as requested by client
+     */
 
     public static ArrayList<TriggerRepresentation> getAllTriggersFromDispatcher(String clientID) {
         try {
             DispInterface di = (DispInterface) ClientInit.getDispatcherObject();
-            //take clientID as the clientID
             return di.getAllTriggers(clientID);
         } catch (Exception ex) {
             Logger.error("Trigger receive error:", ex);

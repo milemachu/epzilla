@@ -1,7 +1,7 @@
 package org.epzilla.client.rmi;
 
-import java.security.Permission;
 import java.rmi.RMISecurityManager;
+import java.security.Permission;
 
 /**
  * Created by IntelliJ IDEA.
