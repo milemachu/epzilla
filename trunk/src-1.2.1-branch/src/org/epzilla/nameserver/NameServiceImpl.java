@@ -8,7 +8,12 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Hashtable;
 import java.util.Vector;
-
+/**
+ * Created by IntelliJ IDEA.
+ * This is the implementation class of the Name Server Interface
+ * Author: Chathura
+ * To change this template use File | Settings | File Templates.
+ */
 public class NameServiceImpl extends UnicastRemoteObject implements NameService {
 
     private int dirsize = 0;
@@ -20,11 +25,9 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
 
     public NameServiceImpl() throws RemoteException {
     }
-
-    public int getDirsize() {
-        return dirsize;
-    }
-
+    /*
+   search the dispatcher details are exist before registering in the name server
+    */
     private int searchDisp(String s) {
         for (int i = 0; i < dirsize; i++)
             if (dispatcherIPAdrs.elementAt(i).equalsIgnoreCase(s))
@@ -32,6 +35,9 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
         return -1;
     }
 
+    /*
+   insert dispatcher detials
+    */
     public int insertNode(String name, String ipAdrs, int portNumber) throws RemoteException {
         int oldIndex = searchDisp(ipAdrs);
         if (oldIndex == -1) {
@@ -45,6 +51,9 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
             return 0;
     }
 
+    /*
+   get the number of dispatchers registered
+    */
     public int getDirectorySize() throws RemoteException {
         return dirsize;
     }
@@ -73,6 +82,9 @@ public class NameServiceImpl extends UnicastRemoteObject implements NameService 
         return clientID;
     }
 
+    /*
+   generate the client id from the Client IP address
+    */
     private static String clientIdGen(String addr) {
         String[] addrArray = addr.split("\\.");
         String temp = "";
