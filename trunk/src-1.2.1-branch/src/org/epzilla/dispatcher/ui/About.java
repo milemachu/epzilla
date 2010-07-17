@@ -5,7 +5,12 @@ import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Created by IntelliJ IDEA.
+ * This is class shows the About dialog box of the Dispatcher
+ * Author: Chathura
+ * To change this template use File | Settings | File Templates.
+ */
 public class About extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;

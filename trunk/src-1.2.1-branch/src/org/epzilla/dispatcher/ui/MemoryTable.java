@@ -11,7 +11,10 @@ import java.util.TimerTask;
 
 import static java.awt.Color.*;
 
-
+/**
+ * Created by IntelliJ IDEA.
+ * This is class shows the Event dispatch rate of the Dispatcher in a graph.
+ */
 public class MemoryTable extends JPanel {
 
     public MemoryTable() {
@@ -19,7 +22,9 @@ public class MemoryTable extends JPanel {
         DisplayPanel displayPanel = new DisplayPanel();
         add(displayPanel);
     }
-
+    /*
+    draw the graph to displat the Event dispatch rate in the user interface
+     */
     public class DisplayPanel extends JPanel {
 
         public Thread runner = null;
@@ -50,7 +55,9 @@ public class MemoryTable extends JPanel {
             if (runner == null)
                 initProcess();
         }
-
+       /*
+       periodically take the event rates and repaint the graph
+        */
         public void initProcess() {
             timer.scheduleAtFixedRate(new TimerTask() {
                 public void run() {
@@ -70,7 +77,9 @@ public class MemoryTable extends JPanel {
                 }
             }, INITIAL_START_TIME, UPDATE_SERVICE_RUNNING_TIME);
         }
-
+        /*
+        draw the graph
+         */
         public void paint(Graphics g) {
 
             if (graphics == null) {
@@ -85,7 +94,6 @@ public class MemoryTable extends JPanel {
             float free = maxRate - currentRate;
 
             graphics.setColor(GREEN);
-//            graphics.drawString(String.valueOf((int) maxRate) + " Maximun (Evt/sec)", 4.0f, (float) aH + 0.5f);
             name = String.valueOf(((int) (maxRate - free)))
                     + " (Evt/sec)";
             graphics.drawString(name, 4, h - dH);

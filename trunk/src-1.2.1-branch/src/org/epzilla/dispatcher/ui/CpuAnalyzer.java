@@ -10,7 +10,11 @@ import java.awt.image.BufferedImage;
 import java.util.TimerTask;
 
 import static java.awt.Color.*;
-
+/**
+ * Created by IntelliJ IDEA.
+ * This is the CPU memory analyzer class
+ * This shows the CPU information in a graph
+ */
 public class CpuAnalyzer extends JPanel {
 
     public CpuAnalyzer() {
@@ -19,6 +23,10 @@ public class CpuAnalyzer extends JPanel {
         add(displayPanel);
     }
 
+    /*
+   class used to draw the graph in the user interface to display
+   the CPU performance of the dispatcher
+    */
     public class DisplayPanel extends JPanel {
 
         public Thread runner = null;
@@ -50,6 +58,9 @@ public class CpuAnalyzer extends JPanel {
                 initProcess();
         }
 
+        /*
+       periodically repaint the graph
+        */
         public void initProcess() {
             timer.scheduleAtFixedRate(new TimerTask() {
                 public void run() {
@@ -85,7 +96,6 @@ public class CpuAnalyzer extends JPanel {
             float freeCpu = total - cpuUsage;
 
             graphics.setColor(GREEN);
-//            graphics.drawString(String.valueOf((int) total / 1024) + "K allocated", 4.0f, (float) aH + 0.5f);
             name = String.valueOf(((int) (total - freeCpu)))
                     + " % ";
             graphics.drawString(name, 4, h - dH);

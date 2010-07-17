@@ -20,6 +20,12 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+/**
+ * Created by IntelliJ IDEA.
+ * This is the UI class of the Dispatcher
+ * Author: Chathura
+ * To change this template use File | Settings | File Templates.
+ */
 public class DispatcherUI extends JFrame implements ActionListener {
     private JTabbedPane tabbedPane = null;
     private JTextField txtIP = null;
@@ -73,12 +79,16 @@ public class DispatcherUI extends JFrame implements ActionListener {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
         catch (UnsupportedLookAndFeelException e) {
+             Logger.error("UI eror:", e);
         }
         catch (ClassNotFoundException e) {
+             Logger.error("UI eror:", e);
         }
         catch (InstantiationException e) {
+             Logger.error("UI eror:", e);
         }
         catch (IllegalAccessException e) {
+             Logger.error("UI eror:", e);
         }
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = screen.width;
@@ -195,9 +205,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
             JLabel lblInEC = new JLabel();
             lblInEC.setBounds(new Rectangle(15, 553, 140, 25));
             lblInEC.setText("Incoming Event Count :");
-//            JLabel lblEDR = new JLabel();
-//            lblEDR.setBounds(new Rectangle(420, 553, 200, 25));
-//            lblEDR.setText("Event Dispatch rate (Evt/sec):");
             JLabel lblIPs = new JLabel();
             lblIPs.setBounds(new Rectangle(713, 17, 150, 25));
             lblIPs.setText("Cluster Leader IP List :");
@@ -228,8 +235,6 @@ public class DispatcherUI extends JFrame implements ActionListener {
             summary.add(getTxtInEventCount(), null);
             summary.add(lblOutEC, null);
             summary.add(getTxtOutEventCount(), null);
-//            summary.add(lblEDR, null);
-//            summary.add(getEventDispatchRate(), null);
             summary.add(lblClusterPer, null);
 
             EpzillaTable et = new EpzillaTable();
@@ -655,6 +660,9 @@ public class DispatcherUI extends JFrame implements ActionListener {
         }
     }
 
+    /*
+   check the port is in a valid range
+    */
     private boolean isValidPort(String port) {
         boolean returnValue = true;
         if (port.length() != 0) {
@@ -675,6 +683,10 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     }
 
+    /*
+   check the IP is valid
+   use regular expression to validate
+    */
     private static boolean isValidIp(final String ip) {
         boolean format = ip.matches("^[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}$");
         if (format) {
@@ -697,6 +709,9 @@ public class DispatcherUI extends JFrame implements ActionListener {
         abut.setVisible(true);
     }
 
+    /*
+   load XML file to read the name server details
+    */
     private void loadSettings() {
         try {
             ArrayList<String[]> data = ServerSettingsReader.getServerIPSettings("server_settings.xml");
