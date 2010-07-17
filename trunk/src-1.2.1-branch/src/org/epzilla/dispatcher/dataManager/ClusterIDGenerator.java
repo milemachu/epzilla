@@ -4,7 +4,8 @@ import java.util.HashMap;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Chathura
+ * This class is to generate the Cluster ID
+ * Author: Chathura
  * Date: May 11, 2010
  * Time: 8:28:54 PM
  * To change this template use File | Settings | File Templates.
@@ -14,6 +15,9 @@ public class ClusterIDGenerator {
     private static int id = 0;
     private static int cID;
     private static HashMap idMap = new HashMap<String, String>();
+    /*
+   method generates cluster ID
+    */
 
     public static String getClusterID(String ip) {
         if (idMap.containsKey(ip)) {
@@ -27,7 +31,7 @@ public class ClusterIDGenerator {
     }
 
     public static void removeClusterID(String ip) {
-          idMap.remove(ip);
+        idMap.remove(ip);
     }
 
     private static int generateID() {

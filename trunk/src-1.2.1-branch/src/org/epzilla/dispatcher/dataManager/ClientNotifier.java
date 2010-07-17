@@ -11,7 +11,8 @@ import java.util.HashMap;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Chathura
+ * Class send notifications to the Client machine
+ * Author: Chathura
  * Date: May 3, 2010
  * Time: 3:27:27 PM
  * To change this template use File | Settings | File Templates.

@@ -6,7 +6,8 @@ import java.util.TimerTask;
 
 /**
  * Created by IntelliJ IDEA.
- * User: chathura
+ * This class is to take count of incom,ing and outgoing event count from the Dispathcer
+ * Author: Chathura
  * Date: May 2, 2010
  * Time: 8:34:28 AM
  * To change this template use File | Settings | File Templates.
@@ -22,10 +23,16 @@ public class EventsCounter {
 
     public EventsCounter() {
     }
+    /*
+    set incoming event count
+     */
 
     public static void setInEventCount() {
         countIn++;
     }
+    /*
+   set outgoing event count
+    */
 
     public static void setOutEventCount() {
         countOut++;
@@ -47,6 +54,9 @@ public class EventsCounter {
         return maxDispatchRate;
     }
 }
+/*
+Timer class to periodically get the event dispatching rate
+*/
 
 class TimerTaskC {
     private int UPDATE_SERVICE_RUNNING_TIME = 10000;

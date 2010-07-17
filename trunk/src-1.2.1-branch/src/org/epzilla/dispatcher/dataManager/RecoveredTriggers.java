@@ -8,7 +8,8 @@ import java.util.StringTokenizer;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Chathura
+ * Take the recovered Triggers and add them to the STM of the Dispatcher
+ * Author: Chathura
  * Date: May 28, 2010
  * Time: 9:24:24 AM
  * To change this template use File | Settings | File Templates.
