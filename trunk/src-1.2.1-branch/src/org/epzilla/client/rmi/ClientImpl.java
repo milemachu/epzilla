@@ -9,7 +9,8 @@ import java.util.Hashtable;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Chathura
+ * Implementaion of the ClientImpl interface
+ * Author: Chathura
  * Date: May 3, 2010
  * Time: 4:20:30 PM
  * To change this template use File | Settings | File Templates.
@@ -39,10 +40,6 @@ public class ClientImpl extends UnicastRemoteObject implements ClientInterface {
             }
 
             // todo - drop duplicates
-//            ClientUIControler clientCon = new ClientUIControler(alert);
-//            clientCon.setAlertCount();
-//            Thread t = new Thread(clientCon);
-//            t.start();
             return "OK";
         } catch (Exception ex) {
             Logger.error("", ex);

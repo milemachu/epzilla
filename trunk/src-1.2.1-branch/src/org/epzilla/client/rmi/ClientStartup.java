@@ -9,7 +9,8 @@ import java.rmi.Naming;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Chathura
+ * This class is use as the startup class of the Cliet
+ * Author: Chathura
  * Date: May 3, 2010
  * Time: 4:23:08 PM
  * To change this template use File | Settings | File Templates.
@@ -19,6 +20,9 @@ public class ClientStartup {
     private static int SPALSH_TIME = 3000;
     private static int SLEEP_TIME = 1000;
     static ClientInterface obj;
+    /*
+    Bind the Client to its RMI registry
+     */
 
     public static void bindClient() {
         if (System.getSecurityManager() == null) {
@@ -36,6 +40,9 @@ public class ClientStartup {
             Logger.error("Client Start up:", e);
         }
     }
+    /*
+    Start RMI registry in the client
+     */
 
     private static void startRegistry() {
         try {

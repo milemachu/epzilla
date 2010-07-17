@@ -9,6 +9,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
+/**
+ * Created by IntelliJ IDEA.
+ * This class use to control the user interfae activities of the client.
+ * Author: Chathura
+ * Date: Mar 1, 2010
+ * Time: 12:40:41 PM
+ */
 public class ClientUIControler implements Runnable {
     private static ClientUI clientInstance;
     private ArrayList<String> notifications;
@@ -27,6 +34,9 @@ public class ClientUIControler implements Runnable {
     public ClientUIControler(ArrayList<String> notifics) {
         this.notifications = notifics;
     }
+    /*
+    *initialize the client UI
+    */
 
     public static void initializeClientUI() {
         clientInstance = new ClientUI();
@@ -38,6 +48,9 @@ public class ClientUIControler implements Runnable {
         dateTime = getDateTime();
         clientInstance.getTxtResults().append(dateTime + ":" + message + "\n");
     }
+    /*
+   load the Dispatcher information to the list to displayin the UI
+    */
 
     public static void setListLookup(String dispData) {
         list.removeAllElements();
@@ -58,11 +71,10 @@ public class ClientUIControler implements Runnable {
 
     @Override
     public void run() {
-//        dateTime = getDateTime();
-//        clientInstance.getNotifications().append(dateTime + ":" + message + "\n");
-//        String text = Integer.toString(getAlertCount());
-//        appendAlertCount(text);
     }
+    /*
+    * append alerts send by the Accumulators to the user interface
+    */
 
     public static void appendAlerts(String alert) {
         setAlertCount();
@@ -90,7 +102,8 @@ public class ClientUIControler implements Runnable {
         return dateFormat.format(date);
     }
     //append the triggers
-    public static void addAllTriggers(){
-         clientInstance.txtGetAllTriggers().append("");
+
+    public static void addAllTriggers() {
+        clientInstance.txtGetAllTriggers().append("");
     }
 }

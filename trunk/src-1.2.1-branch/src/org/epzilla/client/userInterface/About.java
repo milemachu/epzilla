@@ -5,7 +5,13 @@ import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Created by IntelliJ IDEA.
+ * This class is to show the Above dialog box
+ * Author: Chathura
+ * Date: Feb 8, 2010
+ * Time: 2:40:41 PM
+ */
 public class About extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
@@ -15,6 +21,21 @@ public class About extends JFrame implements ActionListener {
     private JLabel lblLogo = null;
     private JButton btnOK = null;
     private JTextPane jTextPane = null;
+
+    private void initialize() {
+        int width = 500;
+        int height = 325;
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screen.width - width) / 2;
+        int y = (screen.height - height) / 2;
+        setBounds(x, y, width, height);
+        Image img = Toolkit.getDefaultToolkit().getImage("images\\logo.jpg");
+        this.setIconImage(img);
+        this.setSize(new Dimension(450, 258));
+        this.setResizable(false);
+        this.setContentPane(getJContentPane());
+        this.setTitle("About epZilla");
+    }
 
     private JPanel getTopPanel() {
         if (topPanel == null) {
@@ -70,21 +91,6 @@ public class About extends JFrame implements ActionListener {
     public About() {
         super();
         initialize();
-    }
-
-    private void initialize() {
-        int width = 500;
-        int height = 325;
-        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (screen.width - width) / 2;
-        int y = (screen.height - height) / 2;
-        setBounds(x, y, width, height);
-        Image img = Toolkit.getDefaultToolkit().getImage("images\\logo.jpg");
-        this.setIconImage(img);
-        this.setSize(new Dimension(450, 258));
-        this.setResizable(false);
-        this.setContentPane(getJContentPane());
-        this.setTitle("About epZilla");
     }
 
     private JPanel getJContentPane() {
