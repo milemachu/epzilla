@@ -4,6 +4,7 @@ import org.epzilla.dispatcher.DispatcherRegister;
 import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.dispatcher.dataManager.RecoveredTriggers;
 import org.epzilla.dispatcher.logs.ReadLog;
+import org.epzilla.dispatcher.xml.ConfigurationManager;
 import org.epzilla.dispatcher.xml.ServerSettingsReader;
 import org.epzilla.util.Logger;
 
@@ -46,6 +47,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JPanel mainSettings = null;
     private JPanel summary = null;
     private JPanel dispStatus = null;
+    private JPanel configPanel = null;
     private JTextArea txtTriggers = null;
     private JTextField txtDispSerName = null;
     private JTextArea txtStatus = null;
@@ -69,6 +71,10 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JTextArea txtRecoveredList = null;
     private JTextArea txtDispIps = null;
     private JPanel mainPanel = null;
+    private JButton btnSaveConfig;
+    private JTextArea txtIp = new JTextArea();
+    private JTextArea txtAcc = new JTextArea();
+    private JTextField txtClusterID = new JTextField();
 
     public DispatcherUI() {
         initialize();
@@ -79,16 +85,16 @@ public class DispatcherUI extends JFrame implements ActionListener {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
         catch (UnsupportedLookAndFeelException e) {
-             Logger.error("UI eror:", e);
+            Logger.error("UI eror:", e);
         }
         catch (ClassNotFoundException e) {
-             Logger.error("UI eror:", e);
+            Logger.error("UI eror:", e);
         }
         catch (InstantiationException e) {
-             Logger.error("UI eror:", e);
+            Logger.error("UI eror:", e);
         }
         catch (IllegalAccessException e) {
-             Logger.error("UI eror:", e);
+            Logger.error("UI eror:", e);
         }
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         int x = screen.width;
@@ -117,7 +123,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
         if (tabbedPane == null) {
             ImageIcon settingsIcon = new ImageIcon("images//settings.jpg");
             ImageIcon summaryIcon = new ImageIcon("images//summary.jpg");
-            ImageIcon dispStatusIcon = new ImageIcon("images//dispStatus.jpg");
+            ImageIcon dispStatusIcon = new ImageIcon("images//clusterDe.jpg");
 
             lblDetails = new JLabel();
             lblDetails.setText("NameServer Details ");
@@ -143,6 +149,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             tabbedPane.addTab("Summary", summaryIcon, getSummeryTab());
             tabbedPane.addTab("Dispatcher Status", dispStatusIcon, getDispStatusTab());
             tabbedPane.addTab("Settings", settingsIcon, getMainSettings());
+            tabbedPane.addTab("Configurations", getConfigurations());
             tabbedPane.setVisible(true);
         }
         return tabbedPane;
@@ -292,6 +299,57 @@ public class DispatcherUI extends JFrame implements ActionListener {
             dispStatus.add(ca);
         }
         return dispStatus;
+    }
+
+    /**
+     * This method initializes the configuration panel
+     *
+     * @return javax.swing.JPanel
+     */
+    private JPanel getConfigurations() {
+        if (configPanel == null) {
+            //EpZIlla IP range
+            JLabel lbl1 = new JLabel("Dispatcher IP's :");
+            lbl1.setBounds(new Rectangle(20, 35, 100, 20));
+
+            JLabel lbl3 = new JLabel("Cluster ID:");
+            lbl3.setBounds(new Rectangle(20, 10, 100, 20));
+
+            //text fields
+            txtIp.setBounds(new Rectangle(120, 35, 150, 80));
+            txtIp.setOpaque(true);
+            JScrollPane jspIP = new JScrollPane(txtIp);
+            jspIP.setBounds(new Rectangle(120, 35, 200, 80));
+            jspIP.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            jspIP.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            jspIP.setOpaque(false);
+
+            txtClusterID.setBounds(new Rectangle(120, 10, 100, 20));
+
+            //save configurations
+            btnSaveConfig = new JButton();
+            btnSaveConfig.setText("Save");
+            btnSaveConfig.setBounds(new Rectangle(240, 125, 80, 25));
+            btnSaveConfig.addActionListener(this);
+
+            configPanel = new JPanel() {
+                public void paintComponent(Graphics g) {
+                    Graphics2D g2d = (Graphics2D) g;
+                    int w = getWidth();
+                    int h = getHeight();
+                    GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
+                    g2d.setPaint(gp);
+                    g2d.fillRect(0, 0, w, h);
+                }
+            };
+            configPanel.setLayout(null);
+            configPanel.add(lbl1, null);
+            configPanel.add(lbl3, null);
+            configPanel.add(txtClusterID);
+            configPanel.add(jspIP, null);
+            configPanel.add(btnSaveConfig, null);
+        }
+        return configPanel;
     }
 
     private JMenuBar getmyMenuBar() {
@@ -610,6 +668,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     }
 
     //     txtRecoveredList.setBounds(new Rectangle(703, 35, 295, 500));
+
     private JCheckBox getChkLogs() {
         if (chkLogs == null) {
             chkLogs = new JCheckBox();
@@ -661,8 +720,9 @@ public class DispatcherUI extends JFrame implements ActionListener {
     }
 
     /*
-   check the port is in a valid range
+    This method check the port is in a valid range
     */
+
     private boolean isValidPort(String port) {
         boolean returnValue = true;
         if (port.length() != 0) {
@@ -683,10 +743,12 @@ public class DispatcherUI extends JFrame implements ActionListener {
 
     }
 
-    /*
-   check the IP is valid
-   use regular expression to validate
-    */
+    /**
+     * This method check the IP is valid, use regular expression to validate
+     *
+     * @param ip
+     * @return
+     */
     private static boolean isValidIp(final String ip) {
         boolean format = ip.matches("^[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}$");
         if (format) {
@@ -712,6 +774,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     /*
    load XML file to read the name server details
     */
+
     private void loadSettings() {
         try {
             ArrayList<String[]> data = ServerSettingsReader.getServerIPSettings("server_settings.xml");
@@ -724,6 +787,9 @@ public class DispatcherUI extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * This method call system exit
+     */
     private void systemExit() {
         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Confirm Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == 0)
@@ -781,6 +847,15 @@ public class DispatcherUI extends JFrame implements ActionListener {
             } catch (NotBoundException e) {
                 Logger.error("Dispatcher registration error:", e);
             }
+
+        } else if (source == btnSaveConfig) {
+            String[] nodes = txtIp.getText().split("\\n");
+            ConfigurationManager cf = new ConfigurationManager(nodes, txtClusterID.getText());
+            //logic write config data
+            if (cf.writeInfo())
+                JOptionPane.showMessageDialog(null, "Configurations details successfully saved", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
+            else
+                JOptionPane.showMessageDialog(null, "Error in Configurations. Make sure the IP values are in a valid range", "Epzilla", JOptionPane.ERROR_MESSAGE);
 
         }
 
