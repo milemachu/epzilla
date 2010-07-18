@@ -89,8 +89,8 @@ public class ClientInit extends Thread {
         ClientUIControler.appendResults("Start Trigger sending process....");
     }
 
-    /*
-    initialize the events simulation
+    /**
+     * initialize the events simulation
      */
 
     public static void initEvents() {
@@ -202,10 +202,11 @@ public class ClientInit extends Thread {
             }
         });
     }
-    /*
-    accept use input triggers
-     */
 
+    /**
+     * accept use input triggers
+     * @param trigger
+     */
     public static void sendCustomTriggers(String trigger) {
         String response = null;
 
