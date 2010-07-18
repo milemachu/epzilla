@@ -1,6 +1,5 @@
 package org.epzilla.dispatcher.logs;
 
-import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.util.Logger;
 
 import java.io.File;
@@ -12,6 +11,14 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Created by IntelliJ IDEA.
+ * This class is used to read the Log file which contain the checkpoint details of the Triggers
+ * Author: Chathura
+ * Date: Mar 1, 2010
+ * Time: 10:21:09 AM
+ * To change this template use File | Settings | File Templates.
+ */
 public class FileScanner implements Runnable {
     public static ArrayList<String> triggerList = new ArrayList<String>();
     private List<String> undoList = new ArrayList<String>();
@@ -22,7 +29,6 @@ public class FileScanner implements Runnable {
     private static Matcher m2 = null;
     private static String st1 = "";
     private static String st2 = "";
-    //	Pattern p1 = Pattern.compile("^(.{2}) (.*)$");
     private static Pattern p1 = Pattern.compile("^[CID0-9]+ (.{10})$");
     private static Pattern p2 = Pattern.compile("</commit>");
 
@@ -36,9 +42,8 @@ public class FileScanner implements Runnable {
     }
 
     public void run() {
-        for (int i = 0; i < undoList.size(); i++) {
-//            recoverArr.clear();
-            readFile(file, undoList.get(i));
+        for (String anUndoList : undoList) {
+            readFile(file, anUndoList);
 
         }
     }
@@ -84,30 +89,28 @@ public class FileScanner implements Runnable {
         ArrayList<String> recoverArr = new ArrayList<String>();
         long start = System.currentTimeMillis();
 
-            scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                st1 = scanner.nextLine();
-                m1 = p1.matcher(st1);
-                m2 = p2.matcher(st1);
-                if (m1.find()) {
-                    StringTokenizer st = new StringTokenizer(st1);
-                    strmatch = st.nextToken();
-//                       if (strmatch.equals(st)) {
-                    while (scanner.hasNextLine()) {
-                        st2 = scanner.nextLine();
-                        m2 = p2.matcher(st2);
-                        m1 = p1.matcher(st2);
-                        if (m2.find()) {
-                            break;
-                        } else if (m1.find()) {
-                            break;
-                        } else
-                            recoverArr.add(st2);
-                    }
-//                       }
+        scanner = new Scanner(file);
+        while (scanner.hasNextLine()) {
+            st1 = scanner.nextLine();
+            m1 = p1.matcher(st1);
+            m2 = p2.matcher(st1);
+            if (m1.find()) {
+                StringTokenizer st = new StringTokenizer(st1);
+                strmatch = st.nextToken();
+                while (scanner.hasNextLine()) {
+                    st2 = scanner.nextLine();
+                    m2 = p2.matcher(st2);
+                    m1 = p1.matcher(st2);
+                    if (m2.find()) {
+                        break;
+                    } else if (m1.find()) {
+                        break;
+                    } else
+                        recoverArr.add(st2);
                 }
             }
-            scanner.close();
+        }
+        scanner.close();
 
         setTriggerList(recoverArr);
         long end = System.currentTimeMillis();
@@ -124,8 +127,8 @@ public class FileScanner implements Runnable {
     }
 
     public static void printArray(List<String> array) {
-        for (int i = 0; i < array.size(); i++) {
-            Logger.log(array.get(i));
+        for (String anArray : array) {
+            Logger.log(anArray);
         }
     }
 }
