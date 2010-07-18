@@ -10,7 +10,8 @@ import java.util.Hashtable;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Randika
+ * This class is to send the Derive Events to the Accumulator
+ * Author: Chathura
  * Date: May 15, 2010
  * Time: 7:15:15 PM
  * To change this template use File | Settings | File Templates.
@@ -23,6 +24,9 @@ public class DeriveEventSender {
 
     public DeriveEventSender() {
     }
+    /*
+    * method send the derive events to the accumulator
+    */
 
     public static void sendDeriveEvent(String serverIP, byte[] deriveEvent) throws MalformedURLException, NotBoundException, RemoteException {
 
@@ -35,6 +39,9 @@ public class DeriveEventSender {
         }
 
     }
+    /*
+    * metod initialize the remote reference to the accumulator
+    */
 
     private static void initAccumulator(String serverIP, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
         String url = "rmi://" + serverIP + "/" + serviceName;

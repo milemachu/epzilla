@@ -17,7 +17,9 @@ import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Chathura
+ * This class is to sleep a Node according to the performance information
+ * received from the Node Leader.
+ * Author: Chathura
  * Date: Jun 11, 2010
  * Time: 12:05:05 PM
  * To change this template use File | Settings | File Templates.

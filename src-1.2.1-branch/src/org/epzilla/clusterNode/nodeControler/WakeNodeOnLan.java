@@ -6,7 +6,8 @@ import java.net.InetAddress;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Chathura
+ * This class is to wake a Node using a LAN call
+ * Author: Chathura
  * Date: Jun 10, 2010
  * Time: 7:48:34 PM
  * To change this template use File | Settings | File Templates.

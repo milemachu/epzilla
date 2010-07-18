@@ -10,6 +10,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Created by IntelliJ IDEA.
+ * This class initializes the Node User Interface
+ * Date:Feb 1, 2010
+ * Time: 10:20:41 PM
+ */
 public class NodeUI extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
@@ -33,8 +39,8 @@ public class NodeUI extends JFrame implements ActionListener {
     public JButton btnAddNode = null;
     public JButton btnRemoveNode = null;
     private JButton btnSaveConfig;
-    private JTextField txtIp1 = new JTextField();
-    private JTextField txtIp2 = new JTextField();
+    private JTextArea txtIp = new JTextArea();
+    private JTextArea txtAcc = new JTextArea();
 
     /**
      * This is the default constructor
@@ -155,28 +161,38 @@ public class NodeUI extends JFrame implements ActionListener {
      */
     private JPanel getConfigurations() {
         if (configPanel == null) {
+            //EpZIlla IP range
+            JLabel lbl2 = new JLabel("EpZilla Node IP's :");
+            lbl2.setBounds(new Rectangle(20, 10, 100, 20));
 
-            JLabel lbl1 = new JLabel();
-            lbl1.setBounds(new Rectangle(20, 10, 150, 20));
-            lbl1.setText("Epzilla IP Range:");
-            JLabel lbl2 = new JLabel();
-            lbl2.setBounds(new Rectangle(20, 35, 100, 20));
-            lbl2.setText("Start IP:");
-            JLabel lbl3 = new JLabel();
-            lbl3.setBounds(new Rectangle(20, 60, 100, 20));
-            lbl3.setText("End IP:");
+            //Accumulator range
+            JLabel lbl5 = new JLabel("Accumulator Ip's:");
+            lbl5.setBounds(new Rectangle(20, 125, 100, 20));
 
-            txtIp1.setBackground(Color.BLACK);
-            txtIp1.setForeground(Color.GREEN);
-            txtIp1.setBounds(new Rectangle(125, 35, 150, 20));
-            txtIp2.setBackground(Color.BLACK);
-            txtIp2.setForeground(Color.GREEN);
-            txtIp2.setBounds(new Rectangle(125, 60, 150, 20));
+            //text fields
+            txtIp.setBounds(new Rectangle(120, 10, 150, 80));
+            txtIp.setBackground(Color.BLACK);
+            txtIp.setForeground(Color.GREEN);
+            txtIp.setOpaque(true);
+            JScrollPane jspIP = new JScrollPane(txtIp);
+            jspIP.setBounds(new Rectangle(120, 10, 200, 80));
+            jspIP.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            jspIP.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            jspIP.setOpaque(false);
 
+            txtAcc.setBounds(new Rectangle(120, 125, 150, 80));
+            txtAcc.setBackground(Color.BLACK);
+            txtAcc.setForeground(Color.GREEN);
+            JScrollPane jspAcc = new JScrollPane(txtAcc);
+            jspAcc.setBounds(new Rectangle(120, 125, 200, 80));
+            jspAcc.setHorizontalScrollBarPolicy((JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+            jspAcc.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            jspAcc.setOpaque(false);
 
+            //save configurations
             btnSaveConfig = new JButton();
             btnSaveConfig.setText("Save");
-            btnSaveConfig.setBounds(new Rectangle(175, 90, 100, 25));
+            btnSaveConfig.setBounds(new Rectangle(20, 240, 80, 20));
             btnSaveConfig.addActionListener(this);
 
             configPanel = new JPanel() {
@@ -190,11 +206,10 @@ public class NodeUI extends JFrame implements ActionListener {
                 }
             };
             configPanel.setLayout(null);
-            configPanel.add(lbl1, null);
             configPanel.add(lbl2, null);
-            configPanel.add(lbl3, null);
-            configPanel.add(txtIp1, null);
-            configPanel.add(txtIp2, null);
+            configPanel.add(lbl5, null);
+            configPanel.add(jspIP, null);
+            configPanel.add(jspAcc, null);
             configPanel.add(btnSaveConfig, null);
         }
         return configPanel;
@@ -412,9 +427,16 @@ public class NodeUI extends JFrame implements ActionListener {
             SleepNode.sleep();
         }
         if (source == btnSaveConfig) {
+            String[] accumulators = txtAcc.getText().split("\\n");
+            String[] nodes = txtIp.getText().split("\\n");
+            ConfigurationManager cf = new ConfigurationManager(nodes, accumulators);
             //logic write config data
-            ConfigurationManager.writeData(txtIp1.getText(), txtIp2.getText());
+            if (cf.writeInfo())
+                JOptionPane.showMessageDialog(null, "Configurations details successfully saved", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
+            else
+                JOptionPane.showMessageDialog(null, "Error in Configurations. Make sure the IP values are in a valid range", "Epzilla", JOptionPane.ERROR_MESSAGE);
+
         }
 
     }
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+}

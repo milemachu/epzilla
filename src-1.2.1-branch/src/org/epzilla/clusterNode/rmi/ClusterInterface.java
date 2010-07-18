@@ -10,7 +10,8 @@ import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Team epZilla
+ * Interface class of the Cluster Implementation
+ * Author: Chathura
  * Date: Mar 11, 2010
  * Modified: May 11, 2010
  * Time: 10:44:48 AM

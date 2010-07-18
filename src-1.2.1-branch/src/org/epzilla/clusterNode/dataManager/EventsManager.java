@@ -13,7 +13,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by IntelliJ IDEA.
- * User: chathura
+ * This class is to manage the incoming events and deliver te events
+ * to the Nodes in the Cluster
+ * Author: Chathura
  * Date: May 7, 2010
  * Time: 3:33:28 PM
  * To change this template use File | Settings | File Templates.

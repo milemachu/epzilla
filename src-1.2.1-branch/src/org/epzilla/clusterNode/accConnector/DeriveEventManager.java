@@ -1,5 +1,7 @@
 package org.epzilla.clusterNode.accConnector;
 
+import org.epzilla.util.Logger;
+
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -7,7 +9,8 @@ import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Randika
+ * This class is use to send the Derived events
+ * Author: Chathura
  * Date: May 19, 2010
  * Time: 8:35:56 PM
  * To change this template use File | Settings | File Templates.
@@ -25,11 +28,11 @@ public class DeriveEventManager {
         try {
             DeriveEventSender.sendDeriveEvent(ipArr.get(0), bteEvent);
         } catch (MalformedURLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            Logger.error("", e);
         } catch (NotBoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            Logger.error("", e);
         } catch (RemoteException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            Logger.error("", e);
         }
     }
 

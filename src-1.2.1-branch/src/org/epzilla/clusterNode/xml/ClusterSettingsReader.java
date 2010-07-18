@@ -1,16 +1,16 @@
 package org.epzilla.clusterNode.xml;
 
 import org.epzilla.dispatcher.xml.XMLElement;
+import org.epzilla.util.Logger;
 
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
- * User: chathura
+ * This class is to load the settings details relate to the cluster
+ * Author: Chathura
  * Date: Apr 20, 2010
  * Time: 10:37:31 AM
  * To change this template use File | Settings | File Templates.
@@ -41,7 +41,7 @@ public class ClusterSettingsReader {
                 lis.add(items);
             }
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            Logger.error("", e);
         }
         return lis;
     }
