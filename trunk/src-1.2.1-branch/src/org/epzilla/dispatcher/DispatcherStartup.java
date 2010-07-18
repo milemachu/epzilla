@@ -19,7 +19,9 @@ import java.rmi.RemoteException;
 
 /**
  * Created by IntelliJ IDEA.
- * User: chathura
+ * This class is to bind the Dispatcher to its RMI registry
+ * Initialize the Leader Election process
+ * Author: Chathura
  * Date: Jun 16, 2010
  * Time: 5:36:01 PM
  * To change this template use File | Settings | File Templates.
@@ -27,6 +29,9 @@ import java.rmi.RemoteException;
 public class DispatcherStartup {
     private static String serviceName = "DISPATCHER_SERVICE";
     private static String STMserverIP = "127.0.0.1";
+    /*
+    * bind the dispatcher to its own RMI registry
+    */
 
     private void bindDispatcher(String serviceName) throws RemoteException, UnknownHostException, MalformedURLException {
         if (System.getSecurityManager() == null) {
