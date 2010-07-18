@@ -41,6 +41,7 @@ public class NodeUI extends JFrame implements ActionListener {
     private JButton btnSaveConfig;
     private JTextArea txtIp = new JTextArea();
     private JTextArea txtAcc = new JTextArea();
+    private JTextField txtClusterID = new JTextField();
 
     /**
      * This is the default constructor
@@ -162,37 +163,38 @@ public class NodeUI extends JFrame implements ActionListener {
     private JPanel getConfigurations() {
         if (configPanel == null) {
             //EpZIlla IP range
-            JLabel lbl2 = new JLabel("EpZilla Node IP's :");
-            lbl2.setBounds(new Rectangle(20, 10, 100, 20));
+            JLabel lbl1 = new JLabel("EpZilla Node IP's :");
+            lbl1.setBounds(new Rectangle(20, 35, 100, 20));
 
             //Accumulator range
-            JLabel lbl5 = new JLabel("Accumulator Ip's:");
-            lbl5.setBounds(new Rectangle(20, 125, 100, 20));
+            JLabel lbl2 = new JLabel("Accumulator Ip's:");
+            lbl2.setBounds(new Rectangle(20, 150, 100, 20));
+
+            JLabel lbl3 = new JLabel("Cluster ID:");
+            lbl3.setBounds(new Rectangle(20, 10, 100, 20));
 
             //text fields
-            txtIp.setBounds(new Rectangle(120, 10, 150, 80));
-            txtIp.setBackground(Color.BLACK);
-            txtIp.setForeground(Color.GREEN);
+            txtIp.setBounds(new Rectangle(120, 35, 150, 80));
             txtIp.setOpaque(true);
             JScrollPane jspIP = new JScrollPane(txtIp);
-            jspIP.setBounds(new Rectangle(120, 10, 200, 80));
+            jspIP.setBounds(new Rectangle(120, 35, 200, 80));
             jspIP.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
             jspIP.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             jspIP.setOpaque(false);
 
-            txtAcc.setBounds(new Rectangle(120, 125, 150, 80));
-            txtAcc.setBackground(Color.BLACK);
-            txtAcc.setForeground(Color.GREEN);
+            txtAcc.setBounds(new Rectangle(120, 150, 150, 80));
             JScrollPane jspAcc = new JScrollPane(txtAcc);
-            jspAcc.setBounds(new Rectangle(120, 125, 200, 80));
+            jspAcc.setBounds(new Rectangle(120, 150, 200, 80));
             jspAcc.setHorizontalScrollBarPolicy((JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
             jspAcc.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             jspAcc.setOpaque(false);
 
+            txtClusterID.setBounds(new Rectangle(120, 10, 100, 20));
+
             //save configurations
             btnSaveConfig = new JButton();
             btnSaveConfig.setText("Save");
-            btnSaveConfig.setBounds(new Rectangle(20, 240, 80, 20));
+            btnSaveConfig.setBounds(new Rectangle(240, 265, 80, 25));
             btnSaveConfig.addActionListener(this);
 
             configPanel = new JPanel() {
@@ -206,8 +208,10 @@ public class NodeUI extends JFrame implements ActionListener {
                 }
             };
             configPanel.setLayout(null);
+            configPanel.add(lbl1, null);
             configPanel.add(lbl2, null);
-            configPanel.add(lbl5, null);
+            configPanel.add(lbl3, null);
+            configPanel.add(txtClusterID);
             configPanel.add(jspIP, null);
             configPanel.add(jspAcc, null);
             configPanel.add(btnSaveConfig, null);
@@ -429,7 +433,7 @@ public class NodeUI extends JFrame implements ActionListener {
         if (source == btnSaveConfig) {
             String[] accumulators = txtAcc.getText().split("\\n");
             String[] nodes = txtIp.getText().split("\\n");
-            ConfigurationManager cf = new ConfigurationManager(nodes, accumulators);
+            ConfigurationManager cf = new ConfigurationManager(nodes, accumulators, txtClusterID.getText());
             //logic write config data
             if (cf.writeInfo())
                 JOptionPane.showMessageDialog(null, "Configurations details successfully saved", "Epzilla", JOptionPane.INFORMATION_MESSAGE);
