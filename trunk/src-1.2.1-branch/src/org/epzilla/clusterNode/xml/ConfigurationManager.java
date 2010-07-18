@@ -18,6 +18,8 @@ public class ConfigurationManager {
     String[] nodeIPs;
     String[] accumulators;
     String clusterID;
+    String comp = "Node";
+    static int count = 1;
 
     public ConfigurationManager(String[] IPs, String[] accumulators, String cID) {
         this.nodeIPs = IPs;
@@ -63,7 +65,7 @@ public class ConfigurationManager {
             }
         }
         if (toReturn) {
-            writeEpzillaIpConfig(nodeIPs,clusterID);
+            writeEpzillaIpConfig(nodeIPs, clusterID, comp);
         }
         return toReturn;
     }
@@ -96,10 +98,32 @@ public class ConfigurationManager {
         }
     }
 
-    private static void writeEpzillaIpConfig(String[] ips,String cid) {
+    private static void writeEpzillaIpConfig(String[] ips, String cid, String comp) {
 
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("EpzillaIpConfig.xmll"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("EpzillaIpConfig.xml"));
+            writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            writer.newLine();
+            writer.write("<cluster id=\"" + cid + "\" component =\"" + comp + "\" />");
+            writer.newLine();
+            for (String ip : ips) {
+
+                if (count==1) {
+                    writer.write("\t" + "<ip uid=\"" + count + "\" default=\"" + "true" + "\">");
+                    writer.write(ip);
+                    writer.write("</ip>");
+                    writer.newLine();
+                    count++;
+                } else {
+                    writer.write("\t" + "<ip uid=\"" + count + "\">");
+                    writer.write(ip);
+                    writer.write("</ip>");
+                    writer.newLine();
+                    count++;
+                }
+            }
+
+            writer.write("</cluster>");
 
             writer.flush();
             writer.close();
