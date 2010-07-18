@@ -1002,6 +1002,9 @@ public class ClientUI extends JFrame implements ActionListener, ListSelectionLis
         }
     }
 
+    /**
+     * This method system call system exit
+     */
     private void systemExit() {
         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Confirm Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == 0) {
