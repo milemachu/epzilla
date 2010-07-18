@@ -28,9 +28,16 @@ public class ClientHandler {
     private static NameService service;
     private static DispInterface disObj;
 
-    /*
-   This is to get Dispatcher IPs from the Name Server
-    */
+    /**
+     * This method get is use to get the Dispatcher information from the NameServer
+     * @param serverIp
+     * @param serviceName
+     * @param clientIp
+     * @return
+     * @throws MalformedURLException
+     * @throws RemoteException
+     * @throws NotBoundException
+     */
     public static Vector<String> getServiceIp(String serverIp, String serviceName, String clientIp) throws MalformedURLException, RemoteException, NotBoundException {
         dispIP.removeAllElements();
         initNameService(serverIp, serviceName);
@@ -46,16 +53,25 @@ public class ClientHandler {
         return dispIP;
     }
 
-    /*
-   Get client id generated from the Name Server
-    */
+    /**
+     * Get client id generated from the Name Server
+     * @param ip
+     * @return
+     * @throws RemoteException
+     */
     public static String getClientsID(String ip) throws RemoteException {
         return service.getClientID(ip);
     }
 
-    /*
-    Client register for call backs from the Dispatcher
-    */
+    /**
+     * Client register for call backs from the Dispatcher
+     * @param ip
+     * @param serviceName
+     * @throws NotBoundException
+     * @throws RemoteException
+     * @throws MalformedURLException
+     * @throws UnknownHostException
+     */
     public void regForCallback(String ip, String serviceName) throws NotBoundException, RemoteException, MalformedURLException, UnknownHostException {
         boolean dispatcherInit = false;
         if (!dispatcherInit) {
@@ -77,32 +93,51 @@ public class ClientHandler {
         disObj.unregisterCallback((ClientCallbackInterface) getclientObject());
     }
 
-    /*
-   Client register in the Dispatcher
-    */
+    /**
+     * Client register in the Dispatcher
+     * @param ip
+     * @param id
+     * @throws RemoteException
+     */
     public static void registerClient(String ip, String id) throws RemoteException {
         disObj.registerClients(ip, id);
     }
 
-    /*
-   Client unregister from the Dispatcher
-    */
+    /**
+     *  Client unregister from the Dispatcher
+     * @param ip
+     * @param id
+     * @throws RemoteException
+     * @throws MalformedURLException
+     * @throws UnknownHostException
+     * @throws NotBoundException
+     */
     public static void unRegisterClient(String ip, String id) throws RemoteException, MalformedURLException, UnknownHostException, NotBoundException {
         disObj.unRegisterClients(ip, id);
     }
 
-    /*
-   Initialize the reference to the Name Service, create remote object
-    */
+    /**
+     * Initialize the reference to the Name Service, create remote object
+     * @param serverIp
+     * @param serviceName
+     * @throws MalformedURLException
+     * @throws RemoteException
+     * @throws NotBoundException
+     */
     private static void initNameService(String serverIp, String serviceName) throws MalformedURLException, RemoteException, NotBoundException {
         String url = "rmi://" + serverIp + "/" + serviceName;
         NameService r = (NameService) Naming.lookup(url);
         setNameServiceObj(r);
     }
 
-    /*
-   Initialize Dispatcher service, create remote object
-    */
+    /**
+     * Initialize Dispatcher service, create remote object
+     * @param ip
+     * @param serviceName
+     * @throws MalformedURLException
+     * @throws RemoteException
+     * @throws NotBoundException
+     */
     private static void initDispatcher(String ip, String serviceName) throws MalformedURLException, RemoteException, NotBoundException {
         String url = "rmi://" + ip + "/" + serviceName;
         DispInterface di = (DispInterface) Naming.lookup(url);

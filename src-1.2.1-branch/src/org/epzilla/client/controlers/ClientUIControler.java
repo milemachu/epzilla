@@ -48,9 +48,11 @@ public class ClientUIControler implements Runnable {
         dateTime = getDateTime();
         clientInstance.getTxtResults().append(dateTime + ":" + message + "\n");
     }
-    /*
-   load the Dispatcher information to the list to displayin the UI
-    */
+
+    /**
+     * load the Dispatcher information to the list to display in the UI
+     * @param dispData
+     */
 
     public static void setListLookup(String dispData) {
         list.removeAllElements();
