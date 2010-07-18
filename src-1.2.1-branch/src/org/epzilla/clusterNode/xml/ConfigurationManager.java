@@ -5,7 +5,6 @@ import org.epzilla.util.Logger;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,10 +17,12 @@ import java.util.Arrays;
 public class ConfigurationManager {
     String[] nodeIPs;
     String[] accumulators;
+    String clusterID;
 
-    public ConfigurationManager(String[] IPs, String[] accumulators) {
+    public ConfigurationManager(String[] IPs, String[] accumulators, String cID) {
         this.nodeIPs = IPs;
         this.accumulators = accumulators;
+        this.clusterID = cID;
     }
 
     public boolean writeInfo() {
@@ -34,6 +35,7 @@ public class ConfigurationManager {
 
     /**
      * This method set Accumulator IP's
+     *
      * @return
      */
     private boolean setAccumulators() {
@@ -61,7 +63,7 @@ public class ConfigurationManager {
             }
         }
         if (toReturn) {
-            writeEpzillaIpConfig(nodeIPs);
+            writeEpzillaIpConfig(nodeIPs,clusterID);
         }
         return toReturn;
     }
@@ -94,7 +96,7 @@ public class ConfigurationManager {
         }
     }
 
-    private static void writeEpzillaIpConfig(String[] ips) {
+    private static void writeEpzillaIpConfig(String[] ips,String cid) {
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("EpzillaIpConfig.xmll"));
