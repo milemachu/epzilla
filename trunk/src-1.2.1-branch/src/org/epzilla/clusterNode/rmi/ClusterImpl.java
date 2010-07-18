@@ -12,13 +12,11 @@ import org.epzilla.clusterNode.dataManager.TriggerManager;
 import org.epzilla.clusterNode.processor.EventProcessor;
 import org.epzilla.clusterNode.userInterface.NodeUIController;
 import org.epzilla.dispatcher.rmi.TriggerRepresentation;
-import org.epzilla.dispatcher.xml.XMLElement;
 import org.epzilla.util.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -28,7 +26,8 @@ import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Team epZilla
+ * This class is the implementation of the Cluster Implementation
+ * Author: Chathura
  * Date: Mar 11, 2010
  * Modified: May 11, 2010
  * Time: 10:49:26 AM
@@ -156,7 +155,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
         // trigger deleting logic here
 
         try {
-//        TriggerManager.getTriggers().get(1)
+//        TriggerManager.triggerAdding().get(1)
             List<TriggerObject> toRemoveList = new LinkedList();
             TransactedList<TriggerObject> tlist = TriggerManager.getTriggers();
 
@@ -210,9 +209,9 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 //    @Override
 //    public boolean deleteTriggers(HashMap<String, ArrayList<String>> rep) throws RemoteException {
 //        try {
-////        TriggerManager.getTriggers().get(1)
+////        TriggerManager.triggerAdding().get(1)
 //            List<TriggerObject> toRemoveList = new LinkedList();
-//            TransactedList<TriggerObject> tlist = TriggerManager.getTriggers();
+//            TransactedList<TriggerObject> tlist = TriggerManager.triggerAdding();
 //
 //            for (TriggerObject to : tlist) {
 //                ArrayList<String> tr = rep.get(to.getclientID());
@@ -226,7 +225,7 @@ public class ClusterImpl extends UnicastRemoteObject implements ClusterInterface
 //            if (Site.getLocal().getPendingCommitCount() < Site.MAX_PENDING_COMMIT_COUNT) {
 //                Site.getLocal().allowThread();
 //                Transaction transaction = Site.getLocal().startTransaction();
-//                TriggerManager.getTriggers().removeAll(toRemoveList);
+//                TriggerManager.triggerAdding().removeAll(toRemoveList);
 //                transaction.commit();
 //            } else {
 //                return false;

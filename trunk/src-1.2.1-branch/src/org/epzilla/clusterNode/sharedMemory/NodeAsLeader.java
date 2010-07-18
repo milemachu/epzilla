@@ -85,7 +85,7 @@ public class NodeAsLeader {
         }
         TriggerManager.getTriggers().addListener(new FieldListener() {
             public void onChange(Transaction transaction, int i) {
-//                NodeUIController.appendTextToTriggerList(String.valueOf(TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1).gettrigger()));
+//                NodeUIController.appendTextToTriggerList(String.valueOf(TriggerManager.triggerAdding().get(TriggerManager.triggerAdding().size() - 1).gettrigger()));
                 try {
                     TriggerObject trig = TriggerManager.getTriggers().get(TriggerManager.getTriggers().size() - 1);
                     if ("OOOO".equals(trig.gettrigger())) {

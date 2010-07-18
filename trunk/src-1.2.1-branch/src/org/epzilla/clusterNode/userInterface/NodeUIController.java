@@ -70,28 +70,37 @@ public class NodeUIController {
     public static void clearPerformanceInfo() {
         instance.getjTextAreaPerformance().setText("");
     }
+    /*
+   set the leader status
+    */
 
     public static void setLeaderStatus(String text) {
         instance.getJTextAreaLeader().setText(text);
     }
+    /*
+   set the event count
+    */
 
     public static void setEventCount(String text) {
         instance.getJTextAreaEventCount().setText(text);
     }
-    public static void deactiveUI(){
+
+    public static void deactiveUI() {
         instance.setVisible(false);
     }
     /*
     get node controler button
      */
-    public static void setAddNodeButtonStatus(boolean isVisible){
+
+    public static void setAddNodeButtonStatus(boolean isVisible) {
         instance.getAddNodeButton().setVisible(isVisible);
     }
-    public static void setRemoveNodeBtnStatus(boolean isVisible){
+    /*
+    remove node node controler button
+     */
+
+    public static void setRemoveNodeBtnStatus(boolean isVisible) {
         instance.getRemoveNodeButton().setVisible(isVisible);
-    }
-    public static void main(String[] args){
-        InitializeUI();
     }
 }
 

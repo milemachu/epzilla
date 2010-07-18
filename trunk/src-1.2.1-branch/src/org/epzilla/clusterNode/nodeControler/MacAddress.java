@@ -8,7 +8,8 @@ import java.net.SocketException;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Chathura
+ * This class is get the MAC address of ta computer
+ * Author: Chathura
  * Date: Jun 10, 2010
  * Time: 7:58:51 PM
  * To change this template use File | Settings | File Templates.

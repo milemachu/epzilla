@@ -6,7 +6,8 @@ import java.util.TimerTask;
 
 /**
  * Created by IntelliJ IDEA.
- * User: chathura
+ * This class is to take the incoming and outgoing event counts
+ * Author: Chathura
  * Date: May 24, 2010
  * Time: 4:44:19 PM
  * To change this template use File | Settings | File Templates.

@@ -9,7 +9,8 @@ import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
- * User: chathura
+ * This class is to wake a Node which went to idle state. 
+ * Author: Chathura
  * Date: May 25, 2010
  * Time: 1:45:50 PM
  * To change this template use File | Settings | File Templates.

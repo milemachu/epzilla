@@ -4,7 +4,8 @@ import java.io.IOException;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Chathura
+ * This class is to shut down a Node dynamically
+ * Author: Chathura
  * Date: Jun 10, 2010
  * Time: 7:42:37 PM
  * To change this template use File | Settings | File Templates.

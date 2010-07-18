@@ -10,7 +10,11 @@ import java.awt.image.BufferedImage;
 import java.util.TimerTask;
 
 import static java.awt.Color.*;
-
+/**
+ * Created by IntelliJ IDEA.
+ * This is the CPU memory analyzer class
+ * This shows the CPU information in a graph
+ */
 public class CpuAnalyzer extends JPanel {
 
     public CpuAnalyzer() {
@@ -19,6 +23,9 @@ public class CpuAnalyzer extends JPanel {
         add(displayPanel);
     }
 
+    /*
+   draw CPU information in a graph
+    */
     public class DisplayPanel extends JPanel {
 
         public Thread runner = null;
@@ -50,6 +57,9 @@ public class CpuAnalyzer extends JPanel {
                 initProcess();
         }
 
+        /*
+       periodically repaint the graph
+        */
         public void initProcess() {
             timer.scheduleAtFixedRate(new TimerTask() {
                 public void run() {

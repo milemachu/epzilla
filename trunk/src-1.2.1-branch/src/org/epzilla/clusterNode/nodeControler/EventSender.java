@@ -12,7 +12,8 @@ import java.util.Hashtable;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Chathura
+ * This class is to send Events to the Nodes in the Cluster
+ * Author: Chathura
  * Date: May 7, 2010
  * Time: 9:45:21 PM
  * To change this template use File | Settings | File Templates.

@@ -9,7 +9,8 @@ import java.util.TimerTask;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Chathura
+ * This class is to manage the IP lists of the Cluster Leader
+ * Author: Chathura
  * Date: May 31, 2010
  * Time: 2:14:59 PM
  * To change this template use File | Settings | File Templates.
@@ -19,7 +20,6 @@ public class IpListManager {
     private static int UPDATE_TIME_INTERVAL = 60000;
 
     public static void Initialize() {
-//        initClientIpList();
         initNodeIpList();
     }
 
@@ -45,6 +45,9 @@ public class IpListManager {
             }
         }, INIT_TIME_INTERVAL, UPDATE_TIME_INTERVAL);
     }
+    /*
+   take subscribed node list periodically from the Leader election initiator
+    */
 
     private static void initNodeIpList() {
         final java.util.Timer timer1 = new java.util.Timer();

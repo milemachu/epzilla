@@ -11,7 +11,11 @@ import java.awt.image.BufferedImage;
 import java.util.TimerTask;
 
 import static java.awt.Color.*;
-
+/**
+ * Created by IntelliJ IDEA.
+ * This is the memory analyzer class
+ * This shows the memory usage information in a graph
+ */
 
 public class MemoryTable extends JPanel {
 
@@ -20,7 +24,9 @@ public class MemoryTable extends JPanel {
         DisplayPanel displayPanel = new DisplayPanel();
         add(displayPanel);
     }
-
+    /*
+    display the memory usage in a graph
+     */
     public class DisplayPanel extends JPanel {
 
         public Thread runner = null;
@@ -51,7 +57,9 @@ public class MemoryTable extends JPanel {
             if (runner == null)
                 initProcess();
         }
-
+       /*
+       periodically repaint the graph
+        */
         public void initProcess() {
             timer.scheduleAtFixedRate(new TimerTask() {
                 public void run() {
