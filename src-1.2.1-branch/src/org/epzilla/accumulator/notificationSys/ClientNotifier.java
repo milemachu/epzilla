@@ -14,10 +14,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Chathura
+ * This class use to send accumulated notifications to the client machine.
+ * Author: Chathura
  * Date: May 3, 2010
  * Time: 1:13:36 PM
- * To change this template use File | Settings | File Templates.
  */
 public class ClientNotifier {
     private static HashMap clientMap = new HashMap<String, String>();

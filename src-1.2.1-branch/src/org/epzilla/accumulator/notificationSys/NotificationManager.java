@@ -6,7 +6,8 @@ import java.util.TimerTask;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Randika
+ * This class use to manage the notifications and keep a count of accumulated notifications.
+ * Author: Chathura
  * Date: May 18, 2010
  * Time: 11:12:36 PM
  * To change this template use File | Settings | File Templates.
