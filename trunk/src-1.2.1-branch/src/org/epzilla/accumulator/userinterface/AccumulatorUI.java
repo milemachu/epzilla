@@ -6,6 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+/**
+ * This class create the user interace for the Accumulator.
+ *
+ * @author Chathura
+ */
 
 public class AccumulatorUI extends JFrame {
 

@@ -11,10 +11,10 @@ import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Chathura
+ * This class use to send accumulated notifications to the Dispatcher..
+ * Author: Chathura
  * Date: May 3, 2010
- * Time: 12:54:37 PM
- * To change this template use File | Settings | File Templates.
+ * Time: 1:14:36 PM
  */
 public class DispatcherNotifier {
     private static DispInterface dispObj;

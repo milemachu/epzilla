@@ -69,8 +69,6 @@ public class AccumulatorServiceImpl extends UnicastRemoteObject implements Accum
 //        EventManager.setEventSegement(eventS);
 //        count++;
         AccumulatorUIControler.appendEventResults(eventS);
-//        AccumulatorUIControler.appendDeriveEventCount(count + "");
-//        AccumulatorUIControler.appendEventprocessed(count + "");
         NotificationManager.setAlertCount();  // set count of the processed events
 
         //add logic to send the result to the client
