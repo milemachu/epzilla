@@ -7,12 +7,22 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Created by IntelliJ IDEA.
+ * Initialize the read log file method in the File Scanner class 
+ * Author: Chathura
+ * Date: Mar 19, 2010
+ * Time: 6:21:09 AM
+ * To change this template use File | Settings | File Templates.
+ */
 public class ReadLog {
     private static LogFileSettingReader reader = new LogFileSettingReader();
     private static File file;
     private static boolean isLoaded = false;
 
+    /*
+   replay logs as requested by the client
+    */
     public static List<String> readLog(String clusterID) {
         if (!isLoaded) {
             loadSettings();
@@ -25,10 +35,13 @@ public class ReadLog {
             loadSettings();
         }
         ArrayList<String> recList;
-        recList= FileScanner.readFile(file);
+        recList = FileScanner.readFile(file);
         return recList;
     }
 
+    /*
+   load setting details of the log file
+    */
     private static void loadSettings() {
         try {
             ArrayList<String[]> data = reader.getServerIPSettings("log_file_settings.xml");

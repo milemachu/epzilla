@@ -10,7 +10,8 @@ import java.io.IOException;
 
 /**
  * Created by IntelliJ IDEA.
- * User: chathura
+ * Test class for generating Random Strings
+ * Author: Chathura
  * Date: Mar 25, 2010
  * Time: 8:48:03 AM
  * To change this template use File | Settings | File Templates.

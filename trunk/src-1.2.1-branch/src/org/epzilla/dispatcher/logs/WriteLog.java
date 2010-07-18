@@ -9,11 +9,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-* initializing method which will accept List<String> and clientID,  clusterID
-*  size of the log file is defined, here it is 2MB, if greater than 1MB it will destroy existing an create new one
-* owerwriteLog and write methods are there to perform that task
-*/
+/**
+ * Created by IntelliJ IDEA.
+ * initializing method which will accept List<String> and clientID,  clusterID
+ * size of the log file is defined, here it is 2MB, if greater than 1MB it will destroy existing an create new one
+ * owerwriteLog and write methods are there to perform that task
+ * Author: Chathura
+ * Date: Mar 19, 2010
+ * Time: 7:10:09 AM
+ * To change this template use File | Settings | File Templates.
+ */
 public class WriteLog {
     private static LogFileSettingReader reader = new LogFileSettingReader();
     private static String filePath = "";
@@ -21,6 +26,10 @@ public class WriteLog {
 
     public WriteLog() {
     }
+
+    /*
+   start writing to log file
+    */
 
     public static void writeInit(List<String> triggerList, String clientID, String clusterID) throws IOException {
         if (!isLoaded) {
@@ -33,6 +42,10 @@ public class WriteLog {
         else
             writeLog(filePath, triggerList, clientID, clusterID);
     }
+
+    /*
+   check whether overwriting/cllear and re write to log is needed
+    */
 
     private static void overwriteLog(String filename, List<String> myArr, String clientID, String clusterID) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename, false));
@@ -50,6 +63,10 @@ public class WriteLog {
         writer.close();
     }
 
+    /*
+   logging triggers to the checkpoint services
+    */
+
     private static void writeLog(String filename, List<String> myArr, String clientID, String clusterID) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true));
         String tag = "CID" + clusterID;
@@ -65,6 +82,10 @@ public class WriteLog {
         writer.close();
     }
 
+    /*
+   load settings data
+    */
+
     private static void loadSettings() {
         try {
             ArrayList<String[]> data = reader.getServerIPSettings("log_file_settings.xml");
@@ -75,6 +96,10 @@ public class WriteLog {
             e.printStackTrace();
         }
     }
+
+    /*
+   method get the current file size
+    */
 
     public static long getFileSize(String filename) {
         File file = new File(filename);
