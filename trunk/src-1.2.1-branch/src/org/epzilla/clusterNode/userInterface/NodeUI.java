@@ -39,6 +39,7 @@ public class NodeUI extends JFrame implements ActionListener {
     public JButton btnAddNode = null;
     public JButton btnRemoveNode = null;
     private JButton btnSaveConfig;
+    private JButton btnClearConfig;
     private JTextArea txtIp = new JTextArea();
     private JTextArea txtAcc = new JTextArea();
     private JTextField txtClusterID = new JTextField();
@@ -96,7 +97,7 @@ public class NodeUI extends JFrame implements ActionListener {
             tabbedPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
             tabbedPane.setBackground(SystemColor.control);
             tabbedPane.addTab("Summary", summaryIcon, getJContentPane());
-            tabbedPane.addTab("Configurations", settingsIcon, getConfigurations());
+            tabbedPane.addTab("Settings", settingsIcon, getConfigurations());
         }
         return tabbedPane;
     }
@@ -174,7 +175,9 @@ public class NodeUI extends JFrame implements ActionListener {
             lbl3.setBounds(new Rectangle(20, 10, 100, 20));
 
             //text fields
-            txtIp.setBounds(new Rectangle(120, 35, 150, 80));
+            txtIp.setBounds(new Rectangle(120, 35, 200, 80));
+            txtIp.setBackground(Color.BLACK);
+            txtIp.setForeground(Color.GREEN);
             txtIp.setOpaque(true);
             JScrollPane jspIP = new JScrollPane(txtIp);
             jspIP.setBounds(new Rectangle(120, 35, 200, 80));
@@ -182,20 +185,26 @@ public class NodeUI extends JFrame implements ActionListener {
             jspIP.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             jspIP.setOpaque(false);
 
-            txtAcc.setBounds(new Rectangle(120, 150, 150, 80));
+            txtAcc.setBounds(new Rectangle(120, 150, 200, 80));
+            txtAcc.setBackground(Color.BLACK);
+            txtAcc.setForeground(Color.GREEN);
             JScrollPane jspAcc = new JScrollPane(txtAcc);
             jspAcc.setBounds(new Rectangle(120, 150, 200, 80));
             jspAcc.setHorizontalScrollBarPolicy((JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
             jspAcc.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             jspAcc.setOpaque(false);
 
-            txtClusterID.setBounds(new Rectangle(120, 10, 100, 20));
+            txtClusterID.setBounds(new Rectangle(120, 10, 200, 20));
+            txtClusterID.setForeground(Color.green);
+            txtClusterID.setBackground(Color.BLACK);
 
             //save configurations
-            btnSaveConfig = new JButton();
-            btnSaveConfig.setText("Save");
-            btnSaveConfig.setBounds(new Rectangle(240, 265, 80, 25));
+            btnSaveConfig = new JButton("Save");
+            btnSaveConfig.setBounds(new Rectangle(240, 250, 80, 25));
             btnSaveConfig.addActionListener(this);
+            btnClearConfig = new JButton("Clear");
+            btnClearConfig.setBounds(new Rectangle(140, 250, 80, 25));
+            btnClearConfig.addActionListener(this);
 
             configPanel = new JPanel() {
                 public void paintComponent(Graphics g) {
@@ -215,6 +224,7 @@ public class NodeUI extends JFrame implements ActionListener {
             configPanel.add(jspIP, null);
             configPanel.add(jspAcc, null);
             configPanel.add(btnSaveConfig, null);
+            configPanel.add(btnClearConfig, null);
         }
         return configPanel;
     }
@@ -440,6 +450,10 @@ public class NodeUI extends JFrame implements ActionListener {
             else
                 JOptionPane.showMessageDialog(null, "Error in Configurations. Make sure the IP values are in a valid range", "Epzilla", JOptionPane.ERROR_MESSAGE);
 
+        }
+        if (source == btnClearConfig) {
+            txtAcc.setText("");
+            txtIp.setText("");
         }
 
     }

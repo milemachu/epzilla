@@ -72,6 +72,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JTextArea txtDispIps = null;
     private JPanel mainPanel = null;
     private JButton btnSaveConfig;
+    private JButton btnClearConfig;
     private JTextArea txtIp = new JTextArea();
     private JTextArea txtAcc = new JTextArea();
     private JTextField txtClusterID = new JTextField();
@@ -149,7 +150,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             tabbedPane.addTab("Summary", summaryIcon, getSummeryTab());
             tabbedPane.addTab("Dispatcher Status", dispStatusIcon, getDispStatusTab());
             tabbedPane.addTab("Settings", settingsIcon, getMainSettings());
-            tabbedPane.addTab("Configurations", getConfigurations());
+//            tabbedPane.addTab("Configurations", getConfigurations());
             tabbedPane.setVisible(true);
         }
         return tabbedPane;
@@ -158,15 +159,13 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JPanel getMainSettings() {
         if (mainSettings == null) {
 
-            JLabel lblStatus = new JLabel();
-            lblStatus.setBounds(new Rectangle(15, 340, 71, 25));
-            lblStatus.setText("Status :");
-            JLabel lblName = new JLabel();
-            lblName.setText("Service Name :");
+            JLabel lblStatus = new JLabel("Status :");
+            lblStatus.setBounds(new Rectangle(400, 10, 71, 25));
+            lblStatus.setFont(new Font("Dialog", Font.BOLD, 12));
+            JLabel lblName = new JLabel("Service Name :");
             lblName.setLocation(new Point(30, 203));
             lblName.setSize(new Dimension(94, 25));
-            JLabel lblDisp = new JLabel();
-            lblDisp.setText("Dispatcher Details ");
+            JLabel lblDisp = new JLabel("Dispatcher Details ");
             lblDisp.setLocation(new Point(15, 171));
             lblDisp.setFont(new Font("Dialog", Font.BOLD, 12));
             lblDisp.setSize(new Dimension(175, 25));
@@ -197,6 +196,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
             mainSettings.add(getResultPane(), null);
             mainSettings.add(getChkLogs(), null);
             mainSettings.add(getBtnReplayLogs(), null);
+            mainSettings.add(getConfigurations(), null);
         }
         return mainSettings;
     }
@@ -309,45 +309,51 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JPanel getConfigurations() {
         if (configPanel == null) {
             //EpZIlla IP range
+            JLabel lblCl = new JLabel("Cluster Configurations:");
+            lblCl.setBounds(new Rectangle(10, 8, 150, 20));
+            lblCl.setFont(new Font("Dialog", Font.BOLD, 12));
+
             JLabel lbl1 = new JLabel("Dispatcher IP's :");
-            lbl1.setBounds(new Rectangle(20, 35, 100, 20));
+            lbl1.setBounds(new Rectangle(15, 65, 100, 20));
 
             JLabel lbl3 = new JLabel("Cluster ID:");
-            lbl3.setBounds(new Rectangle(20, 10, 100, 20));
+            lbl3.setBounds(new Rectangle(15, 35, 100, 20));
 
             //text fields
-            txtIp.setBounds(new Rectangle(120, 35, 150, 80));
+            txtIp.setBounds(new Rectangle(150, 65, 200, 80));
+            txtIp.setBackground(Color.BLACK);
+            txtIp.setForeground(Color.GREEN);
             txtIp.setOpaque(true);
             JScrollPane jspIP = new JScrollPane(txtIp);
-            jspIP.setBounds(new Rectangle(120, 35, 200, 80));
+            jspIP.setBounds(new Rectangle(150, 65, 200, 80));
             jspIP.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
             jspIP.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             jspIP.setOpaque(false);
 
-            txtClusterID.setBounds(new Rectangle(120, 10, 100, 20));
+            txtClusterID.setBounds(new Rectangle(150, 35, 200, 20));
+            txtClusterID.setBackground(Color.BLACK);
+            txtClusterID.setForeground(Color.GREEN);
 
-            //save configurations
-            btnSaveConfig = new JButton();
-            btnSaveConfig.setText("Save");
-            btnSaveConfig.setBounds(new Rectangle(240, 125, 80, 25));
+            //button configurations
+            btnSaveConfig = new JButton("Save");
+            btnSaveConfig.setBounds(new Rectangle(160, 150, 80, 25));
             btnSaveConfig.addActionListener(this);
+            btnClearConfig = new JButton("Clear");
+            btnClearConfig.setBounds(new Rectangle(260, 150, 80, 25));
+            btnClearConfig.addActionListener(this);
 
-            configPanel = new JPanel() {
-                public void paintComponent(Graphics g) {
-                    Graphics2D g2d = (Graphics2D) g;
-                    int w = getWidth();
-                    int h = getHeight();
-                    GradientPaint gp = new GradientPaint(0, 100, Color.white, 0, h, Color.gray);
-                    g2d.setPaint(gp);
-                    g2d.fillRect(0, 0, w, h);
-                }
-            };
+
+            configPanel = new JPanel();
             configPanel.setLayout(null);
+            configPanel.add(lblCl, null);
             configPanel.add(lbl1, null);
             configPanel.add(lbl3, null);
             configPanel.add(txtClusterID);
             configPanel.add(jspIP, null);
             configPanel.add(btnSaveConfig, null);
+            configPanel.add(btnClearConfig, null);
+            configPanel.setBounds(new Rectangle(0, 380, 400, 300));
+            configPanel.setOpaque(false);
         }
         return configPanel;
     }
@@ -409,7 +415,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JTextField getTxtNSIp() {
         if (txtIP == null) {
             txtIP = new JTextField();
-            txtIP.setLocation(new Point(150, 51));
+            txtIP.setLocation(new Point(150, 50));
             txtIP.setSize(new Dimension(200, 20));
             txtIP.setBackground(Color.black);
             txtIP.setForeground(Color.green);
@@ -575,7 +581,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     private JScrollPane getResultPane() {
         if (resultScrollPane == null) {
             resultScrollPane = new JScrollPane();
-            resultScrollPane.setBounds(new Rectangle(15, 381, 600, 250));
+            resultScrollPane.setBounds(new Rectangle(400, 45, 600, 250));
             resultScrollPane.setViewportView(getTxtResult());
         }
         return resultScrollPane;
@@ -584,7 +590,7 @@ public class DispatcherUI extends JFrame implements ActionListener {
     public JTextArea getTxtResult() {
         if (txtResult == null) {
             txtResult = new JTextArea();
-            txtResult.setBounds(new Rectangle(15, 381, 600, 250));
+            txtResult.setBounds(new Rectangle(400, 10, 600, 250));
             txtResult.setBackground(Color.black);
             txtResult.setForeground(Color.green);
             txtResult.setEditable(false);
@@ -857,6 +863,9 @@ public class DispatcherUI extends JFrame implements ActionListener {
             else
                 JOptionPane.showMessageDialog(null, "Error in Configurations. Make sure the IP values are in a valid range", "Epzilla", JOptionPane.ERROR_MESSAGE);
 
+        } else if (source == btnClearConfig) {
+            txtClusterID.setText("");
+            txtIp.setText("");
         }
 
     }
