@@ -14,6 +14,15 @@ import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
+/**
+ * Created by IntelliJ IDEA.
+ * This class is to bind the Dispatcher to its RMI registry
+ * Initialize the Leader Election process
+ * Author: Chathura
+ * Date: Jan 31, 2010
+ * Time: 11:34:09 AM
+ * To change this template use File | Settings | File Templates.
+ */
 public class DispatcherService {
 
     private static String serviceName = "DISPATCHER_SERVICE";
@@ -22,6 +31,9 @@ public class DispatcherService {
     public DispatcherService() {
 
     }
+    /*
+    * bind the dispatcher to its own RMI registry
+    */
 
     private void bindDispatcher(String serviceName) throws RemoteException, UnknownHostException, MalformedURLException {
         if (System.getSecurityManager() == null) {
@@ -42,6 +54,7 @@ public class DispatcherService {
     /*
       * generate dispatcher id
       */
+
     private String dispIdGen(String addr) {
         String[] addrArray = addr.split("\\.");
         String temp = "";

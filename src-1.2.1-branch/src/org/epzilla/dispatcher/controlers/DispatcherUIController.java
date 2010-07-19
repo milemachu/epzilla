@@ -50,19 +50,30 @@ public class DispatcherUIController {
         loadDiscoveryStatus();
     }
 
-    public static void setUIVisibility(boolean status)
-    {
+    public static void setUIVisibility(boolean status) {
         instance.setVisible(status);
     }
 
-
+    /**
+     *  append Dispathcer status in the text area of the user interface
+     * @param text
+     */
     public static void appendTextToStatus(String text) {
         instance.getTxtStatus().append(text + "\n");
     }
 
+    /**
+     * append triggers to the Disapatcher interface
+     * @param text
+     */
     public static void appendTrigger(String text) {
         instance.getTxtTriggers().append(text + "\n");
     }
+
+    /**
+     * append recovered triggers to the user interface
+     * @param triggers
+     */
 
     public static void appendTriggers(List<String> triggers) {
         instance.getTxtRecoveredList().setText("");
@@ -70,41 +81,66 @@ public class DispatcherUIController {
             instance.getTxtRecoveredList().append(trigger + "\n");
         }
     }
+    /*
+   clear text area of triggers
+    */
 
     public static void clearTriggerList() {
-         instance.getTxtTriggers().setText("");
-     }
-
-
+        instance.getTxtTriggers().setText("");
+    }
+    /*
+    append the  IPs to the dispatcher user interface
+     */
 
     public static void appendIP(String text) {
         instance.getTxtIPSet().append(text + "\n");
     }
+    /*
+     append the results to the dispatcher registration details on the settings panel
+     */
 
     public static void appendResults(String text) {
         dateTime = getDateTime();
         instance.getTxtResult().append(dateTime + ":" + text + "\n");
     }
+    /*
+    set Dispathcer Dynamic discovery status
+     */
 
     public static void dispDiscoveryStatus(String text) {
         instance.getTxtDiscoveryStatus().append(text + "\n");
     }
+    /*
+   clear the IP list
+    */
 
     public static void clearIPList() {
         instance.getTxtIPSet().setText("");
     }
+    /*
+    set the incoming event count
+     */
 
     public static void appendInEventsCount(String text) {
         instance.getTxtInEventCount().setText(text);
     }
+    /*
+   set out going event count
+    */
 
     public static void appendOutEventCount(String text) {
         instance.getTxtOutEventCount().setText(text);
     }
+    /*
+    set event dispatching rate
+     */
 
     public static void setEDRate(String text) {
         instance.getEventDispatchRate().setText(text);
     }
+    /*
+    append dispatcher ips in the dispatcher status tab
+     */
 
     public static void appendDispatcherIPs(String text) {
         instance.getDispIPSet().append(text + "\n");

@@ -9,12 +9,20 @@ import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
- * User: chathura
+ * This class is to take the trigger information and create the checkpoint in the Dispatcher
+ * local hard disk
+ * Author: Chathura
  * Date: Mar 25, 2010
  * Time: 2:24:24 PM
  * To change this template use File | Settings | File Templates.
  */
 public class TriggerLog {
+    /**
+     * add triggers to the log
+     * @param clientID
+     * @param clusterID
+     * @param triggers
+     */
 
     public static synchronized void writeTolog(String clientID, String clusterID, ArrayList<TriggerRepresentation> triggers) {
 
@@ -25,7 +33,7 @@ public class TriggerLog {
             }
             WriteLog.writeInit(list, clientID, clusterID);
         } catch (IOException e) {
-            Logger.error("Logging Error: ",e);
+            Logger.error("Logging Error: ", e);
         }
 
     }

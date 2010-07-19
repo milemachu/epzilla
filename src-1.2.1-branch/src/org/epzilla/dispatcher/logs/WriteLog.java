@@ -27,10 +27,13 @@ public class WriteLog {
     public WriteLog() {
     }
 
-    /*
-   start writing to log file
-    */
-
+    /**
+     * This method start writing to log file
+     * @param triggerList
+     * @param clientID
+     * @param clusterID
+     * @throws IOException
+     */
     public static void writeInit(List<String> triggerList, String clientID, String clusterID) throws IOException {
         if (!isLoaded) {
             loadSettings();
@@ -43,10 +46,14 @@ public class WriteLog {
             writeLog(filePath, triggerList, clientID, clusterID);
     }
 
-    /*
-   check whether overwriting/cllear and re write to log is needed
-    */
-
+    /**
+     * check whether overwriting/clear and re write to log is needed
+     * @param filename
+     * @param myArr
+     * @param clientID
+     * @param clusterID
+     * @throws IOException
+     */
     private static void overwriteLog(String filename, List<String> myArr, String clientID, String clusterID) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename, false));
         String tag = "CID" + clusterID;
@@ -63,10 +70,14 @@ public class WriteLog {
         writer.close();
     }
 
-    /*
-   logging triggers to the checkpoint services
-    */
-
+    /**
+     * This method log triggers to the checkpoint file
+     * @param filename
+     * @param myArr
+     * @param clientID
+     * @param clusterID
+     * @throws IOException
+     */
     private static void writeLog(String filename, List<String> myArr, String clientID, String clusterID) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true));
         String tag = "CID" + clusterID;
@@ -82,10 +93,9 @@ public class WriteLog {
         writer.close();
     }
 
-    /*
-   load settings data
-    */
-
+    /**
+     * Load settings data
+     */
     private static void loadSettings() {
         try {
             ArrayList<String[]> data = reader.getServerIPSettings("log_file_settings.xml");

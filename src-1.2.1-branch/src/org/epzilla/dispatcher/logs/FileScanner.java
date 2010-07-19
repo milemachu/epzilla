@@ -85,6 +85,12 @@ public class FileScanner implements Runnable {
         return recoverArr;
     }
 
+    /**
+     * This method reads the log file and return the trigger list as an array list
+     * @param file
+     * @return
+     * @throws FileNotFoundException
+     */
     public static ArrayList<String> readFile(File file) throws FileNotFoundException {
         ArrayList<String> recoverArr = new ArrayList<String>();
         long start = System.currentTimeMillis();
@@ -118,6 +124,10 @@ public class FileScanner implements Runnable {
         return recoverArr;
     }
 
+    /**
+     *Setter method
+     * @param list
+     */
     public static void setTriggerList(List<String> list) {
         FileScanner.triggerList = (ArrayList<String>) list;
     }
@@ -126,6 +136,10 @@ public class FileScanner implements Runnable {
         return triggerList;
     }
 
+    /**
+     * This method print the Trigger list
+     * @param array
+     */
     public static void printArray(List<String> array) {
         for (String anArray : array) {
             Logger.log(anArray);

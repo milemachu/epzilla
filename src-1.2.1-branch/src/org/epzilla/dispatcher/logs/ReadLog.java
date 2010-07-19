@@ -1,6 +1,7 @@
 package org.epzilla.dispatcher.logs;
 
 import org.epzilla.dispatcher.xml.LogFileSettingReader;
+import org.epzilla.util.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,9 +21,11 @@ public class ReadLog {
     private static File file;
     private static boolean isLoaded = false;
 
-    /*
-   replay logs as requested by the client
-    */
+    /**
+     * Replay logs as requested by the client
+     * @param clusterID
+     * @return
+     */
     public static List<String> readLog(String clusterID) {
         if (!isLoaded) {
             loadSettings();
@@ -39,9 +42,9 @@ public class ReadLog {
         return recList;
     }
 
-    /*
-   load setting details of the log file
-    */
+    /**
+     *  load setting details of the log file
+     */
     private static void loadSettings() {
         try {
             ArrayList<String[]> data = reader.getServerIPSettings("log_file_settings.xml");
@@ -50,7 +53,8 @@ public class ReadLog {
             file = new File(filePath);
             isLoaded = true;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.error("I/O exception: ",e);
+
         }
     }
 }

@@ -1,8 +1,6 @@
 package org.epzilla.dispatcher.logs;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,6 +11,14 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface FileScannerInterface {
-	public void readFile(File file,String strReq);
-	public void readFile(File file);
+    /**
+     * @param file
+     * @param strReq
+     */
+    public void readFile(File file, String strReq);
+
+    /**
+     * @param file
+     */
+    public void readFile(File file);
 }

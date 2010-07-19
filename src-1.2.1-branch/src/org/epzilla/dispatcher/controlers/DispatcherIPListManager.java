@@ -9,7 +9,8 @@ import java.util.TimerTask;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Chathura
+ * Class manages the Dispatcher IP lists
+ * Author: Chathura
  * Date: May 31, 2010
  * Time: 3:33:01 PM
  * To change this template use File | Settings | File Templates.
@@ -22,7 +23,10 @@ public class DispatcherIPListManager {
         addDispatcherIps();
         addClusterIps();
     }
-
+    /*
+    get the Dispatcher ips from the leader service,
+    added them to the user interface of dispatcher
+     */
     public static void addDispatcherIps() {
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {
@@ -32,28 +36,19 @@ public class DispatcherIPListManager {
                 HashSet<String> ipList = LeaderElectionInitiator.getDispatchers();
 
                 if (ipList != null) {
-//                    if (ipList == null) {
-//                        try {
-////                            String currentList = DispatcherUIController.getIpList();
-//                            InetAddress inetAddress = InetAddress.getLocalHost();
-//                            String ipAddress = inetAddress.getHostAddress();
-////                            if (!currentList.contains(ipAddress))
-//                            DispatcherUIController.appendDispatcherIPs(ipAddress);
-//                        } catch (UnknownHostException e) {
-//                            e.printStackTrace();
-//                        }
-//                    } else {
                     for (Object dispList : ipList) {
                         String ip = (String) dispList;
                         DispatcherUIController.appendDispatcherIPs(ip);
                     }
                     System.gc();
-//                    }
                 }
             }
         }, INITIAL_START_TIME, UPDATE_SERVICE_RUNNING_TIME);
     }
-
+    /*
+    get cluster ips from the leader service
+    add cluster ips to the Dispatcher user interface
+     */
     public static void addClusterIps() {
         final java.util.Timer timer1 = new java.util.Timer();
         timer1.schedule(new TimerTask() {
