@@ -13,7 +13,8 @@ import java.util.HashMap;
 
 /**
  * Created by IntelliJ IDEA.
- * User: chathura
+ * This class is to send triggers to the Cluster leaders
+ * Author: Chathura
  * Date: Mar 11, 2010
  * Time: 1:17:07 PM
  * To change this template use File | Settings | File Templates.
@@ -31,7 +32,17 @@ public class TriggerSender {
         return instance;
     }
 
-    public static void acceptTrigger(String serverIp, String clusterID, ArrayList<TriggerRepresentation> triggers, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
+    /**
+     * add triggers to the Cluster leaders
+     * @param serverIp
+     * @param clusterID
+     * @param triggers
+     * @param clientID
+     * @throws MalformedURLException
+     * @throws NotBoundException
+     * @throws RemoteException
+     */
+        public static void triggerAdding(String serverIp, String clusterID, ArrayList<TriggerRepresentation> triggers, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         if (idMap.containsKey(serverIp)) {
             ClusterInterface clusterObj = (ClusterInterface) idMap.get(serverIp);
             sendTriggers(clusterObj, triggers, clusterID, clientID);
@@ -42,7 +53,16 @@ public class TriggerSender {
 
     }
 
-
+    /**
+     * requesting trigger deletion
+     * @param serverIp
+     * @param clusterID
+     * @param triggers
+     * @param clientID
+     * @throws MalformedURLException
+     * @throws NotBoundException
+     * @throws RemoteException
+     */
     public static void requestTriggerDeletion(String serverIp, String clusterID, ArrayList<TriggerRepresentation> triggers, String clientID) throws MalformedURLException, NotBoundException, RemoteException {
         if (idMap.containsKey(serverIp)) {
             ClusterInterface clusterObj = (ClusterInterface) idMap.get(serverIp);
@@ -54,6 +74,15 @@ public class TriggerSender {
 
     }
 
+    /**
+     *   initialize the remote reference to the cluster interface
+     * @param serverIp
+     * @param serviceName
+     * @return
+     * @throws MalformedURLException
+     * @throws NotBoundException
+     * @throws RemoteException
+     */
     private static ClusterInterface initCluster(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
         String url = "rmi://" + serverIp + "/" + serviceName;
         ClusterInterface obj = (ClusterInterface) Naming.lookup(url);
@@ -62,6 +91,16 @@ public class TriggerSender {
 
     }
 
+    /**
+     *  send triggers to the cluster leaders
+     * @param co
+     * @param triggers
+     * @param clusterID
+     * @param clientID
+     * @throws RemoteException
+     * @throws MalformedURLException
+     * @throws NotBoundException
+     */
     private static void sendTriggers(ClusterInterface co, ArrayList<TriggerRepresentation> triggers, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
         String response = co.acceptTiggerStream(triggers);
         TriggerLog.writeTolog(clientID, clusterID, triggers);
@@ -73,7 +112,16 @@ public class TriggerSender {
 
     }
 
-
+    /**
+     * delete triggers from the clusters
+     * @param co
+     * @param triggers
+     * @param clusterID
+     * @param clientID
+     * @throws RemoteException
+     * @throws MalformedURLException
+     * @throws NotBoundException
+     */
     private static void deleteTriggers(ClusterInterface co, ArrayList<TriggerRepresentation> triggers, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
 
         co.deleteTriggers(triggers, clusterID, clientID);

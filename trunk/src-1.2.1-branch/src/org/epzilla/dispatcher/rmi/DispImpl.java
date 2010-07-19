@@ -4,7 +4,6 @@ import net.epzilla.stratification.dynamic.SystemVariables;
 import net.epzilla.stratification.restruct.RestructuringDaemon;
 import org.epzilla.client.rmi.ClientCallbackInterface;
 import org.epzilla.dispatcher.clusterHandler.TriggerSender;
-import org.epzilla.dispatcher.controlers.DispatcherUIController;
 import org.epzilla.dispatcher.dataManager.*;
 import org.epzilla.dispatcher.dispatcherObjectModel.TriggerInfoObject;
 import org.epzilla.dispatcher.logs.ReadLog;
@@ -18,8 +17,16 @@ import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Vector;
+/**
+ * Created by IntelliJ IDEA.
+ * This is the Implementation of the DispInterface class
+ * Author: Chathura
+ * To change this template use File | Settings | File Templates.
+ */
 public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
     private Vector<ClientCallbackInterface> clientList = new Vector<ClientCallbackInterface>();
@@ -33,6 +40,14 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
 
     }
 
+    /**
+     * This method will take the Events from client
+     * @param event
+     * @param clientID
+     * @param eventSeqID
+     * @return
+     * @throws RemoteException
+     */
     @Override
     public String uploadEventsToDispatcher(String event, String clientID, int eventSeqID) throws RemoteException {
         if (!isIDGen) {
@@ -55,6 +70,14 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         return null;
     }
 
+    /**
+     * Method receive the Triggers from the client and added to the STM
+     * @param tList
+     * @param clientID
+     * @param triggerSeqID
+     * @return
+     * @throws RemoteException
+     */
     @Override
     public String uploadTriggersToDispatcher(ArrayList<String> tList, String clientID, int triggerSeqID) throws RemoteException {
         String toReturn = null;
@@ -76,6 +99,13 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         return toReturn;
     }
 
+    /**
+     * Method delete the triggers as requested by client
+     * @param list
+     * @param cID
+     * @return
+     * @throws RemoteException
+     */
     @Override
     public String deleteTriggers(ArrayList<TriggerRepresentation> list, String cID) throws RemoteException {
         try {
@@ -102,6 +132,12 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         return "RETRY";
     }
 
+    /**
+     * This method get all the triggers as requestd by client
+     * @param clientId
+     * @return
+     * @throws RemoteException
+     */
     @Override
     public ArrayList<TriggerRepresentation> getAllTriggers(String clientId) throws RemoteException {
         try {
@@ -159,9 +195,10 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
     }
 
     @Override
-    public void unRegisterClients(String ip, String id) throws RemoteException {
+    public void unRegisterClients(String ip, String id) throws RemoteException, MalformedURLException, UnknownHostException, NotBoundException {
         clientMap.remove(id);
         ClientManager.removeClient(id);
+        DispLoadBalance.updateDecLoad();
     }
 
     @Override
@@ -169,6 +206,13 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         return ClientManager.getClientIp(clientID);
     }
 
+    /**
+     * This method receive the performance information from the cluster leaders and add to the STM
+     * @param clusterID
+     * @param cpuUsg
+     * @param mmUsg
+     * @throws RemoteException
+     */
     @Override
     public void performanceInfo(int clusterID, int cpuUsg, int mmUsg) throws RemoteException {
         int load = (cpuUsg + mmUsg) / 2;
@@ -201,6 +245,9 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         }
     }
 
+    /**
+     * This method set the Dispatcher ID
+     */
     public static void setDispatcherID() {
         try {
             InetAddress inetAddress;
@@ -220,6 +267,11 @@ public class DispImpl extends UnicastRemoteObject implements DispInterface {
         return dispID;
     }
 
+    /**
+     * This method generate Dispatcher ID from the IP address of the Dispatcher
+     * @param ipAddress
+     * @return
+     */
     public static String idGenerator(String ipAddress) {
         String[] addrArray = ipAddress.split("\\.");
         String temp = "";

@@ -12,7 +12,8 @@ import java.util.Hashtable;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Chathura
+ * This class is to send the Events to the Cluster leader
+ * Author: Chathura
  * Date: May 1, 2010
  * Time: 10:21:09 AM
  * To change this template use File | Settings | File Templates.
@@ -26,6 +27,15 @@ public class EventSender {
     public EventSender() {
     }
 
+    /**
+     * Method create remote reference to the Cluster Leaders
+     * @param serverIp
+     * @param serviceName
+     * @return
+     * @throws MalformedURLException
+     * @throws NotBoundException
+     * @throws RemoteException
+     */
     private static ClusterInterface initCluster(String serverIp, String serviceName) throws MalformedURLException, NotBoundException, RemoteException {
         String url = "rmi://" + serverIp + "/" + serviceName;
         ClusterInterface obj = (ClusterInterface) Naming.lookup(url);
@@ -35,6 +45,16 @@ public class EventSender {
 
     }
 
+    /**
+     * Method for sending Events to the Cluster Node Leaders
+     * @param event
+     * @param leaderIP
+     * @param clusterID
+     * @param clientID
+     * @throws RemoteException
+     * @throws MalformedURLException
+     * @throws NotBoundException
+     */
     public static void sendEvent(byte[] event, String leaderIP, String clusterID, String clientID) throws RemoteException, MalformedURLException, NotBoundException {
 //        String cid = "x";
         if (!"IP".equalsIgnoreCase(leaderIP)) {
