@@ -1,3 +1,18 @@
+/***************************************************************************************************
+Copyright 2009 - 2010 Harshana Eranga Martin, Dishan Metihakwala, Rajeev Sampath, Chathura Randika
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+****************************************************************************************************/
 package org.epzilla.leader;
 
 import java.net.InetAddress;
@@ -13,7 +28,7 @@ import org.epzilla.leader.util.Status;
  * This class provide the API to the epzilla process. 
  * Whenever the Leader election happens, the LE algorithm updates the variables in this class.
  * RMI  interfaces also provide API for some of the details stored in this class.
- * @author Administrator
+ * @author Harshana Eranga Martin
  *
  */
 public class Epzilla {
