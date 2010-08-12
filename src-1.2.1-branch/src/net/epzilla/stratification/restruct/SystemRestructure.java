@@ -187,7 +187,7 @@ public class SystemRestructure {
                         HashMap<String, ArrayList<TriggerRepresentation>> m = addList.get(stratum).get(id);
                         for (String user : m.keySet()) {
                             ArrayList<TriggerRepresentation> al = m.get(user);
-                            TriggerSender.acceptTrigger(no.getIP(), id, al, user);
+                            TriggerSender.triggerAdding(no.getIP(), id, al, user);
                         }
                     }
                 }
