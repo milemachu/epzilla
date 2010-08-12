@@ -22,7 +22,7 @@ import org.epzilla.leader.Epzilla;
 
 /**
  * This is the TCP message decoder of the node component.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class TCPMessageDecoder implements Runnable {

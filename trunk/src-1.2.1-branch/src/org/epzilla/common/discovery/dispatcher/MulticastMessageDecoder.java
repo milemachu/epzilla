@@ -23,7 +23,7 @@ import org.epzilla.leader.Epzilla;
 
 /**
  * This is the multicast message decoder for the dispatcher and all the messages received to the dispatcher multicast listener.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class MulticastMessageDecoder implements Runnable {

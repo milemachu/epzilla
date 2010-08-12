@@ -29,7 +29,7 @@ import org.epzilla.leader.util.SystemConstants;
 /**
  * This is the node discovery service manager and this class is responsible of initiating the multiast sending, receiving and
  * tcp message decoders. This class is used to expose the details of the system to outdide and provide API for the other components.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class NodeDiscoveryManager {

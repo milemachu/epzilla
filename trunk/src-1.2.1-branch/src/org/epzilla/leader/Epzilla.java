@@ -28,7 +28,7 @@ import org.epzilla.leader.util.Status;
  * This class provide the API to the epzilla process. 
  * Whenever the Leader election happens, the LE algorithm updates the variables in this class.
  * RMI  interfaces also provide API for some of the details stored in this class.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class Epzilla {

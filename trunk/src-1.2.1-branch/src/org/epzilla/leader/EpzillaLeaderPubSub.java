@@ -28,7 +28,7 @@ import org.epzilla.leader.util.Status;
  * This is the class which keeps tack of the nodes which are subscribed with the leader via RMI messaging. 
  * Whenever the Leader is publisher and the report message is sent to the non leader nodes, they are registering their listener with
  * the leader and the registered listeners are stored in here.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class EpzillaLeaderPubSub {

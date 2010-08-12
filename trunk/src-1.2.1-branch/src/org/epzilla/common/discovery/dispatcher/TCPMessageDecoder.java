@@ -23,7 +23,7 @@ import org.epzilla.leader.Epzilla;
 /**
  * This is the TCP message decoder where the messages received to the dispatcher tcp listener are sent here to decode.
  * Then required actions are taken according to the messages.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class TCPMessageDecoder implements Runnable {

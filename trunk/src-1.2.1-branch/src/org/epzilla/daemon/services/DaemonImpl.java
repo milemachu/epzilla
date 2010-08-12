@@ -26,7 +26,7 @@ import java.util.Hashtable;
 /**
  * This is the implementation of daemon service for cluster node load balancing.
  * This class is used to wakeup the sleeping nodes and sleep the running unnecessary nodes.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class DaemonImpl extends UnicastRemoteObject implements DaemonInterface {

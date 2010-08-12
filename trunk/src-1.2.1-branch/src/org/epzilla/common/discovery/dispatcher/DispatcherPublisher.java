@@ -25,7 +25,7 @@ import org.epzilla.common.discovery.multicast.*;
 /**
  * This is the dispatcher service publisher and all the diapcthers use this class to maintain the details about
  * other dispatchers and cluster leaders. 
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class DispatcherPublisher implements IServicePublisher {

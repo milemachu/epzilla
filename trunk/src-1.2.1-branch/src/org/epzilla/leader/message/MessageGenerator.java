@@ -21,7 +21,7 @@ import org.epzilla.leader.Epzilla;
 
 /**
  * This is the class used to generate messages to send using RMI to other nodes.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class MessageGenerator {

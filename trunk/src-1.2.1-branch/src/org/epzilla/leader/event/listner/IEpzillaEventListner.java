@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 /**
  * This is the interface which is used to registers with the leader.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public interface IEpzillaEventListner extends Serializable{

@@ -25,7 +25,7 @@ import java.rmi.RemoteException;
 
 /**
  * This is the startup sequence for the daemon service.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class DaemonStartup {

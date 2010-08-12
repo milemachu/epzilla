@@ -40,7 +40,7 @@ import org.epzilla.leader.util.SystemConstants;
  * This is epZilla Event Driven Architecture logic. 
  * Events are fired from the message decoders according to the received message type.
  * The corresponding tasks to be done are completed with in this class.  
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class EventHandler {

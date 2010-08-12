@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * This is the RMI message handler where all the received RMI messages are queued here and our observer 
  * will enqueue the messages and start decoding the messages.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class RmiMessageHandler {

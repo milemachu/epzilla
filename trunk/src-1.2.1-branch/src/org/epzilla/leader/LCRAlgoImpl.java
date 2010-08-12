@@ -23,7 +23,7 @@ import org.epzilla.leader.util.Status;
  * necessary LCR specific methods are here. Based on the assumption that 1 is
  * the highest priority in UID sequence.
  * 
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  * 
  */
 public class LCRAlgoImpl {

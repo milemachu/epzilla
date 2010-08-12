@@ -27,7 +27,7 @@ import org.epzilla.leader.Epzilla;
  * This class is using the API provided by the node discovery manager class in the dynamic service discovery component and wrap the 
  * functionalities and provides a higher layer API for the dynamic discovery services for nodes.
  * 
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class NodeClientManager {

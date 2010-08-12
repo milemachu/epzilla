@@ -37,7 +37,7 @@ import org.epzilla.leader.util.Status;
 /**
  * This is the RMI message decoder class which is used to receive RMI messages and decode the message and identify the
  * meaning of the message and then fire the relevant epzilla event to handle the logic.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class MessageDecoder {

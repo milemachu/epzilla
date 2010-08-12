@@ -24,7 +24,7 @@ import org.epzilla.common.discovery.multicast.MulticastSender;
 /**
  * This is the leader service publisher for the cluster node and this class is used to collect details of the other nodes in the same 
  * cluster and the dispatchers in the system.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class LeaderPublisher implements IServicePublisher {
