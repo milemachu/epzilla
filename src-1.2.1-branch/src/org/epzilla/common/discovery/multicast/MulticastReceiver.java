@@ -25,7 +25,7 @@ import org.epzilla.common.discovery.Constants;
 /**
  * This is a service class where all the multicasting components will use this class to receive the incoming
  * multicasting messages from other components. 
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class MulticastReceiver {

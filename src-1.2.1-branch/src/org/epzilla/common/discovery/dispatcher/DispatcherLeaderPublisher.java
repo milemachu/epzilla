@@ -23,7 +23,7 @@ import org.epzilla.common.discovery.multicast.MulticastSender;
 /**
  * This is the publisher class of the dispatcher leader and this is a concete implementation of IServicePulisher interface.
  * This class uses to maintain the details about the subscribed dispatchers with the dispatcher leader.  
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class DispatcherLeaderPublisher implements IServicePublisher {

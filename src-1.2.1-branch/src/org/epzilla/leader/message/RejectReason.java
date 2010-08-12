@@ -20,7 +20,7 @@ package org.epzilla.leader.message;
  * Reply Code from this class will be attached with the Type 6 reply to get the
  * requester to identify the rejected reason.
  * 
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  * 
  */
 public class RejectReason {

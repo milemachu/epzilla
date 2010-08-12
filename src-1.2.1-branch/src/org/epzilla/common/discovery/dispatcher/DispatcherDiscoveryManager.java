@@ -27,7 +27,7 @@ import org.epzilla.leader.util.SystemConstants;
  * This class is the manager class of the dynamic discovery component for the dispatcher.
  * Initiating Capability multicasting and initiating TCP listener for subscription for cluster leaders.
  * This is the interface which provide access to the dynamic discovery data of the dispatchers. 
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class DispatcherDiscoveryManager {

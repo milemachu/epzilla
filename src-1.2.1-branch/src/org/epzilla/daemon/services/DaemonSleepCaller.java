@@ -22,7 +22,7 @@ import java.rmi.RemoteException;
 
 /**
  * This class contains the logic to sleep a running node.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class DaemonSleepCaller {

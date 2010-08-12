@@ -23,7 +23,7 @@ import org.epzilla.common.discovery.multicast.MulticastSender;
 
 /**
  * This is the node service publisher class and all the nodes implement this class and multicast the node service using this class.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class NodePublisher implements IServicePublisher {

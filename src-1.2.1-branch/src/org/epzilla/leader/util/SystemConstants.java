@@ -17,7 +17,7 @@ package org.epzilla.leader.util;
 
 /**
  * This class defines the constants we use in the Leader Election component.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class SystemConstants {

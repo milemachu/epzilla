@@ -27,7 +27,7 @@ import org.epzilla.leader.rmi.LeaderInterface;
 
 /**
  * This class is used to send RMI messages to other nodes and dispatchers.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class RmiMessageClient {

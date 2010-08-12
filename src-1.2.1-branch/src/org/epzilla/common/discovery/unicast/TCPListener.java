@@ -23,7 +23,7 @@ import org.epzilla.common.discovery.Constants;
 
 /**
  * This is the TCP message listening service class and all the tcp message receivers in the system uses this class as the service provider.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class TCPListener {

@@ -29,7 +29,7 @@ import org.epzilla.leader.xml.Element;
 /**
  * This class is a utility class where we use to load the necessary configuration data from the configuration files.
  * 
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class ConfigurationLoader {

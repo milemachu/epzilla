@@ -44,7 +44,7 @@ import org.epzilla.leader.util.SystemConstants;
  * if there is no existing leader;then check the status of the default leader and take necessary actions. If the Default leader 
  * is also not present, initiate a leader election among the other non leader nodes. 
  * The different versions of the algorithm run in the class according to the component type we specify in the config files. 
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class LeaderElectionInitiator {

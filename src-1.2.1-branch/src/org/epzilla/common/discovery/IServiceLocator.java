@@ -19,7 +19,7 @@ package org.epzilla.common.discovery;
  * This interface is used to locate remote services using IP multicasting 
  * This provides subscribe and unsubscribe to services for service clients.
  * Application has to implement this interface according to the requirements.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public interface IServiceLocator {

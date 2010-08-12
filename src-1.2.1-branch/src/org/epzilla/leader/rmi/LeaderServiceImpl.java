@@ -27,7 +27,7 @@ import org.epzilla.leader.message.RmiMessageHandler;
 
 /**
  * This is the LeaderService implementation class. 
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class LeaderServiceImpl extends UnicastRemoteObject implements LeaderInterface {

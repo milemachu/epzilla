@@ -24,7 +24,7 @@ import org.epzilla.common.discovery.Constants;
 
 /**
  * This is tge TCP message sending service class and all the tcp sending components use this class as their service provider. 
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class TCPSender {

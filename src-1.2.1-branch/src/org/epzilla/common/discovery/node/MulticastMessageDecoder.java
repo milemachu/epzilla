@@ -23,7 +23,7 @@ import org.epzilla.leader.Epzilla;
 
 /**
  * This is the multicast message decoder of the cluster nodes and the received multicast messages are sent here and necessary actions are taken from here.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class MulticastMessageDecoder implements Runnable {

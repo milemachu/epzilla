@@ -29,7 +29,7 @@ import org.epzilla.leader.util.SystemConstants;
 
 /**
  * This is the update service of the dispatchers.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class DispatcherUpdateService extends Thread implements IEpzillaService {

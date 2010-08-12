@@ -17,7 +17,7 @@ package org.epzilla.common.discovery;
 
 /**
  * This class contains the constant which are using in the dynamic service discovery component.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public interface Constants {

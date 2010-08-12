@@ -29,7 +29,7 @@ import org.epzilla.leader.util.SystemConstants;
 
 /**
  * This is the update service for the nodes.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public class NodeUpdateService extends Thread implements IEpzillaService{

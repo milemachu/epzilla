@@ -17,7 +17,7 @@ package org.epzilla.leader.service;
 
 /**
  * This is the epzilla service interface which is implemented by each and every service in the epzilla.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public interface IEpzillaService {

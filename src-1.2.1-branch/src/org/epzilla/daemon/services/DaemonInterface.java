@@ -20,7 +20,7 @@ import java.rmi.RemoteException;
 
 /**
  * This is the daemon service implemented for cluster node load balancing. 
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public interface DaemonInterface extends Remote{

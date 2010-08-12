@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 /**
  * This is the basic event interface uses in the epzilla event driven architecture.
- * @author Harshana Eranga Martin
+ * @author Harshana Eranga Martin 	 mailto: harshana05@gmail.com
  *
  */
 public interface IEpzillaEvent extends Serializable{
