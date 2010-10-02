@@ -1,0 +1,3 @@
+<cluster>
+<clusterID mesurmentInterval="200000" cpuUpperThreashHold="90" memUpperThreashHold="90" cpuLowerThreashHold="5" />
+</cluster>
